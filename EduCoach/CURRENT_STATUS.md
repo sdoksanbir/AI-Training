@@ -134,7 +134,7 @@ yeterli bilgi varsa tekrar soru sormama
 sınava yakın dönemde aşırı yüklenmeyi engelleme
 
 Gold Dataset v0.1 ve v0.2 referans sürümleri korunmaktadır.
-
+```
 
 ## Tamamlanan İşler
 
