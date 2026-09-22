@@ -1,0 +1,47 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyd
+*.so
+*.egg-info/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Models
+*.gguf
+*.safetensors
+*.bin
+*.pt
+*.pth
+
+# Training outputs
+checkpoints/
+outputs/
+runs/
+wandb/
+
+# Hugging Face cache
+.cache/
+huggingface/
+
+# Temporary files
+*.tmp
+*.log
+
+# Large datasets / generated artifacts
+*.parquet
+
+# Secrets
+.env
+.env.*
