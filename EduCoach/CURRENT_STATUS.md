@@ -6,13 +6,29 @@
 
 EduCoach
 
+## Sürüm Odağı
+
+EduCoach v0.1 = **YKS Eğitim Koçu**
+
+İlk sürüm YKS hazırlık sürecine odaklanacaktır.
+
+Hedef kitle:
+
+* 11. sınıf öğrencileri
+* 12. sınıf öğrencileri
+* Mezun öğrenciler
+* TYT hazırlanan öğrenciler
+* AYT hazırlanan öğrenciler
+
+LGS desteği daha sonraki aşamada ayrı bir uzmanlık profili olarak ele alınacaktır.
+
 ## Temel Model
 
 Qwen3-4B
 
 ## Temel Amaç
 
-Yerel olarak çalışabilecek, öğrencinin akademik gelişimini takip eden ve kişiselleştirilmiş eğitim koçluğu sağlayan bir yapay zekâ geliştirmek.
+Yerel olarak çalışabilecek, öğrencinin YKS hazırlık sürecini takip eden ve kişiselleştirilmiş eğitim koçluğu sağlayan bir yapay zekâ geliştirmek.
 
 ## Modelin Rolü
 
@@ -24,7 +40,9 @@ Ana rolü:
 * ihtiyaçlarını analiz etmek,
 * hedef belirlemek,
 * çalışma programı hazırlamak,
+* TYT / AYT dengesini yönetmek,
 * deneme sonuçlarını analiz etmek,
+* net değişimlerini takip etmek,
 * eksikleri belirlemek,
 * çalışma stratejileri önermek,
 * gelişimi takip etmek,
@@ -56,6 +74,68 @@ QLoRA
 
 Fine-tuning'in ana hedefi ders bilgisini modele ezberletmek değil, eğitim koçluğu davranışını geliştirmektir.
 
+## Temel Koçluk Yaklaşımı
+
+EduCoach öğrenciyi gereksiz yere uzun bir sorguya sokmamalıdır.
+
+Özellikle sabırsız öğrencilerde yaklaşım şu olmalıdır:
+
+```text
+Minimum gerekli bilgi
+→ Hızlı başlangıç
+→ İlk uygulanabilir plan
+→ Süreç içinde ek veri toplama
+→ Planı kişiselleştirme
+```
+
+Öğrenci:
+
+```text
+"Bana hemen program yap."
+"Uzun uzun soru sorma."
+"Bugün ne çalışacağımı direkt söyle."
+"Çok vaktim yok."
+```
+
+gibi taleplerde bulunduğunda EduCoach:
+
+* öğrenciyi bekletmemeli,
+* ilk aşamada yalnızca gerekli 3–5 bilgiyi istemeli,
+* eksik veriyle sahte kişiselleştirme yapmamalı,
+* hızlı bir başlangıç planı sunmalı,
+* öğrenciyi sakin ve sabırlı biçimde sürece yönlendirmeli,
+* gerçekçi olmayan hedefleri küçümsemeden yeniden çerçevelemelidir.
+
+## Gold Dataset
+
+İlk hedef:
+
+```text
+30 adet Gold Example
+```
+
+Dataset dosyası:
+
+```text
+data/gold/gold_v0.1.jsonl
+```
+
+Şu anda:
+
+```text
+5 / 30 Gold Example onaylandı
+```
+
+Onaylanan ilk 5 örnek:
+
+1. Hızlı başlangıç ve sabırsız öğrenci yönetimi
+2. Yüksek hedefi gerçekçi biçimde değerlendirme
+3. TYT deneme sonucu analizi
+4. Erteleme problemi
+5. TYT / AYT çalışma dengesi
+
+Bu örneklerin davranış standardı uygun bulundu.
+
 ## Tamamlanan İşler
 
 * [x] Qwen3-4B indirildi ve test edildi.
@@ -69,41 +149,66 @@ Fine-tuning'in ana hedefi ders bilgisini modele ezberletmek değil, eğitim koç
 * [x] Git repository oluşturuldu.
 * [x] GitHub remote bağlantısı kuruldu.
 * [x] `main` branch GitHub ile senkronize edildi.
+* [x] EduCoach v0.1'in YKS odaklı olması kararlaştırıldı.
+* [x] LGS desteğinin sonraki aşamaya bırakılması kararlaştırıldı.
+* [x] Sabırsız öğrenci / hızlı başlangıç davranışı tanımlandı.
+* [x] İlk 5 Gold Dataset örneği oluşturuldu.
+* [x] İlk 5 Gold Dataset örneği öğretmen gözüyle onaylandı.
 
 ## Şu Anda Bulunduğumuz Aşama
 
 ```text
-FAZ 1 → FAZ 2
+FAZ 2 — Gold Dataset hazırlığı
 ```
 
-EduCoach davranış standardının kesinleştirilmesi ve Gold Dataset hazırlığı.
+İlerleme:
+
+```text
+5 / 30
+```
 
 ## Sıradaki İş
 
-İlk:
+Gold Dataset v0.1 kalite kontrolü tamamlandı.
+
+Mevcut durum:
 
 ```text
-20–30 adet Gold Dataset örneği
+30 / 30 Gold Example hazırlandı
 ```
 
-hazırlanacak.
+Ancak mevcut 30 örnek henüz nihai Gold Dataset olarak kilitlenmedi.
 
-Bu veri hemen toplu olarak üretilmeyecek.
+Tespit edilen geliştirme alanları:
 
-Önce birkaç örnek hazırlanacak, öğretmen gözüyle kalite kontrolü yapılacak ve kabul edilen format daha sonra veri setinin geri kalanına uygulanacak.
+* System promptlar örneğe fazla özel.
+* 30 örneğin tamamı tek turlu konuşma.
+* Modelin bilgi aldıktan sonra harekete geçtiği örnekler yetersiz.
+* Bazı cevaplar gereğinden fazla benzer uzunlukta.
+* Öğrencinin daha önce verdiği bilgiyi tekrar sormama davranışı güçlendirilmeli.
+* Makul çıkarım yapma davranışı eklenmeli.
+* Gerçek çalışma programı üretme örnekleri artırılmalı.
 
-## Sonraki Adımlar
+Bir sonraki sürüm:
 
-1. Davranış kategorilerini kesinleştir.
-2. Gold Dataset formatını belirle.
-3. İlk 5 örneği oluştur.
-4. Örnekleri kalite açısından kontrol et.
-5. 20–30 Gold Example'a tamamla.
-6. Qwen3-4B baseline benchmark oluştur.
-7. Eğitim veri setini genişlet.
-8. GPU masaüstünde QLoRA ortamını kur.
-9. EduCoach v0.1 eğit.
-10. Öncesi/sonrası benchmark yap.
+```text
+gold_v0.2.jsonl
+```
+
+olacaktır.
+
+Plan:
+
+1. Ortak EduCoach Core System Prompt oluştur.
+2. Mevcut 30 örneğin system promptlarını ortak prompt ile değiştir.
+3. 20 örneği tek turlu bırak.
+4. 10 örneği çok turlu koçluk konuşmasına dönüştür.
+5. Öğrencinin verdiği bilgileri tekrar sormama kuralını uygula.
+6. Yeterli bilgi geldiğinde yeni soru sormak yerine eyleme geçmesini öğret.
+7. Cevap uzunluklarını çeşitlendir.
+8. Revize edilmiş dosyayı `gold_v0.2.jsonl` olarak kaydet.
+9. v0.2 kalite kontrolünden sonra baseline benchmark aşamasına geç.
+
 
 ## Yeni Sohbette Devam Etmek İçin
 
@@ -115,6 +220,7 @@ CURRENT_STATUS.md
 notes/DECISIONS.md
 docs/ROADMAP.md
 docs/BEHAVIOR_SPEC.md
+data/gold/gold_v0.1.jsonl
 ```
 
 Ardından `CURRENT_STATUS.md` içerisindeki **Sıradaki İş** bölümünden devam edilmelidir.

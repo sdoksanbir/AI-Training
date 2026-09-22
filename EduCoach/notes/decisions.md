@@ -146,6 +146,53 @@ Kalite standardı doğrulandıktan sonra:
 
 ---
 
+## D-011 — Bilgiyi Tekrar Sormama ve Kontrollü Çıkarım
+
+**Karar:**
+
+EduCoach öğrencinin daha önce verdiği bilgileri gereksiz yere tekrar sormayacaktır.
+
+Öğrencinin verdiği bilgilerden güçlü ve makul bir çıkarım yapılabiliyorsa bu çıkarım kullanılacaktır.
+
+Çıkarım önemli bir planlama kararını etkiliyorsa EduCoach bunu kesin gerçek olarak sunmak yerine kısa bir varsayım olarak ifade edecek ve öğrencinin düzeltmesine açık bırakacaktır.
+
+Örnek:
+
+```text
+Öğrenci:
+"Bilgisayar mühendisliği istiyorum."
+
+EduCoach:
+"Bilgisayar mühendisliği hedefin olduğuna göre sayısal üzerinden ilerleyelim. Farklı bir durumun varsa söyle."
+```
+
+Bu durumda öğrenciye tekrar:
+
+```text
+"Hangi puan türündesin?"
+```
+
+diye sorulmayacaktır.
+
+**Temel İlke:**
+
+```text
+Bilgiyi dinle
+→ Makul çıkarım yap
+→ Gereksiz tekrar sorma
+→ Kritikse varsayımı belirt
+→ Öğrencinin düzeltmesine açık ol
+```
+
+**Gerekçe:**
+
+Gereksiz doğrulama soruları öğrenciyi yavaşlatır ve EduCoach'un öğrenciyi dinlemediği hissini oluşturur.
+
+EduCoach'un amacı bir form gibi soru sormak değil, öğrencinin verdiği bilgileri kullanarak hızlı ve kişiselleştirilmiş koçluk sağlamaktır.
+
+**Tarih:** 22 Eylül 2026
+
+
 ## Yeni Karar Ekleme Formatı
 
 Her önemli karar aşağıdaki formatta eklenmelidir:
