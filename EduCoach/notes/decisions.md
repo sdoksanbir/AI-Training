@@ -192,6 +192,33 @@ EduCoach'un amacı bir form gibi soru sormak değil, öğrencinin verdiği bilgi
 
 **Tarih:** 22 Eylül 2026
 
+## D-012 — Eğitim Öncesi ve Sonrası Sabit Benchmark
+
+EduCoach'un gerçekten gelişip gelişmediği yalnızca örnek cevaplara bakılarak değerlendirilmeyecek.
+
+Fine-tuning öncesinde temel model sabit bir benchmark üzerinde çalıştırılacak ve sonuçları değiştirilmeyen bir baseline dosyasında saklanacak.
+
+Fine-tuning sonrasında aynı benchmark, mümkün olduğunca aynı üretim ayarlarıyla yeniden çalıştırılacak.
+
+Karşılaştırmada özellikle şu davranışlar incelenecek:
+
+- öğrencinin verdiği bilgiyi doğru kullanma
+- aynı bilgiyi tekrar sormama
+- yeterli bilgi geldiğinde harekete geçme
+- YKS terminolojisini doğru kullanma
+- TYT / AYT net, puan ve sıralama kavramlarını ayırma
+- gerçekçi plan üretme
+- süre hesabı
+- gereksiz varsayım yapmama
+- Türkçe cevap tutarlılığı
+- sabırsız öğrenci yönetimi
+
+Baseline dosyaları geriye dönük olarak değiştirilmeyecek.
+
+Amaç:
+Modelin başlangıç noktası ile eğitim sonrası durumu ölçülebilir biçimde karşılaştırmak.
+
+**Tarih:** 22 Eylül 2026
 
 ## Yeni Karar Ekleme Formatı
 
