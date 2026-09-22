@@ -108,33 +108,13 @@ gibi taleplerde bulunduğunda EduCoach:
 
 ## Gold Dataset
 
-İlk hedef:
+Gold Dataset v0.1 ilk taslak olarak tamamlandı.
 
 ```text
-30 adet Gold Example
-```
+gold_v0.1.jsonl
+30 örnek
 
-Dataset dosyası:
 
-```text
-data/gold/gold_v0.1.jsonl
-```
-
-Şu anda:
-
-```text
-5 / 30 Gold Example onaylandı
-```
-
-Onaylanan ilk 5 örnek:
-
-1. Hızlı başlangıç ve sabırsız öğrenci yönetimi
-2. Yüksek hedefi gerçekçi biçimde değerlendirme
-3. TYT deneme sonucu analizi
-4. Erteleme problemi
-5. TYT / AYT çalışma dengesi
-
-Bu örneklerin davranış standardı uygun bulundu.
 
 ## Tamamlanan İşler
 
@@ -157,15 +137,11 @@ Bu örneklerin davranış standardı uygun bulundu.
 
 ## Şu Anda Bulunduğumuz Aşama
 
-```text
-FAZ 2 — Gold Dataset hazırlığı
-```
-
-İlerleme:
+```md
+## Şu Anda Bulunduğumuz Aşama
 
 ```text
-5 / 30
-```
+FAZ 3 — Baseline Benchmark hazırlığı
 
 ## Sıradaki İş
 
