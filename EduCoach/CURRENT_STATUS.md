@@ -114,6 +114,26 @@ Gold Dataset v0.1 ilk taslak olarak tamamlandı.
 gold_v0.1.jsonl
 30 örnek
 
+Kalite kontrolü sonrasında ikinci sürüm oluşturuldu:
+gold_v0.2.jsonl
+30 örnek
+
+Baseline değerlendirmesi sonrasında üçüncü sürüm oluşturuldu:
+gold_v0.3.jsonl
+38 örnek
+
+v0.3 sürümünde baseline sırasında görülen şu davranış problemlerine yönelik yeni örnekler eklendi:
+
+TYT net, puan ve sıralama kavramlarını karıştırmama
+öğrencinin söylediğini ters anlamama
+süre bilgisini doğru yorumlama
+öğrencinin belirtmediği eksik konuları uydurmama
+temelsiz başarı garantisi vermeme
+yeterli bilgi varsa tekrar soru sormama
+çalışma süresi hesaplarını kontrol etme
+sınava yakın dönemde aşırı yüklenmeyi engelleme
+
+Gold Dataset v0.1 ve v0.2 referans sürümleri korunmaktadır.
 
 
 ## Tamamlanan İşler
@@ -135,13 +155,33 @@ gold_v0.1.jsonl
 * [x] İlk 5 Gold Dataset örneği oluşturuldu.
 * [x] İlk 5 Gold Dataset örneği öğretmen gözüyle onaylandı.
 
+
 ## Şu Anda Bulunduğumuz Aşama
 
-```md
-## Şu Anda Bulunduğumuz Aşama
+FAZ 3 — Baseline tamamlandı / İlk eğitim hazırlığı
 
-```text
-FAZ 3 — Baseline Benchmark hazırlığı
+Qwen3-4B temel modeli 20 sabit YKS koçluk benchmark senaryosu üzerinde test edildi.
+
+Eğitim öncesi baseline sonuçları kaydedildi:
+
+evaluations/baseline/qwen3_4b_baseline_v0.1.jsonl
+
+Baseline sonucunda temel modelde özellikle şu problemler görüldü:
+
+- YKS terminolojisini zaman zaman yanlış yorumlama
+- net ve puan kavramlarını karıştırma
+- öğrencinin verdiği bilgiyi zaman zaman yanlış anlama
+- yeterli bilgi varken tekrar soru sorma
+- öğrencinin belirtmediği eksik konuları varsayma
+- gerçekçi olmayan başarı veya gelişim tahminleri üretme
+- süre ve çalışma planı hesaplarında hata
+- Türkçe cevap tutarlılığının bozulması
+
+Bu bulgular doğrultusunda:
+
+- Core System Prompt güçlendirildi.
+- Gold Dataset v0.3 oluşturuldu.
+- Dataset 30 örnekten 38 örneğe çıkarıldı.
 
 ## Sıradaki İş
 
