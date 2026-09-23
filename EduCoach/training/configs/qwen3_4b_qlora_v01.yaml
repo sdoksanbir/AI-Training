@@ -1,0 +1,53 @@
+# EduCoach - Qwen3-4B QLoRA Pilot Eğitim Ayarları
+# Sürüm: v0.1
+
+project:
+  name: EduCoach
+  experiment: qwen3_4b_qlora_v01
+
+model:
+  name: Qwen/Qwen3-4B
+  trust_remote_code: true
+
+dataset:
+  train_file: data/gold/gold_v0.3.jsonl
+  format: messages
+  total_examples: 38
+
+training:
+  method: qlora
+  epochs: 3
+  learning_rate: 0.0002
+  per_device_train_batch_size: 1
+  gradient_accumulation_steps: 8
+  max_seq_length: 2048
+
+  logging_steps: 1
+  save_strategy: epoch
+
+precision:
+  load_in_4bit: true
+  bf16: true
+  fp16: false
+
+lora:
+  r: 16
+  alpha: 32
+  dropout: 0.05
+
+  target_modules:
+    - q_proj
+    - k_proj
+    - v_proj
+    - o_proj
+    - gate_proj
+    - up_proj
+    - down_proj
+
+output:
+  directory: training/outputs/qwen3_4b_qlora_v01
+  logs: training/logs/qwen3_4b_qlora_v01
+
+evaluation:
+  benchmark_file: evaluations/baseline/benchmark_v0.1.jsonl
+  baseline_file: evaluations/baseline/qwen3_4b_baseline_v0.1.jsonl
