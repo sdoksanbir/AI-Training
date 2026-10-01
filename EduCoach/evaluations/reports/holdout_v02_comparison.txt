@@ -1,0 +1,847 @@
+EDUCOACH v0.2 HOLDOUT KARSILASTIRMASI
+==========================================================================================
+
+==========================================================================================
+H001 | bilgiyi_dogru_kullanma
+==========================================================================================
+
+KULLANICI:
+12. sınıf sayısal öğrencisiyim. TYT 74 civarı geliyor. Hafta içi okuldan sonra 2,5 saat çalışabiliyorum. Cumartesi 6 saatim boş. Bana haftalık bir başlangıç düzeni çıkar ama verdiğim bilgileri tekrar sorma.
+
+BASELINE [kelime=110, soru=0, tekrar=0.412, risk=yok]
+Anladım. 12. sınıf sayısal öğrencisin ve TYT puanın 74 civarı geliyor. Hafta içi 2,5 saat çalışabiliyorsun, cumartesi 6 saat boş. Başlangıç için haftalık bir plan hazırlıyorum. Sadece verdiğin bilgileri kullanarak, gerçekçi ve uygulanabilir bir plan oluşturuyorum. 
+
+---
+
+### 📅 **Haftalık Başlangıç Planı (TYT Hazırlık)**
+
+**Amaç:** TYT puanını 80-90 arası getirmek, AYT’ye geçiş için temel oluşturmak.
+
+---
+
+### 🧩 **Hafta İçinde (Hafta Sonu Hariç)**
+
+**Toplam zaman:** 2,5 saat (hafta içi)
+
+**Plan:**  
+- **Hafta başı:** 1-2 konu (TYT matematik, fen bilimleri, Türkçe)  
+- **Hafta ortası:** 1 konu (TYT matematik, fen bilimleri, Türkçe)  
+- **Hafta sonu:** 1 konu (TYT matematik, fen bilimleri, Türkçe)  
+- **Hafta sonu:** 1-2 konu (TYT Türkçe, matematik, fen bilimleri
+
+EDUCOACH v0.2 [kelime=96, soru=0, tekrar=1.000, risk=yok]
+Hafta içi 2,5 saat çalışabileceğin için TYT’ye 10-12 soru hedefleyebiliriz. Cumartesi 6 saatim boşsa AYT’ye 15-20 soru hedefleyebiliriz. Hafta içi 2-3 gün TYT, 2-3 gün AYT çalışabiliriz. Hafta sonu 6 saatim boşsa AYT’ye 15-20 soru hedefleyebiliriz. Hafta içi 2-3 gün TYT, 2-3 gün AYT çalışabiliriz. Hafta sonu 6 saatim boşsa AYT’ye 15-20 soru hedefleyebiliriz. Hafta içi 2-3 gün TYT, 2-3 gün AYT çalışabiliriz. Hafta sonu 6 saatim boşsa AYT’ye 15-20 soru hedefleyebiliriz. Hafta içi 2-3 gün TYT, 2-3 gün AYT çalışabiliriz. Hafta sonu 6 saatim boşsa AYT’ye 15-20 soru hedefleyebiliriz. Hafta içi 2-3 gün TYT, 2
+
+==========================================================================================
+H002 | bilgiyi_dogru_kullanma
+==========================================================================================
+
+KULLANICI:
+Mezunum, eşit ağırlığım. TYT 78, AYT 44 yapıyorum. Edebiyatım iyi, matematikte zorlanıyorum. Günde 5 saat çalışabiliyorum. Nereden başlamalıyım?
+
+BASELINE [kelime=110, soru=0, tekrar=0.326, risk=yok]
+Merhaba, teşekkür ederim ki bilgilerinizi paylaştınız. YKS'ye hazırlık sürecinde özellikle eşit ağırlık sistemine uygun bir plan oluşturmak, başarıyı artırmak için çok önemlidir. Şimdi size özel bir plan hazırlayacağım. Bilgilerinizi dikkate alarak, hedeflerinizi ve mevcut durumunuzu göz önünde bulundurarak adım adım ilerleyebileceğiniz bir yol haritası oluşturuyorum.
+
+---
+
+### 🔍 **Önceki Bilgilerinizi Özetleyelim:**
+- **Eşit Ağırlık** (TYT + AYT)
+- **TYT Net:** 78 (TYT 140 soru varsa, bu durum 56% net)
+- **AYT Net:** 44 (AYT 180 soru varsa, bu durum 24% net)
+- **Edebiyat:** İyidir
+- **Matematik:** Zorlanıyorsunuz
+- **Günde 5 saat çalışabiliyorsunuz**
+
+---
+
+### 🎯 **Hedefleriniz:**
+- TYT ve AYT’de **net artışı** (özellikle matematikte)
+- **Eşit ağırlık sisteminde** daha iyi
+
+EDUCOACH v0.2 [kelime=102, soru=0, tekrar=1.000, risk=yok]
+Matematikteki zorlanma ve TYT-AYT dengesizliği için şu planı deneyelim:
+
+1. **TYT matematikini 2 hafta süren bir temel tekrarla tamamlayalım**. TYT matematikteki zayıf alanları belirleyip, 10-15 dakikalık kısa soru setleriyle tekrar edelim. TYT matematikteki netlerimiz 20-25 arasında olursa AYT matematikteki zayıf alanları daha rahat ele alabiliriz.
+
+2. **AYT matematikini 2 hafta süren bir temel tekrarla tamamlayalım**. TYT matematikteki zayıf alanları AYT matematikte de tekrar edelim. AYT matematikteki netlerimiz 20-25 arasında olursa AYT matematikteki zayıf alanları daha rahat ele alabiliriz.
+
+3. **AYT matematikteki zayıf alanları 1 hafta süren bir yoğun tekrarla tamamlayalım**. TYT matematikteki zayıf alanları AYT matematikte de tekrar edelim. AYT matematikteki netlerimiz
+
+==========================================================================================
+H003 | yks_terminolojisi
+==========================================================================================
+
+KULLANICI:
+TYT 84 net, AYT 46 net yapıyorum. Toplam 130 puanım var diyebilir miyim?
+
+BASELINE [kelime=125, soru=0, tekrar=0.904, risk=yok]
+Evet, TYT 84 net ve AYT 46 net ile toplam 130 puanı söyleyebilirsin. Ancak bu puan, sadece sınav puanı değil, aynı zamanda **TYT ve AYT puanları** da içermektedir. Bu durumda, sadece **toplam puan** olarak 130 söylemek doğru olur.
+
+Aşağıda, bu netlerin ne anlama geldiğini ve ne kadar puan olduğunu açıklayayım:
+
+---
+
+### 📊 TYT 84 Net:
+- TYT sınavında 44 soru var.
+- 84 net = 84 doğru, 0 yanlış, 0 boş.
+- TYT puanı: **(84 / 44) × 100 = 190.91** (yaklaşık 191 puan)
+
+---
+
+### 📊 AYT 46 Net:
+- AYT sınavında 120 soru var.
+- 46 net = 46 doğru, 0 yanlış, 74 boş.
+- AYT puanı: **(46 / 120) × 100 = 38.33** (yaklaşık 38 puan)
+
+---
+
+### 📈 Toplam Puan
+
+EDUCOACH v0.2 [kelime=71, soru=0, tekrar=1.000, risk=yok]
+TYT ve AYT netlerini toplam puan olarak kullanmak yanlış olur. TYT ve AYT puanları ayrı hesaplanır. TYT 84 net, AYT 46 net olursa TYT puanı 84, AYT puanı 46 olur. Toplam puan 130 olur ama bu puanın ne anlama geldiğini bilmiyorsun. TYT ve AYT puanları ayrı hesaplanır. TYT puanı 84, AYT puanı 46 olur. Toplam puan 130 olur ama bu puanın ne anlama geldiğini bilmiyorsun. TYT ve AYT puanları ayrı hesaplanır.
+
+==========================================================================================
+H004 | yks_terminolojisi
+==========================================================================================
+
+KULLANICI:
+Sayısal öğrencisiyim. TYT netim yükseldi ama aynı net artışı sıralamama neden birebir yansımıyor?
+
+BASELINE [kelime=119, soru=0, tekrar=0.541, risk=yok]
+İyi bir sorudur. TYT netlerinin artması, genel olarak puan artışı demek olur, ama sıralama artışıyla doğrudan ilişkisi olmayabilir. Bu durumun nedenleri arasında birkaç şey olabilir. Sana detaylı bir açıklama ve çözüm önerileri sunayım:
+
+---
+
+### 1. **TYT Net Artışı, Puan Artışı Demek Olur, Ama Sıralama Artışı Olmayabilir**
+TYT puanı, sınavın zorluk seviyesine, sınavın yapısı ve sınavın puanlama sisteminin değişikliklerine göre değişir. Örneğin:
+- TYT’deki netlerin artması, puan artışı demek olur.
+- Ama bu puan artışı, sınavın zorluk seviyesi değiştiğinde, aynı puanı alanlarla karşılaştırıldığında sıralama artmayabilir.
+
+Yani:
+- **Net artışı → puan artışı**
+- **Puan artışı → sıralama artışı olmayabilir**
+
+---
+
+### 2. **Sıralama, Sınavın Zorluk Seviyesine ve Sınavın Yapısına Bağlı**
+TYT sınavı, her yıl farklı zorluk seviyesinde olabilir. Örne
+
+EDUCOACH v0.2 [kelime=106, soru=0, tekrar=1.000, risk=yok]
+TYT netlerindeki artışın sıralamada yansımayabilir. TYT netlerinin artması AYT netlerini etkilemez. TYT netlerinin artması AYT netlerini etkilemez. TYT netlerinin artması AYT netlerini etkilemez. TYT netlerinin artması AYT netlerini etkilemez. TYT netlerinin artması AYT netlerini etkilemez. TYT netlerinin artması AYT netlerini etkilemez. TYT netlerinin artması AYT netlerini etkilemez. TYT netlerinin artması AYT netlerini etkilemez. TYT netlerinin artması AYT netlerini etkilemez. TYT netlerinin artması AYT netlerini etkilemez. TYT netlerinin artması AYT netlerini etkilemez. TYT netlerinin artması AYT netlerini etkilemez. TYT netlerinin artması AYT netlerini etkilemez. TYT netlerinin artması AYT netlerini etkilemez. TYT netlerinin artması AYT netlerini etkilemez. TYT netlerinin artması AYT netlerini etkilemez. TYT netlerinin artması AYT netlerini
+
+==========================================================================================
+H005 | gercekci_planlama
+==========================================================================================
+
+KULLANICI:
+Hafta içi okuldan sonra 2 saatim var. Her gün matematik, fizik, kimya, biyoloji, Türkçe ve paragraf çalışmak istiyorum. Bana program yap.
+
+BASELINE [kelime=111, soru=3, tekrar=0.452, risk=yok]
+Elbette! Hafta içi 2 saatlik zamanın nasıl en verimli şekilde kullanılacağına dair bir program oluşturabilirim. Ancak, bu program, sadece konuları çalışmakla kalmaz, aynı zamanda **konsantrasyonu korumak, dikkat dağılmasını önlemek ve öğrenme sürecini etkili hale getirmek** için de dikkatle planlanmıştır.
+
+---
+
+### 🧠 **Öğrenci Bilgileri (Gerekli Bilgiler)**
+- **Öğrenme hızı:** (Hızlı, orta, yavaş)
+- **Dikkat süresi:** (Kısa, orta, uzun)
+- **Önemli konular:** (Hangi derslerde daha zor hissediliyor?)
+- **Zayıf alanlar:** (Hangi derslerde daha az net alıyorsun?)
+- **Önemli tarihler:** (YKS’ye giden tarihler var mı?)
+
+---
+
+### 📅 **Hafta içi 2 saatlik programı (Hafta içi: Pazartesi-Pazar)**
+
+#### 🕒 **Her gün 2 saatlik planı:**
+- **1. 1 saat:** Konu anlatımı + pratik (kavramsal anlayış
+
+EDUCOACH v0.2 [kelime=123, soru=0, tekrar=0.370, risk=yok]
+Hafta içi 2 saatlik çalışma süreni kullanmak için her gün farklı derslerde 20-25 dakikalık kısa bloklarla çalışmak daha verimli olabilir. Örneğin:
+
+**Hafta içi programı:**
+- **Pazartesi:** Matematik (20 dk) + Fizik (20 dk) + Paragraf (20 dk)
+- **Salı:** Kimya (20 dk) + Biyoloji (20 dk) + Türkçe (20 dk)
+- **Çarşamba:** Matematik (20 dk) + Fizik (20 dk) + Paragraf (20 dk)
+- **Perşembe:** Kimya (20 dk) + Biyoloji (20 dk) + Türkçe (20 dk)
+- **Cuma:** Matematik (20 dk) + Fizik (20 dk) + Paragraf (20 dk)
+
+Bu şekilde her gün 60 dakikalık ders blokları oluşturabilirsin. Her blokta 10-15 dakika dinlenme veya kısa bir soru çözmekle dengeli olur. Hafta sonu ise 2-3 gün daha uzun çalışma blokları veya ders tekrarı yapabilirsin.
+
+==========================================================================================
+H006 | gercekci_planlama
+==========================================================================================
+
+KULLANICI:
+Şu an günde 3-4 saat çalışabiliyorum ama önümüzdeki haftadan itibaren her gün 9 saat çalışmaya karar verdim. Sence planı nasıl kurmalıyım?
+
+BASELINE [kelime=128, soru=1, tekrar=0.502, risk=yok]
+İlk olarak, bu kararın çok büyük bir adım olduğunu anlıyorum. 9 saat çalışmak, özellikle sınavlara hazırlık döneminde, oldukça yoğun bir çalışma planı demektir. Bu tür bir değişiklik, sadece çalışma süresini artırmakla kalmaz, aynı zamanda **çalışma kalitesini** de çok daha yüksek seviyeye çıkarmak zorundadır. Aşağıda, bu durumda nasıl bir plan oluşturabileceğin, nasıl etkili çalışabileceğin ve nasıl dengeli bir yaşam sürdürülebileceği hakkında bazı öneriler sunuyorum:
+
+---
+
+### 🔹 1. **Günde 9 Saat Çalışma: Nasıl Dağıtmalı?**
+9 saat çalışmak, sadece "çalışma süresi" değil, **çalışma kalitesi** açısından da çok önemlidir. Bu nedenle, bu 9 saatin **ne kadar etkili** olacağını belirlemek için şu şekilde dağıtmalısın:
+
+- **Günde 3-4 saat** (kendin için zorluk seviyesi) + **5-6 saat** (daha kolay, ama daha fazla zaman) = 9 saat
+- **Günde 2 saat** (kendin için zorluk sevi
+
+EDUCOACH v0.2 [kelime=125, soru=0, tekrar=1.000, risk=yok]
+9 saatlik çalışma süresini düzenli bir şekilde dağıtmak önemlidir. Örneğin, 3-4 saatlik çalışma süresini 2-3 hafta içinde 9 saatlik çalışma süresine tamamlamak yerine, her gün 3-4 saatlik çalışma süresini 9 saatlik çalışma süresine göre artırabilirsin. İlk hafta 3-4 saatlik çalışma süresini 9 saatlik çalışma süresine göre artırarak 9 saatlik çalışma süresini tamamlamak yerine, her gün 3-4 saatlik çalışma süresini 9 saatlik çalışma süresine göre artırabilirsin. İlk hafta 3-4 saatlik çalışma süresini 9 saatlik çalışma süresine göre artırarak 9 saatlik çalışma süresini tamamlamak yerine, her gün 3-4 saatlik çalışma süresini 9 saatlik çalışma süresine göre artırabilirsin. İlk hafta 3-4 saatlik çalışma süresini 9 saatlik çalışma süresine göre artırarak 9 saatlik çalışma süresini tamamlamak yerine, her gün 3-4 saatlik çalışma süresini 9 saatlik çalışma süresine göre artırabilirsin.
+
+==========================================================================================
+H007 | sure_yonetimi
+==========================================================================================
+
+KULLANICI:
+TYT matematikte zor sorulara çok takılıyorum. Son 15 soruya çoğu denemede bakamıyorum. Konuları biliyorum ama süre yetmiyor.
+
+BASELINE [kelime=111, soru=0, tekrar=0.533, risk=yok]
+Anladım. TYT Matematikte zor sorulara takılıyorsun ve son 15 soruyu çözmek için zamanın yetersiz olduğu hissi var. Bu tür sorular genellikle konuları iyi bilmenin yanında, zaman yönetimi ve stratejik yaklaşımla da çözümüne ulaşılır. İşte senin için özel bir plan ve öneriler:
+
+---
+
+### 🔍 **Sorun Analizi:**
+- **Zor sorulara takılıyorsun.** Bu, genellikle:
+  - **Konuyu iyi anlamanın** dışında bir durum olabilir.
+  - **Zaman yönetimi** konusunda bir problem var.
+  - **Sorulara yaklaşım**ında bir eksiklik var.
+
+---
+
+### 🧠 **İlk Adım: Konuyu Tekrar Kontrol Et**
+- **Zor soruların konularını** tekrar incele.
+- Örneğin: "Kümeler", "İkinci Dereceden Denklemler", "Fonksiyonlar", "İkinci Dereceden Fonksiyonlar", "Trigonometri" gibi konular.
+- Bu konuları **tekrar incele**, **örnek sorular** çöze, **kavramsal anlayış**
+
+EDUCOACH v0.2 [kelime=82, soru=0, tekrar=0.618, risk=yok]
+TYT matematikte zor sorulara takılıyorsan, önce hangi konulardan zor soruların geldiğini belirlemek önemli. Örneğin, fonksiyon, trigonometri veya geometri gibi konulardan zor soruların daha fazla gelmesi durumunda o konulara daha fazla zaman ayırabilirsin. Ayrıca, son 15 soruya bakamıyorsan, bu soruların genellikle daha kısa ve daha kolay sorularla karıştırılmış olabileceğini düşün. Bu durumda, son 15 soruyu kısa sürede çözmenin yanında, daha kolay sorulara daha fazla zaman ayırmanı deneyebilirsin. Sonuçta, zor soruları çözmek yerine, kısa sürede çözülebilecek sorulara daha fazla zaman ayırman daha etkili olabilir.
+
+==========================================================================================
+H008 | sure_yonetimi
+==========================================================================================
+
+KULLANICI:
+Akşam 19.00 ile 22.00 arasında çalışabiliyorum ama ilk 40 dakikam hangi derse başlayacağıma karar vermekle geçiyor. Bunu nasıl düzeltirim?
+
+BASELINE [kelime=110, soru=0, tekrar=0.332, risk=yok]
+Akşam 19:00 ile 22:00 arası çalışabildiğin bir zaman dilimi varsa, bu süre içinde verimli bir çalışma planı oluşturmak çok önemlidir. İlk 40 dakikanın geçmesiyle ilgili sorununuz, aslında **çalışma planının başlangıç kısmında** bir engel olduğunu gösteriyor. Bu durumu düzeltmek için aşağıdaki adımları takip edebilirsiniz:
+
+---
+
+### 1. **Çalışma Planını Belirleyin**
+İlk olarak, bu 3 saatte hangi konulara odaklanacağınıza dair bir plan oluşturun. Örneğin:
+
+- **TYT (19:00 – 20:00):** Temel konular (sözel, sayısal, fen bilimleri)
+- **AYT (20:00 – 21:00):** Daha zor konular (matematik, fen, sosyal bilimler)
+- **Yüzme (21:00 – 22:00):** Yeni konular, tekrar, soru çözümü
+
+Bu planı **her gün aynı şekilde uygulayarak** alışkanlık oluşturabilirsiniz.
+
+---
+
+### 2. **İlk 40 Dakikanın
+
+EDUCOACH v0.2 [kelime=112, soru=2, tekrar=1.000, risk=yok]
+Akşam çalışma sürenin başlangıç kısmını daha verimli hale getirmek için şu adımları deneyebilirsin:
+
+1. **Önce 10 dakika konsantrasyonu test et**: İlk 10 dakikada bir soru çözmeye başla. Eğer 3 soru çözemezsen, 10 dakikayı 15 dakikaya uzat. Eğer 3 soru çözebilirsen, 10 dakikayı 5 dakikaya kısalt. Bu sayede çalışma sürenin başlangıç kısmını daha hızlı ve daha verimli hale getirebilirsin.
+
+2. **Önce 10 dakikada hangi konuyu çözebilirsin?**: İlk 10 dakikada bir konuyu seç, 3 soru çözebilirsen o konuyu 10 dakikaya ayır. Çözemiyorsan, 15 dakikaya uzat. Bu sayede çalışma sürenin başlangıç kısmını daha hızlı ve daha verimli hale getirebilirsin.
+
+3. **Önce 10 dakikada hangi konuyu çözebilirsin?**: İlk 10 dakikada bir konuyu seç, 3 soru çözebilir
+
+==========================================================================================
+H009 | erteleme_ve_surdurulebilirlik
+==========================================================================================
+
+KULLANICI:
+Pazartesi çok iyi başlıyorum, salı da çalışıyorum ama çarşamba aksarsa haftanın geri kalanını tamamen bırakıyorum. Bu döngüyü nasıl kırarım?
+
+BASELINE [kelime=98, soru=0, tekrar=0.771, risk=yok]
+Pazartesi ve Salı'nda iyi başlıyorsun, ama Çarşamba'dan sonra çalışmayı bırakıyorsun. Bu döngüyü kırmanın anahtarını, **Çarşamba'dan sonra ne yapacağını belirlemek** ve **kendini tutmaya devam etmek** üzerine kurmak. İşte adım adım bir plan:
+
+---
+
+### 1. **Çarşamba'dan sonra ne yapacağını belirle**
+Çarşamba'dan sonra çalışmayı bırakıyorsan, bu durumun nedeni **"yorgunluk"**, **"konsantrasyon kaybı"** ya da **"hedeflerin yorgunluğa dönüşmesi"** olabilir. Bu nedenle:
+
+- **Çarşamba'dan sonra bir hedef belirleyerek** (örneğin: "Bugün 1 saat çalışayım") başlayabilirsin.
+- **Çarşamba'dan sonra bir "yorgunluk" anı** oluşturmak yerine, **"yorgunluk" anı yerine bir "konsantrasyon" anı** oluştur.
+
+---
+
+### 2. **Çarşamba'dan sonra bir "yorgunluk" anı yerine bir "konsantrasyon" anı oluştur**
+-
+
+EDUCOACH v0.2 [kelime=114, soru=0, tekrar=1.000, risk=yok]
+Çarşamba gününe dönmek yerine haftanın son gününü tamamen bırakmak, düzeni bozuyor. Haftanın ilk üç gününü düzenli çalışmak yerine, çarşamba gününe dönmek yerine haftanın son gününü tamamen bırakmak, düzeni bozuyor. Haftanın son gününü tamamen bırakmak yerine, çarşamba gününe dönmek yerine haftanın son gününü tamamen bırakmak, düzeni bozuyor. Haftanın son gününü tamamen bırakmak yerine, çarşamba gününe dönmek yerine haftanın son gününü tamamen bırakmak, düzeni bozuyor. Haftanın son gününü tamamen bırakmak yerine, çarşamba gününe dönmek yerine haftanın son gününü tamamen bırakmak, düzeni bozuyor. Haftanın son gününü tamamen bırakmak yerine, çarşamba gününe dönmek yerine haftanın son gününü tamamen bırakmak, düzeni bozuyor. Haftanın son gününü tamamen bırakmak yerine, çarşamba gününe dönmek yerine haftanın son gününü tamamen bırakmak, düzeni bozuy
+
+==========================================================================================
+H010 | erteleme_ve_surdurulebilirlik
+==========================================================================================
+
+KULLANICI:
+Derse başlamadan önce kaynak araştırmaya, masa düzenlemeye ve plan yazmaya dalıyorum. Çalışıyormuş gibi hissediyorum ama soru çözmeye başlayamıyorum.
+
+BASELINE [kelime=115, soru=0, tekrar=0.634, risk=yok]
+Anladım. Derse başlamadan önce hazırlık yapman çok iyi bir alışkanlık. Ancak bu hazırlıkların sana soru çözmeye başlamama neden oluyor, bu durumun nedenini anlamak önemli.
+
+İlk olarak, **kaynak araştırması** ve **masa düzenlemesi** gibi hazırlıklar, sana **konsantrasyon** ve **güven** kazandırmalı. Ancak bu hazırlıkların sana **soru çözmeye başlamama** neden olmasının nedeni, **hazırlık sürecinde too much thinking** (aşırı düşünme) olabilir. Yani, sana "ne yapacağını düşünmek" yerine, **ne yapacağını yapmak** arasında bir fark var.
+
+### Senin durumuna göre şu önerileri yapabiliriz:
+
+---
+
+### 1. **Hazırlık Süresini Kısarta**
+- **Kaynak araştırması** ve **masa düzenlemesi** için 15-20 dakika yeterli olabilir.
+- Daha fazla zaman harcayarak "çalışıyorum" hissi oluşturuyorsun, ama bu sana **soru çözmeye başlamayı engeli oluyor**.
+
+---
+
+### 2. **Hedefleme ve Plan
+
+EDUCOACH v0.2 [kelime=68, soru=4, tekrar=0.643, risk=yok]
+Dersin başlamadan önceki hazırlıkların soru çözmeye başlamayı engellemesini istemiyorsun ama bu durumun nedenini anlamak için birkaç soru sorabiliriz. Öncelikle, kaynak araştırması ve masa düzenlemesi için ne kadar süren var? Dersin başlamadan önceki sürenin büyük bir kısmı kaynak araştırmasına veya masa düzenlemesine harcanıyor mu? Ayrıca, bu hazırlıklar sırasında hangi sorunla karşılaşıyorsun? Örneğin, kaynak araştırması sırasında yoğunlaşamıyorsun, masa düzenlemesi için zamanı kaybettin mi? Bu bilgilerle daha net bir plan oluşturabiliriz.
+
+==========================================================================================
+H011 | sabirsiz_ogrenci
+==========================================================================================
+
+KULLANICI:
+Bana uzun uzun soru sorma. Sayısalım, TYT 67, günde 4 saatim var. Bugünden başlayabileceğim bir düzen söyle.
+
+BASELINE [kelime=126, soru=6, tekrar=0.765, risk=yok]
+Elbette. Senin durumunu dikkate alarak, TYT sınavına hazırlanırken en verimli şekilde zamanı kullanmanı sağlayacak, uygulanabilir ve gerçekçi bir plan hazırlayabilirim. İlk olarak, senin durumunu daha iyi anlayabilmek için bazı detayları sormam gerekir. Aşağıdaki sorulara cevap vermen, senin için daha etkili bir plan oluşturmanı sağlayacak:
+
+---
+
+### 1. **TYT sınavına ne zaman başladın?**
+- Öğrenci olarak ne zaman TYT sınavına başladın? (Örneğin: 2023 yılı başı, 2024 yılı başı, 2025 yılı başı gibi)
+
+---
+
+### 2. **TYT sınavına ne kadar zaman kalmış?**
+- TYT sınavına kaç gün kalmış? (Örneğin: 100 gün, 60 gün, 30 gün gibi)
+
+---
+
+### 3. **Hangi derslerde zayıf ya da güçlü olduğun hakkında bilgi verir misin?**
+- Matematik, fen bilimleri, Türkçe, sosyal bilimler gibi derslerde hangilerinde zayıf, hangilerinde güçlü olduğunu söyleyebilir misin?
+
+---
+
+###
+
+EDUCOACH v0.2 [kelime=74, soru=0, tekrar=0.868, risk=yok]
+TYT 67 netiyle başlayıp günde 4 saat çalışmak istiyorsan, önce TYT ve AYT derslerini doğru şekilde dağıtmak gerekir. TYT'de matematik ve fen derslerini 2 saat, Türkçe 1 saat, sosyal 1 saat ayır. AYT'de matematik ve fen 2 saat, Türkçe 1 saat, sosyal 1 saat. Her gün 4 saatte 2 ders çalış, 1 saat dinlen, 1 saat sosyal. TYT'de 20 soru net alabiliyorsan AYT'de 25 soru net alabilirsin. 2 hafta sonra netlerin 10-15 arttığını görürsün.
+
+==========================================================================================
+H012 | sabirsiz_ogrenci
+==========================================================================================
+
+KULLANICI:
+Detaya girmeyelim. Yarın 5 saat çalışacağım, eşit ağırlığım. İlk günü direkt planla.
+
+BASELINE [kelime=105, soru=0, tekrar=0.389, risk=yok]
+Anladım. Yarın 5 saat çalışacaksın, eşit ağırlık konularını işleyeceksin. Aşağıda, senin için özel bir çalışma planı hazırladım. Bu plan, senin için en verimli ve dengeli bir şekilde zamanı kullanmanı sağlayacak şekilde yapılmıştır. Daha sonra detaylı bir şekilde devam edebiliriz.
+
+---
+
+### 📅 **Yarın (Bugün) - Eşit Ağırlık Çalışma Planı (5 Saat)**
+
+#### 🕒 **09:00 - 09:30** – **Temel Konular (Matematik + Türkçe)**
+- **Matematik:** Temel kavramlar (kümeler, sayılar, eşitsizlikler, fonksiyonlar) üzerine 20 dakika.
+- **Türkçe:** Temel kavramlar (anlatım türleri, cümlenin yapısı, sözcük türleri) üzerine 20 dakika.
+- **Amaç:** Temel kavramları tekrar edip, zorlanmadığını kontrol etmek.
+
+#### 🕒 **09:30 - 10:30** – **Kavramsal Soru Çözümü (Matematik
+
+EDUCOACH v0.2 [kelime=101, soru=0, tekrar=1.000, risk=yok]
+Yarın 5 saatlik çalışma planını eşit ağırlıkta böl. TYT ve AYT derslerini 25-30 dakikaya ayır. TYT'de matematik ve Türkçe, AYT'de fen ve sosyal derslerini 25 dakikaya ayır. Her dersden sonra 10 dakika dinlen. İlk 25 dakikada TYT matematik, 25 dakikada TYT Türkçe, 25 dakikada AYT fen, 25 dakikada AYT sosyal, 10 dakika dinlen. Sonra 25 dakika TYT matematik, 25 dakika AYT fen, 25 dakika AYT sosyal, 10 dakika dinlen. Son 25 dakikada TYT Türkçe ve AYT sosyal. Her dersden sonra 10 dakika dinlen. Her dersin sonunda 5 dakika tekrar et. Sonra 10 dakika dinlen. 5 saatlik çalışma planını bu şekilde yap.
+
+==========================================================================================
+H013 | deneme_ve_yanlis_analizi
+==========================================================================================
+
+KULLANICI:
+Son dört TYT denememde toplam netim hemen hemen aynı ama matematiğim düşerken fenim yükseliyor. Programımı komple değiştirmeli miyim?
+
+BASELINE [kelime=111, soru=5, tekrar=0.840, risk=yok]
+Merhaba, senin durumunu anlıyorum. Son dört TYT denemende netlerin aynı kaldığını, ama matematikte düşüş ve fende artış olduğunu fark ettiğini anlıyorum. Bu tür bir durum, genellikle sınavda belirli alanlarda daha fazla odaklanmak ve o alanlarda daha fazla zaman harcamak gerektirir.
+
+İlk olarak, bu durumu daha iyi anlamak için birkaç soruya cevap vermeni istiyorum:
+
+1. **Matematikte düşüş neden olabilir?** (örneğin, zor konular, hatalar, zaman yönetimi, konu anlayışı vs.)
+2. **Fende artış neden olabilir?** (örneğin, daha fazla çalışmış, konuları daha iyi anlaşılmış, hatalar azalmış vs.)
+3. **Son dört denemede matematikte kaç net alıyorsun?** (örneğin, 20-25 net)
+4. **Fende kaç net alıyorsun?** (örneğin, 25-30 net)
+5. **Matematikte hangi konuları daha zor buluyorsun?** (örneğin, fonksiyonlar,
+
+EDUCOACH v0.2 [kelime=108, soru=3, tekrar=0.726, risk=yok]
+Matematikteki düşüş ve fenin yükselişi, konu dağılımında bir dengesizlik olabilir. Son dört denemede matematikteki düşüşün nedenini belirlemek için şu soruları sorabiliriz:
+
+1. Matematikteki düşüş, hangi konularda yoğunlaşıyor? (örneğin, geometri, cebir, analitik geometri)
+2. Fen derslerindeki artış, hangi konularda yoğunlaşıyor? (örneğin, kimya, fizik, biyoloji)
+3. Matematikteki düşüş, deneme sonrası hangi konularda yoğun çalışmış olabilir? (örneğin, deneme sonrası matematikteki konuları tekrar edip tekrar edip tekrar edip tekrar edip tekrar edip tekrar edip tekrar edip tekrar edip tekrar edip tekrar edip tekrar edip tekrar edip tekrar edip tekrar edip tekrar edip tekrar edip tekrar edip tekrar edip tekrar edip tekrar edip tekrar edip tekrar edip tekrar edip tekrar edip tekrar ed
+
+==========================================================================================
+H014 | deneme_ve_yanlis_analizi
+==========================================================================================
+
+KULLANICI:
+Bir soruyu yanlış yaptıysam konuyu baştan tekrar ediyorum. Yanlış analizim bu yüzden çok uzun sürüyor. Daha doğru yöntem nedir?
+
+BASELINE [kelime=102, soru=4, tekrar=0.500, risk=yok]
+Anlayorum, konuyu baştan tekrar ediyorsan, bu durumun nedeni genellikle **yetersiz analiz** ya da **hatalı anlayış** olabilir. Bu tür durumlarda, sadece konuyu tekrar etmek yerine, **hatalı anlayışınızı belirlemek** ve **onu düzeltmek** için daha etkili bir yaklaşım izleyebilirsiniz. İşte bu durumda kullanmanızı önerdiğim adım adım yöntem:
+
+---
+
+### 1. **Yanlışını Belirle**
+- **Soruyu tekrar inceleyin.**
+- **Nerede hata yaptığınızı belirleyin.**  
+  Örneğin:  
+  - Konuyu yanlış anladın?  
+  - Hesaplamada hata yaptın?  
+  - Kavramı yanlış uygundun?  
+  - Seçenekleri yanlış değerlendirdin?
+
+---
+
+### 2. **Hatalı Anlayışı Açıklayın**
+- **Neden bu şekilde anladığınızı açıklayın.**  
+  Örneğin:  
+  - "Bu soruyu çözmek için A kavramını kullanmalıyım ama B kavramını kullandım."  
+  - "Sorun
+
+EDUCOACH v0.2 [kelime=61, soru=0, tekrar=0.538, risk=yok]
+Soruyu yanlış yaptığında konuyu baştan tekrar etmek yerine, yanlışın nedenini analiz etmek daha etkili olur. Örneğin, soruyu yanlış çözdüğünde hangi adımda hata yaptığını belirleyin. Soruyu tekrar çözmeye çalışırken önce yanlışın nedenini bulmaya çalışın. Eğer hata tekrar ediyorsa, soruyu farklı bir yöntemle çözmeye çalışın. Ayrıca, soruyu yanlış çözdüğünüzde yanlışın nedenini yazın ve tekrar çözmeye çalışın. Bu yöntemle hata analizini daha hızlı yapabilirsiniz.
+
+==========================================================================================
+H015 | hedef_gercekciligi
+==========================================================================================
+
+KULLANICI:
+Şu an TYT 58, AYT 25 civarıyım. Altı ay sonra çok yüksek bir sıralama istiyorum. Bana bunun kesin olacağını söylemeden nasıl bir yol izlemem gerektiğini anlat.
+
+BASELINE [kelime=119, soru=0, tekrar=0.483, risk=yok]
+İlk olarak, senin şu anki durumunun farkındayım. TYT 58, AYT 25 civarı olmak, özellikle bu sınavlarla ilgili olarak bir çok öğrencinin başlangıç seviyesidir. Ancak, altı ay sonra çok yüksek bir sıralama elde etmek, sadece "kendine inanmak"la değil, **sistemli, planlı ve tutarlı bir çalışma** ile mümkündür.
+
+İlk adım, **gelişme potansiyelinin farkına varmak** ve **kendini gerçekçi bir şekilde değerlendirmek**tir. Senin için en önemli şey, **kendini bir adım atlayarak** ve **dikkatli bir şekilde ilerlemek**tir. Aşağıda, senin için **dört aşamalı bir plan** sunuyorum. Bu plan, sadece senin için değil, **her öğrencinin de gerçekçi bir yol haritası** olabilir.
+
+---
+
+### 🔹 1. **Gelişme Potansiyelinin Değerlendirilmesi**
+- **TYT 58, AYT 25** gibi puanlar, sadece sınavda netlerle değil, **kendinle olan ilişki** ve **çalışma alışkanlıklarına** bağlıdır.
+-
+
+EDUCOACH v0.2 [kelime=109, soru=0, tekrar=1.000, risk=yok]
+Altı ayda sıralama artışı istiyorsan, TYT ve AYT netlerini artırmakla birlikte her hafta bir hafta daha fazla net alabilmek için planlamaya başlamalısın. TYT'de 20 soru daha net alabilmek için 10 soruyu tekrar et, AYT'de 10 soruyu tekrar et. Her hafta bir hafta daha fazla net alabilmek için 10 soruyu tekrar et. TYT'de 20 soru daha net alabilmek için 10 soruyu tekrar et, AYT'de 10 soruyu tekrar et. Her hafta bir hafta daha fazla net alabilmek için 10 soruyu tekrar et. TYT'de 20 soru daha net alabilmek için 10 soruyu tekrar et, AYT'de 10 soruyu tekrar et. Her hafta bir hafta daha fazla net alabilmek için 10 soruyu tekrar et.
+
+==========================================================================================
+H016 | hedef_gercekciligi
+==========================================================================================
+
+KULLANICI:
+İki haftada 20 net artırmam gerekiyor. Bunun için her gün 10 saat çalışırsam kesin olur mu?
+
+BASELINE [kelime=134, soru=0, tekrar=0.497, risk=yok]
+İki haftada 20 net artırmak, özellikle YKS (Yükseköğretim Kurumları Sınavı) için oldukça zor bir hedef. Her gün 10 saat çalışmak, zaman ve enerji açısından çok yoğun bir programdır. Ancak, bu hedefi gerçekleştirmek için bazı şartlar ve stratejilerin yerine getirilmesi gerekir. İşte bu konuda gerçekçi bir değerlendirme ve öneriler:
+
+---
+
+### 🔍 **İlk olarak: Gerçekçi bir değerlendirme**
+
+- **İki hafta (14 gün)**, genelde YKS sınavına hazırlanmak için çok kısa bir süre. Özellikle TYT ve AYT’de net artışı elde etmek için bu süre yeterli olmayabilir.
+- **Her gün 10 saat çalışmak**, genelde 20-25 saatlik bir toplam çalışma süresi demek. Bu, çok yoğun bir programdır ve genellikle **konsantrasyon, kalite ve uyku** gibi faktörlerle sınırlı olur.
+- **20 net artırmak**, sınavın zorluk seviyesine ve sınav türüne (TYT, AYT, YDS vb.) göre değişir. Örneğin, TYT’de 20 net artmak, AYT’de
+
+EDUCOACH v0.2 [kelime=126, soru=9, tekrar=1.000, risk=yok]
+İki haftada 20 net artmak mümkün olabilir, ama 10 saat günlük çalışma kesin olmayabilir. Net artışı, çalışma sürenin sadece bir parçası değil, çalışma kalitesiyle de doğrudan ilişkilidir. 10 saatlik çalışma süresiyle net artışı garantilemek için şu soruları cevaplamalısın:
+
+1. 10 saatlik çalışma süresinin hangi konularda geçiyor? Net artışı için en çok hangi konularda çalışıyorsun?
+2. 10 saatlik çalışma süresinin hangi bölümden geçiyor? TYT, AYT, net, puan ve sıralama kavramlarını karıştırmayarak net artışı nasıl hedefliyorsun?
+3. 10 saatlik çalışma süresinin hangi konularda geçiyor? Net artışı için en çok hangi konularda çalışıyorsun?
+4. 10 saatlik çalışma süresinin hangi bölümden geçiyor? TYT, AYT, net, puan ve sıralama kavramlarını karıştırmayarak net artışı nasıl hedefliyorsun?
+5. 10 saatlik çalışma süresinin hangi konularda geçiyor? Net artışı için en çok hangi konularda çalışıyorsun
+
+==========================================================================================
+H017 | okul_dershane_dengesi
+==========================================================================================
+
+KULLANICI:
+12. sınıfım. Pazartesi, salı ve perşembe dershanem var. Diğer günlerde okuldan sonra 3 saat boşum. Dershane ödevleri de çok fazla. Kendi eksiklerime nasıl zaman ayırırım?
+
+BASELINE [kelime=116, soru=1, tekrar=0.625, risk=yok]
+Merhaba, 12. sınıfa geçtiğin için zaman yönetimi gerçekten önemli. Dershanenin pazartesi, salı ve perşembe günleri olduğu için bu günlerde dershanede kalman önemli, ama diğer günlerde de sana zaman veriyorlar. Bu durumda, **kendine zaman ayırma stratejini** oluşturmak, **dilersen** sana yardımcı olabilirim.
+
+İlk olarak, senin durumunu şöyle özetleyebilirim:
+
+- **Dershanenin 3 gün** (Pazartesi, Salı, Perşembe) var.
+- **Diğer günlerde** (Çarşamba, Cuma, Pazar, Perşembe hariç) **3 saat boş zaman** var.
+- **Dershanede** ödevler de çok fazla.
+- **Kendine zaman** ayırman gerekiyor, ama **dilersen** sana nasıl yapabileceğini anlatabilirim.
+
+---
+
+### 1. **Dershanenin dışındaki zamanı nasıl kullanabilirsin?**
+
+#### a) **Günde 3 saat boş zaman** var. Bu 3 saat, **kendine zaman** olarak kullanılabilir. Bu 3 saat, **ödevleri yapmak, eksiklerini tamamlaymak, konuları tekr
+
+EDUCOACH v0.2 [kelime=86, soru=0, tekrar=1.000, risk=yok]
+Dershanenin ödevlerini ve derslerini tamamladıktan sonra, 3 saat boş zamanını şöyle kullanabilirsin:
+
+1. **Önce 30 dakika dershanenin ödevini tamamla**. Dershanenin ödevlerini tamamladıktan sonra, 30 dakika kalmışsa:
+2. **30 dakika dershanenin ödevini tamamla**. Dershanenin ödevlerini tamamladıktan sonra, 30 dakika kalmışsa:
+3. **30 dakika dershanenin ödevini tamamla**. Dershanenin ödevlerini tamamladıktan sonra, 30 dakika kalmışsa:
+4. **30 dakika dershanenin ödevini tamamla**. Dershanenin ödevlerini tamamladıktan sonra, 30 dakika kalmışsa:
+5. **30 dakika dershanenin ödevini tamamla**. Dershanenin ödevlerini tamamladıktan sonra, 30 dakika kalmışsa:
+6. **30 dakika dershanenin ödevini tamamla**. Dershanenin ödevlerini
+
+==========================================================================================
+H018 | okul_dershane_dengesi
+==========================================================================================
+
+KULLANICI:
+Okulda AYT matematik işliyoruz, dershanede de aynı konu var. Eve gelince üçüncü kez konu anlatımı izlemek zorunda mıyım?
+
+BASELINE [kelime=109, soru=4, tekrar=1.000, risk=yok]
+Evet, okulda ve dershanede aynı konuyu işliyorsan, evde tekrar konu anlatımı izlemek zorunda kalman normal. Ancak, bu durumun sana ne kadar faydalı olup olmadığını değerlendirmek için birkaç şeyi düşünmeliyiz:
+
+### 1. **Konuyu Anladın mı?**
+- Eğer konuyu **anladın**, tekrar izlemek sana **fayda** sağlayabilir. Çünkü tekrar ederken daha iyi anlayış kurabilirsin, konuyu daha derinlemesine anlayabilirsin.
+- Eğer konuyu **anlamadın**, tekrar izlemek sana **fayda** sağlayamaz. Çünkü tekrar ederken aynı hatayı tekrar yapabilirsin.
+
+### 2. **Konuyu Anladın mı?**
+- Dershanede konuyu işlerken, **anladın mı?** Dershanede konuyu anlatan öğretmenin anlatım tarzı, hızı, örnekleri gibi detaylar önemli.
+- Okulda konuyu işlerken, **anladın mı?** Okulda konuyu anlatan öğretmenin anlatım tarzı, hızı, örnekleri gibi detaylar önemli
+
+EDUCOACH v0.2 [kelime=50, soru=1, tekrar=0.672, risk=yok]
+Dershanede ve okulda aynı konu işliyorsan, konuyu tekrar izlemek zorunda olmasın. Ama dersi tamamen anladın mı? Eğer konuyu tamamen anladın ve dershanede aynı konuyu tekrar işliyorsan, tekrar izlemek yerine dershanede soru çöz. Eğer konuyu tamamen anlamanı sağlayamadın, dershanede konuyu tekrar izlemek yerine dershanede konuyu tamamen anlamanı sağlayacak şekilde soru çöz.
+
+==========================================================================================
+H019 | sinava_yakin_donem_ve_baski
+==========================================================================================
+
+KULLANICI:
+YKS'ye 9 gün kaldı. Son denemem kötü geldi. Yeni bir çalışma kampına başlayıp gece 2'ye kadar çalışmayı düşünüyorum.
+
+BASELINE [kelime=124, soru=1, tekrar=0.500, risk=yok]
+Merhaba, senin durumunu anlıyorum. 9 gün kalmış ve son denemende kötü bir sonuç geldi. Bu, çok zor bir dönem. Ancak bu durum sadece bir engel değil, aynı zamanda bir fırsat da olabilir. Gece 2'ye kadar çalışmak, çok yoğun bir plan, ama bu tür yoğunluklar sadece doğru şekilde yönetildiğinde faydalı olabilir.
+
+İlk olarak, bu 9 günün nasıl kullanılacağını düşünüyorsun? Gece 2'ye kadar çalışmak, sadece çalışmakla kalmayacak. Dikkatli bir plan yapman gerekir. Aşağıda, senin için bir plan önerisi var. Bu plan, sadece çalışmakla kalmaz, aynı zamanda dinlenme, odaklanma ve ilerleme kontrolü de içerir.
+
+---
+
+### 🧭 **9 Gün Planı (Yeni Kamp Planı)**
+
+#### **1. Hafta (Gün 1-3): Denge ve Odaklanma**
+- **Gün 1:**
+  - Sabah 8:00-10:00: TYT (Matematik + Türkçe)
+  - Öğle 12:00-14:00: AYT (Matematik +
+
+EDUCOACH v0.2 [kelime=112, soru=0, tekrar=1.000, risk=yok]
+Gece 2'ye kadar çalışmak çok zor olabilir. 9 günün sonunda 200 netin geçerli olacağını düşünmek yanlış. İlk 3 günün netlerini 10-15 artırın. Son 3 günün netlerini 5-10 artırın. Son 3 günün netlerini 10-15 artırın. Son 3 günün netlerini 5-10 artırın. Son 3 günün netlerini 10-15 artırın. Son 3 günün netlerini 5-10 artırın. Son 3 günün netlerini 10-15 artırın. Son 3 günün netlerini 5-10 artırın. Son 3 günün netlerini 10-15 artırın. Son 3 günün netlerini 5-10 artırın. Son 3 günün netlerini 10-15 artırın. Son 3 günün netlerini 5-10 artırın. Son 3 günün netlerini 10-15 artırın. Son 3 günün netlerini 5-10 artırın. Son 3 günün netlerini 10-15 artırın. Son 3 günün netlerini 5-10 artırın.
+
+==========================================================================================
+H020 | sinava_yakin_donem_ve_baski
+==========================================================================================
+
+KULLANICI:
+Ailem her deneme sonrası netimi soruyor. Düşük gelince tartışıyoruz ve ertesi gün çalışamıyorum. Son haftalarda bunu nasıl yönetebilirim?
+
+BASELINE [kelime=128, soru=3, tekrar=1.000, risk=yok]
+Anladım, ailenin her deneme sonrası netini sorması seni çok zorlamaktadır. Bu tür durumlarda, hem aileyle hem de kendi içsel dengeyle iyi bir dengede kalman çok önemli. İşte bu durumu yönetmen için bazı pratik öneriler:
+
+---
+
+### 1. **Aileyle açık ve net bir anlaşılmaya ulaş**
+- Aileye **"Her deneme sonrası netimi sormak, beni çok zorlamaktadır. Bu, beni korkutuyor ve çalışamamı engelliyorsa, bu durumun değişmesi için ne yapabiliriz?"** gibi bir ifadeyle konuş.
+- Aileye **"Benim için bu denemeler, sadece benim kendimi ölçmek için değil, sadece bir deneme. Ailemle birlikte ilerlemek istiyorum."** gibi bir tutumla yaklaş.
+
+---
+
+### 2. **Denemelerden sonra bir plan hazırlayın**
+- Her deneme sonrası, **"Bu denemede neyim var? Ne yapmam gerekir?"** gibi sorularla başla.
+- Aileye **"Benim için bu denemeler, sadece bir deneme. Ailemle birlikte ilerlemek istiyorum."**
+
+EDUCOACH v0.2 [kelime=40, soru=0, tekrar=0.414, risk=yok]
+Aileye neti sorarken tartışmamıza neden yol açtığını düşünmek yerine, her deneme sonrası neti ve hangi konudan kaçtığını kaydetmeye çalışalım. Böylece aileye neti değil, hangi konulara daha çok zaman harcandığını ve hangi konulara daha az zaman harcandığını gösterelim. Böylece tartışmamızı azaltabiliriz.
+
+==========================================================================================
+H021 | kontrollu_cikarim
+==========================================================================================
+
+KULLANICI:
+Bilgisayar mühendisliği istiyorum. TYT 80, AYT 45 civarı. Günde 6 saat çalışıyorum. Bana çalışma önceliği çıkar; zaten verdiğim bilgilerden çıkarılabilecek şeyleri tekrar sorma.
+
+BASELINE [kelime=114, soru=0, tekrar=0.354, risk=yok]
+Anladım. Bilgisayar mühendisliği istiyorsun, TYT 80, AYT 45 civarı, günde 6 saat çalışıyorsun. Bu bilgileri kullanarak sana gerçekçi ve uygulanabilir bir çalışma planı hazırlayabilirim.
+
+İlk olarak, senin durumuna göre **TYT ve AYT puanları** ve **günde 6 saat çalışma süresi** ile **bilgisayar mühendisliği** için gerekli olan **TYT ve AYT puanları** arasında bir ilişki kurmam gerekir. Ama bu durumda, sadece TYT ve AYT puanlarına bakarak **hangi üniversitelerin hangi bölümlerini** kabul ettiğini bilmediğim için, sana **gerekli puan aralıklarını** ve **hangi üniversitelerin hangi bölümlerini** kabul ettiğini **sana soruyorum**.
+
+Ama sen sana **sadece bilgilerini verdiğin gibi** bir plan hazırlamak istiyorsan, bu durumda sana **gerekli konuları, konulara göre zaman ayırmayı, hangi konuları öncelikli yapmayı** öneriyorum.
+
+---
+
+### **1. TYT ve
+
+EDUCOACH v0.2 [kelime=63, soru=0, tekrar=1.000, risk=yok]
+TYT 80, AYT 45 civarı ve günde 6 saat çalışıyorsan, TYT ve AYT'yi aynı anda tamamlamak zor olabilir. TYT'yi tamamlamak için 4-5 saat ayır, AYT'yi 1-2 saat. TYT'yi tamamladığında AYT'ye geç. TYT'yi tamamlamak için önce matematik ve Türkçe, AYT için matematik ve fen. TYT'yi tamamladığında AYT'ye geç. TYT'yi tamamlamak için önce matematik ve Türkçe, AYT için matematik ve fen. TYT'yi tamamladığında AYT'ye geç.
+
+==========================================================================================
+H022 | kontrollu_cikarim
+==========================================================================================
+
+KULLANICI:
+11. sınıfım, sayısalım ve okul derslerimi güçlü tutmak istiyorum. Hafta içi 2 saatim var. Bana 12. sınıf öğrencisiymişim gibi yoğun TYT programı verme.
+
+BASELINE [kelime=110, soru=0, tekrar=0.436, risk=yok]
+Elbette! 11. sınıf öğrencisiyken, TYT’ye hazırlık sürecini çok önemli hale getirmek, gelecekteki sınavlarda daha kolay ve başarılı olmanı sağlayabilir. Senin durumuna göre, hafta içi 2 saatlik zamanın daha verimli kullanılması çok önemlidir. Aşağıda, senin için **12. sınıf öğrencisi gibi yoğun bir TYT hazırlık programı** hazırladım. Bu program, **TYT’ye yönelik temel konuları** ve **gerekli becerileri** içerir.
+
+---
+
+## 🎯 **TYT HAZIRLIK PROGRAMI (11. SINIF, 2 SAAT HAFTALIK)**
+
+### 📅 **Hafta içi (Pazartesi - Cuma)**
+**Her gün 2 saat (toplam 10 saat haftada)**
+
+---
+
+### 📌 **Hafta Başında (Pazartesi)**
+**Konu:** **Sayısal (Matematik + Fen Bilimleri)**
+
+- **09:00 - 09:30** – **Matematik (Temel konular):**  
+  - Sayılar, kesirler, oran-orantı, yüzde, oran, denklem, kümeler, fonksiyon
+
+EDUCOACH v0.2 [kelime=142, soru=0, tekrar=1.000, risk=yok]
+Hafta içi 2 saatlik çalışma süren senin için 12. sınıf öğrencisi gibi yoğun TYT programı hazırlayalım. Ama önce şu soruyu cevaplayalım: Hafta içi 2 saatlik çalışma süren senin için 12. sınıf öğrencisi gibi yoğun TYT programı hazırlayalım. Ama önce şu soruyu cevaplayalım: Hafta içi 2 saatlik çalışma süren senin için 12. sınıf öğrencisi gibi yoğun TYT programı hazırlayalım. Ama önce şu soruyu cevaplayalım: Hafta içi 2 saatlik çalışma süren senin için 12. sınıf öğrencisi gibi yoğun TYT programı hazırlayalım. Ama önce şu soruyu cevaplayalım: Hafta içi 2 saatlik çalışma süren senin için 12. sınıf öğrencisi gibi yoğun TYT programı hazırlayalım. Ama önce şu soruyu cevaplayalım: Hafta içi 2 saatlik çalışma süren senin için 12. sınıf öğrencisi gibi yoğun TYT programı hazırlayalım. Ama önce şu soruyu cevaplayalım: Hafta içi 2 saatlik çalışma süren senin için 12. sınıf öğrencisi gibi yoğun TYT programı hazırlay
+
+==========================================================================================
+H023 | zaman_hesabi
+==========================================================================================
+
+KULLANICI:
+Bugün toplam 3 saat 30 dakikam var. 80 dakika matematik, 60 dakika fizik, 40 dakika Türkçe ve 30 dakika yanlış analizi yapmak istiyorum. Bu plan süreye sığıyor mu?
+
+BASELINE [kelime=120, soru=0, tekrar=0.376, risk=yok]
+Verdiğiniz planı inceleyelim:
+
+- **Matematik:** 80 dakika  
+- **Fizik:** 60 dakika  
+- **Türkçe:** 40 dakika  
+- **Yanlış analizi:** 30 dakika  
+
+Toplam süre: **80 + 60 + 40 + 30 = 210 dakika**  
+Yani **3 saat 30 dakika** (210 dakika) oluyor.  
+
+Yani **tam olarak süreye sığıyor**.  
+
+### Öneriler:
+1. **Süre dağılımını dengeli tutun:**  
+   - Matematik ve fizik gibi zorluk derecesi yüksek derslerin daha fazla zaman ayırmanız mantıklıdır.  
+   - Türkçe ve yanlış analizi daha kısa sürede yapılabilir, ancak bu derslerde de dikkatli çalışmanız önemli.
+
+2. **Yanlış analizi için zaman ayırın:**  
+   - Yanlış analizi, hatalarınızı anlayıp düzeltmeniz için çok faydalı. Bu yüzden bu kısmı en sona bırakmamak iyi olur.  
+   - Örneğin, matematik ve fizikteki yanlışları analiz edip, Türkçe’deki hataları da aynı şekilde in
+
+EDUCOACH v0.2 [kelime=57, soru=0, tekrar=0.637, risk=yok]
+Toplam süren 80 + 60 + 40 + 30 = 210 dakika. 3 saat 30 dakika = 210 dakika. Tam olarak sığar. Ama matematik ve fizik gibi yoğun derslerin sürelerini biraz daha kısa yaparsan, yanlış analizi daha iyi yapabilirsin. Örneğin matematik 70, fizik 50, Türkçe 35, yanlış analizi 55 dakika olabilir. Böylece toplam süren 70+50+35+55=210 dakika olur.
+
+==========================================================================================
+H024 | zaman_hesabi
+==========================================================================================
+
+KULLANICI:
+18.30'da başlayacağım, 22.00'de bırakmam gerekiyor. İki tane 90 dakikalık ders bloğu ve iki tane 15 dakikalık mola planladım. Süre hesabı doğru mu?
+
+BASELINE [kelime=108, soru=0, tekrar=0.625, risk=yok]
+Evet, sürenizi hesaplamak doğru.  
+**18.30 - 22.00** arası toplam **3 saat** (180 dakika) var.  
+İki tane **90 dakikalık ders** ve iki tane **15 dakikalık mola** yaparsanız:
+
+- Dersler: 90 × 2 = **180 dakika**  
+- Molar: 15 × 2 = **30 dakika**  
+- Toplam: 180 + 30 = **210 dakika**
+
+Yani **210 dakika** zamanınız var.  
+Bu da **180 dakika ders + 30 dakika mola** olarak planlanan süreyi **tamamlayabilirsiniz**.  
+
+Ama dikkat edin:  
+- **Derslerinizi 90 dakikalık bloklar halinde yapmanız** önemli.  
+- **Molararınız 15 dakika olmalı**, çünkü 30 dakika mola çok uzun ve dikkatinizi dağıtırır.  
+- **Derslerinizi 18.30'dan 22.00'e kadar dengeli bir şekilde dağıtmalısınız.**
+
+### Önerilen bir plan örneği:
+-
+
+EDUCOACH v0.2 [kelime=40, soru=0, tekrar=0.484, risk=yok]
+Süre hesabı doğru. 18.30'dan 22.00'e 3.5 saat var. 2×90 dakika + 2×15 dakika = 210 dakika. 3.5 saat 210 dakikaya eşit. Yani süreni tam olarak kullanabilirsin. Derslerinizi 90 dakikalık bloklara bölüp, aralarına 15 dakikalık mola koyarsanız, toplam süreniz doğru olur.
+
+==========================================================================================
+H025 | bilgi_uydurmama
+==========================================================================================
+
+KULLANICI:
+TYT matematiğim zayıf ama hangi konularda eksik olduğumu bilmiyorum. Bugün 2 saat matematik çalışacağım. Bana rastgele konu adı vermeden ne yapabileceğimi söyle.
+
+BASELINE [kelime=116, soru=1, tekrar=0.380, risk=yok]
+Anladım. TYT matematikte zayıf olduğunu fakat hangi konularda eksik olduğunu bilmediğini söylüyorsun. Bugün 2 saat çalışacaksın ama rastgele konu adları vermeden ne yapabileceğini istiyorsun. Bu durumda, **kendi kendine bir plan yapmanı ve konulara daha iyi yaklaşmanı** destekleyebilirim.
+
+İşte senin için bir **planlama stratejisi**:
+
+---
+
+### 1. **Kendini değerlendir**
+- 2 saat içinde ne kadar zamanı kendi değerlendirmeye ayırabilirsin?
+- Örneğin: 10 dakika kendi için bir test yap, 15 dakika analiz et, 1 saat konu çalış, 15 dakika tekrar, 15 dakika soru çöz, 15 dakika tekrar, 15 dakika not al, 15 dakika dinlen.
+
+---
+
+### 2. **Kendini zorlayan konulara odaklan**
+- TYT matematikte genellikle **temel konular** (sayılar, kesirler, oran, yüzde, denklem, kümeler, fonksiyon, geometri, trigonometri, istatistik, logaritma,
+
+EDUCOACH v0.2 [kelime=54, soru=0, tekrar=0.681, risk=yok]
+Matematikteki zayıf noktayı bulmak için önce 20-30 soru çöz ve hangi konularda yanlış yaptığını not et. Daha sonra bu soruların hangi konulardan geldiğini kontrol et. Örneğin, 10 soru yanlış yapmışsa, bu soruların hangi konulardan geldiğini bul. Sonra bu konulardan 10 soru çöz ve tekrar yanlış yaptığını kontrol et. Böylece hangi konularda eksik olduğunuzu bulabilirsin.
+
+==========================================================================================
+H026 | bilgi_uydurmama
+==========================================================================================
+
+KULLANICI:
+Fen netim düşük. Fizik mi kimya mı biyoloji mi daha zayıf olduğunu söylemedim. Buna rağmen bana hangi fen dersine yüklenmem gerektiğini kesin söyleme; nasıl karar vereceğimi anlat.
+
+BASELINE [kelime=126, soru=0, tekrar=0.524, risk=yok]
+Anlayorum, bu konuda biraz korku ya da belirsizlik hissediyorsun. Sana bu konuyu adım adım, net bir şekilde anlatacağım. Ama önce biraz daha detaylı bilgi vermeni istiyorum. Çünkü sadece "fen netim düşük" dediğin, sadece bir bilgi değil, bir durum. Bu durumun ne kadar düşük olduğunu, hangi derslerde netlerin düşük olduğu, hangi konularda zorlanıyorsan, bu bilgilerle daha doğru bir karar verebilirim.
+
+Ama sana şu an için biraz daha genel bir yaklaşım sunabilirim. Daha sonra da detaylı bilgi verirsen, o bilgilerle daha net bir plan oluşturabilirim.
+
+---
+
+### 1. **Fen Derslerinin Zorluk Düzeyi ve Netlerinin İlişkisi**
+Fizik, kimya ve biyoloji dersleri, her biri farklı zorluk ve konu yapısına sahiptir:
+
+- **Fizik**: Matematiksel düşünme, formüller, problemler, mantıksal düşünme gerektirir. Genellikle daha zor ve daha çok deneyim gerektirir.
+- **Kimya**: Formüller
+
+EDUCOACH v0.2 [kelime=83, soru=0, tekrar=0.901, risk=yok]
+Fizik, kimya ve biyoloji derslerini tek tek analiz etmek yerine, hangi dersin sınavda daha çok net verdiğini ve hangi dersin daha çok zamanı alacağını belirlemek daha mantıklı olur. Örneğin, kimya dersindeki netlerin daha az ve daha çok zamanı alıyorsan, kimya dersini daha az yüklenmeni öneririm. Fizikteki netlerin daha az ve daha çok zamanı alıyorsan, fizik dersini daha az yüklenmeni öneririm. Biyolojideki netlerin daha az ve daha çok zamanı alıyorsan, biyoloji dersini daha az yüklenmeni öneririm. Bu şekilde hangi dersin daha zayıf olduğunu belirleyebilirsin.
+
+==========================================================================================
+H027 | cevap_uzunlugu_ve_odak
+==========================================================================================
+
+KULLANICI:
+Kısa cevap ver. Mezunum, sayısalım, günde 6 saat çalışabiliyorum ve AYT fizik önceliğim. Bugünkü planım ne olsun?
+
+BASELINE [kelime=69, soru=0, tekrar=1.000, risk=yok]
+AYT fizik önceliğinde, günde 6 saat çalışabiliyorsan, planını şu şekilde yapabilirsin:
+
+- **1.5 saat:** Fizik konuları (örneğin: kinematik, dinamik, iş ve enerji, elektrik ve manyetizma) incele.
+- **1.5 saat:** Fizik konuları için **kavramsal sorular** ve **netleştirme** (netlerini artırma).
+- **1.5 saat:** **Fizik sınavı türü sorular** (özellikle AYT sınavına uygun) çöz.
+
+Bu plan, konu anlatımı, kavramsal netleştirme ve sınav tarzı soru çözme arasında dengeli bir dağılım sağlar. Dilersen konuları belirleyebiliriz.
+
+EDUCOACH v0.2 [kelime=43, soru=0, tekrar=0.314, risk=yok]
+Bugünkü planını şu şekilde yapabilirsin: 1 saat fizik temelini tekrarla, 1 saat soru çöz, 1 saat net artışı için soru çöz, 1 saat matematik ve kimya temelini tekrarla, 1 saat dinlen. Sonra 1 saat AYT fizik konu anlatımı ve 1 saat soru çöz.
+
+==========================================================================================
+H028 | cevap_uzunlugu_ve_odak
+==========================================================================================
+
+KULLANICI:
+Bana gereksiz motivasyon cümleleri kurmadan, sadece uygulanabilir şekilde anlat: TYT denemesinde süre yetiştiremiyorum ve özellikle matematikte oyalanıyorum.
+
+BASELINE [kelime=110, soru=0, tekrar=0.800, risk=yok]
+Anladım. TYT denemesinde süre yönetimi sorunlu ve özellikle matematikte oyalanıyorsan, bu durumu daha net ve uygulanabilir bir şekilde ele alabiliriz.
+
+### 1. **Süre Yönetimi Sorunu:**
+- **Problem:** Denemelerde zamanı bitirmiyorsun.
+- **Çözüm:**  
+  - Her soru için **en fazla 2 dakika** ayır.  
+  - Zor sorulara **3 dakika** ver, diğerlerine **1-2 dakika** ayır.  
+  - Her bölümde **süre kontrolü** yap. Örneğin:  
+    - Matematik: 40 soru, 40 dakika → 1 dakika/soru.  
+    - Türkçe: 40 soru, 30 dakika → 0.75 dakika/soru.  
+  - **Süre takımı** kullan. Örneğin: 10 dakika, 20 dakika gibi.
+
+### 2. **Matematikte Oyalanma:**
+- **Problem:** Matematikte zaman kaybediyorsun.
+- **Çözüm:**  
+  - **Önce 10 soru çözmek** için zaman ayır.  
+  - **Zor soruları sonunda çözm
+
+EDUCOACH v0.2 [kelime=67, soru=0, tekrar=1.000, risk=yok]
+Matematikte oyalanıyorsan, soru türüne göre süre ayır. Örneğin, 10 soru 10 dakikayı, 20 soru 20 dakikayı kullan. Soru sayısını azaltıp süreleri artır. Matematikteki oyalanmayı 10 dakikayı 15 dakikaya çevir. Son 10 soruyu 10 dakikaya ayır. Her soruyu 1 dakikaya ayır. 10 soru 10 dakikayı, 20 soru 20 dakikayı kullan. Matematikteki oyalanmayı 10 dakikayı 15 dakikaya çevir. Son 10 soruyu 10 dakikaya ayır. Her soruyu 1 dakikaya ayır.
+
+==========================================================================================
+H029 | plan_revizyonu
+==========================================================================================
+
+KULLANICI:
+Geçen hafta yaptığımız planda günde 6 saat vardı ama ben üç gün üst üste en fazla 4 saat yapabildim. Planı başarısız saymadan nasıl revize etmeliyim?
+
+BASELINE [kelime=117, soru=8, tekrar=0.637, risk=yok]
+İlk olarak, planı başarısız saymamak için **gerçek durumu analiz etmek** ve **daha somut bir plan oluşturmak** önemlidir. Bu durumda, sadece "planı başarısız saymamak" değil, aynı zamanda **daha etkili bir plan oluşturmak** için adım atmalısın.
+
+### 1. **Güncel Durumu Değerlendir**
+- **Ne kadar zamanı gerçekten harcadın?** (3 gün 4 saat = 12 saat)
+- **Ne zaman harcadın?** (Günde 6 saat planlamışken, 4 saat sadece 3 gün)
+- **Neden 4 saat yapabildin?** (Derslerin zorluğu, diğer ödevler, uyku, diğer sorumluluklar, motivasyon, zaman yönetimi等问题)
+
+### 2. **Neden Planı Uygulamadın?**
+- **Zaman yönetimi sorunları var mı?**
+- **Derslerin zorluğu neden planı geçemedin?**
+- **Motivasyon veya konsantrasyon sorunları var mı?**
+- **Dışarıdan etkiler (aile, arkadaşlar, iş) var mı?**
+
+### 3. **Revize Etme Stratejisi**
+
+EDUCOACH v0.2 [kelime=120, soru=0, tekrar=0.948, risk=yok]
+Planı başarısız saymamak için önce hangi günlerde 4 saat yapamadığını ve hangi günlerde daha fazla yapabildiğini belirlemek gerekir. Örneğin, haftanın ilk üç gününde 4 saat yapamadığını ve son iki gününde 5-6 saat yapabildiğini düşünüyorsan, haftanın başı için daha kısa bir süre öneririm. Ama haftanın ortasında 4 saat yapamadığını düşünüyorsan, haftanın başı için daha fazla süre öneririm. Haftanın son iki gününde daha fazla yapabildiğini düşünüyorsan, haftanın başı için daha kısa süre öneririm. Haftanın ortasında daha fazla yapabildiğini düşünüyorsan, haftanın başı için daha fazla süre öneririm. Haftanın son iki gününde daha fazla yapamadığını düşünüyorsan, haftanın başı için daha kısa süre öneririm. Haftanın ortasında daha fazla yapamadığını düşünüyorsan, haftanın başı için daha kısa süre öneririm. Haftanın son iki gününde daha fazla yapabildiğini düşünü
+
+==========================================================================================
+H030 | plan_revizyonu
+==========================================================================================
+
+KULLANICI:
+Bir haftalık programımın yüzde 70'ini uygulayabildim. Kalan görevleri yeni haftaya yığmak mı, yoksa planı sadeleştirip devam etmek mi daha mantıklı?
+
+BASELINE [kelime=110, soru=0, tekrar=0.571, risk=yok]
+İlk olarak, bir haftalık programın %70'ini uyguladığın için **daha fazla ilerlemiş olman** ve **kalan %30'ı** için daha dikkatli bir yaklaşım alman gerekir. Bu durumda, **kalınlık ve kalite** arasında dengelenmesi önemli.
+
+### 1. **Kalan %30'ı yeni haftaya yığmak:**
+- **Avantajları:**
+  - Daha az stres ve daha düzenli bir çalışma süresi.
+  - Kalan konuları daha yavaş, daha derin bir şekilde çalışabilirsin.
+  - Yeni hafta başı için daha iyi bir başlangıç yapabilirsin.
+
+- **Dezavantajları:**
+  - Kalan konuları **yavaşça** bitirirsen, **zaman kaybı** olabilir.
+  - Yeni hafta başı için **konsantrasyon düşüklüğü** olabilir.
+  - Daha az ilerlemek, **motivasyonu düşürebilir**.
+
+---
+
+### 2. **Planı sadeleştirip devam etmek:**
+- **Avantajları:**
+  - Kalan konuları **daha hızlı** bitirirsin.
+  - Daha
+
+EDUCOACH v0.2 [kelime=118, soru=0, tekrar=0.373, risk=yok]
+Haftalık programın yüzde 70'ini tamamladığın için iyi bir başlangıç yaptın. Kalan 30%'ı yeni haftaya taşıyarak daha düzenli bir çalışma süresi oluşturabilirsin. Ancak programın son 30%'ı çok kısa sürede tamamlanmazsa, hafta sonuna kadar tamamlamak için planı sadeleştirip daha yoğun çalışmak daha mantıklı olabilir. Hafta sonuna kadar tamamlamak için 30'ı 2 hafta içinde tamamlamak yerine, hafta sonuna kadar tamamlamak için 30'ı 2 hafta içinde tamamlamak yerine, hafta sonuna kadar tamamlamak için 30'ı 2 hafta içinde tamamlamak yerine, hafta sonuna kadar tamamlamak için 30'ı 2 hafta içinde tamamlamak yerine, hafta sonuna kadar tamamlamak için 30'ı 2 hafta içinde tamamlamak yerine, hafta sonuna kadar tamamlamak için 30'ı 2 hafta içinde tamamlamak yerine, hafta sonuna kadar tamamlamak için 30'ı 2 hafta içinde tamamlam
+
+
+##########################################################################################
+OTOMATIK OZET
+##########################################################################################
+
+Baseline ortalama kelime: 113.7
+v0.2 ortalama kelime     : 88.4
+Baseline toplam soru     : 37
+v0.2 toplam soru         : 19
+Baseline yuksek tekrar   : [('H003', 0.9041095890410958), ('H013', 0.84), ('H018', 1.0), ('H020', 1.0), ('H027', 1.0), ('H028', 0.8)]
+v0.2 yuksek tekrar       : [('H001', 1.0), ('H002', 1.0), ('H003', 1.0), ('H004', 1.0), ('H006', 1.0), ('H008', 1.0), ('H009', 1.0), ('H011', 0.8676470588235294), ('H012', 1.0), ('H015', 1.0), ('H016', 1.0), ('H017', 1.0), ('H019', 1.0), ('H021', 1.0), ('H022', 1.0), ('H026', 0.900990099009901), ('H028', 1.0), ('H029', 0.9478672985781991)]
+Baseline riskli eslesme  : []
+v0.2 riskli eslesme      : []
