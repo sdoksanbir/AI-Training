@@ -1,0 +1,145 @@
+====================================================================================================
+H001 - bilgiyi_dogru_kullanma
+KULLANICI: 12. sınıf sayısal öğrencisiyim. TYT 74 civarı geliyor. Hafta içi okuldan sonra 2,5 saat çalışabiliyorum. Cumartesi 6 saatim boş. Bana haftalık bir başlangıç düzeni çıkar ama verdiğim bilgileri tekrar sorma.
+
+V02 NORMAL:
+Hafta içi 2,5 saatlik çalışma süreni TYT ve AYT derslerine bölerek başlayalım. Cumartesi 6 saatimde AYT ve TYT denemeleri yapmaya çalışalım. Hafta sonu deneme sonuçlarını ve yanlış analizini kontrol edelim. İlk hafta TYT ve AYT derslerini 1,5 saatlik bloklarla yapmaya çalışalım. Hafta sonu deneme sonuçlarını ve yanlış analizini kontrol edelim.
+
+REP105:
+Hafta içi 2,5 saatlik çalışma süreni TYT matematik ve Türkçe’ye ayırıp AYT’ye geçiş için 3-4 hafta süre verelim. Cumartesi 6 saatin 2’sini TYT’ye, 2’sini AYT’ye, 1-2 saatin de günlük çalışma planını takip etmek için kullanalım. Hafta sonu denemeleri ve hafta başı hedeflerini düzenleyelim.
+
+====================================================================================================
+H003 - yks_terminolojisi
+KULLANICI: TYT 84 net, AYT 46 net yapıyorum. Toplam 130 puanım var diyebilir miyim?
+
+V02 NORMAL:
+TYT ve AYT netlerini toplam puan olarak kullanmak doğru olmaz. TYT 84 net, AYT 46 net ve toplam 130 puan gibi bir ifade yanlış olur çünkü TYT ve AYT puanları farklı sistemlerde hesaplanır. TYT netlerini AYT netlerine dönüştürmek için TYT netlerini 100'e böler ve AYT netlerini 100'e böler, ardından toplam puanı hesaplayabilirsin. TYT 84 net, AYT 46 net ve toplam 130 puan gibi bir ifade yanlış olur çünkü TYT ve AYT puanları farklı sistemlerde hesaplanır. TYT netlerini AYT netlerine dönüştürmek için TYT netlerini 100'e böler ve AYT netlerini 100'e böler, ardından toplam puanı hesaplayabilirsin.
+
+REP105:
+Toplam puanı hesaplamak için TYT ve AYT netlerini doğru şekilde kullanmalıyız. TYT 84 net, AYT 46 net ise toplam puan 130 olur. Ancak bu puanı doğrudan YKS puanına çevirmek için TYT ve AYT netlerini doğru formatta kullanmalıyız. TYT netlerini 250 üzerinden, AYT netlerini 500 üzerinden hesaplayalım. Sonuç olarak TYT 84 net = 84/250 = 0.336, AYT 46 net = 46/500 = 0.092. Toplam puan 0.336 + 0.092 = 0.428. Bu puanı YKS puanına çevirmek için 0.428 * 100 = 42.8. Yani TYT 84 net ve AYT 46 net ile toplam puan 42.8 olur. Bu durumda 130 puanı doğrudan söylemek yanlış olur. Toplam puanı doğru şekilde hesaplamak için TYT ve AYT netlerini doğru formatta kullanmalıyız.
+
+====================================================================================================
+H004 - yks_terminolojisi
+KULLANICI: Sayısal öğrencisiyim. TYT netim yükseldi ama aynı net artışı sıralamama neden birebir yansımıyor?
+
+V02 NORMAL:
+TYT netlerinin artması sıralamada doğrudan yansımayabilir. TYT neti arttıysan, AYT'de daha yüksek netler alman gerekiyor. TYT neti artışı sıralamada doğrudan yansımayabilir. TYT neti arttıysan, AYT'de daha yüksek netler alman gerekiyor. TYT neti artışı sıralamada doğrudan yansımayabilir. TYT neti arttıysan, AYT'de daha yüksek netler alman gerekiyor. TYT neti artışı sıralamada doğrudan yansımayabilir. TYT neti arttıysan, AYT'de daha yüksek netler alman gerekiyor. TYT neti artışı sıralamada doğrudan yansımayabilir. TYT neti arttıysan, AYT'de daha yüksek neter alman gerekiyor. TYT neti artışı sıralamada doğrudan yansımayabilir. TYT neti arttıysan, AYT'de daha yüksek netler alman gerekiyor. TYT neti artışı sıralamada doğrudan yansımayabilir. TYT neti arttıysan, AYT'de daha yüksek netler alman gerekiyor. TYT neti artışı sıralamada doğrudan yansımayabilir. TYT
+
+REP105:
+TYT netlerindeki artışın sıralamaya yansımadığını düşünmek doğru ama bu durumun tam anlamıyla birlikte değerlendirilmesi gerekir. TYT netlerindeki artışın sıralamaya yansımadığını düşündüğünde, AYT'de daha yüksek netler alıp AYT netlerinin sıralamayı daha çok etkilediğini düşünmeni öneririm. AYT'de hangi derslerde daha fazla net alıyorsun?
+
+====================================================================================================
+H009 - erteleme_ve_surdurulebilirlik
+KULLANICI: Pazartesi çok iyi başlıyorum, salı da çalışıyorum ama çarşamba aksarsa haftanın geri kalanını tamamen bırakıyorum. Bu döngüyü nasıl kırarım?
+
+V02 NORMAL:
+Çarşamba gününe aksama durumunu daha önce fark etmek için haftanın ilk üç gününü daha dikkatli izlemeye başlayalım. Pazartesi ve salı çalışmalarını günlük bir ders planına yerleştirirsek, çarşamba gününe aksamı daha hızlı fark edebiliriz. Haftanın ilk üç gününde her gün 20-30 dakika daha kısa bir çalışma bloğu ekleyelim. Böylece çarşamba gününe aksamı daha hızlı fark edebiliriz. Haftanın ilk üç gününde her gün 20-30 dakika daha kısa bir çalışma bloğu ekleyelim. Böylece çarşamba gününe aksamı daha hızlı fark edebiliriz.
+
+REP105:
+Çarşamba gününe aksama durumunu kontrol etmek için haftanın ilk üç gününü tamamen çalışmak yerine haftanın son üç gününü tamamen bırakmak yerine haftanın her gününü tamamen çalışmak yerine haftanın her gününü tamamen çalışmak yerine haftanın her gününü tamamen çalışmak yerine haftanın her gününü tamamen çalışmak yerine haftanın her gününü tamamen çalışmak yerine haftanın her gününü tamamen çalışmak yerine haftanın her gününü tamamen çalışmak yerine haftanın her gününü tamamen çalışmak yerine haftanın her gününü tamamen çalışmak yerine haftanın her gününü tamamen çalışmak yerine haftanın her gününü tamamen çalışmak yerine haftanın her gününü tamamen çalışmak yerine haftanın her gününü tamamen çalışmak yerine haftanın her gününü tamamen çalışmak yerine haftanın her gününü tamamen çalışmak yerine haftanın her gününü tamamen çalışmak yerine haftanın her gününü tamamen çalışmak yerine haftanın her gününü tamamen çalışmak yerine haftanın her gününü tamamen çalışmak yerine haftanın her gününü tamamen
+
+====================================================================================================
+H011 - sabirsiz_ogrenci
+KULLANICI: Bana uzun uzun soru sorma. Sayısalım, TYT 67, günde 4 saatim var. Bugünden başlayabileceğim bir düzen söyle.
+
+V02 NORMAL:
+Günde 4 saatim var, TYT 67, sayısalım. Bugünden başlayabileceğim bir düzen söyle.
+
+REP105:
+Günde 4 saatim var, TYT 67, sayısalım. Bugünden başlayabileceğim bir düzen söyle.
+
+====================================================================================================
+H016 - hedef_gercekciligi
+KULLANICI: İki haftada 20 net artırmam gerekiyor. Bunun için her gün 10 saat çalışırsam kesin olur mu?
+
+V02 NORMAL:
+İki haftada 20 net artmak için 10 saat çalışmak kesin olmayabilir. Bu süre, çalışma kalitesini ve hedefin gerçekçi olup olmadığını etkiler. Örneğin, 10 saatlik çalışma süresi içinde yanlışları analiz etmek, deneme sonuçlarını değerlendirmek ve düzenli olarak tekrar yapmak önemli olabilir. Ayrıca, çalışma sürenin dağılımı ve hangi konularda yoğunlaşmak gerekiyor da dikkate alınmalıdır.
+
+REP105:
+İki haftada 20 net artmak için 10 saat günlük çalışma yeterli olabilir, ama bu süredeki performans değişikliklerini kontrol etmenin önemini unutmamalıyız. İlk olarak şu soruyu cevaplayalım: 10 saatlik çalışma sürenin hangi derslerde ve hangi sürelerde geçiyor? Her gün aynı dersleri çalışmak yerine, en çok net kazandığın dersleri ve en az net kazandığın dersleri nasıl dağıtmıyorsun?
+
+====================================================================================================
+H017 - okul_dershane_dengesi
+KULLANICI: 12. sınıfım. Pazartesi, salı ve perşembe dershanem var. Diğer günlerde okuldan sonra 3 saat boşum. Dershane ödevleri de çok fazla. Kendi eksiklerime nasıl zaman ayırırım?
+
+V02 NORMAL:
+Dershane ve okuldan sonra 3 saat boş zamanın çoğu dershanenin ödevlerine harcanıyor. Bu durumda ödevlerin tamamını yapmak yerine öncelikli eksiklerini ve dershanenin ödevlerini birlikte değerlendirelim. Öğrenme süreni 3 saat olarak sınırlamak yerine, ödevlerin tamamlanma süresini ve dershanenin ödevlerinin hangi konularda yoğun olduğunu belirleyelim. Sonra dershanenin ödevlerini öncelikli eksiklerin dışında bırakmamızı ve ödevlerin tamamlanma süresini daha kısa yapmamızı deneyelim.
+
+REP105:
+Dershane ve okuldan sonra 3 saat boş zamanın çoğu dershanenin ödevlerine harcanıyor. Bu durumda ödevlerin yanında kendinizi geliştirmek için kısa ve yoğun çalışmalar yapmak daha mantıklı olur. Örneğin, her hafta bir gün dershanenin ödevini tamamladıktan sonra 1-2 saat TYT veya AYT matematik ve Türkçe soruları çözerek kendinizi geliştirebilirsin. Diğer günlerde dershanenin ödevini tamamladıktan sonra 1-2 saat TYT veya AYT denemesi yapabilirsin. Böylece hem dershanenin ödevlerini hem de kendinizi geliştirmeyi dengeleyebilirsin.
+
+====================================================================================================
+H019 - sinava_yakin_donem_ve_baski
+KULLANICI: YKS'ye 9 gün kaldı. Son denemem kötü geldi. Yeni bir çalışma kampına başlayıp gece 2'ye kadar çalışmayı düşünüyorum.
+
+V02 NORMAL:
+Gece 2'ye kadar çalışmak için 9 günün yeterli olup olmadığını düşünmek yerine, şu anda ne kadar süre çalışabileceğin ve hangi günleri daha yoğun kullanabileceğini belirleyelim. Son denemede hangi derslerde daha çok yanlış yaptın?
+
+REP105:
+Gece 2'ye kadar çalışmak çok fazla olur. 10-12 saatlik yoğun çalışma süresi, özellikle TYT ve AYT’deki soru sayıları ve süre kısıtlamalarına göre çok yüksektir. Bu yüzden 1-2 saatlik yoğun çalışma bloğu ve ardından kısa dinlenme aralığı öneririm. Gece 2'ye kadar çalışmak, özellikle AYT’deki soru sayısı ve süre kısıtlamasına göre çok fazla olur. 10-12 saatlik yoğun çalışma süresi, özellikle TYT ve AYT’deki soru sayıları ve süre kısıtlamalarına göre çok yüksektir. Bu yüzden 1-2 saatlik yoğun çalışma bloğu ve ardından kısa dinlenme aralığı öneririm.
+
+====================================================================================================
+H022 - kontrollu_cikarim
+KULLANICI: 11. sınıfım, sayısalım ve okul derslerimi güçlü tutmak istiyorum. Hafta içi 2 saatim var. Bana 12. sınıf öğrencisiymişim gibi yoğun TYT programı verme.
+
+V02 NORMAL:
+Hafta içi 2 saatim varsa, TYT'ye yoğun çalışma değil, TYT'ye uyumlu çalışma planı oluşturuyorum. 12. sınıf öğrencisi gibi yoğun çalışma değil, 11. sınıfın TYT hazırlığına uyumlu bir program. Hafta içi 2 saatimde TYT'ye uyumlu çalışma ve derslerimdeki zayıf alanları güçlendirmek. Hafta içi 2 saatimde TYT'ye uyumlu çalışma ve derslerimdeki zayıf alanları güçlendirmek. Hafta içi 2 saatimde TYT'ye uyumlu çalışma ve derslerimdeki zayıf alanları güçlendirmek. Hafta içi 2 saatimde TYT'ye uyumlu çalışma ve derslerimdeki zayıf alanları güçlendirmek. Hafta içi 2 saatimde TYT'ye uyumlu çalışma ve derslerimdeki zayıf alanları güçlendirmek. Hafta içi 2 saatimde TYT'ye uyumlu çalışma ve derslerimdeki zayıf alanları güçlendirmek. Hafta içi 2 saatimde TYT'ye uyumlu çalışma ve ders
+
+REP105:
+Hafta içi 2 saatim varsa, TYT’ye yoğun çalışma değil, TYT’ye uyumlu çalışma planı oluşturuyorum. 12. sınıfa geçmeden önce TYT’ye uyumlu çalışma süresi ve yoğunlukla 11. sınıf derslerini de birlikte yönetmeye çalışıyorum. Hafta içi 2 saatimde TYT’ye uyumlu çalışma ve 11. sınıf derslerini kısa süreli olarak da işleyelim. Hafta sonu ise TYT’ye yoğun çalışma ve 11. sınıf derslerini kısa süreli olarak da işleyelim. Hafta içi 2 saatimde TYT’ye uyumlu çalışma ve 11. sınıf derslerini kısa süreli olarak da işleyelim. Hafta sonu ise TYT’ye yoğun çalışma ve 11. sınıf derslerini kısa süreli olarak da işleyelim. Hafta içi 2 saatimde TYT’ye uyumlu çalışma ve 11. sınıf derslerini kısa süreli olarak da işleyelim. Hafta sonu ise TYT’ye yoğun çalışma ve 11. sınıf derslerini kısa süreli olarak da işleyelim.
+
+====================================================================================================
+H023 - zaman_hesabi
+KULLANICI: Bugün toplam 3 saat 30 dakikam var. 80 dakika matematik, 60 dakika fizik, 40 dakika Türkçe ve 30 dakika yanlış analizi yapmak istiyorum. Bu plan süreye sığıyor mu?
+
+V02 NORMAL:
+Toplam süreni hesaplayalım: 80 + 60 + 40 + 30 = 210 dakika. 3 saat 30 dakika = 210 dakika. Tam olarak süreye sığar. Ancak bu süre dağılımına göre matematik ve fizikte daha fazla zaman ayırıyorsun. Bu durumda matematik ve fizikte daha yoğun çalışmayı tercih edebiliriz. Eğer bu süreleri düzenli olarak kullanıyorsan, hedefinizi ve günlük çalışma sürenizi kontrol etmeni öneririm.
+
+REP105:
+Toplam süreni hesaplayalım: 80 + 60 + 40 + 30 = 210 dakika. 3 saat 30 dakika (210 dakika) tam olarak eşit. Bu yüzden süreye sığacak. Ancak her dersin süre dağılımı önemli. Matematik ve fizik gibi yoğun derslerin sürelerini artırabilirsin. Örneğin matematik 90 dakika, fizik 50 dakika, Türkçe 40 dakika ve yanlış analizi 30 dakika yaparsan toplam 210 dakika olur. Böylece dersler arasında daha fazla değişiklik yapabilirsin.
+
+====================================================================================================
+H025 - bilgi_uydurmama
+KULLANICI: TYT matematiğim zayıf ama hangi konularda eksik olduğumu bilmiyorum. Bugün 2 saat matematik çalışacağım. Bana rastgele konu adı vermeden ne yapabileceğimi söyle.
+
+V02 NORMAL:
+Bugün matematik çalışırken önce TYT matematik sınavında en çok yanlış yaptığın konuyu bulman gerekir. Ama bu konuyu bilmiyorsan, önce geçmiş denemelerin yanlış analizini incele. Örneğin, 2022 ve 2023 TYT matematik sınavında hangi konularda en çok yanlış yapmış olursan, o konuları öncelikli hedefleyebilirsin. Eğer yanlış analizini yapamıyorsan, önce 2022 ve 2023 TYT matematik sınavında hangi konularda en çok yanlış yapmış olduğunu belirle. Sonra o konulara odaklan.
+
+REP105:
+Bugünkü matematik çalışmasında önce TYT matematik sınavının genel yapısını ve hangi konuların daha çok sorulduğunu gözden geçir. Son 3-5 yılın TYT matematik soru dağılımını incele. Hangi konulardan daha fazla soru gelmiş? Hangi konularda daha az soru var? Bu bilgiye göre hangi konularda daha çok zaman ayırmanı öneririm. Sonra TYT matematik sınavının genel yapısını ve hangi konuların daha çok sorulduğunu gözden geçir. Hangi konulardan daha fazla soru gelmiş? Hangi konularda daha az soru var? Bu bilgiye göre hangi konularda daha çok zaman ayırmanı öneririm. Sonra TYT matematik sınavının genel yapısını ve hangi konuların daha çok sorulduğunu gözden geçir. Hangi konulardan daha fazla soru gelmiş? Hangi konularda daha az soru var? Bu bilgiye göre hangi konularda daha çok zaman ayırmanı öneririm. Sonra TYT matematik sınavının genel yapısını ve hangi konuların daha çok sorulduğunu gözden geçir. Hangi konulardan daha fazla soru gelmiş? Hangi konularda daha az soru var
+
+====================================================================================================
+H026 - bilgi_uydurmama
+KULLANICI: Fen netim düşük. Fizik mi kimya mı biyoloji mi daha zayıf olduğunu söylemedim. Buna rağmen bana hangi fen dersine yüklenmem gerektiğini kesin söyleme; nasıl karar vereceğimi anlat.
+
+V02 NORMAL:
+Fizik, kimya ve biyoloji derslerini tek tek analiz etmek yerine, hangi dersin yanlış oranı yüksek olduğunu ve hangi dersin daha az zaman alacağını belirlemek daha mantıklı olur. Örneğin, kimya dersinde yanlış oranı yüksek ve soru sayısı azsa, daha fazla zaman ayırman gerekir. Fizikte yanlış oranı düşük ama soru sayısı fazla ise, daha az zaman ayırman yeterli olabilir. Biyolojiye göre daha az yanlış ve daha fazla soru varsa, daha az zaman ayırman yeterli olabilir. Bu şekilde hangi dersin daha zayıf olduğunu belirleyebilirsin.
+
+REP105:
+Fizik, kimya ve biyoloji derslerindeki netlerin farkını analiz etmek yerine, hangi dersin en çok yanlış yaptığını ve hangi konuyu en çok yanlış çözdüğünü belirlemek daha doğru olur. Örneğin, fizikteki yanlışların çoğu matematiksel hesaplamalardan kaynaklandığında, kimyada ise konu anlayışından, biyolojide ise soru türüne göre değişebilir. Bu durumda, yanlışların nedenini inceleyip hangi dersin daha zayıf olduğunu belirleyebiliriz. Sonuçta, hangi dersin daha zayıf olduğu değil, hangi konunun daha zayıf olduğu önemlidir.
+
+====================================================================================================
+H028 - cevap_uzunlugu_ve_odak
+KULLANICI: Bana gereksiz motivasyon cümleleri kurmadan, sadece uygulanabilir şekilde anlat: TYT denemesinde süre yetiştiremiyorum ve özellikle matematikte oyalanıyorum.
+
+V02 NORMAL:
+Matematikte süreyi yönetmek için şu adımları deneyelim:  
+1. Deneme sonrası matematikteki soruları 20 dakikada çözmeye çalış.  
+2. 10 dakikada çözemediğin soruları not et, deneme sonrası tekrar çözmeye çalış.  
+3. Deneme süresini 15 dakikaya indir, 10 dakikada çözemediklerini 20 dakikaya uzat.  
+4. Deneme sonrası matematikteki soruları 20 dakikada çözmeye çalış.  
+5. 10 dakikada çözemediğin soruları not et, deneme sonrası tekrar çözmeye çalış.  
+6. Deneme süresini 15 dakikaya indir, 10 dakikada çözemediklerini 20 dakikaya uzat.
+
+REP105:
+Matematikte süreyi yönetmek için şu adımı deneyelim: 10 soruyu 2 dakikada çözmeye çalış, yanlış olanları not et. Sonra 5 soruyu 3 dakikada çöz. Bu sürelerin doğru olup olmadığını deneme sonrası kontrol edelim. İlk denemede 10 soruyu 2 dakikada çözebilecek olursan, matematikteki süreyi 10-15 dakika daha az yapabiliriz.
+
+====================================================================================================
+H029 - plan_revizyonu
+KULLANICI: Geçen hafta yaptığımız planda günde 6 saat vardı ama ben üç gün üst üste en fazla 4 saat yapabildim. Planı başarısız saymadan nasıl revize etmeliyim?
+
+V02 NORMAL:
+Bu durumda planı tamamen başarısız saymamak yerine, hangi günlerde 4 saat yapamadığını ve hangi günlerde daha fazla çalıştığını belirlemek daha iyi olur. Örneğin, haftanın ilk üç gününde 4 saat yapamadığını ve son iki gününde daha fazla çalıştığını düşünüyorsan, haftanın başı için daha kısa bir çalışma süresi öneririz. Böylece daha düzenli ve sürdürülebilir bir çalışma düzeni elde edebiliriz. Haftanın başı için 4 saatlik bir çalışma süresi öneriyorum. Haftanın ortasında 5-6 saat çalışmayı denemek ve son iki gün için daha fazla çalışma süresi planlamak da iyi olur. Haftanın sonunda 4-5 saat çalışmayı denemek ve haftanın başı için daha kısa bir çalışma süresi önermek daha iyi olur. Haftanın sonunda 4-5 saat çalışmayı denemek ve haftanın başı için daha kısa bir çalışma süresi önermek daha iyi olur. Haftanın sonunda 4-5 saat çalışmayı denemek ve haftanın başı için daha kısa bir çalışma süresi
+
+REP105:
+Bu durumda planı tamamen başarısız saymak yerine, hangi günlerde 4 saat yapamadığını ve hangi günlerde daha fazla çalıştığını belirlemek daha faydalı olur. Örneğin, haftanın ilk üç gününde 4 saat yapamadığını ve son iki gününde daha fazla çalıştığını düşünüyorsan, haftanın başı için daha kısa bir süre öneririm. Böylece daha az baskı oluştururuz ve daha düzenli bir çalışma süresi elde ederiz. Haftanın son iki günü daha uzun süre çalışmak için daha fazla zaman ayırabiliriz. Bu şekilde hem planı daha esnek hale getiririz hem de daha düzenli bir çalışma süresi elde ederiz.
