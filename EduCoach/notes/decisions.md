@@ -220,6 +220,64 @@ Modelin başlangıç noktası ile eğitim sonrası durumu ölçülebilir biçimd
 
 **Tarih:** 22 Eylül 2026
 
+
+## D-013 — İlk QLoRA Pilot Eğitimi Sonucu
+
+Qwen/Qwen3-4B modeli Gold Dataset v0.3 içindeki 38 örnekle ilk kez QLoRA yöntemiyle eğitildi.
+
+Pilot eğitim ayarları:
+
+- 4-bit QLoRA
+- 3 epoch
+- learning rate: 0.0002
+- LoRA rank: 16
+- LoRA alpha: 32
+- BF16
+- RTX 5070 Ti 16 GB
+
+Eğitim teknik olarak başarıyla tamamlandı.
+
+Eğitim loss değeri yaklaşık olarak:
+
+3.049 → 1.74
+
+seviyesine düştü.
+
+Ancak aynı 20 benchmark senaryosu üzerinde yapılan eğitim öncesi ve eğitim sonrası karşılaştırmada model davranışının genel olarak iyileşmediği görüldü.
+
+Gözlenen başlıca problemler:
+
+- bazı cevaplarda tekrar döngülerinin oluşması
+- öğrencinin verdiği bilgiyi yanlış yorumlama
+- TYT net / puan kavramlarını karıştırma
+- temelsiz sonuç veya net artışı tahminleri
+- bazı senaryolarda plan üretmek yerine kullanıcının ifadesini tekrar etme
+- bazı benchmark örneklerinde eğitim öncesi modele göre daha kötü sonuç verme
+
+Karar:
+
+qwen3_4b_qlora_v01 adapterı silinmeyecek.
+
+Bu adapter, ilk pilot deney ve karşılaştırma referansı olarak korunacaktır.
+
+İkinci pilot eğitimde:
+
+- Gold Dataset büyütülecek
+- eğitim örneklerinin çeşitliliği artırılacak
+- tekrar eden cevap kalıpları azaltılacak
+- YKS terminolojisi daha güçlü biçimde temsil edilecek
+- çok turlu örneklerin oranı artırılacak
+- learning rate düşürülecek
+- epoch sayısı yeniden değerlendirilecek
+
+Amaç yalnızca training loss değerini düşürmek değil, sabit benchmark üzerinde ölçülebilir davranış gelişimi elde etmektir.
+
+
+
+
+
+
+
 ## Yeni Karar Ekleme Formatı
 
 Her önemli karar aşağıdaki formatta eklenmelidir:
@@ -235,3 +293,5 @@ Gerekçe:
 
 Tarih:
 ```
+
+

@@ -1,0 +1,83 @@
+EDUCOACH GOLD DATASET v0.4 PLANI
+
+MEVCUT:
+38 örnek
+28 tek turlu
+10 çok turlu
+
+HEDEF:
+120 örnek
+70 tek turlu
+50 çok turlu
+
+YENİ EKLENECEK:
+82 örnek
+42 tek turlu
+40 çok turlu
+
+
+KATEGORİ DAĞILIMI
+
+1. Bilgiyi doğru kullanma
+Mevcut: 1
+Yeni: 19
+Toplam hedef: 20
+
+2. YKS terminolojisi
+Mevcut: 2
+Yeni: 13
+Toplam hedef: 15
+
+3. Gerçekçi planlama
+Mevcut: 4
+Yeni: 11
+Toplam hedef: 15
+
+4. Süre yönetimi
+Mevcut: 3
+Yeni: 7
+Toplam hedef: 10
+
+5. Erteleme ve sürdürülebilirlik
+Mevcut: 7
+Yeni: 3
+Toplam hedef: 10
+
+6. Sabırsız öğrenci
+Mevcut: 3
+Yeni: 7
+Toplam hedef: 10
+
+7. Deneme ve yanlış analizi
+Mevcut: 4
+Yeni: 6
+Toplam hedef: 10
+
+8. Hedef gerçekçiliği
+Mevcut: 8
+Yeni: 2
+Toplam hedef: 10
+
+9. Okul / dershane / bireysel çalışma dengesi
+Mevcut: 1
+Yeni: 9
+Toplam hedef: 10
+
+10. Sınava yakın dönem / stres / aile baskısı
+Mevcut: 5
+Yeni: 5
+Toplam hedef: 10
+
+
+TEMEL KURALLAR
+
+- Benchmark soruları eğitim verisine birebir alınmayacak.
+- Aynı davranış farklı öğrenci senaryolarıyla öğretilecek.
+- Öğrencinin verdiği bilgi tekrar sorulmayacak.
+- Net, puan ve sıralama birbirine karıştırılmayacak.
+- Öğrencinin söylemediği eksik konu uydurulmayacak.
+- Temelsiz başarı garantisi verilmeyecek.
+- Cevaplar aynı kalıp ve uzunlukta olmayacak.
+- Kısa, orta ve detaylı cevaplar karışık kullanılacak.
+- Çok turlu örneklerde öğrenci bilgi verdikten sonra koç eyleme geçecek.
+- Aynı cümle yapıları tekrar tekrar kullanılmayacak.

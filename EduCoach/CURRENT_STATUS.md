@@ -158,30 +158,65 @@ Gold Dataset v0.1 ve v0.2 referans sürümleri korunmaktadır.
 
 ## Şu Anda Bulunduğumuz Aşama
 
-FAZ 3 — Baseline tamamlandı / İlk eğitim hazırlığı
+FAZ 4 — İlk QLoRA pilot eğitimi tamamlandı
 
-Qwen3-4B temel modeli 20 sabit YKS koçluk benchmark senaryosu üzerinde test edildi.
+Temel model:
 
-Eğitim öncesi baseline sonuçları kaydedildi:
+Qwen/Qwen3-4B
 
-evaluations/baseline/qwen3_4b_baseline_v0.1.jsonl
+Eğitim yöntemi:
 
-Baseline sonucunda temel modelde özellikle şu problemler görüldü:
+QLoRA 4-bit
 
-- YKS terminolojisini zaman zaman yanlış yorumlama
-- net ve puan kavramlarını karıştırma
-- öğrencinin verdiği bilgiyi zaman zaman yanlış anlama
-- yeterli bilgi varken tekrar soru sorma
-- öğrencinin belirtmediği eksik konuları varsayma
-- gerçekçi olmayan başarı veya gelişim tahminleri üretme
-- süre ve çalışma planı hesaplarında hata
-- Türkçe cevap tutarlılığının bozulması
+Eğitim verisi:
 
-Bu bulgular doğrultusunda:
+gold_v0.3.jsonl
+38 örnek
 
-- Core System Prompt güçlendirildi.
-- Gold Dataset v0.3 oluşturuldu.
-- Dataset 30 örnekten 38 örneğe çıkarıldı.
+Eğitim ayarları:
+
+- 3 epoch
+- learning rate: 0.0002
+- LoRA rank: 16
+- LoRA alpha: 32
+- max sequence length: 2048
+- BF16
+- RTX 5070 Ti 16 GB
+
+İlk eğitim başarıyla tamamlandı.
+
+Eğitim çıktısı:
+
+training/outputs/qwen3_4b_qlora_v01
+
+Eğitim sırasında loss yaklaşık olarak:
+
+3.049 → 1.74
+
+seviyesine düştü.
+
+Ancak eğitim sonrası benchmark sonuçları, davranış kalitesinin genel olarak iyileşmediğini gösterdi.
+
+Özellikle görülen problemler:
+
+- bazı cevaplarda tekrar döngüleri oluşması
+- YKS net / puan kavramlarının hâlâ karıştırılması
+- öğrencinin verdiği bilgiyi yanlış yorumlama
+- gereksiz veya hatalı varsayımlar
+- bazı senaryolarda eğitim öncesinden daha kötü cevap üretme
+- yeterli bilgi varken doğru eyleme geçememe
+- bazı cevaplarda plan yerine öğrencinin ifadesini tekrar etme
+
+Sonuç:
+
+İlk pilot eğitim teknik olarak başarılıdır ancak davranış kalitesi açısından başarılı kabul edilmemektedir.
+
+Mevcut qwen3_4b_qlora_v01 adapterı referans deney olarak korunacaktır.
+
+Bir sonraki hedef:
+
+Gold Dataset'i büyütmek ve ikinci pilot QLoRA eğitimini daha kontrollü ayarlarla yapmak.
+
 
 ## Sıradaki İş
 

@@ -286,7 +286,6 @@ def main() -> None:
 
     training_args = SFTConfig(
         output_dir=str(output_dir),
-        logging_dir=str(logging_dir),
 
         num_train_epochs=float(
             training_cfg["epochs"]
@@ -327,7 +326,7 @@ def main() -> None:
 
         lr_scheduler_type="cosine",
 
-        warmup_ratio=0.05,
+        warmup_steps=1,
 
         weight_decay=0.01,
 
