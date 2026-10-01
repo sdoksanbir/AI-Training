@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import argparse
 import json
 from pathlib import Path
 
@@ -22,7 +23,7 @@ from trl import SFTConfig, SFTTrainer
 SCRIPT_FILE = Path(__file__).resolve()
 PROJECT_ROOT = SCRIPT_FILE.parents[2]
 
-CONFIG_FILE = (
+DEFAULT_CONFIG_FILE = (
     PROJECT_ROOT
     / "training"
     / "configs"
@@ -30,17 +31,45 @@ CONFIG_FILE = (
 )
 
 
+def parse_args():
+    parser = argparse.ArgumentParser(
+        description="EduCoach QLoRA egitimi"
+    )
+
+    parser.add_argument(
+        "--config",
+        default=str(DEFAULT_CONFIG_FILE),
+        help="Kullanilacak YAML config dosyasi",
+    )
+
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Modeli yuklemeden config ve dataset kontrolu yap",
+    )
+
+    return parser.parse_args()
+
+def resolve_config_file(value: str) -> Path:
+    path = Path(value)
+
+    if not path.is_absolute():
+        path = PROJECT_ROOT / path
+
+    return path.resolve()
+
+
 # ---------------------------------------------------------
 # YARDIMCI FONKSIYONLAR
 # ---------------------------------------------------------
 
-def load_config() -> dict:
-    if not CONFIG_FILE.exists():
+def load_config(config_file: Path) -> dict:
+    if not config_file.exists():
         raise FileNotFoundError(
-            f"Ayar dosyasi bulunamadi: {CONFIG_FILE}"
+            f"Ayar dosyasi bulunamadi: {config_file}"
         )
 
-    with CONFIG_FILE.open("r", encoding="utf-8") as f:
+    with config_file.open("r", encoding="utf-8") as f:
         return yaml.safe_load(f)
 
 
@@ -48,13 +77,13 @@ def resolve_project_path(relative_path: str) -> Path:
     return PROJECT_ROOT / Path(relative_path)
 
 
-def check_environment() -> None:
+def check_environment(config_file: Path) -> None:
     print("=" * 60)
     print("EduCoach QLoRA Pilot Egitimi")
     print("=" * 60)
 
     print(f"Proje klasoru : {PROJECT_ROOT}")
-    print(f"Config dosyasi: {CONFIG_FILE}")
+    print(f"Config dosyasi: {config_file}")
 
     if not torch.cuda.is_available():
         raise RuntimeError(
@@ -137,9 +166,38 @@ def validate_dataset(dataset_file: Path, expected_count: int) -> None:
 # ---------------------------------------------------------
 
 def main() -> None:
-    config = load_config()
+    args = parse_args()
 
-    check_environment()
+    config_file = resolve_config_file(args.config)
+
+    config = load_config(config_file)
+
+    check_environment(config_file)
+
+    if args.dry_run:
+        dataset_cfg = config["dataset"]
+
+        dataset_file = resolve_project_path(
+            dataset_cfg["train_file"]
+        )
+
+        validate_dataset(
+            dataset_file,
+            dataset_cfg["total_examples"],
+        )
+
+        print("=" * 60)
+        print("DRY RUN BASARILI")
+        print("=" * 60)
+        print(f"Experiment : {config['project']['experiment']}")
+        print(f"Dataset    : {dataset_file}")
+        print(f"Ornek      : {dataset_cfg['total_examples']}")
+        print(f"Epoch      : {config['training']['epochs']}")
+        print(f"LR         : {config['training']['learning_rate']}")
+        print(f"Cikti      : {config['output']['directory']}")
+        print()
+
+        return
 
     model_cfg = config["model"]
     dataset_cfg = config["dataset"]

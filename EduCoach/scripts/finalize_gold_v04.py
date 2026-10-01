@@ -44,7 +44,9 @@ def validate_example(example, index):
     messages = example.get("messages")
 
     if not isinstance(messages, list) or not messages:
-        raise ValueError(f"Ornek {index}: messages eksik veya bos.")
+        raise ValueError(
+            f"Ornek {index}: messages eksik veya bos."
+        )
 
     for message_index, message in enumerate(messages, start=1):
         if not isinstance(message, dict):
@@ -66,39 +68,138 @@ def validate_example(example, index):
                 f"Ornek {index}, mesaj {message_index}: content bos."
             )
 
+    if messages[0].get("role") != "system":
+        raise ValueError(
+            f"Ornek {index}: ilk mesaj system degil."
+        )
+
     user_count = sum(
-        1 for message in messages if message.get("role") == "user"
+        1 for message in messages
+        if message.get("role") == "user"
     )
 
     assistant_count = sum(
-        1 for message in messages if message.get("role") == "assistant"
+        1 for message in messages
+        if message.get("role") == "assistant"
     )
 
     if user_count == 0:
-        raise ValueError(f"Ornek {index}: user mesaji yok.")
+        raise ValueError(
+            f"Ornek {index}: user mesaji yok."
+        )
 
     if assistant_count == 0:
-        raise ValueError(f"Ornek {index}: assistant mesaji yok.")
+        raise ValueError(
+            f"Ornek {index}: assistant mesaji yok."
+        )
 
 
 def conversation_type(example):
-    messages = example["messages"]
-
     user_count = sum(
-        1 for message in messages if message.get("role") == "user"
+        1
+        for message in example["messages"]
+        if message.get("role") == "user"
     )
 
-    return "multi_turn" if user_count > 1 else "single_turn"
+    return (
+        "multi_turn"
+        if user_count > 1
+        else "single_turn"
+    )
+
+
+def get_system_prompt(example):
+    for message in example["messages"]:
+        if message.get("role") == "system":
+            return message.get("content")
+
+    return None
+
+
+def validate_old_system_prompts(old_examples):
+    if not old_examples:
+        raise ValueError(
+            "Eski dataset bos."
+        )
+
+    first_system = get_system_prompt(
+        old_examples[0]
+    )
+
+    if not first_system:
+        raise ValueError(
+            "Ilk eski ornekte system mesaji bulunamadi."
+        )
+
+    for index, example in enumerate(
+        old_examples,
+        start=1,
+    ):
+        current_system = get_system_prompt(
+            example
+        )
+
+        if current_system != first_system:
+            raise ValueError(
+                f"Eski ornek {index}: system prompt farkli."
+            )
+
+    print("Eski system promptlari: OK")
+
+    return first_system
+
+
+def add_system_prompt(example, system_prompt):
+    messages = example["messages"]
+
+    if (
+        messages
+        and messages[0].get("role") == "system"
+    ):
+        return example
+
+    return {
+        **example,
+        "messages": [
+            {
+                "role": "system",
+                "content": system_prompt,
+            },
+            *messages,
+        ],
+    }
 
 
 def main():
-    old_examples = load_jsonl(SOURCE_FILE)
+    old_examples = load_jsonl(
+        SOURCE_FILE
+    )
 
+    system_prompt = validate_old_system_prompts(
+        old_examples
+    )
+
+    normalized_new_examples = [
+        add_system_prompt(
+            example,
+            system_prompt,
+        )
+        for example in NEW_EXAMPLES
+    ]
+
+    print()
     print("Gold Dataset v0.4 finalizasyonu")
     print()
 
-    print(f"Eski ornek sayisi : {len(old_examples)}")
-    print(f"Yeni ornek sayisi : {len(NEW_EXAMPLES)}")
+    print(
+        f"Eski ornek sayisi : "
+        f"{len(old_examples)}"
+    )
+
+    print(
+        f"Yeni ornek sayisi : "
+        f"{len(normalized_new_examples)}"
+    )
 
     if len(old_examples) != EXPECTED_OLD:
         raise ValueError(
@@ -106,50 +207,123 @@ def main():
             f"{len(old_examples)} != {EXPECTED_OLD}"
         )
 
-    if len(NEW_EXAMPLES) != EXPECTED_NEW:
+    if (
+        len(normalized_new_examples)
+        != EXPECTED_NEW
+    ):
         raise ValueError(
             f"Yeni ornek sayisi beklenenden farkli: "
-            f"{len(NEW_EXAMPLES)} != {EXPECTED_NEW}"
+            f"{len(normalized_new_examples)} "
+            f"!= {EXPECTED_NEW}"
         )
 
-    all_examples = old_examples + NEW_EXAMPLES
+    all_examples = (
+        old_examples
+        + normalized_new_examples
+    )
 
     if len(all_examples) != EXPECTED_TOTAL:
         raise ValueError(
             f"Toplam ornek sayisi hatali: "
-            f"{len(all_examples)} != {EXPECTED_TOTAL}"
+            f"{len(all_examples)} "
+            f"!= {EXPECTED_TOTAL}"
         )
 
-    for index, example in enumerate(all_examples, start=1):
-        validate_example(example, index)
+    for index, example in enumerate(
+        all_examples,
+        start=1,
+    ):
+        validate_example(
+            example,
+            index,
+        )
 
-    single_turn = sum(
-        1 for example in all_examples
-        if conversation_type(example) == "single_turn"
+    all_system_prompts = [
+        get_system_prompt(example)
+        for example in all_examples
+    ]
+
+    system_count = sum(
+        prompt is not None
+        for prompt in all_system_prompts
     )
 
-    multi_turn = sum(
-        1 for example in all_examples
-        if conversation_type(example) == "multi_turn"
+    unique_system_count = len(
+        set(all_system_prompts)
     )
 
     print()
-    print(f"Tek turlu : {single_turn}")
-    print(f"Cok turlu : {multi_turn}")
+    print(
+        f"System bulunan        : "
+        f"{system_count}"
+    )
 
-    if single_turn != EXPECTED_SINGLE_TURN:
+    print(
+        f"Benzersiz system      : "
+        f"{unique_system_count}"
+    )
+
+    if system_count != EXPECTED_TOTAL:
+        raise ValueError(
+            f"System mesaj sayisi hatali: "
+            f"{system_count} "
+            f"!= {EXPECTED_TOTAL}"
+        )
+
+    if unique_system_count != 1:
+        raise ValueError(
+            f"Benzersiz system prompt sayisi "
+            f"1 olmali, bulunan: "
+            f"{unique_system_count}"
+        )
+
+    single_turn = sum(
+        1
+        for example in all_examples
+        if conversation_type(example)
+        == "single_turn"
+    )
+
+    multi_turn = sum(
+        1
+        for example in all_examples
+        if conversation_type(example)
+        == "multi_turn"
+    )
+
+    print()
+    print(
+        f"Tek turlu : {single_turn}"
+    )
+
+    print(
+        f"Cok turlu : {multi_turn}"
+    )
+
+    if (
+        single_turn
+        != EXPECTED_SINGLE_TURN
+    ):
         raise ValueError(
             f"Tek turlu sayisi hatali: "
-            f"{single_turn} != {EXPECTED_SINGLE_TURN}"
+            f"{single_turn} "
+            f"!= {EXPECTED_SINGLE_TURN}"
         )
 
-    if multi_turn != EXPECTED_MULTI_TURN:
+    if (
+        multi_turn
+        != EXPECTED_MULTI_TURN
+    ):
         raise ValueError(
             f"Cok turlu sayisi hatali: "
-            f"{multi_turn} != {EXPECTED_MULTI_TURN}"
+            f"{multi_turn} "
+            f"!= {EXPECTED_MULTI_TURN}"
         )
 
-    with OUTPUT_FILE.open("w", encoding="utf-8") as f:
+    with OUTPUT_FILE.open(
+        "w",
+        encoding="utf-8",
+    ) as f:
         for example in all_examples:
             json.dump(
                 example,
@@ -157,27 +331,62 @@ def main():
                 ensure_ascii=False,
                 separators=(",", ":"),
             )
+
             f.write("\n")
 
-    # Yazilan dosyayi tekrar okuyarak son kontrol.
-    written_examples = load_jsonl(OUTPUT_FILE)
+    written_examples = load_jsonl(
+        OUTPUT_FILE
+    )
 
-    if len(written_examples) != EXPECTED_TOTAL:
+    if (
+        len(written_examples)
+        != EXPECTED_TOTAL
+    ):
         raise ValueError(
             f"Yazilan dosya tekrar okundugunda "
-            f"{len(written_examples)} ornek bulundu."
+            f"{len(written_examples)} "
+            f"ornek bulundu."
+        )
+
+    for index, example in enumerate(
+        written_examples,
+        start=1,
+    ):
+        validate_example(
+            example,
+            index,
+        )
+
+    written_systems = [
+        get_system_prompt(example)
+        for example in written_examples
+    ]
+
+    if any(
+        system != system_prompt
+        for system in written_systems
+    ):
+        raise ValueError(
+            "Yazilan dosyada system prompt "
+            "tutarsizligi bulundu."
         )
 
     print()
     print("JSON yapisi       : OK")
     print("Ornek yapilari    : OK")
+    print("System promptlari : OK")
     print("Konusma dagilimi  : OK")
     print("Dosya tekrar okuma: OK")
     print()
-    print(f"v0.4 olusturuldu:")
+
+    print("v0.4 olusturuldu:")
     print(OUTPUT_FILE)
     print()
-    print(f"TOPLAM: {len(written_examples)}")
+
+    print(
+        f"TOPLAM: "
+        f"{len(written_examples)}"
+    )
 
 
 if __name__ == "__main__":
