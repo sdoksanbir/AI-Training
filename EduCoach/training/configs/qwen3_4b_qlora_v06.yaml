@@ -1,0 +1,60 @@
+# EduCoach - Qwen3-4B QLoRA Eğitim Ayarları
+# Sürüm: v0.2
+#
+# v0.1'e göre temel değişiklikler:
+# - Gold dataset: 38 -> 120 örnek
+# - Epoch: 3 -> 2
+# - Learning rate: 0.0002 -> 0.0001
+# - Ayrı v02 output klasörü
+# - Yeni holdout benchmark referansı
+
+project:
+  name: EduCoach
+  experiment: qwen3_4b_qlora_v06
+
+model:
+  name: Qwen/Qwen3-4B
+  trust_remote_code: true
+
+dataset:
+  train_file: data/gold/gold_v0.5.jsonl
+  format: messages
+  total_examples: 120
+
+training:
+  method: qlora
+  epochs: 2
+  learning_rate: 0.0001
+  per_device_train_batch_size: 1
+  gradient_accumulation_steps: 8
+  max_seq_length: 2048
+
+  logging_steps: 1
+  save_strategy: epoch
+
+precision:
+  load_in_4bit: true
+  bf16: true
+  fp16: false
+
+lora:
+  r: 16
+  alpha: 32
+  dropout: 0.05
+
+  target_modules:
+    - q_proj
+    - k_proj
+    - v_proj
+    - o_proj
+    - gate_proj
+    - up_proj
+    - down_proj
+
+output:
+  directory: training/outputs/qwen3_4b_qlora_v06
+  logs: training/logs/qwen3_4b_qlora_v06
+
+evaluation:
+  benchmark_file: evaluations/holdout/benchmark_v0.2.jsonl
+  baseline_file: evaluations/holdout/qwen3_4b_hf_baseline_v0.2.jsonl
