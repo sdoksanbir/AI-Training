@@ -11,11 +11,15 @@ from educoach.models import (
     Learner,
     LearningContext,
     LearningEvidence,
+    StudyPlan,
+    StudyTask,
 )
 from educoach.repositories import (
     AssessmentRepository,
+    GoalRepository,
     LearnerRepository,
     LearningEvidenceRepository,
+    StudyRepository,
 )
 
 
@@ -116,3 +120,64 @@ class LearnerMemoryService:
                     evidence_repository.add(item)
 
         return assessment
+
+    def save_study_plan(
+        self,
+        plan: StudyPlan,
+        tasks: Iterable[StudyTask] = (),
+    ) -> StudyPlan:
+        task_items = tuple(tasks)
+
+        for task in task_items:
+            if task.plan_id != plan.plan_id:
+                raise ValueError(
+                    "StudyTask plan_id, kayıt edilen StudyPlan "
+                    "ile aynı olmalıdır"
+                )
+
+            if not (
+                plan.start_date
+                <= task.task_date
+                <= plan.end_date
+            ):
+                raise ValueError(
+                    "StudyTask task_date, StudyPlan tarih "
+                    "aralığında olmalıdır"
+                )
+
+            if (
+                plan.context_id is not None
+                and task.context_id != plan.context_id
+            ):
+                raise ValueError(
+                    "Context'e özel StudyPlan içindeki "
+                    "StudyTask aynı context'e ait olmalıdır"
+                )
+
+        with self.session_factory() as session:
+            repository = StudyRepository(session)
+            goal_repository = GoalRepository(session)
+
+            with session.begin():
+                if (
+                    plan.goal_id is not None
+                    and plan.context_id is not None
+                ):
+                    goal = goal_repository.get(plan.goal_id)
+
+                    if (
+                        goal is not None
+                        and goal.context_id is not None
+                        and goal.context_id != plan.context_id
+                    ):
+                        raise ValueError(
+                            "Context'e özel StudyPlan, başka bir "
+                            "context'e ait Goal kullanamaz"
+                        )
+
+                repository.add_plan(plan)
+
+                for task in task_items:
+                    repository.add_task(task)
+
+        return plan
