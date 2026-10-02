@@ -4,8 +4,19 @@ from collections.abc import Iterable
 
 from sqlalchemy.orm import Session, sessionmaker
 
-from educoach.models import Learner, LearningContext
-from educoach.repositories import LearnerRepository
+from educoach.models import (
+    Assessment,
+    AssessmentResult,
+    EvidenceSource,
+    Learner,
+    LearningContext,
+    LearningEvidence,
+)
+from educoach.repositories import (
+    AssessmentRepository,
+    LearnerRepository,
+    LearningEvidenceRepository,
+)
 
 
 class LearnerMemoryService:
@@ -41,3 +52,67 @@ class LearnerMemoryService:
                     repository.add_context(context)
 
         return learner
+
+    def record_assessment(
+        self,
+        assessment: Assessment,
+        results: Iterable[AssessmentResult] = (),
+        evidence: Iterable[LearningEvidence] = (),
+    ) -> Assessment:
+        result_items = tuple(results)
+        evidence_items = tuple(evidence)
+
+        for result in result_items:
+            if result.assessment_id != assessment.assessment_id:
+                raise ValueError(
+                    "AssessmentResult assessment_id, kayıt edilen "
+                    "Assessment ile aynı olmalıdır"
+                )
+
+        for item in evidence_items:
+            if item.source_type != EvidenceSource.ASSESSMENT_DERIVED:
+                raise ValueError(
+                    "record_assessment yalnız assessment_derived "
+                    "LearningEvidence kabul eder"
+                )
+
+            if item.learner_id != assessment.learner_id:
+                raise ValueError(
+                    "LearningEvidence learner_id, Assessment learner_id "
+                    "ile aynı olmalıdır"
+                )
+
+            if item.context_id != assessment.context_id:
+                raise ValueError(
+                    "LearningEvidence context_id, Assessment context_id "
+                    "ile aynı olmalıdır"
+                )
+
+            if item.assessment_id != assessment.assessment_id:
+                raise ValueError(
+                    "LearningEvidence assessment_id, kayıt edilen "
+                    "Assessment ile aynı olmalıdır"
+                )
+
+        with self.session_factory() as session:
+            assessment_repository = AssessmentRepository(
+                session
+            )
+            evidence_repository = LearningEvidenceRepository(
+                session
+            )
+
+            with session.begin():
+                assessment_repository.add_assessment(
+                    assessment
+                )
+
+                for result in result_items:
+                    assessment_repository.add_result(
+                        result
+                    )
+
+                for item in evidence_items:
+                    evidence_repository.add(item)
+
+        return assessment
