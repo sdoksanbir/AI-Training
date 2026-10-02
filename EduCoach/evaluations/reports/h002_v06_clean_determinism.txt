@@ -1,0 +1,39 @@
+==========================================================================================
+V06 FINAL CLEAN DETERMINISM DENETIMI
+==========================================================================================
+
+GPU               : NVIDIA GeForce RTX 5070 Ti
+LoRA scaling      : [2.0]
+
+RUN 1
+------------------------------------------------------------------------------------------
+Token             : 300
+im_end positions  : []
+300 cap           : True
+
+RUN 2
+------------------------------------------------------------------------------------------
+Token             : 300
+im_end positions  : []
+300 cap           : True
+
+DETERMINISM
+------------------------------------------------------------------------------------------
+RUN1 == RUN2      : True
+Ilk fark step     : None
+
+REFERANS
+------------------------------------------------------------------------------------------
+Referans token    : 300
+RUN1 == referans  : True
+RUN1 ilk fark     : None
+RUN2 == referans  : True
+RUN2 ilk fark     : None
+
+RUN 1 CEVAP
+------------------------------------------------------------------------------------------
+Matematikteki zorlanma ve TYT-AYT performansına bakarak AYT matematik ve TYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT mat
+
+RUN 2 CEVAP
+------------------------------------------------------------------------------------------
+Matematikteki zorlanma ve TYT-AYT performansına bakarak AYT matematik ve TYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT mat

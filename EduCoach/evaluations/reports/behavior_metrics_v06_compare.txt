@@ -1,0 +1,129 @@
+======================================================================
+BASE
+======================================================================
+Sonuc             : 30
+Ortalama kelime   : 107.4
+Ortalama token    : 296.2
+Toplam soru       : 47
+Loop adayi         : 7/30
+Kullanici echo     : 0/30
+290+ token         : 29/30
+Loop IDleri        : ['H008', 'H011', 'H013', 'H015', 'H017', 'H021', 'H028']
+Echo IDleri        : []
+290+ token IDleri  : ['H001', 'H002', 'H003', 'H004', 'H005', 'H006', 'H007', 'H008', 'H009', 'H010', 'H011', 'H012', 'H013', 'H014', 'H015', 'H016', 'H017', 'H018', 'H019', 'H020', 'H021', 'H022', 'H023', 'H024', 'H025', 'H026', 'H028', 'H029', 'H030']
+
+LOOP DETAYLARI
+H008 | sentence=0.8837 | ngram=0 | coverage=0.0 | count=0
+  tekrar ornegi: 
+H011 | sentence=0.8 | ngram=5 | coverage=0.1538 | count=2
+  tekrar ornegi: tyt 67 puanı sayısal bölümde
+H013 | sentence=0.8 | ngram=5 | coverage=0.0917 | count=2
+  tekrar ornegi: konulardan oluşabilir fen daha az
+H015 | sentence=1.0 | ngram=5 | coverage=0.9695 | count=14
+  tekrar ornegi: bu hedefin kendin için çok
+H017 | sentence=0.8315 | ngram=5 | coverage=0.0847 | count=2
+  tekrar ornegi: bu günlerde kendine zaman ayırmanı
+H021 | sentence=0.8571 | ngram=0 | coverage=0.0 | count=0
+  tekrar ornegi: 
+H028 | sentence=0.8 | ngram=0 | coverage=0.0 | count=0
+  tekrar ornegi: 
+
+======================================================================
+V02
+======================================================================
+Sonuc             : 30
+Ortalama kelime   : 81.0
+Ortalama token    : 187.7
+Toplam soru       : 7
+Loop adayi         : 17/30
+Kullanici echo     : 1/30
+290+ token         : 9/30
+Loop IDleri        : ['H001', 'H003', 'H004', 'H005', 'H006', 'H008', 'H009', 'H010', 'H012', 'H018', 'H021', 'H022', 'H024', 'H025', 'H027', 'H028', 'H029']
+Echo IDleri        : ['H011']
+290+ token IDleri  : ['H004', 'H005', 'H008', 'H012', 'H018', 'H021', 'H022', 'H027', 'H029']
+
+LOOP DETAYLARI
+H001 | sentence=1.0 | ngram=5 | coverage=0.4151 | count=2
+  tekrar ornegi: yapmaya çalışalım hafta sonu deneme
+H003 | sentence=1.0 | ngram=5 | coverage=0.898 | count=2
+  tekrar ornegi: tyt 84 net ayt 46
+H004 | sentence=1.0 | ngram=5 | coverage=0.9664 | count=7
+  tekrar ornegi: sıralamada doğrudan yansımayabilir tyt neti
+H005 | sentence=0.3893 | ngram=5 | coverage=0.1951 | count=4
+  tekrar ornegi: testi veya konu tekrarı 20
+H006 | sentence=1.0 | ngram=5 | coverage=0.8506 | count=3
+  tekrar ornegi: 3 4 saatlik çalışma süresine
+H008 | sentence=1.0 | ngram=5 | coverage=0.7273 | count=3
+  tekrar ornegi: öncelikli derse başlamak için kısa
+H009 | sentence=1.0 | ngram=5 | coverage=0.6709 | count=3
+  tekrar ornegi: çarşamba gününe aksamı daha hızlı
+H010 | sentence=0.7044 | ngram=5 | coverage=0.2174 | count=2
+  tekrar ornegi: soru çözmeye geçmek için ne
+H012 | sentence=0.9189 | ngram=5 | coverage=0.3566 | count=4
+  tekrar ornegi: sorularını çöz yanlışları not et
+H018 | sentence=0.0096 | ngram=5 | coverage=0.8125 | count=15
+  tekrar ornegi: konuyu tekrar izlemek yerine önce
+H021 | sentence=1.0 | ngram=5 | coverage=0.7833 | count=7
+  tekrar ornegi: tyt yi tamamladığında ayt ye
+H022 | sentence=1.0 | ngram=5 | coverage=0.7373 | count=7
+  tekrar ornegi: hafta içi 2 saatimde tyt
+H024 | sentence=1.0 | ngram=0 | coverage=0.0 | count=0
+  tekrar ornegi: 
+H025 | sentence=0.6973 | ngram=5 | coverage=0.3692 | count=2
+  tekrar ornegi: 2022 ve 2023 tyt matematik
+H027 | sentence=1.0 | ngram=5 | coverage=0.9181 | count=8
+  tekrar ornegi: 1 saat tyt matematik ve
+H028 | sentence=1.0 | ngram=5 | coverage=0.8219 | count=2
+  tekrar ornegi: deneme sonrası matematikteki soruları 20
+H029 | sentence=1.0 | ngram=5 | coverage=0.4648 | count=4
+  tekrar ornegi: haftanın başı için daha kısa
+
+======================================================================
+V06
+======================================================================
+Sonuc             : 30
+Ortalama kelime   : 75.1
+Ortalama token    : 180.4
+Toplam soru       : 9
+Loop adayi         : 17/30
+Kullanici echo     : 1/30
+290+ token         : 6/30
+Loop IDleri        : ['H001', 'H002', 'H003', 'H005', 'H006', 'H009', 'H012', 'H014', 'H017', 'H018', 'H021', 'H022', 'H024', 'H025', 'H028', 'H029', 'H030']
+Echo IDleri        : ['H011']
+290+ token IDleri  : ['H002', 'H003', 'H009', 'H018', 'H021', 'H022']
+
+LOOP DETAYLARI
+H001 | sentence=1.0 | ngram=5 | coverage=0.6383 | count=3
+  tekrar ornegi: 3 saatlik deneme ve 3
+H002 | sentence=1.0 | ngram=5 | coverage=0.8696 | count=16
+  tekrar ornegi: matematikteki zayıf alanları belirleyelim ayt
+H003 | sentence=1.0 | ngram=5 | coverage=0.8561 | count=14
+  tekrar ornegi: tyt ve ayt puanları farklı
+H005 | sentence=0.4286 | ngram=5 | coverage=0.4455 | count=5
+  tekrar ornegi: 1 saat paragraf 30 dakika
+H006 | sentence=0.669 | ngram=5 | coverage=0.5366 | count=2
+  tekrar ornegi: her gün aynı süreyi tamamlamak
+H009 | sentence=0.0068 | ngram=5 | coverage=0.9565 | count=11
+  tekrar ornegi: çarşamba gününe aksatmak yerine haftanın
+H012 | sentence=1.0 | ngram=5 | coverage=0.7073 | count=3
+  tekrar ornegi: için 20 dakika her ders
+H014 | sentence=0.5607 | ngram=5 | coverage=0.2083 | count=2
+  tekrar ornegi: belirleyip ona göre çalışma planını
+H017 | sentence=1.0 | ngram=5 | coverage=0.48 | count=3
+  tekrar ornegi: ödev sürenizden sonra eksiklerinizi tamamlamak
+H018 | sentence=0.0096 | ngram=5 | coverage=0.8125 | count=15
+  tekrar ornegi: konuyu tekrar izlemek yerine önce
+H021 | sentence=1.0 | ngram=5 | coverage=0.7833 | count=7
+  tekrar ornegi: tyt yi tamamladığında ayt ye
+H022 | sentence=1.0 | ngram=5 | coverage=0.8947 | count=7
+  tekrar ornegi: hafta içi 2 saatim varsa
+H024 | sentence=1.0 | ngram=0 | coverage=0.0 | count=0
+  tekrar ornegi: 
+H025 | sentence=1.0 | ngram=5 | coverage=0.8679 | count=2
+  tekrar ornegi: önce tyt matematik sınavında hangi
+H028 | sentence=0.8721 | ngram=0 | coverage=0.0 | count=0
+  tekrar ornegi: 
+H029 | sentence=0.4916 | ngram=5 | coverage=0.2564 | count=2
+  tekrar ornegi: hangi günlerde daha az çalışmış
+H030 | sentence=1.0 | ngram=5 | coverage=0.625 | count=2
+  tekrar ornegi: 2 3 saat daha uzatmak

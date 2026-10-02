@@ -1,0 +1,70 @@
+====================================================================================================
+GREEDY
+====================================================================================================
+
+H002
+LOOP=True n=5 coverage=0.8696 count=16
+Matematikteki zorlanma ve TYT-AYT performansına bakarak AYT matematik ve TYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT mat
+
+H003
+LOOP=True n=5 coverage=0.8561 count=14
+TYT ve AYT netlerini toplam puan olarak kullanmak doğru olmaz. TYT 84 net, AYT 46 net ve toplam 130 puan gibi bir ifade yanlış olur çünkü TYT ve AYT puanları farklı sistemlerde hesaplanır. TYT netlerini toplam puan olarak kullanmak yanlış olur çünkü TYT ve AYT puanları farklı sistemlerde hesaplanır. TYT ve AYT puanları farklı sistemlerde hesaplanır. TYT ve AYT puanları farklı sistemlerde hesaplanır. TYT ve AYT puanları farklı sistemlerde hesaplanır. TYT ve AYT puanları farklı sistemlerde hesaplanır. TYT ve AYT puanları farklı sistemlerde hesaplanır. TYT ve AYT puanları farklı sistemlerde hesaplanır. TYT ve AYT puanları farklı sistemlerde hesaplanır. TYT ve AYT puanları farklı sistemlerde hesaplanır. TYT ve AYT puanları farklı sistemlerde hesaplanır. TYT ve AYT puanları farklı sistemlerde hesaplanır. TYT ve AYT puanları farklı sistemlerde hesaplanır. TYT ve AYT puanları farklı sistem
+
+H009
+LOOP=True n=5 coverage=0.9565 count=11
+Çarşamba gününe aksatmak yerine haftanın son gününü tamamen bırakmak, çalışma düzenini bozuyor. Bu durumda haftanın son gününü tamamen bırakmak yerine, çarşamba gününe aksatmak yerine haftanın son gününü tamamen bırakmak yerine, çarşamba gününe aksatmak yerine haftanın son gününü tamamen bırakmak yerine, çarşamba gününe aksatmak yerine haftanın son gününü tamamen bırakmak yerine, çarşamba gününe aksatmak yerine haftanın son gününü tamamen bırakmak yerine, çarşamba gününe aksatmak yerine haftanın son gününü tamamen bırakmak yerine, çarşamba gününe aksatmak yerine haftanın son gününü tamamen bırakmak yerine, çarşamba gününe aksatmak yerine haftanın son gününü tamamen bırakmak yerine, çarşamba gününe aksatmak yerine haftanın son gününü tamamen bırakmak yerine, çarşamba gününe aksatmak yerine haftanın son gününü tamamen bırakmak yerine, çarşamba gününe aksatmak yerine haftanın
+
+H018
+LOOP=True n=5 coverage=0.8125 count=15
+Dershanede ve okulda aynı konu işliyorsan, konuyu tekrar izlemek yerine önce dershanede ve okulda işlenen konuyu tekrar gözden geçirmeye çalış. Eğer konuyu tamamen anlamsız hale getirdiysen, dershanede konuyu tekrar izlemek yerine önce dershanede konuyu tekrar izlemek yerine önce dershanede konuyu tekrar izlemek yerine önce dershanede konuyu tekrar izlemek yerine önce dershanede konuyu tekrar izlemek yerine önce dershanede konuyu tekrar izlemek yerine önce dershanede konuyu tekrar izlemek yerine önce dershanede konuyu tekrar izlemek yerine önce dershanede konuyu tekrar izlemek yerine önce dershanede konuyu tekrar izlemek yerine önce dershanede konuyu tekrar izlemek yerine önce dershanede konuyu tekrar izlemek yerine önce dershanede konuyu tekrar izlemek yerine önce dershanede konuyu tekrar izlemek yerine önce dershanede kon
+
+H021
+LOOP=True n=5 coverage=0.7833 count=7
+Günde 6 saat çalışıyorsan, TYT ve AYT'yi aynı anda tamamlamak yerine önce TYT'yi tamamlamak daha mantıklı olur. TYT'yi tamamladıktan sonra AYT'ye geç. TYT'yi tamamladığında AYT'ye geç, AYT'yi tamamladığında TYT'ye geri dönmeyi düşün. TYT'yi tamamladığında AYT'ye geç, AYT'yi tamamladığında TYT'ye geri dönmeyi düşün. TYT'yi tamamladığında AYT'ye geç, AYT'ye geçtiğinde TYT'ye geri dönmeyi düşün. TYT'yi tamamladığında AYT'ye geç, AYT'ye geçtiğinde TYT'ye geri dönmeyi düşün. TYT'yi tamamladığında AYT'ye geç, AYT'ye geçtiğinde TYT'ye geri dönmeyi düşün. TYT'yi tamamladığında AYT'ye geç, AYT'ye geçtiğinde TYT'ye geri dönmeyi düşün. TYT'yi tamamladığında AYT'ye geç, AYT'ye geçtiğinde TYT
+
+H022
+LOOP=True n=5 coverage=0.8947 count=7
+Hafta içi 2 saatim varsa, TYT'ye yoğun çalışma değil, TYT'ye uyumlu çalışma planı oluşturuyorum. 12. sınıf öğrencisi gibi yoğun çalışma değil, 11. sınıfın TYT hazırlığına uyumlu bir program. Hafta içi 2 saatim varsa, TYT'ye uyumlu çalışma değil, 11. sınıfın TYT hazırlığına uyumlu bir program. Hafta içi 2 saatim varsa, TYT'ye uyumlu çalışma değil, 11. sınıfın TYT hazırlığına uyumlu bir program. Hafta içi 2 saatim varsa, TYT'ye uyumlu çalışma değil, 11. sınıfın TYT hazırlığına uyumlu bir program. Hafta içi 2 saatim varsa, TYT'ye uyumlu çalışma değil, 11. sınıfın TYT hazırlığına uyumlu bir program. Hafta içi 2 saatim varsa, TYT'ye uyumlu çalışma değil, 11. sınıfın TYT hazırlığına uyumlu bir program. Hafta içi 2 saatim varsa, TYT'ye uyumlu çalışma değil, 11. sınıfın TYT hazırlığına uyumlu bir program. Hafta
+
+H025
+LOOP=True n=5 coverage=0.8679 count=2
+Bugün matematik çalışırken önce TYT matematik sınavında hangi konuların daha çok sorulduğunu ve hangi konularda daha çok yanlış yaptığını düşün. Daha sonra o konulardan soru çözebilirsin. Eğer konu dağılımını bilmiyorsan, önce TYT matematik sınavında hangi konuların daha çok sorulduğunu ve hangi konularda daha çok yanlış yaptığını düşün. Daha sonra o konulardan soru çözebilirsin.
+
+H030
+LOOP=True n=5 coverage=0.625 count=2
+Haftanın ilk üç gününde 70%’ini tamamladığın için iyi bir başlangıç yaptın. Kalan 30%’i yeni haftaya taşıyarak daha düzenli bir çalışma süresi oluşturabilirsin. Ancak bu 30%’i tamamlamak için haftanın son gününü 2-3 saat daha uzatmak yerine, haftanın ilk gününde 1-2 saat daha fazla çalışma yaparak tamamlamayı deneyebilirsin. Böylece haftanın son gününde daha az süren bir çalışma süresiyle tamamlamayı deneyebilirsin. Haftanın son gününde 2-3 saat daha uzatmak yerine, haftanın ilk gününde 1-2 saat daha fazla çalışma yaparak tamamlamayı deneyebilirsin. Böylece haftanın son gününde daha az süren bir çalışma süresiyle tamamlamayı deneyebilirsin.
+====================================================================================================
+SAMPLING
+====================================================================================================
+
+H002
+LOOP=False n=0 coverage=0.0 count=0
+Matematikteki zorluklarını daha önce çözmek yerine, şu anda daha hızlı ilerleyebileceğin derslere ve daha az sorun yaşlayabileceğin alanlara öncelik ver. TYT'de matematik 20 soru var, AYT'de 25 soru. TYT'de matematikte 78 puanın 18 soru üzerinden geldiğine göre, TYT matematikte 18 soru çözebilirsin. AYT'de 44 puanın 25 soru üzerinden geldiğine göre, AYT matematikte 11 soru çözebilirsin. Edebiyatın iyi olduğundan 5 soru AYT'de Edebiyatı çöz. Bu toplam 34 soru 5 saatte çalışmak için yeterli. Kalan 36 soruyu AYT matematik ve TYT matematikte 15 soruyu çöz. Edebiyatın daha hızlı çözülebileceğini düşünerek AYT'de Edebiyatın 5 soruyu, TYT'de 20 soruyu çöz. AYT'de matematikte 11 soruyu, TYT'de matematik
+
+H003
+LOOP=True n=5 coverage=0.275 count=2
+TYT ve AYT netlerini topladığında 84+46=130 netiniz oluyor. Bu netleri puan hesaplamaya çevirmek için TYT ve AYT各自的 netlerini kullanmalısınız. TYT 130 net ve AYT 100 net olursa TYT 130 net = 130*5=650 puan, AYT 100 net= 100*5=500 puan olur. Toplam 1150 puan olur. Ama TYT ve AYT各自的 netlerini doğrudan toplamak yanlış olur. TYT ve AYT各自的 netlerini doğru puanlamaya göre hesaplamalısınız. Toplam netinizi 130 puan olarak kullanabilirsiniz. Ama TYT ve AYT各自的 netlerini doğru puanlamaya göre hesaplamalısınız.
+
+H009
+LOOP=True n=5 coverage=0.2333 count=2
+Çarşamba aksaması yerine haftanın geri kalanını tamamen bırakmak, kısa vadeli bir engel olabilir ama özsüreyi uzatmaz. Aksama varsa haftanın son gününde bir kısa çalışma bırakmayı deneyelim. Örneğin, haftanın son gününde 2-3 saatlik kısa çalışma planlayalım. Bu şekilde çarşamba aksaması yerine haftanın son gününde bir kısa çalışma yapmaya teşvik ederiz. Haftanın geri kalanını tamamen bırakmamak için derslerin dağılımını düzenleyelim. Haftanın başı ve ortasında daha yoğun çalışmak yerine çarşamba günü daha kısa ve sıkı bir çalışma yapmayı deneyelim. Böylece çarşamba aksaması yerine haftanın son gününde kısa bir çalışma yapmaya teşvik ederiz.
+
+H018
+LOOP=False n=0 coverage=0.0 count=0
+Okulda ve dershane de aynı konuyu işliyorsan, bu konuyu tekrar izlemek zorunda olmasın. Konuyu ilk kez dershanede anlatırken ne kadar anlattığını ve ne kadar anlamadığını bize söyleyebilir miyiz? Bu bilgiyle dershanede ne kadar anlatmaya çalıştığımızı ve hangi noktalara dikkat ettiğimizi anlayabiliriz.
+
+H021
+LOOP=False n=0 coverage=0.0 count=0
+Yüksek TYT ve düşük AYT puanına rağmen bilgisayar mühendisliğine yöneliyor olmamıza rağmen AYT'de daha çok çalışma yapmak daha mantıklı olabilir. TYT ve AYT performansı arasında fark yoksa AYT'ye daha fazla odaklanmak daha iyi olur. Günde 6 saat çalışıyorsan AYT'ye 4 saatin, TYT'ye 2 saatin düşünebiliriz. AYT'ye 4 saat daha vermek daha iyi olur.
+
+H022
+LOOP=False n=0 coverage=0.0 count=0
+Hafta içi 2 saatinin sadece TYT için kullanmak yerine, TYT ve derslerin yoğunluğunu dengeliyoruz. Hafta içi 2 saatinin 1.5 saatini TYT ve 0.5 saatini dersler için kullanabiliriz. Hafta sonu derslerin ve TYT'nin yoğunluğunu artırabiliriz.
+
+H025
+LOOP=False n=0 coverage=0.0 count=0
+Bugünkü matematik çalışması için önce hangi konularda yoğunlaşmak istediğinizi belirlemek için 2-3 dakika ayırabiliriz. Son 10 gün içinde en çok yanlış yaptığınız soru türünü, özellikle AYT matematikteki konuları veya TYT’deki zayıf alanları anlatabilir misiniz?
+
+H030
+LOOP=False n=0 coverage=0.0 count=0
+Haftanın sonunda 30 soru daha çözülebilir ve 2 hafta içindeki planı tamamlamak daha mantıklı olur. Bu durumda programı 3 haftaya bölebiliriz. İlk hafta: 30 soru, ikinci hafta: 30 soru ve üçüncü hafta: 15 soru. Bu şekilde her hafta farklı görevler ve soru sayıları da dengeli olur.

@@ -1,0 +1,193 @@
+====================================================================================================
+V02
+====================================================================================================
+
+### H002
+USER: Mezunum, eşit ağırlığım. TYT 78, AYT 44 yapıyorum. Edebiyatım iyi, matematikte zorlanıyorum. Günde 5 saat çalışabiliyorum. Nereden başlamalıyım?
+
+ASSISTANT:
+Matematikteki zorlanma ve TYT-AYT performansı göz önünde bulundurulduğunda, ilk adım matematikteki zayıf alanları belirlemek ve TYT'den AYT'a geçişteki en büyük engeli ortadan kaldırmanızı amaçlamaktadır. TYT'de matematikteki düşük puanın AYT'de daha büyük bir etkisi olabilir. İlk olarak matematikteki en zayıf konuları belirleyin. AYT'de matematikteki en büyük zorlanma nerede?
+
+
+### H003
+USER: TYT 84 net, AYT 46 net yapıyorum. Toplam 130 puanım var diyebilir miyim?
+
+ASSISTANT:
+TYT ve AYT netlerini toplam puan olarak kullanmak doğru olmaz. TYT 84 net, AYT 46 net ve toplam 130 puan gibi bir ifade yanlış olur çünkü TYT ve AYT puanları farklı sistemlerde hesaplanır. TYT netlerini AYT netlerine dönüştürmek için TYT netlerini 100'e böler ve AYT netlerini 100'e böler, ardından toplam puanı hesaplayabilirsin. TYT 84 net, AYT 46 net ve toplam 130 puan gibi bir ifade yanlış olur çünkü TYT ve AYT puanları farklı sistemlerde hesaplanır. TYT netlerini AYT netlerine dönüştürmek için TYT netlerini 100'e böler ve AYT netlerini 100'e böler, ardından toplam puanı hesaplayabilirsin.
+
+
+### H004
+USER: Sayısal öğrencisiyim. TYT netim yükseldi ama aynı net artışı sıralamama neden birebir yansımıyor?
+
+ASSISTANT:
+TYT netlerinin artması sıralamada doğrudan yansımayabilir. TYT neti arttıysan, AYT'de daha yüksek netler alman gerekiyor. TYT neti artışı sıralamada doğrudan yansımayabilir. TYT neti arttıysan, AYT'de daha yüksek netler alman gerekiyor. TYT neti artışı sıralamada doğrudan yansımayabilir. TYT neti arttıysan, AYT'de daha yüksek netler alman gerekiyor. TYT neti artışı sıralamada doğrudan yansımayabilir. TYT neti arttıysan, AYT'de daha yüksek netler alman gerekiyor. TYT neti artışı sıralamada doğrudan yansımayabilir. TYT neti arttıysan, AYT'de daha yüksek neter alman gerekiyor. TYT neti artışı sıralamada doğrudan yansımayabilir. TYT neti arttıysan, AYT'de daha yüksek netler alman gerekiyor. TYT neti artışı sıralamada doğrudan yansımayabilir. TYT neti arttıysan, AYT'de daha yüksek netler alman gerekiyor. TYT neti artışı sıralamada doğrudan yansımayabilir. TYT
+
+
+### H008
+USER: Akşam 19.00 ile 22.00 arasında çalışabiliyorum ama ilk 40 dakikam hangi derse başlayacağıma karar vermekle geçiyor. Bunu nasıl düzeltirim?
+
+ASSISTANT:
+Akşam çalışma sürenin başlangıçta belirsiz kalması, özellikle kısa sürede yoğun çalışma yapmaya başlamak isteyenler için sorun olabilir. İlk 40 dakikayı daha hızlı ve daha net bir şekilde kullanmak için şu adımları deneyebiliriz:
+
+1. **Öncelikli derse başlamak için kısa bir kriter belirleyin**: Örneğin, önce TYT matematik veya AYT fizik gibi daha zor derslerden başlamak istiyorsanız, bu derse başlamak için 40 dakikayı kullanın. Amaç, kısa sürede yoğun çalışma yapmak değil, başlangıçta daha net bir plan oluşturmak.
+
+2. **Öncelikli derse başlamak için kısa bir kriter belirleyin**: Örneğin, önce TYT matematik veya AYT fizik gibi daha zor derslerden başlamak istiyorsanız, bu derse başlamak için 40 dakikayı kullanın. Amaç, kısa sürede yoğun çalışma yapmak değil, başlangıçta daha net bir plan oluşturmak.
+
+3. **Öncelikli derse başlamak için kısa bir kriter belirleyin**: Örneğin, önce TYT matematik veya AYT
+
+
+### H009
+USER: Pazartesi çok iyi başlıyorum, salı da çalışıyorum ama çarşamba aksarsa haftanın geri kalanını tamamen bırakıyorum. Bu döngüyü nasıl kırarım?
+
+ASSISTANT:
+Çarşamba gününe aksama durumunu daha önce fark etmek için haftanın ilk üç gününü daha dikkatli izlemeye başlayalım. Pazartesi ve salı çalışmalarını günlük bir ders planına yerleştirirsek, çarşamba gününe aksamı daha hızlı fark edebiliriz. Haftanın ilk üç gününde her gün 20-30 dakika daha kısa bir çalışma bloğu ekleyelim. Böylece çarşamba gününe aksamı daha hızlı fark edebiliriz. Haftanın ilk üç gününde her gün 20-30 dakika daha kısa bir çalışma bloğu ekleyelim. Böylece çarşamba gününe aksamı daha hızlı fark edebiliriz.
+
+
+### H010
+USER: Derse başlamadan önce kaynak araştırmaya, masa düzenlemeye ve plan yazmaya dalıyorum. Çalışıyormuş gibi hissediyorum ama soru çözmeye başlayamıyorum.
+
+ASSISTANT:
+Bu durumun nedenini belirlemek için birkaç soruya ihtiyacım var. İlk olarak, kaynak araştırması ve masa düzenlemesi için kaç dakika ayırıyorsun? Daha sonra, bu sürelerden sonra soru çözmeye geçmek için ne kadar süre geçiyor? Son olarak, bu sürelerin ardından soru çözmeye geçmek için ne yapmaya başlıyorsun?
+
+
+### H014
+USER: Bir soruyu yanlış yaptıysam konuyu baştan tekrar ediyorum. Yanlış analizim bu yüzden çok uzun sürüyor. Daha doğru yöntem nedir?
+
+ASSISTANT:
+Yanlış analizini tekrar tekrar yapmak yerine, yanlışın nedenini kısa ve net bir şekilde belirleyin. Örneğin, konuyu tamamen anlamadığın için yanlış yapıyorsan, önce konuyu tamamen tekrar edin. Ama yanlışın yanlış anlama veya hata yapma nedeniyle olduğunu düşünüyorsan, yanlışın nedenini kısa bir şekilde yazın. Böylece yanlış analizini daha kısa ve net yapabilirsin.
+
+
+### H017
+USER: 12. sınıfım. Pazartesi, salı ve perşembe dershanem var. Diğer günlerde okuldan sonra 3 saat boşum. Dershane ödevleri de çok fazla. Kendi eksiklerime nasıl zaman ayırırım?
+
+ASSISTANT:
+Dershane ve okuldan sonra 3 saat boş zamanın çoğu dershanenin ödevlerine harcanıyor. Bu durumda ödevlerin tamamını yapmak yerine öncelikli eksiklerini ve dershanenin ödevlerini birlikte değerlendirelim. Öğrenme süreni 3 saat olarak sınırlamak yerine, ödevlerin tamamlanma süresini ve dershanenin ödevlerinin hangi konularda yoğun olduğunu belirleyelim. Sonra dershanenin ödevlerini öncelikli eksiklerin dışında bırakmamızı ve ödevlerin tamamlanma süresini daha kısa yapmamızı deneyelim.
+
+
+### H018
+USER: Okulda AYT matematik işliyoruz, dershanede de aynı konu var. Eve gelince üçüncü kez konu anlatımı izlemek zorunda mıyım?
+
+ASSISTANT:
+Dershanede ve okulda aynı konu işliyorsan, konuyu tekrar izlemek yerine önce dershanede ve okulda işlenen konuyu tekrar gözden geçirmeye çalış. Eğer konuyu tamamen anlamsız hale getirdiysen, dershanede konuyu tekrar izlemek yerine önce dershanede konuyu tekrar izlemek yerine önce dershanede konuyu tekrar izlemek yerine önce dershanede konuyu tekrar izlemek yerine önce dershanede konuyu tekrar izlemek yerine önce dershanede konuyu tekrar izlemek yerine önce dershanede konuyu tekrar izlemek yerine önce dershanede konuyu tekrar izlemek yerine önce dershanede konuyu tekrar izlemek yerine önce dershanede konuyu tekrar izlemek yerine önce dershanede konuyu tekrar izlemek yerine önce dershanede konuyu tekrar izlemek yerine önce dershanede konuyu tekrar izlemek yerine önce dershanede konuyu tekrar izlemek yerine önce dershanede kon
+
+
+### H021
+USER: Bilgisayar mühendisliği istiyorum. TYT 80, AYT 45 civarı. Günde 6 saat çalışıyorum. Bana çalışma önceliği çıkar; zaten verdiğim bilgilerden çıkarılabilecek şeyleri tekrar sorma.
+
+ASSISTANT:
+Günde 6 saat çalışıyorsan, TYT ve AYT'yi aynı anda tamamlamak yerine önce TYT'yi tamamlamak daha mantıklı olur. TYT'yi tamamladıktan sonra AYT'ye geç. TYT'yi tamamladığında AYT'ye geç, AYT'yi tamamladığında TYT'ye geri dönmeyi düşün. TYT'yi tamamladığında AYT'ye geç, AYT'yi tamamladığında TYT'ye geri dönmeyi düşün. TYT'yi tamamladığında AYT'ye geç, AYT'ye geçtiğinde TYT'ye geri dönmeyi düşün. TYT'yi tamamladığında AYT'ye geç, AYT'ye geçtiğinde TYT'ye geri dönmeyi düşün. TYT'yi tamamladığında AYT'ye geç, AYT'ye geçtiğinde TYT'ye geri dönmeyi düşün. TYT'yi tamamladığında AYT'ye geç, AYT'ye geçtiğinde TYT'ye geri dönmeyi düşün. TYT'yi tamamladığında AYT'ye geç, AYT'ye geçtiğinde TYT
+
+
+### H022
+USER: 11. sınıfım, sayısalım ve okul derslerimi güçlü tutmak istiyorum. Hafta içi 2 saatim var. Bana 12. sınıf öğrencisiymişim gibi yoğun TYT programı verme.
+
+ASSISTANT:
+Hafta içi 2 saatim varsa, TYT'ye yoğun çalışma değil, TYT'ye uyumlu çalışma planı oluşturuyorum. 12. sınıf öğrencisi gibi yoğun çalışma değil, 11. sınıfın TYT hazırlığına uyumlu bir program. Hafta içi 2 saatimde TYT'ye uyumlu çalışma ve derslerimdeki zayıf alanları güçlendirmek. Hafta içi 2 saatimde TYT'ye uyumlu çalışma ve derslerimdeki zayıf alanları güçlendirmek. Hafta içi 2 saatimde TYT'ye uyumlu çalışma ve derslerimdeki zayıf alanları güçlendirmek. Hafta içi 2 saatimde TYT'ye uyumlu çalışma ve derslerimdeki zayıf alanları güçlendirmek. Hafta içi 2 saatimde TYT'ye uyumlu çalışma ve derslerimdeki zayıf alanları güçlendirmek. Hafta içi 2 saatimde TYT'ye uyumlu çalışma ve derslerimdeki zayıf alanları güçlendirmek. Hafta içi 2 saatimde TYT'ye uyumlu çalışma ve ders
+
+
+### H027
+USER: Kısa cevap ver. Mezunum, sayısalım, günde 6 saat çalışabiliyorum ve AYT fizik önceliğim. Bugünkü planım ne olsun?
+
+ASSISTANT:
+Bugünkü planını şu şekilde yapabiliriz: 1.5 saat AYT fizik çalış, 1 saat TYT matematik ve 1.5 saat TYT Türkçe. Sonra 1 saat AYT fizik deneme ve 1 saat yanlış analiz. Sonra 1 saat TYT matematik ve 1 saat Türkçe. Sonra 1 saat AYT fizik deneme ve 1 saat yanlış analiz. Sonra 1 saat TYT matematik ve 1 saat Türkçe. Sonra 1 saat AYT fizik deneme ve 1 saat yanlış analiz. Sonra 1 saat TYT matematik ve 1 saat Türkçe. Sonra 1 saat AYT fizik deneme ve 1 saat yanlış analiz. Sonra 1 saat TYT matematik ve 1 saat Türkçe. Sonra 1 saat AYT fizik deneme ve 1 saat yanlış analiz. Sonra 1 saat TYT matematik ve 1 saat Türkçe. Sonra 1 saat AYT fizik deneme ve 1 saat yanlış analiz. Sonra 1 saat TYT matematik ve 1 saat Türkçe. Sonra 1 saat AYT fizik deneme ve 1 saat yanlış analiz. Sonra 1 saat TYT matematik ve 1 saat Türkçe. Sonra 1 saat AYT fizik deneme ve 1 saat yanlış
+
+
+### H030
+USER: Bir haftalık programımın yüzde 70'ini uygulayabildim. Kalan görevleri yeni haftaya yığmak mı, yoksa planı sadeleştirip devam etmek mi daha mantıklı?
+
+ASSISTANT:
+Haftalık programın yüzde 70'ini tamamladığın için iyi bir başlangıç yaptın. Kalan 30%'ı yeni haftaya taşıyarak daha düzenli bir çalışma süresi oluşturabilirsin. Ancak programı sadeleştirip devam etmek de mantıklı olabilir. Hangi yaklaşım daha uygun olur?
+
+====================================================================================================
+V06
+====================================================================================================
+
+### H002
+USER: Mezunum, eşit ağırlığım. TYT 78, AYT 44 yapıyorum. Edebiyatım iyi, matematikte zorlanıyorum. Günde 5 saat çalışabiliyorum. Nereden başlamalıyım?
+
+ASSISTANT:
+Matematikteki zorlanma ve TYT-AYT performansına bakarak AYT matematik ve TYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT mat
+
+
+### H003
+USER: TYT 84 net, AYT 46 net yapıyorum. Toplam 130 puanım var diyebilir miyim?
+
+ASSISTANT:
+TYT ve AYT netlerini toplam puan olarak kullanmak doğru olmaz. TYT 84 net, AYT 46 net ve toplam 130 puan gibi bir ifade yanlış olur çünkü TYT ve AYT puanları farklı sistemlerde hesaplanır. TYT netlerini toplam puan olarak kullanmak yanlış olur çünkü TYT ve AYT puanları farklı sistemlerde hesaplanır. TYT ve AYT puanları farklı sistemlerde hesaplanır. TYT ve AYT puanları farklı sistemlerde hesaplanır. TYT ve AYT puanları farklı sistemlerde hesaplanır. TYT ve AYT puanları farklı sistemlerde hesaplanır. TYT ve AYT puanları farklı sistemlerde hesaplanır. TYT ve AYT puanları farklı sistemlerde hesaplanır. TYT ve AYT puanları farklı sistemlerde hesaplanır. TYT ve AYT puanları farklı sistemlerde hesaplanır. TYT ve AYT puanları farklı sistemlerde hesaplanır. TYT ve AYT puanları farklı sistemlerde hesaplanır. TYT ve AYT puanları farklı sistemlerde hesaplanır. TYT ve AYT puanları farklı sistem
+
+
+### H004
+USER: Sayısal öğrencisiyim. TYT netim yükseldi ama aynı net artışı sıralamama neden birebir yansımıyor?
+
+ASSISTANT:
+TYT netlerinin artması sıralamı doğrudan yansıtmaz. TYT neti arttıysan, TYT'yi daha iyi hedeflediğin ve AYT'yi daha iyi kullandığın anlamına gelir. AYT'yi daha iyi kullanmak için hangi dersi daha çok çalıştığını ve hangi soru türünü daha çok çalıştığını söyleyebilir misin?
+
+
+### H008
+USER: Akşam 19.00 ile 22.00 arasında çalışabiliyorum ama ilk 40 dakikam hangi derse başlayacağıma karar vermekle geçiyor. Bunu nasıl düzeltirim?
+
+ASSISTANT:
+Akşam çalışma sürenin başlangıç kısmını belirlemek yerine, ilk 40 dakikayı bir "karmaşık soru" veya "karmaşık konu" ile başlatmaya çalış. Örneğin, TYT matematikteki 10 soruyu veya AYT fizikteki 5 soruyu kısa süreli bir deneme yap. Bu kısa deneme sonucunda hangi konuya daha çok zaman ayıracağını belirleyebilirsin. İlk 40 dakikayı bu şekilde kullanarak, başlangıç süresini daha hızlı geçirebilirsin.
+
+
+### H009
+USER: Pazartesi çok iyi başlıyorum, salı da çalışıyorum ama çarşamba aksarsa haftanın geri kalanını tamamen bırakıyorum. Bu döngüyü nasıl kırarım?
+
+ASSISTANT:
+Çarşamba gününe aksatmak yerine haftanın son gününü tamamen bırakmak, çalışma düzenini bozuyor. Bu durumda haftanın son gününü tamamen bırakmak yerine, çarşamba gününe aksatmak yerine haftanın son gününü tamamen bırakmak yerine, çarşamba gününe aksatmak yerine haftanın son gününü tamamen bırakmak yerine, çarşamba gününe aksatmak yerine haftanın son gününü tamamen bırakmak yerine, çarşamba gününe aksatmak yerine haftanın son gününü tamamen bırakmak yerine, çarşamba gününe aksatmak yerine haftanın son gününü tamamen bırakmak yerine, çarşamba gününe aksatmak yerine haftanın son gününü tamamen bırakmak yerine, çarşamba gününe aksatmak yerine haftanın son gününü tamamen bırakmak yerine, çarşamba gününe aksatmak yerine haftanın son gününü tamamen bırakmak yerine, çarşamba gününe aksatmak yerine haftanın son gününü tamamen bırakmak yerine, çarşamba gününe aksatmak yerine haftanın
+
+
+### H010
+USER: Derse başlamadan önce kaynak araştırmaya, masa düzenlemeye ve plan yazmaya dalıyorum. Çalışıyormuş gibi hissediyorum ama soru çözmeye başlayamıyorum.
+
+ASSISTANT:
+Bu durumun nedenini belirlemek için birkaç soruya ihtiyacım var. İlk olarak, kaynak araştırması ve masa düzenlemesi için kaç dakika ayırıyorsun? Daha sonra, plan yazarken hangi detayları dikkate alıyorsun? Son olarak, soru çözmeye başlamadan önce hangi görevi en uzun sürede tamamlıyor?
+
+
+### H014
+USER: Bir soruyu yanlış yaptıysam konuyu baştan tekrar ediyorum. Yanlış analizim bu yüzden çok uzun sürüyor. Daha doğru yöntem nedir?
+
+ASSISTANT:
+Yanlış analizini tekrar tekrar yapmak yerine, yanlışın nedenini kısa bir şekilde belirleyip ona göre çalışma planını düzenlemek daha etkili olur. Örneğin, yanlışın konu anlatımı eksikliği, soru çözümü yetersizliği veya yanlışın tekrar edilmesi gibi farklı nedenler olabilir. Bu durumda yanlışın hangi türden olduğunu belirleyip ona göre çalışma planını düzenleyebilirsin.
+
+
+### H017
+USER: 12. sınıfım. Pazartesi, salı ve perşembe dershanem var. Diğer günlerde okuldan sonra 3 saat boşum. Dershane ödevleri de çok fazla. Kendi eksiklerime nasıl zaman ayırırım?
+
+ASSISTANT:
+Dershane ve okuldan sonra 3 saat boş zamanın büyük bir kısmı dershane ödevlerine ayrılmak zorunda kalıyorsun. Bu durumda ödevlerin dışında kalmak yerine ödevlerinizi daha verimli yaparak eksiklerinizi daha kısa sürede tamamlamaya çalışabilirsin. Öğrenme sürenizi ödev süresinden ayırmanıza gerek yok. Ödev sürenizden sonra eksiklerinizi tamamlamak için 1-2 saat ayırabilirsin. Öğrenme sürenizden sonra ödev sürenizden sonra eksiklerinizi tamamlamak için 1-2 saat ayırabilirsin. Öğrenme sürenizden sonra ödev sürenizden sonra eksiklerinizi tamamlamak için 1-2 saat ayırabilirsin.
+
+
+### H018
+USER: Okulda AYT matematik işliyoruz, dershanede de aynı konu var. Eve gelince üçüncü kez konu anlatımı izlemek zorunda mıyım?
+
+ASSISTANT:
+Dershanede ve okulda aynı konu işliyorsan, konuyu tekrar izlemek yerine önce dershanede ve okulda işlenen konuyu tekrar gözden geçirmeye çalış. Eğer konuyu tamamen anlamsız hale getirdiysen, dershanede konuyu tekrar izlemek yerine önce dershanede konuyu tekrar izlemek yerine önce dershanede konuyu tekrar izlemek yerine önce dershanede konuyu tekrar izlemek yerine önce dershanede konuyu tekrar izlemek yerine önce dershanede konuyu tekrar izlemek yerine önce dershanede konuyu tekrar izlemek yerine önce dershanede konuyu tekrar izlemek yerine önce dershanede konuyu tekrar izlemek yerine önce dershanede konuyu tekrar izlemek yerine önce dershanede konuyu tekrar izlemek yerine önce dershanede konuyu tekrar izlemek yerine önce dershanede konuyu tekrar izlemek yerine önce dershanede konuyu tekrar izlemek yerine önce dershanede kon
+
+
+### H021
+USER: Bilgisayar mühendisliği istiyorum. TYT 80, AYT 45 civarı. Günde 6 saat çalışıyorum. Bana çalışma önceliği çıkar; zaten verdiğim bilgilerden çıkarılabilecek şeyleri tekrar sorma.
+
+ASSISTANT:
+Günde 6 saat çalışıyorsan, TYT ve AYT'yi aynı anda tamamlamak yerine önce TYT'yi tamamlamak daha mantıklı olur. TYT'yi tamamladıktan sonra AYT'ye geç. TYT'yi tamamladığında AYT'ye geç, AYT'yi tamamladığında TYT'ye geri dönmeyi düşün. TYT'yi tamamladığında AYT'ye geç, AYT'yi tamamladığında TYT'ye geri dönmeyi düşün. TYT'yi tamamladığında AYT'ye geç, AYT'ye geçtiğinde TYT'ye geri dönmeyi düşün. TYT'yi tamamladığında AYT'ye geç, AYT'ye geçtiğinde TYT'ye geri dönmeyi düşün. TYT'yi tamamladığında AYT'ye geç, AYT'ye geçtiğinde TYT'ye geri dönmeyi düşün. TYT'yi tamamladığında AYT'ye geç, AYT'ye geçtiğinde TYT'ye geri dönmeyi düşün. TYT'yi tamamladığında AYT'ye geç, AYT'ye geçtiğinde TYT
+
+
+### H022
+USER: 11. sınıfım, sayısalım ve okul derslerimi güçlü tutmak istiyorum. Hafta içi 2 saatim var. Bana 12. sınıf öğrencisiymişim gibi yoğun TYT programı verme.
+
+ASSISTANT:
+Hafta içi 2 saatim varsa, TYT'ye yoğun çalışma değil, TYT'ye uyumlu çalışma planı oluşturuyorum. 12. sınıf öğrencisi gibi yoğun çalışma değil, 11. sınıfın TYT hazırlığına uyumlu bir program. Hafta içi 2 saatim varsa, TYT'ye uyumlu çalışma değil, 11. sınıfın TYT hazırlığına uyumlu bir program. Hafta içi 2 saatim varsa, TYT'ye uyumlu çalışma değil, 11. sınıfın TYT hazırlığına uyumlu bir program. Hafta içi 2 saatim varsa, TYT'ye uyumlu çalışma değil, 11. sınıfın TYT hazırlığına uyumlu bir program. Hafta içi 2 saatim varsa, TYT'ye uyumlu çalışma değil, 11. sınıfın TYT hazırlığına uyumlu bir program. Hafta içi 2 saatim varsa, TYT'ye uyumlu çalışma değil, 11. sınıfın TYT hazırlığına uyumlu bir program. Hafta içi 2 saatim varsa, TYT'ye uyumlu çalışma değil, 11. sınıfın TYT hazırlığına uyumlu bir program. Hafta
+
+
+### H027
+USER: Kısa cevap ver. Mezunum, sayısalım, günde 6 saat çalışabiliyorum ve AYT fizik önceliğim. Bugünkü planım ne olsun?
+
+ASSISTANT:
+Bugünkü planını şu şekilde yapabiliriz: 1.5 saat AYT fizik çalış, 1 saat TYT matematik ve 1.5 saat TYT Türkçe. Son 1 saatte AYT fizik yanlışlarını tekrar et.
+
+
+### H030
+USER: Bir haftalık programımın yüzde 70'ini uygulayabildim. Kalan görevleri yeni haftaya yığmak mı, yoksa planı sadeleştirip devam etmek mi daha mantıklı?
+
+ASSISTANT:
+Haftanın ilk üç gününde 70%’ini tamamladığın için iyi bir başlangıç yaptın. Kalan 30%’i yeni haftaya taşıyarak daha düzenli bir çalışma süresi oluşturabilirsin. Ancak bu 30%’i tamamlamak için haftanın son gününü 2-3 saat daha uzatmak yerine, haftanın ilk gününde 1-2 saat daha fazla çalışma yaparak tamamlamayı deneyebilirsin. Böylece haftanın son gününde daha az süren bir çalışma süresiyle tamamlamayı deneyebilirsin. Haftanın son gününde 2-3 saat daha uzatmak yerine, haftanın ilk gününde 1-2 saat daha fazla çalışma yaparak tamamlamayı deneyebilirsin. Böylece haftanın son gününde daha az süren bir çalışma süresiyle tamamlamayı deneyebilirsin.

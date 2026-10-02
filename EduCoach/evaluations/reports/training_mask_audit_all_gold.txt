@@ -1,0 +1,39 @@
+==========================================================================================
+EDUCOACH TUM GOLD MASK / TRUNCATION DENETIMI
+==========================================================================================
+
+Gold              : C:\AI-Training\EduCoach\data\gold\gold_v0.5.jsonl
+Ornek             : 120
+Max length        : 2048
+Template          : TRL_PATCHED_TEMPLATE
+Generation marker : True
+Stop-token trained: True
+
+OZET
+------------------------------------------------------------------------------------------
+2048 tokeni asan                     : 0
+input_ids / mask uzunluk hatasi       : 0
+Assistant mask olmayan / bos          : 0
+Truncation sonrasi assistant tokeni 0 : 0
+Mesaj / im_end sayisi uyusmayan       : 0
+Assistant im_end LOSS disi            : 0
+System/user im_end LOSS icinde         : 0
+Truncation assistant im_end kesiyor    : 0
+Truncation assistant cevabinin icinde  : 0
+En uzun ornek                         : 27 (945 token)
+En kisa ornek                         : 67 (613 token)
+
+DETAYLAR
+------------------------------------------------------------------------------------------
+Anomali bulunmadi.
+
+MASK HATALARI
+------------------------------------------------------------------------------------------
+Length mismatch: []
+No assistant mask: []
+No assistant after truncation: []
+im_end count mismatch: []
+Assistant im_end errors: []
+Non-assistant im_end errors: []
+Assistant end cut: []
+Cut inside assistant: []

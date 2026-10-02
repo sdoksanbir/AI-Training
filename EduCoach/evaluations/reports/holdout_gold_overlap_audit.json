@@ -1,0 +1,3255 @@
+{
+  "gold_file": "C:\\AI-Training\\EduCoach\\data\\gold\\gold_v0.5.jsonl",
+  "holdout_file": "C:\\AI-Training\\EduCoach\\evaluations\\holdout\\benchmark_v0.2.jsonl",
+  "gold_examples": 120,
+  "gold_user_candidates": 220,
+  "holdout_examples": 30,
+  "label_counts": {
+    "VERY_HIGH": 0,
+    "HIGH": 0,
+    "MEDIUM": 4,
+    "LOW": 26
+  },
+  "results": [
+    {
+      "id": "H001",
+      "category": "bilgiyi_dogru_kullanma",
+      "user": "12. sınıf sayısal öğrencisiyim. TYT 74 civarı geliyor. Hafta içi okuldan sonra 2,5 saat çalışabiliyorum. Cumartesi 6 saatim boş. Bana haftalık bir başlangıç düzeni çıkar ama verdiğim bilgileri tekrar sorma.",
+      "top_label": "MEDIUM",
+      "matches": [
+        {
+          "gold_example": 39,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "12. sınıf sayısal öğrencisiyim. TYT 76 civarı geliyor. Hafta içi okuldan dolayı en fazla 3 saat çalışabiliyorum. Nasıl bir düzen kurmalıyım?",
+          "raw": {
+            "sequence": 0.6746268656716418,
+            "jaccard": 0.3333333333333333,
+            "bigram_dice": 0.36,
+            "combined": 0.5093134328358209
+          },
+          "masked": {
+            "sequence": 0.7002801120448179,
+            "jaccard": 0.3939393939393939,
+            "bigram_dice": 0.4897959183673469,
+            "combined": 0.5662810578776964
+          },
+          "best_score": 0.5662810578776964,
+          "label": "MEDIUM"
+        },
+        {
+          "gold_example": 39,
+          "turn_index": null,
+          "kind": "combined_user_turns",
+          "gold_user": "12. sınıf sayısal öğrencisiyim. TYT 76 civarı geliyor. Hafta içi okuldan dolayı en fazla 3 saat çalışabiliyorum. Nasıl bir düzen kurmalıyım? Hafta sonu iki gün de 6 saat çalışabiliyorum.",
+          "raw": {
+            "sequence": 0.6263157894736842,
+            "jaccard": 0.32558139534883723,
+            "bigram_dice": 0.3157894736842105,
+            "combined": 0.47399020807833536
+          },
+          "masked": {
+            "sequence": 0.6650246305418719,
+            "jaccard": 0.35135135135135137,
+            "bigram_dice": 0.43636363636363634,
+            "combined": 0.5251904479490687
+          },
+          "best_score": 0.5251904479490687,
+          "label": "MEDIUM"
+        },
+        {
+          "gold_example": 36,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "12. sınıf sayısal öğrencisiyim. TYT 73, AYT 41. Hafta içi 3 saat, hafta sonu 6 saat çalışabiliyorum. AYT fizik ve matematik zayıf. Bana haftalık düzen çıkar.",
+          "raw": {
+            "sequence": 0.6246418338108882,
+            "jaccard": 0.3170731707317073,
+            "bigram_dice": 0.2545454545454545,
+            "combined": 0.45835195903404724
+          },
+          "masked": {
+            "sequence": 0.6613756613756614,
+            "jaccard": 0.35294117647058826,
+            "bigram_dice": 0.33962264150943394,
+            "combined": 0.504494711930894
+          },
+          "best_score": 0.504494711930894,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 49,
+          "turn_index": null,
+          "kind": "combined_user_turns",
+          "gold_user": "12. sınıf sayısal öğrencisiyim. TYT 78 civarı geliyor. AYT matematikte iyiyim ama fizik çok zayıf. Hafta içi 3,5 saat, hafta sonu 6 saat çalışabiliyorum.",
+          "raw": {
+            "sequence": 0.5072046109510087,
+            "jaccard": 0.35,
+            "bigram_dice": 0.2962962962962963,
+            "combined": 0.41786156473476355
+          },
+          "masked": {
+            "sequence": 0.5444743935309974,
+            "jaccard": 0.35294117647058826,
+            "bigram_dice": 0.39215686274509803,
+            "combined": 0.45655092225569477
+          },
+          "best_score": 0.45655092225569477,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 46,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "12. sınıf dil öğrencisiyim. TYT 74 civarı, YDT 58 geliyor. Okuldan sonra 3 saat çalışabiliyorum. YDT'yi yükseltmek istiyorum.",
+          "raw": {
+            "sequence": 0.5266457680250783,
+            "jaccard": 0.2894736842105263,
+            "bigram_dice": 0.25,
+            "combined": 0.40016498927569705
+          },
+          "masked": {
+            "sequence": 0.5523255813953488,
+            "jaccard": 0.3125,
+            "bigram_dice": 0.3404255319148936,
+            "combined": 0.4379978970806531
+          },
+          "best_score": 0.4379978970806531,
+          "label": "LOW"
+        }
+      ]
+    },
+    {
+      "id": "H002",
+      "category": "bilgiyi_dogru_kullanma",
+      "user": "Mezunum, eşit ağırlığım. TYT 78, AYT 44 yapıyorum. Edebiyatım iyi, matematikte zorlanıyorum. Günde 5 saat çalışabiliyorum. Nereden başlamalıyım?",
+      "top_label": "MEDIUM",
+      "matches": [
+        {
+          "gold_example": 40,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "Mezunum, eşit ağırlığım. TYT 71, AYT 43 yapıyorum. Matematiğim edebiyattan daha zayıf. Günde 5 saat çalışıyorum. Bana nereden başlamam gerektiğini söyle.",
+          "raw": {
+            "sequence": 0.7163120567375887,
+            "jaccard": 0.3448275862068966,
+            "bigram_dice": 0.2702702702702703,
+            "combined": 0.5156583582849174
+          },
+          "masked": {
+            "sequence": 0.7483443708609272,
+            "jaccard": 0.4,
+            "bigram_dice": 0.4864864864864865,
+            "combined": 0.5914694827277609
+          },
+          "best_score": 0.5914694827277609,
+          "label": "MEDIUM"
+        },
+        {
+          "gold_example": 50,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "Eşit ağırlık mezunuyum. TYT 77, AYT 49 yapıyorum. Edebiyatım güçlü, geometri çok zayıf. Günde 6 saat çalışabiliyorum.",
+          "raw": {
+            "sequence": 0.6558704453441295,
+            "jaccard": 0.2962962962962963,
+            "bigram_dice": 0.12121212121212122,
+            "combined": 0.4410665358033779
+          },
+          "masked": {
+            "sequence": 0.704119850187266,
+            "jaccard": 0.4090909090909091,
+            "bigram_dice": 0.48484848484848486,
+            "combined": 0.5717568947906027
+          },
+          "best_score": 0.5717568947906027,
+          "label": "MEDIUM"
+        },
+        {
+          "gold_example": 45,
+          "turn_index": null,
+          "kind": "combined_user_turns",
+          "gold_user": "Eşit ağırlığım. TYT 68 civarı. AYT matematikte zorlanıyorum ama edebiyatım iyi. Hafta içi 4 saat, hafta sonu 7 saat çalışabiliyorum.",
+          "raw": {
+            "sequence": 0.5627376425855514,
+            "jaccard": 0.38461538461538464,
+            "bigram_dice": 0.2777777777777778,
+            "combined": 0.4523089922329466
+          },
+          "masked": {
+            "sequence": 0.5845070422535211,
+            "jaccard": 0.5238095238095238,
+            "bigram_dice": 0.4,
+            "combined": 0.5293963782696177
+          },
+          "best_score": 0.5293963782696177,
+          "label": "MEDIUM"
+        },
+        {
+          "gold_example": 44,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "Mezunum, sayısalım. TYT 81, AYT 47 yapıyorum. Fizik en zayıf dersim. Günde 7 saat çalışabiliyorum. Bana çalışma dağılımı yap.",
+          "raw": {
+            "sequence": 0.6141732283464567,
+            "jaccard": 0.23333333333333334,
+            "bigram_dice": 0.05714285714285714,
+            "combined": 0.3885151856017998
+          },
+          "masked": {
+            "sequence": 0.6642335766423357,
+            "jaccard": 0.32,
+            "bigram_dice": 0.4,
+            "combined": 0.5081167883211679
+          },
+          "best_score": 0.5081167883211679,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 45,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "Eşit ağırlığım. TYT 68 civarı. AYT matematikte zorlanıyorum ama edebiyatım iyi.",
+          "raw": {
+            "sequence": 0.5471698113207547,
+            "jaccard": 0.38095238095238093,
+            "bigram_dice": 0.2962962962962963,
+            "combined": 0.44712987920535086
+          },
+          "masked": {
+            "sequence": 0.5511111111111111,
+            "jaccard": 0.5,
+            "bigram_dice": 0.37037037037037035,
+            "combined": 0.49962962962962965
+          },
+          "best_score": 0.49962962962962965,
+          "label": "LOW"
+        }
+      ]
+    },
+    {
+      "id": "H003",
+      "category": "yks_terminolojisi",
+      "user": "TYT 84 net, AYT 46 net yapıyorum. Toplam 130 puanım var diyebilir miyim?",
+      "top_label": "MEDIUM",
+      "matches": [
+        {
+          "gold_example": 64,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "TYT 70, AYT 50. Toplam 120 net yaptım, YKS netim 120 diyebilir miyim?",
+          "raw": {
+            "sequence": 0.5970149253731343,
+            "jaccard": 0.3333333333333333,
+            "bigram_dice": 0.08333333333333333,
+            "combined": 0.4151741293532338
+          },
+          "masked": {
+            "sequence": 0.7105263157894737,
+            "jaccard": 0.5384615384615384,
+            "bigram_dice": 0.43478260869565216,
+            "combined": 0.6037581411723287
+          },
+          "best_score": 0.6037581411723287,
+          "label": "MEDIUM"
+        },
+        {
+          "gold_example": 60,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "TYT 76, AYT 39 yapıyorum. Sıralamam kaç gelir?",
+          "raw": {
+            "sequence": 0.5714285714285714,
+            "jaccard": 0.17647058823529413,
+            "bigram_dice": 0.0,
+            "combined": 0.3386554621848739
+          },
+          "masked": {
+            "sequence": 0.6666666666666666,
+            "jaccard": 0.3076923076923077,
+            "bigram_dice": 0.2222222222222222,
+            "combined": 0.4700854700854701
+          },
+          "best_score": 0.4700854700854701,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 58,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "TYT'de 82 net yapıyorum. Bu 82 puan mı demek?",
+          "raw": {
+            "sequence": 0.5535714285714286,
+            "jaccard": 0.16666666666666666,
+            "bigram_dice": 0.09523809523809523,
+            "combined": 0.3458333333333333
+          },
+          "masked": {
+            "sequence": 0.6666666666666666,
+            "jaccard": 0.26666666666666666,
+            "bigram_dice": 0.2,
+            "combined": 0.45333333333333337
+          },
+          "best_score": 0.45333333333333337,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 60,
+          "turn_index": null,
+          "kind": "combined_user_turns",
+          "gold_user": "TYT 76, AYT 39 yapıyorum. Sıralamam kaç gelir? Sayısalım.",
+          "raw": {
+            "sequence": 0.5573770491803278,
+            "jaccard": 0.16666666666666666,
+            "bigram_dice": 0.0,
+            "combined": 0.3286885245901639
+          },
+          "masked": {
+            "sequence": 0.6470588235294118,
+            "jaccard": 0.2857142857142857,
+            "bigram_dice": 0.21052631578947367,
+            "combined": 0.45134896063688634
+          },
+          "best_score": 0.45134896063688634,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 66,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "AYT 35 net yapıyorum. Bu kötü mü?",
+          "raw": {
+            "sequence": 0.44,
+            "jaccard": 0.1875,
+            "bigram_dice": 0.1111111111111111,
+            "combined": 0.2984722222222222
+          },
+          "masked": {
+            "sequence": 0.4864864864864865,
+            "jaccard": 0.3076923076923077,
+            "bigram_dice": 0.35294117647058826,
+            "combined": 0.40613917084505324
+          },
+          "best_score": 0.40613917084505324,
+          "label": "LOW"
+        }
+      ]
+    },
+    {
+      "id": "H004",
+      "category": "yks_terminolojisi",
+      "user": "Sayısal öğrencisiyim. TYT netim yükseldi ama aynı net artışı sıralamama neden birebir yansımıyor?",
+      "top_label": "LOW",
+      "matches": [
+        {
+          "gold_example": 70,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "TYT netim arttı ama başarı sıram neden aynı kalmış olabilir?",
+          "raw": {
+            "sequence": 0.4675324675324675,
+            "jaccard": 0.2777777777777778,
+            "bigram_dice": 0.09523809523809523,
+            "combined": 0.33614718614718614
+          },
+          "masked": {
+            "sequence": 0.4675324675324675,
+            "jaccard": 0.2777777777777778,
+            "bigram_dice": 0.09523809523809523,
+            "combined": 0.33614718614718614
+          },
+          "best_score": 0.33614718614718614,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 47,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "Sayısalım. TYT matematik 28 net geliyor ama fen 9 net civarı. Ne yapmalıyım?",
+          "raw": {
+            "sequence": 0.5,
+            "jaccard": 0.13636363636363635,
+            "bigram_dice": 0.0,
+            "combined": 0.2909090909090909
+          },
+          "masked": {
+            "sequence": 0.48,
+            "jaccard": 0.14285714285714285,
+            "bigram_dice": 0.0,
+            "combined": 0.28285714285714286
+          },
+          "best_score": 0.2909090909090909,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 49,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "12. sınıf sayısal öğrencisiyim. TYT 78 civarı geliyor. AYT matematikte iyiyim ama fizik çok zayıf.",
+          "raw": {
+            "sequence": 0.3915343915343915,
+            "jaccard": 0.16666666666666666,
+            "bigram_dice": 0.15384615384615385,
+            "combined": 0.2765364265364265
+          },
+          "masked": {
+            "sequence": 0.38974358974358975,
+            "jaccard": 0.17391304347826086,
+            "bigram_dice": 0.15384615384615385,
+            "combined": 0.2778149386845039
+          },
+          "best_score": 0.2778149386845039,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 49,
+          "turn_index": null,
+          "kind": "combined_user_turns",
+          "gold_user": "12. sınıf sayısal öğrencisiyim. TYT 78 civarı geliyor. AYT matematikte iyiyim ama fizik çok zayıf. Hafta içi 3,5 saat, hafta sonu 6 saat çalışabiliyorum.",
+          "raw": {
+            "sequence": 0.4214876033057851,
+            "jaccard": 0.125,
+            "bigram_dice": 0.1111111111111111,
+            "combined": 0.27046602387511476
+          },
+          "masked": {
+            "sequence": 0.4094488188976378,
+            "jaccard": 0.14285714285714285,
+            "bigram_dice": 0.11764705882352941,
+            "combined": 0.2711109640706676
+          },
+          "best_score": 0.2711109640706676,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 47,
+          "turn_index": null,
+          "kind": "combined_user_turns",
+          "gold_user": "Sayısalım. TYT matematik 28 net geliyor ama fen 9 net civarı. Ne yapmalıyım? Günde 5 saat çalışabiliyorum.",
+          "raw": {
+            "sequence": 0.467005076142132,
+            "jaccard": 0.11538461538461539,
+            "bigram_dice": 0.0,
+            "combined": 0.2681179226864506
+          },
+          "masked": {
+            "sequence": 0.4423076923076923,
+            "jaccard": 0.125,
+            "bigram_dice": 0.0,
+            "combined": 0.2586538461538461
+          },
+          "best_score": 0.2681179226864506,
+          "label": "LOW"
+        }
+      ]
+    },
+    {
+      "id": "H005",
+      "category": "gercekci_planlama",
+      "user": "Hafta içi okuldan sonra 2 saatim var. Her gün matematik, fizik, kimya, biyoloji, Türkçe ve paragraf çalışmak istiyorum. Bana program yap.",
+      "top_label": "LOW",
+      "matches": [
+        {
+          "gold_example": 71,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "Günde 3 saat çalışabiliyorum ama matematik, fizik, kimya, biyoloji, Türkçe ve sosyalin hepsini her gün çalışmak istiyorum.",
+          "raw": {
+            "sequence": 0.5991902834008097,
+            "jaccard": 0.35714285714285715,
+            "bigram_dice": 0.3888888888888889,
+            "combined": 0.4845157766210398
+          },
+          "masked": {
+            "sequence": 0.6274509803921569,
+            "jaccard": 0.4074074074074074,
+            "bigram_dice": 0.3888888888888889,
+            "combined": 0.5137254901960784
+          },
+          "best_score": 0.5137254901960784,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 73,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "Okuldan sonra 2 saatim var. Bana hem TYT hem AYT hem de okul tekrarını aynı gün bitirecek program yap.",
+          "raw": {
+            "sequence": 0.43478260869565216,
+            "jaccard": 0.3103448275862069,
+            "bigram_dice": 0.2631578947368421,
+            "combined": 0.36312633157105656
+          },
+          "masked": {
+            "sequence": 0.453781512605042,
+            "jaccard": 0.3103448275862069,
+            "bigram_dice": 0.2631578947368421,
+            "combined": 0.3726257835257515
+          },
+          "best_score": 0.3726257835257515,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 76,
+          "turn_index": null,
+          "kind": "combined_user_turns",
+          "gold_user": "Hafta içi 2 saat, hafta sonu 7 saat çalışabiliyorum. Her gün aynı programı uygulamak istiyorum. Sayısalım, matematik ve fizik zayıf.",
+          "raw": {
+            "sequence": 0.4357976653696498,
+            "jaccard": 0.3,
+            "bigram_dice": 0.10256410256410256,
+            "combined": 0.32841165319764537
+          },
+          "masked": {
+            "sequence": 0.44609665427509293,
+            "jaccard": 0.3103448275862069,
+            "bigram_dice": 0.10526315789473684,
+            "combined": 0.33720440699235593
+          },
+          "best_score": 0.33720440699235593,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 76,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "Hafta içi 2 saat, hafta sonu 7 saat çalışabiliyorum. Her gün aynı programı uygulamak istiyorum.",
+          "raw": {
+            "sequence": 0.45045045045045046,
+            "jaccard": 0.21428571428571427,
+            "bigram_dice": 0.11764705882352941,
+            "combined": 0.31304035127564545
+          },
+          "masked": {
+            "sequence": 0.46153846153846156,
+            "jaccard": 0.2222222222222222,
+            "bigram_dice": 0.12121212121212122,
+            "combined": 0.32167832167832167
+          },
+          "best_score": 0.32167832167832167,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 94,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "Uzun açıklama istemiyorum. Bugün 3 saatim var, AYT matematik çalışmam gerekiyor. Ne yapayım?",
+          "raw": {
+            "sequence": 0.45871559633027525,
+            "jaccard": 0.0967741935483871,
+            "bigram_dice": 0.0625,
+            "combined": 0.2708900562296538
+          },
+          "masked": {
+            "sequence": 0.48672566371681414,
+            "jaccard": 0.13333333333333333,
+            "bigram_dice": 0.125,
+            "combined": 0.30836283185840707
+          },
+          "best_score": 0.30836283185840707,
+          "label": "LOW"
+        }
+      ]
+    },
+    {
+      "id": "H006",
+      "category": "gercekci_planlama",
+      "user": "Şu an günde 3-4 saat çalışabiliyorum ama önümüzdeki haftadan itibaren her gün 9 saat çalışmaya karar verdim. Sence planı nasıl kurmalıyım?",
+      "top_label": "LOW",
+      "matches": [
+        {
+          "gold_example": 71,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "Günde 3 saat çalışabiliyorum ama matematik, fizik, kimya, biyoloji, Türkçe ve sosyalin hepsini her gün çalışmak istiyorum.",
+          "raw": {
+            "sequence": 0.4743083003952569,
+            "jaccard": 0.22580645161290322,
+            "bigram_dice": 0.21621621621621623,
+            "combined": 0.34813932892474264
+          },
+          "masked": {
+            "sequence": 0.4758364312267658,
+            "jaccard": 0.2413793103448276,
+            "bigram_dice": 0.2777777777777778,
+            "combined": 0.3658875642723868
+          },
+          "best_score": 0.3658875642723868,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 76,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "Hafta içi 2 saat, hafta sonu 7 saat çalışabiliyorum. Her gün aynı programı uygulamak istiyorum.",
+          "raw": {
+            "sequence": 0.38596491228070173,
+            "jaccard": 0.13333333333333333,
+            "bigram_dice": 0.11428571428571428,
+            "combined": 0.25583959899749376
+          },
+          "masked": {
+            "sequence": 0.4435483870967742,
+            "jaccard": 0.19230769230769232,
+            "bigram_dice": 0.18181818181818182,
+            "combined": 0.31583013760433115
+          },
+          "best_score": 0.31583013760433115,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 76,
+          "turn_index": null,
+          "kind": "combined_user_turns",
+          "gold_user": "Hafta içi 2 saat, hafta sonu 7 saat çalışabiliyorum. Her gün aynı programı uygulamak istiyorum. Sayısalım, matematik ve fizik zayıf.",
+          "raw": {
+            "sequence": 0.38022813688212925,
+            "jaccard": 0.11428571428571428,
+            "bigram_dice": 0.1,
+            "combined": 0.24439978272677892
+          },
+          "masked": {
+            "sequence": 0.45229681978798586,
+            "jaccard": 0.16129032258064516,
+            "bigram_dice": 0.15789473684210525,
+            "combined": 0.30611445403660753
+          },
+          "best_score": 0.30611445403660753,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 85,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "Programda her konuya 1 saat yazıyorum ama bazı konular 2 saat sürüyor ve bütün gün kayıyor.",
+          "raw": {
+            "sequence": 0.39823008849557523,
+            "jaccard": 0.125,
+            "bigram_dice": 0.0,
+            "combined": 0.23661504424778762
+          },
+          "masked": {
+            "sequence": 0.4634146341463415,
+            "jaccard": 0.17857142857142858,
+            "bigram_dice": 0.058823529411764705,
+            "combined": 0.2970434515269523
+          },
+          "best_score": 0.2970434515269523,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 47,
+          "turn_index": 3,
+          "kind": "single_user_turn",
+          "gold_user": "Günde 5 saat çalışabiliyorum.",
+          "raw": {
+            "sequence": 0.32926829268292684,
+            "jaccard": 0.13636363636363635,
+            "bigram_dice": 0.08333333333333333,
+            "combined": 0.22220990391722098
+          },
+          "masked": {
+            "sequence": 0.35555555555555557,
+            "jaccard": 0.21052631578947367,
+            "bigram_dice": 0.2608695652173913,
+            "combined": 0.2931095855580982
+          },
+          "best_score": 0.2931095855580982,
+          "label": "LOW"
+        }
+      ]
+    },
+    {
+      "id": "H007",
+      "category": "sure_yonetimi",
+      "user": "TYT matematikte zor sorulara çok takılıyorum. Son 15 soruya çoğu denemede bakamıyorum. Konuları biliyorum ama süre yetmiyor.",
+      "top_label": "MEDIUM",
+      "matches": [
+        {
+          "gold_example": 104,
+          "turn_index": 3,
+          "kind": "single_user_turn",
+          "gold_user": "Zor sorulara çok takılıyorum, son 8-10 soruya bazen bakamıyorum.",
+          "raw": {
+            "sequence": 0.6120218579234973,
+            "jaccard": 0.35,
+            "bigram_dice": 0.32,
+            "combined": 0.4750109289617486
+          },
+          "masked": {
+            "sequence": 0.6217616580310881,
+            "jaccard": 0.4444444444444444,
+            "bigram_dice": 0.48,
+            "combined": 0.5402141623488773
+          },
+          "best_score": 0.5402141623488773,
+          "label": "MEDIUM"
+        },
+        {
+          "gold_example": 104,
+          "turn_index": null,
+          "kind": "combined_user_turns",
+          "gold_user": "AYT denemelerinde matematik netim bazen 24 bazen 17 geliyor. Çok dengesiz. Zor sorulara çok takılıyorum, son 8-10 soruya bazen bakamıyorum.",
+          "raw": {
+            "sequence": 0.5546875,
+            "jaccard": 0.25,
+            "bigram_dice": 0.2222222222222222,
+            "combined": 0.39678819444444446
+          },
+          "masked": {
+            "sequence": 0.5514705882352942,
+            "jaccard": 0.3333333333333333,
+            "bigram_dice": 0.34285714285714286,
+            "combined": 0.4443067226890756
+          },
+          "best_score": 0.4443067226890756,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 82,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "TYT Türkçede 50 dakika harcıyorum, matematikte de çok oyalanıyorum. Son bölümlere yetişemiyorum.",
+          "raw": {
+            "sequence": 0.4205607476635514,
+            "jaccard": 0.16,
+            "bigram_dice": 0.0,
+            "combined": 0.2582803738317757
+          },
+          "masked": {
+            "sequence": 0.41818181818181815,
+            "jaccard": 0.20833333333333334,
+            "bigram_dice": 0.0,
+            "combined": 0.2715909090909091
+          },
+          "best_score": 0.2715909090909091,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 23,
+          "turn_index": 3,
+          "kind": "single_user_turn",
+          "gold_user": "Türkçe yaklaşık 55 dakika sürüyor. Matematikte de çok oyalanıyorum. Fene geldiğimde çoğu zaman çok az süre kalıyor.",
+          "raw": {
+            "sequence": 0.4206008583690987,
+            "jaccard": 0.13793103448275862,
+            "bigram_dice": 0.0,
+            "combined": 0.25167973952937694
+          },
+          "masked": {
+            "sequence": 0.41841004184100417,
+            "jaccard": 0.17857142857142858,
+            "bigram_dice": 0.0,
+            "combined": 0.26277644949193063
+          },
+          "best_score": 0.26277644949193063,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 47,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "Sayısalım. TYT matematik 28 net geliyor ama fen 9 net civarı. Ne yapmalıyım?",
+          "raw": {
+            "sequence": 0.35051546391752575,
+            "jaccard": 0.07407407407407407,
+            "bigram_dice": 0.0,
+            "combined": 0.1974799541809851
+          },
+          "masked": {
+            "sequence": 0.4019607843137255,
+            "jaccard": 0.12,
+            "bigram_dice": 0.0,
+            "combined": 0.23698039215686276
+          },
+          "best_score": 0.23698039215686276,
+          "label": "LOW"
+        }
+      ]
+    },
+    {
+      "id": "H008",
+      "category": "sure_yonetimi",
+      "user": "Akşam 19.00 ile 22.00 arasında çalışabiliyorum ama ilk 40 dakikam hangi derse başlayacağıma karar vermekle geçiyor. Bunu nasıl düzeltirim?",
+      "top_label": "LOW",
+      "matches": [
+        {
+          "gold_example": 84,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "Akşam 3 saat çalışacağım diyorum ama masaya geçince ne yapacağıma karar vermekle yarım saat gidiyor.",
+          "raw": {
+            "sequence": 0.5106382978723404,
+            "jaccard": 0.13333333333333333,
+            "bigram_dice": 0.058823529411764705,
+            "combined": 0.3070838548185231
+          },
+          "masked": {
+            "sequence": 0.5371900826446281,
+            "jaccard": 0.19230769230769232,
+            "bigram_dice": 0.125,
+            "combined": 0.3512873490146218
+          },
+          "best_score": 0.3512873490146218,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 8,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "Günde 6 saat çalışıyorum ama netlerim artmıyor. Daha ne yapacağımı bilmiyorum.",
+          "raw": {
+            "sequence": 0.4339622641509434,
+            "jaccard": 0.03333333333333333,
+            "bigram_dice": 0.0,
+            "combined": 0.22698113207547171
+          },
+          "masked": {
+            "sequence": 0.4840182648401826,
+            "jaccard": 0.07692307692307693,
+            "bigram_dice": 0.0,
+            "combined": 0.26508605549701436
+          },
+          "best_score": 0.26508605549701436,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 71,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "Günde 3 saat çalışabiliyorum ama matematik, fizik, kimya, biyoloji, Türkçe ve sosyalin hepsini her gün çalışmak istiyorum.",
+          "raw": {
+            "sequence": 0.3952569169960474,
+            "jaccard": 0.05714285714285714,
+            "bigram_dice": 0.05555555555555555,
+            "combined": 0.22588242675199197
+          },
+          "masked": {
+            "sequence": 0.4307692307692308,
+            "jaccard": 0.0967741935483871,
+            "bigram_dice": 0.058823529411764705,
+            "combined": 0.25618157933148444
+          },
+          "best_score": 0.25618157933148444,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 72,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "Mezunum ve günde 8 saat çalışmak istiyorum ama şu an en fazla 4 saat sürdürebiliyorum.",
+          "raw": {
+            "sequence": 0.3076923076923077,
+            "jaccard": 0.030303030303030304,
+            "bigram_dice": 0.0,
+            "combined": 0.16293706293706295
+          },
+          "masked": {
+            "sequence": 0.4396551724137931,
+            "jaccard": 0.07142857142857142,
+            "bigram_dice": 0.0,
+            "combined": 0.24125615763546798
+          },
+          "best_score": 0.24125615763546798,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 99,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "Deneme çözüyorum ama yanlışlarıma sadece bakıp geçiyorum. Nasıl analiz etmeliyim?",
+          "raw": {
+            "sequence": 0.42790697674418604,
+            "jaccard": 0.07142857142857142,
+            "bigram_dice": 0.0,
+            "combined": 0.23538205980066446
+          },
+          "masked": {
+            "sequence": 0.42201834862385323,
+            "jaccard": 0.08,
+            "bigram_dice": 0.0,
+            "combined": 0.2350091743119266
+          },
+          "best_score": 0.23538205980066446,
+          "label": "LOW"
+        }
+      ]
+    },
+    {
+      "id": "H009",
+      "category": "erteleme_ve_surdurulebilirlik",
+      "user": "Pazartesi çok iyi başlıyorum, salı da çalışıyorum ama çarşamba aksarsa haftanın geri kalanını tamamen bırakıyorum. Bu döngüyü nasıl kırarım?",
+      "top_label": "LOW",
+      "matches": [
+        {
+          "gold_example": 32,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "Programı pazartesi ve salı uyguluyorum ama çarşamba yorulunca tamamen bırakıyorum. Sonra diğer günler de çalışmıyorum.",
+          "raw": {
+            "sequence": 0.5138339920948617,
+            "jaccard": 0.21428571428571427,
+            "bigram_dice": 0.125,
+            "combined": 0.34620271033314515
+          },
+          "masked": {
+            "sequence": 0.5138339920948617,
+            "jaccard": 0.21428571428571427,
+            "bigram_dice": 0.125,
+            "combined": 0.34620271033314515
+          },
+          "best_score": 0.34620271033314515,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 91,
+          "turn_index": null,
+          "kind": "combined_user_turns",
+          "gold_user": "Üç gün çok iyi çalışıyorum, dördüncü gün tamamen tükeniyorum. Sonra iki gün hiçbir şey yapamıyorum. 8-9 saat çalışıyorum.",
+          "raw": {
+            "sequence": 0.3700787401574803,
+            "jaccard": 0.12903225806451613,
+            "bigram_dice": 0.05555555555555555,
+            "combined": 0.2348601586092061
+          },
+          "masked": {
+            "sequence": 0.3893129770992366,
+            "jaccard": 0.13333333333333333,
+            "bigram_dice": 0.05555555555555555,
+            "combined": 0.24576759966072942
+          },
+          "best_score": 0.24576759966072942,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 91,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "Üç gün çok iyi çalışıyorum, dördüncü gün tamamen tükeniyorum. Sonra iki gün hiçbir şey yapamıyorum.",
+          "raw": {
+            "sequence": 0.3776824034334764,
+            "jaccard": 0.14285714285714285,
+            "bigram_dice": 0.0625,
+            "combined": 0.24419834457388107
+          },
+          "masked": {
+            "sequence": 0.3776824034334764,
+            "jaccard": 0.14285714285714285,
+            "bigram_dice": 0.0625,
+            "combined": 0.24419834457388107
+          },
+          "best_score": 0.24419834457388107,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 110,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "Okul sınavları başladı. YKS çalışmasını tamamen bırakıp yazılılara mı çalışayım?",
+          "raw": {
+            "sequence": 0.4372093023255814,
+            "jaccard": 0.03571428571428571,
+            "bigram_dice": 0.0,
+            "combined": 0.2293189368770764
+          },
+          "masked": {
+            "sequence": 0.4372093023255814,
+            "jaccard": 0.03571428571428571,
+            "bigram_dice": 0.0,
+            "combined": 0.2293189368770764
+          },
+          "best_score": 0.2293189368770764,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 8,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "Günde 6 saat çalışıyorum ama netlerim artmıyor. Daha ne yapacağımı bilmiyorum.",
+          "raw": {
+            "sequence": 0.3755868544600939,
+            "jaccard": 0.07142857142857142,
+            "bigram_dice": 0.07142857142857142,
+            "combined": 0.22350771294433266
+          },
+          "masked": {
+            "sequence": 0.3870967741935484,
+            "jaccard": 0.07142857142857142,
+            "bigram_dice": 0.07142857142857142,
+            "combined": 0.22926267281105991
+          },
+          "best_score": 0.22926267281105991,
+          "label": "LOW"
+        }
+      ]
+    },
+    {
+      "id": "H010",
+      "category": "erteleme_ve_surdurulebilirlik",
+      "user": "Derse başlamadan önce kaynak araştırmaya, masa düzenlemeye ve plan yazmaya dalıyorum. Çalışıyormuş gibi hissediyorum ama soru çözmeye başlayamıyorum.",
+      "top_label": "LOW",
+      "matches": [
+        {
+          "gold_example": 90,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "Derse başlayacağım zaman sürekli önce masayı düzenliyorum, kaynak seçiyorum, video arıyorum. Bir bakıyorum bir saat geçmiş.",
+          "raw": {
+            "sequence": 0.3849056603773585,
+            "jaccard": 0.1,
+            "bigram_dice": 0.0,
+            "combined": 0.22245283018867926
+          },
+          "masked": {
+            "sequence": 0.3849056603773585,
+            "jaccard": 0.1,
+            "bigram_dice": 0.0,
+            "combined": 0.22245283018867926
+          },
+          "best_score": 0.22245283018867926,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 16,
+          "turn_index": 3,
+          "kind": "single_user_turn",
+          "gold_user": "Bir günü kaçırınca bütün program bozulmuş gibi geliyor ve bırakıyorum.",
+          "raw": {
+            "sequence": 0.3627906976744186,
+            "jaccard": 0.07692307692307693,
+            "bigram_dice": 0.0,
+            "combined": 0.2044722719141324
+          },
+          "masked": {
+            "sequence": 0.3627906976744186,
+            "jaccard": 0.07692307692307693,
+            "bigram_dice": 0.0,
+            "combined": 0.2044722719141324
+          },
+          "best_score": 0.2044722719141324,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 20,
+          "turn_index": 3,
+          "kind": "single_user_turn",
+          "gold_user": "Bir ay önce 61 net civarıydım, şimdi genelde 68-70 geliyor ama bana hâlâ çok düşük geliyor.",
+          "raw": {
+            "sequence": 0.34893617021276596,
+            "jaccard": 0.0625,
+            "bigram_dice": 0.0,
+            "combined": 0.19321808510638297
+          },
+          "masked": {
+            "sequence": 0.36885245901639346,
+            "jaccard": 0.06666666666666667,
+            "bigram_dice": 0.0,
+            "combined": 0.20442622950819672
+          },
+          "best_score": 0.20442622950819672,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 87,
+          "turn_index": null,
+          "kind": "combined_user_turns",
+          "gold_user": "Hafta içi sadece 90 dakikam kalıyor. Bu sürede hiçbir şey yetişmiyor gibi hissediyorum. AYT fizik.",
+          "raw": {
+            "sequence": 0.34024896265560167,
+            "jaccard": 0.06451612903225806,
+            "bigram_dice": 0.06451612903225806,
+            "combined": 0.20238254584392987
+          },
+          "masked": {
+            "sequence": 0.3360655737704918,
+            "jaccard": 0.06451612903225806,
+            "bigram_dice": 0.06451612903225806,
+            "combined": 0.20029085140137493
+          },
+          "best_score": 0.20238254584392987,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 111,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "Sabah 08.00-16.00 okuldayım, akşam da 18.00-20.00 dershanem var. Eve gelince 3 saat daha çalışmam gerekiyor gibi hissediyorum.",
+          "raw": {
+            "sequence": 0.3345724907063197,
+            "jaccard": 0.05555555555555555,
+            "bigram_dice": 0.05128205128205128,
+            "combined": 0.19420932227623677
+          },
+          "masked": {
+            "sequence": 0.336996336996337,
+            "jaccard": 0.06451612903225806,
+            "bigram_dice": 0.058823529411764705,
+            "combined": 0.19961771309019888
+          },
+          "best_score": 0.19961771309019888,
+          "label": "LOW"
+        }
+      ]
+    },
+    {
+      "id": "H011",
+      "category": "sabirsiz_ogrenci",
+      "user": "Bana uzun uzun soru sorma. Sayısalım, TYT 67, günde 4 saatim var. Bugünden başlayabileceğim bir düzen söyle.",
+      "top_label": "LOW",
+      "matches": [
+        {
+          "gold_example": 96,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "Program yaparken bana 10 tane soru sorma. Mezunum, eşit ağırlığım, TYT 72, günde 6 saatim var. Başla.",
+          "raw": {
+            "sequence": 0.5353535353535354,
+            "jaccard": 0.2692307692307692,
+            "bigram_dice": 0.125,
+            "combined": 0.37344599844599846
+          },
+          "masked": {
+            "sequence": 0.586046511627907,
+            "jaccard": 0.36363636363636365,
+            "bigram_dice": 0.375,
+            "combined": 0.4771141649048626
+          },
+          "best_score": 0.4771141649048626,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 1,
+          "turn_index": null,
+          "kind": "combined_user_turns",
+          "gold_user": "Bana hemen bir çalışma programı yap. Uzun uzun soru sorma. Mezunum, sayısalım. TYT 68 civarı geliyor. Günde 5 saat çalışabilirim.",
+          "raw": {
+            "sequence": 0.5486725663716814,
+            "jaccard": 0.2962962962962963,
+            "bigram_dice": 0.22857142857142856,
+            "combined": 0.4089394577890153
+          },
+          "masked": {
+            "sequence": 0.5916666666666667,
+            "jaccard": 0.375,
+            "bigram_dice": 0.34285714285714286,
+            "combined": 0.4769047619047619
+          },
+          "best_score": 0.4769047619047619,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 92,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "Bana soru sorma, direkt bugün ne çalışacağımı söyle. Sayısalım, TYT 70 civarı ve 5 saatim var.",
+          "raw": {
+            "sequence": 0.46632124352331605,
+            "jaccard": 0.3333333333333333,
+            "bigram_dice": 0.1935483870967742,
+            "combined": 0.37187029918101283
+          },
+          "masked": {
+            "sequence": 0.5217391304347826,
+            "jaccard": 0.42857142857142855,
+            "bigram_dice": 0.3225806451612903,
+            "combined": 0.4539571228210779
+          },
+          "best_score": 0.4539571228210779,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 93,
+          "turn_index": null,
+          "kind": "combined_user_turns",
+          "gold_user": "Çok soru sorma. Hemen bir program çıkar. Sayısalım, TYT 64, günde 4 saat.",
+          "raw": {
+            "sequence": 0.4678362573099415,
+            "jaccard": 0.3181818181818182,
+            "bigram_dice": 0.21428571428571427,
+            "combined": 0.3722298169666591
+          },
+          "masked": {
+            "sequence": 0.518918918918919,
+            "jaccard": 0.35,
+            "bigram_dice": 0.35714285714285715,
+            "combined": 0.4358880308880309
+          },
+          "best_score": 0.4358880308880309,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 93,
+          "turn_index": 3,
+          "kind": "single_user_turn",
+          "gold_user": "Sayısalım, TYT 64, günde 4 saat.",
+          "raw": {
+            "sequence": 0.42424242424242425,
+            "jaccard": 0.2222222222222222,
+            "bigram_dice": 0.19047619047619047,
+            "combined": 0.3168831168831169
+          },
+          "masked": {
+            "sequence": 0.4931506849315068,
+            "jaccard": 0.25,
+            "bigram_dice": 0.38095238095238093,
+            "combined": 0.3977658186562296
+          },
+          "best_score": 0.3977658186562296,
+          "label": "LOW"
+        }
+      ]
+    },
+    {
+      "id": "H012",
+      "category": "sabirsiz_ogrenci",
+      "user": "Detaya girmeyelim. Yarın 5 saat çalışacağım, eşit ağırlığım. İlk günü direkt planla.",
+      "top_label": "LOW",
+      "matches": [
+        {
+          "gold_example": 97,
+          "turn_index": null,
+          "kind": "combined_user_turns",
+          "gold_user": "Detaya girmeyelim, yarından itibaren başlayacağım. Bana ilk günü ver. Sayısalım, 5 saat.",
+          "raw": {
+            "sequence": 0.573170731707317,
+            "jaccard": 0.25,
+            "bigram_dice": 0.17391304347826086,
+            "combined": 0.3963679745493107
+          },
+          "masked": {
+            "sequence": 0.3953488372093023,
+            "jaccard": 0.25,
+            "bigram_dice": 0.17391304347826086,
+            "combined": 0.30745702730030333
+          },
+          "best_score": 0.3963679745493107,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 97,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "Detaya girmeyelim, yarından itibaren başlayacağım. Bana ilk günü ver.",
+          "raw": {
+            "sequence": 0.6258503401360545,
+            "jaccard": 0.15789473684210525,
+            "bigram_dice": 0.1,
+            "combined": 0.3802935911206588
+          },
+          "masked": {
+            "sequence": 0.6225165562913907,
+            "jaccard": 0.15789473684210525,
+            "bigram_dice": 0.1,
+            "combined": 0.3786266991983269
+          },
+          "best_score": 0.3802935911206588,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 84,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "Akşam 3 saat çalışacağım diyorum ama masaya geçince ne yapacağıma karar vermekle yarım saat gidiyor.",
+          "raw": {
+            "sequence": 0.4222222222222222,
+            "jaccard": 0.08,
+            "bigram_dice": 0.07692307692307693,
+            "combined": 0.2504957264957265
+          },
+          "masked": {
+            "sequence": 0.4574468085106383,
+            "jaccard": 0.125,
+            "bigram_dice": 0.15384615384615385,
+            "combined": 0.2969926350245499
+          },
+          "best_score": 0.2969926350245499,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 96,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "Program yaparken bana 10 tane soru sorma. Mezunum, eşit ağırlığım, TYT 72, günde 6 saatim var. Başla.",
+          "raw": {
+            "sequence": 0.45454545454545453,
+            "jaccard": 0.07142857142857142,
+            "bigram_dice": 0.07142857142857142,
+            "combined": 0.262987012987013
+          },
+          "masked": {
+            "sequence": 0.47368421052631576,
+            "jaccard": 0.12,
+            "bigram_dice": 0.07142857142857142,
+            "combined": 0.2871278195488722
+          },
+          "best_score": 0.2871278195488722,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 43,
+          "turn_index": 3,
+          "kind": "single_user_turn",
+          "gold_user": "Yaklaşık 2,5 saat rahat ayırabilirim.",
+          "raw": {
+            "sequence": 0.358974358974359,
+            "jaccard": 0.11764705882352941,
+            "bigram_dice": 0.11764705882352941,
+            "combined": 0.2383107088989442
+          },
+          "masked": {
+            "sequence": 0.43902439024390244,
+            "jaccard": 0.125,
+            "bigram_dice": 0.125,
+            "combined": 0.28201219512195125
+          },
+          "best_score": 0.28201219512195125,
+          "label": "LOW"
+        }
+      ]
+    },
+    {
+      "id": "H013",
+      "category": "deneme_ve_yanlis_analizi",
+      "user": "Son dört TYT denememde toplam netim hemen hemen aynı ama matematiğim düşerken fenim yükseliyor. Programımı komple değiştirmeli miyim?",
+      "top_label": "LOW",
+      "matches": [
+        {
+          "gold_example": 64,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "TYT 70, AYT 50. Toplam 120 net yaptım, YKS netim 120 diyebilir miyim?",
+          "raw": {
+            "sequence": 0.3163265306122449,
+            "jaccard": 0.16,
+            "bigram_dice": 0.0,
+            "combined": 0.20616326530612245
+          },
+          "masked": {
+            "sequence": 0.33980582524271846,
+            "jaccard": 0.17391304347826086,
+            "bigram_dice": 0.0,
+            "combined": 0.2220768256648375
+          },
+          "best_score": 0.2220768256648375,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 104,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "AYT denemelerinde matematik netim bazen 24 bazen 17 geliyor. Çok dengesiz.",
+          "raw": {
+            "sequence": 0.41379310344827586,
+            "jaccard": 0.038461538461538464,
+            "bigram_dice": 0.0,
+            "combined": 0.21843501326259945
+          },
+          "masked": {
+            "sequence": 0.41148325358851673,
+            "jaccard": 0.04,
+            "bigram_dice": 0.0,
+            "combined": 0.21774162679425837
+          },
+          "best_score": 0.21843501326259945,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 45,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "Eşit ağırlığım. TYT 68 civarı. AYT matematikte zorlanıyorum ama edebiyatım iyi.",
+          "raw": {
+            "sequence": 0.34782608695652173,
+            "jaccard": 0.07692307692307693,
+            "bigram_dice": 0.0,
+            "combined": 0.19698996655518394
+          },
+          "masked": {
+            "sequence": 0.3619047619047619,
+            "jaccard": 0.07692307692307693,
+            "bigram_dice": 0.0,
+            "combined": 0.20402930402930403
+          },
+          "best_score": 0.20402930402930403,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 57,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "TYT netim 84 ama AYT'ye yeni yeni ağırlık vermeye başladım. Sayısal öğrencisiyim.",
+          "raw": {
+            "sequence": 0.3333333333333333,
+            "jaccard": 0.11538461538461539,
+            "bigram_dice": 0.0,
+            "combined": 0.2012820512820513
+          },
+          "masked": {
+            "sequence": 0.3380281690140845,
+            "jaccard": 0.11538461538461539,
+            "bigram_dice": 0.0,
+            "combined": 0.20362946912242685
+          },
+          "best_score": 0.20362946912242685,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 52,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "Sayısal mezunum. TYT Türkçe 33, matematik 24, sosyal 15, fen 10 geliyor. Günde 5 saatim var. En çok nereyi geliştirmeliyim?",
+          "raw": {
+            "sequence": 0.3805668016194332,
+            "jaccard": 0.027777777777777776,
+            "bigram_dice": 0.0,
+            "combined": 0.19861673414304992
+          },
+          "masked": {
+            "sequence": 0.38783269961977185,
+            "jaccard": 0.03125,
+            "bigram_dice": 0.0,
+            "combined": 0.20329134980988592
+          },
+          "best_score": 0.20329134980988592,
+          "label": "LOW"
+        }
+      ]
+    },
+    {
+      "id": "H014",
+      "category": "deneme_ve_yanlis_analizi",
+      "user": "Bir soruyu yanlış yaptıysam konuyu baştan tekrar ediyorum. Yanlış analizim bu yüzden çok uzun sürüyor. Daha doğru yöntem nedir?",
+      "top_label": "LOW",
+      "matches": [
+        {
+          "gold_example": 103,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "Her denemeden sonra yanlış yaptığım bütün konuları tekrar baştan çalışmalı mıyım?",
+          "raw": {
+            "sequence": 0.4019607843137255,
+            "jaccard": 0.11538461538461539,
+            "bigram_dice": 0.0,
+            "combined": 0.23559577677224736
+          },
+          "masked": {
+            "sequence": 0.4019607843137255,
+            "jaccard": 0.11538461538461539,
+            "bigram_dice": 0.0,
+            "combined": 0.23559577677224736
+          },
+          "best_score": 0.23559577677224736,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 83,
+          "turn_index": null,
+          "kind": "combined_user_turns",
+          "gold_user": "Ders çalışırken bir soruya takılınca 15-20 dakika uğraşıyorum. En çok matematikte.",
+          "raw": {
+            "sequence": 0.37254901960784315,
+            "jaccard": 0.07142857142857142,
+            "bigram_dice": 0.0,
+            "combined": 0.207703081232493
+          },
+          "masked": {
+            "sequence": 0.3619047619047619,
+            "jaccard": 0.07407407407407407,
+            "bigram_dice": 0.0,
+            "combined": 0.20317460317460317
+          },
+          "best_score": 0.207703081232493,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 48,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "Mezunum. Sabah daha iyi çalışıyorum. Akşam 20.00'den sonra verimim çok düşüyor. Günde toplam 6 saat çalışabilirim. Matematik önceliğim.",
+          "raw": {
+            "sequence": 0.3779527559055118,
+            "jaccard": 0.05555555555555555,
+            "bigram_dice": 0.0,
+            "combined": 0.20564304461942257
+          },
+          "masked": {
+            "sequence": 0.3798449612403101,
+            "jaccard": 0.058823529411764705,
+            "bigram_dice": 0.0,
+            "combined": 0.20756953944368445
+          },
+          "best_score": 0.20756953944368445,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 12,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "Deneme çözüyorum ama sonra sadece netime bakıp geçiyorum. Yanlışları incelemek çok zaman alıyor.",
+          "raw": {
+            "sequence": 0.3944954128440367,
+            "jaccard": 0.03333333333333333,
+            "bigram_dice": 0.0,
+            "combined": 0.20724770642201837
+          },
+          "masked": {
+            "sequence": 0.3944954128440367,
+            "jaccard": 0.03333333333333333,
+            "bigram_dice": 0.0,
+            "combined": 0.20724770642201837
+          },
+          "best_score": 0.20724770642201837,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 85,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "Programda her konuya 1 saat yazıyorum ama bazı konular 2 saat sürüyor ve bütün gün kayıyor.",
+          "raw": {
+            "sequence": 0.37383177570093457,
+            "jaccard": 0.03125,
+            "bigram_dice": 0.0,
+            "combined": 0.19629088785046728
+          },
+          "masked": {
+            "sequence": 0.3783783783783784,
+            "jaccard": 0.03225806451612903,
+            "bigram_dice": 0.0,
+            "combined": 0.1988666085440279
+          },
+          "best_score": 0.1988666085440279,
+          "label": "LOW"
+        }
+      ]
+    },
+    {
+      "id": "H015",
+      "category": "hedef_gercekciligi",
+      "user": "Şu an TYT 58, AYT 25 civarıyım. Altı ay sonra çok yüksek bir sıralama istiyorum. Bana bunun kesin olacağını söylemeden nasıl bir yol izlemem gerektiğini anlat.",
+      "top_label": "LOW",
+      "matches": [
+        {
+          "gold_example": 2,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "Şu an TYT'de 55 net yapıyorum. 2 ay sonra 100 net yapmak istiyorum. Bana çok sıkı bir program yap.",
+          "raw": {
+            "sequence": 0.504,
+            "jaccard": 0.2571428571428571,
+            "bigram_dice": 0.18181818181818182,
+            "combined": 0.3655064935064935
+          },
+          "masked": {
+            "sequence": 0.4981132075471698,
+            "jaccard": 0.3225806451612903,
+            "bigram_dice": 0.18604651162790697,
+            "combined": 0.38304009964755337
+          },
+          "best_score": 0.38304009964755337,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 106,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "Tıp istiyorum ama şu an TYT 63, AYT 28 civarı. Bana dürüstçe söyle, yetişir mi?",
+          "raw": {
+            "sequence": 0.2608695652173913,
+            "jaccard": 0.17647058823529413,
+            "bigram_dice": 0.10256410256410256,
+            "combined": 0.2038887795921044
+          },
+          "masked": {
+            "sequence": 0.4132231404958678,
+            "jaccard": 0.22580645161290322,
+            "bigram_dice": 0.2564102564102564,
+            "combined": 0.3256355570138561
+          },
+          "best_score": 0.3256355570138561,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 2,
+          "turn_index": null,
+          "kind": "combined_user_turns",
+          "gold_user": "Şu an TYT'de 55 net yapıyorum. 2 ay sonra 100 net yapmak istiyorum. Bana çok sıkı bir program yap. Sayısalım. Türkçe 24, sosyal 11, matematik 12, fen 8. Günde 6 saat ayırabilirim.",
+          "raw": {
+            "sequence": 0.4492307692307692,
+            "jaccard": 0.1875,
+            "bigram_dice": 0.14035087719298245,
+            "combined": 0.30893556005398104
+          },
+          "masked": {
+            "sequence": 0.43137254901960786,
+            "jaccard": 0.2564102564102564,
+            "bigram_dice": 0.14285714285714285,
+            "combined": 0.32118078000430944
+          },
+          "best_score": 0.32118078000430944,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 106,
+          "turn_index": null,
+          "kind": "combined_user_turns",
+          "gold_user": "Tıp istiyorum ama şu an TYT 63, AYT 28 civarı. Bana dürüstçe söyle, yetişir mi? Sınava 5 ay var ve günde 6 saat çalışabilirim.",
+          "raw": {
+            "sequence": 0.2826086956521739,
+            "jaccard": 0.16666666666666666,
+            "bigram_dice": 0.08333333333333333,
+            "combined": 0.2079710144927536
+          },
+          "masked": {
+            "sequence": 0.40540540540540543,
+            "jaccard": 0.21621621621621623,
+            "bigram_dice": 0.20833333333333334,
+            "combined": 0.3092342342342343
+          },
+          "best_score": 0.3092342342342343,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 40,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "Mezunum, eşit ağırlığım. TYT 71, AYT 43 yapıyorum. Matematiğim edebiyattan daha zayıf. Günde 5 saat çalışıyorum. Bana nereden başlamam gerektiğini söyle.",
+          "raw": {
+            "sequence": 0.3787375415282392,
+            "jaccard": 0.09523809523809523,
+            "bigram_dice": 0.0,
+            "combined": 0.21794019933554815
+          },
+          "masked": {
+            "sequence": 0.4353312302839117,
+            "jaccard": 0.13157894736842105,
+            "bigram_dice": 0.13333333333333333,
+            "combined": 0.2838059660191488
+          },
+          "best_score": 0.2838059660191488,
+          "label": "LOW"
+        }
+      ]
+    },
+    {
+      "id": "H016",
+      "category": "hedef_gercekciligi",
+      "user": "İki haftada 20 net artırmam gerekiyor. Bunun için her gün 10 saat çalışırsam kesin olur mu?",
+      "top_label": "LOW",
+      "matches": [
+        {
+          "gold_example": 116,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "YKS'ye 12 gün kaldı. Konularım hâlâ eksik. Bundan sonra her gün 10 saat çalışıp hepsini bitirmeli miyim?",
+          "raw": {
+            "sequence": 0.49214659685863876,
+            "jaccard": 0.13333333333333333,
+            "bigram_dice": 0.18181818181818182,
+            "combined": 0.32243693479295576
+          },
+          "masked": {
+            "sequence": 0.5911330049261084,
+            "jaccard": 0.14285714285714285,
+            "bigram_dice": 0.18181818181818182,
+            "combined": 0.37478728168383346
+          },
+          "best_score": 0.37478728168383346,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 9,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "YKS'yi kazanmak için günde 10 saat çalışmam gerekiyor değil mi?",
+          "raw": {
+            "sequence": 0.40789473684210525,
+            "jaccard": 0.16666666666666666,
+            "bigram_dice": 0.07692307692307693,
+            "combined": 0.26933198380566803
+          },
+          "masked": {
+            "sequence": 0.546583850931677,
+            "jaccard": 0.17391304347826086,
+            "bigram_dice": 0.07692307692307693,
+            "combined": 0.34085045389393215
+          },
+          "best_score": 0.34085045389393215,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 76,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "Hafta içi 2 saat, hafta sonu 7 saat çalışabiliyorum. Her gün aynı programı uygulamak istiyorum.",
+          "raw": {
+            "sequence": 0.38461538461538464,
+            "jaccard": 0.1111111111111111,
+            "bigram_dice": 0.06666666666666667,
+            "combined": 0.23897435897435898
+          },
+          "masked": {
+            "sequence": 0.5,
+            "jaccard": 0.16666666666666666,
+            "bigram_dice": 0.13793103448275862,
+            "combined": 0.3275862068965517
+          },
+          "best_score": 0.3275862068965517,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 109,
+          "turn_index": 3,
+          "kind": "single_user_turn",
+          "gold_user": "Neredeyse her gün 2-2,5 saat.",
+          "raw": {
+            "sequence": 0.3220338983050847,
+            "jaccard": 0.15,
+            "bigram_dice": 0.09090909090909091,
+            "combined": 0.22419876733436056
+          },
+          "masked": {
+            "sequence": 0.36923076923076925,
+            "jaccard": 0.23529411764705882,
+            "bigram_dice": 0.2857142857142857,
+            "combined": 0.3123464770523594
+          },
+          "best_score": 0.3123464770523594,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 10,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "Mezunum. Bütün gün evdeyim ama düzen kuramıyorum. Bir gün 8 saat çalışıyorum, ertesi gün hiç çalışmıyorum.",
+          "raw": {
+            "sequence": 0.4270833333333333,
+            "jaccard": 0.06896551724137931,
+            "bigram_dice": 0.0,
+            "combined": 0.23423132183908046
+          },
+          "masked": {
+            "sequence": 0.504950495049505,
+            "jaccard": 0.1111111111111111,
+            "bigram_dice": 0.12903225806451613,
+            "combined": 0.31161503247098904
+          },
+          "best_score": 0.31161503247098904,
+          "label": "LOW"
+        }
+      ]
+    },
+    {
+      "id": "H017",
+      "category": "okul_dershane_dengesi",
+      "user": "12. sınıfım. Pazartesi, salı ve perşembe dershanem var. Diğer günlerde okuldan sonra 3 saat boşum. Dershane ödevleri de çok fazla. Kendi eksiklerime nasıl zaman ayırırım?",
+      "top_label": "LOW",
+      "matches": [
+        {
+          "gold_example": 46,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "12. sınıf dil öğrencisiyim. TYT 74 civarı, YDT 58 geliyor. Okuldan sonra 3 saat çalışabiliyorum. YDT'yi yükseltmek istiyorum.",
+          "raw": {
+            "sequence": 0.425531914893617,
+            "jaccard": 0.13157894736842105,
+            "bigram_dice": 0.14285714285714285,
+            "combined": 0.2808110702287634
+          },
+          "masked": {
+            "sequence": 0.44370860927152317,
+            "jaccard": 0.11428571428571428,
+            "bigram_dice": 0.14285714285714285,
+            "combined": 0.28471144749290445
+          },
+          "best_score": 0.28471144749290445,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 56,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "12. sınıf sayısalım. Hafta içi yalnızca pazartesi, çarşamba ve cuma 3 saat çalışabiliyorum. Salı ve perşembe dershaneden çok geç çıkıyorum. Matematik ve kimya önceliğim.",
+          "raw": {
+            "sequence": 0.37423312883435583,
+            "jaccard": 0.20512820512820512,
+            "bigram_dice": 0.1276595744680851,
+            "combined": 0.2741869408492565
+          },
+          "masked": {
+            "sequence": 0.3764705882352941,
+            "jaccard": 0.18421052631578946,
+            "bigram_dice": 0.1276595744680851,
+            "combined": 0.2690303669060009
+          },
+          "best_score": 0.2741869408492565,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 14,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "12. sınıfım. Okuldan çıkıyorum, dershaneye gidiyorum. Eve gelince de çalışmam gerekiyor ama yetişmiyor.",
+          "raw": {
+            "sequence": 0.42911877394636017,
+            "jaccard": 0.11764705882352941,
+            "bigram_dice": 0.05555555555555555,
+            "combined": 0.26096461573135005
+          },
+          "masked": {
+            "sequence": 0.4354243542435424,
+            "jaccard": 0.12121212121212122,
+            "bigram_dice": 0.05555555555555555,
+            "combined": 0.2651869245965187
+          },
+          "best_score": 0.2651869245965187,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 39,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "12. sınıf sayısal öğrencisiyim. TYT 76 civarı geliyor. Hafta içi okuldan dolayı en fazla 3 saat çalışabiliyorum. Nasıl bir düzen kurmalıyım?",
+          "raw": {
+            "sequence": 0.40939597315436244,
+            "jaccard": 0.15,
+            "bigram_dice": 0.045454545454545456,
+            "combined": 0.2587888956680903
+          },
+          "masked": {
+            "sequence": 0.43174603174603177,
+            "jaccard": 0.13157894736842105,
+            "bigram_dice": 0.045454545454545456,
+            "combined": 0.2644376091744513
+          },
+          "best_score": 0.2644376091744513,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 107,
+          "turn_index": 3,
+          "kind": "single_user_turn",
+          "gold_user": "Dershane günleri 20.00 gibi evdeyim. Salı ve perşembe 3 saat çalışabiliyorum.",
+          "raw": {
+            "sequence": 0.2689075630252101,
+            "jaccard": 0.1935483870967742,
+            "bigram_dice": 0.17142857142857143,
+            "combined": 0.22680401192735158
+          },
+          "masked": {
+            "sequence": 0.321285140562249,
+            "jaccard": 0.21428571428571427,
+            "bigram_dice": 0.17647058823529413,
+            "combined": 0.2602224022138976
+          },
+          "best_score": 0.2602224022138976,
+          "label": "LOW"
+        }
+      ]
+    },
+    {
+      "id": "H018",
+      "category": "okul_dershane_dengesi",
+      "user": "Okulda AYT matematik işliyoruz, dershanede de aynı konu var. Eve gelince üçüncü kez konu anlatımı izlemek zorunda mıyım?",
+      "top_label": "LOW",
+      "matches": [
+        {
+          "gold_example": 108,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "Okulda zaten matematik ve fizik görüyorum. Eve gelince aynı dersleri tekrar çalışmak zaman kaybı mı?",
+          "raw": {
+            "sequence": 0.4930232558139535,
+            "jaccard": 0.18518518518518517,
+            "bigram_dice": 0.06451612903225806,
+            "combined": 0.3149704092689839
+          },
+          "masked": {
+            "sequence": 0.4930232558139535,
+            "jaccard": 0.18518518518518517,
+            "bigram_dice": 0.06451612903225806,
+            "combined": 0.3149704092689839
+          },
+          "best_score": 0.3149704092689839,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 14,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "12. sınıfım. Okuldan çıkıyorum, dershaneye gidiyorum. Eve gelince de çalışmam gerekiyor ama yetişmiyor.",
+          "raw": {
+            "sequence": 0.48372093023255813,
+            "jaccard": 0.1111111111111111,
+            "bigram_dice": 0.06896551724137931,
+            "combined": 0.2889869018978882
+          },
+          "masked": {
+            "sequence": 0.47706422018348627,
+            "jaccard": 0.1111111111111111,
+            "bigram_dice": 0.06896551724137931,
+            "combined": 0.28565854687335235
+          },
+          "best_score": 0.2889869018978882,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 111,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "Sabah 08.00-16.00 okuldayım, akşam da 18.00-20.00 dershanem var. Eve gelince 3 saat daha çalışmam gerekiyor gibi hissediyorum.",
+          "raw": {
+            "sequence": 0.43333333333333335,
+            "jaccard": 0.08823529411764706,
+            "bigram_dice": 0.10256410256410256,
+            "combined": 0.2636500754147813
+          },
+          "masked": {
+            "sequence": 0.4426229508196721,
+            "jaccard": 0.10344827586206896,
+            "bigram_dice": 0.11764705882352941,
+            "combined": 0.27587536993316264
+          },
+          "best_score": 0.27587536993316264,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 51,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "Okulda öğleden sonra çok yoruluyorum. Eve gelince direkt çalışmaya başlayınca verim alamıyorum.",
+          "raw": {
+            "sequence": 0.42857142857142855,
+            "jaccard": 0.11538461538461539,
+            "bigram_dice": 0.07142857142857142,
+            "combined": 0.2631868131868132
+          },
+          "masked": {
+            "sequence": 0.42857142857142855,
+            "jaccard": 0.11538461538461539,
+            "bigram_dice": 0.07142857142857142,
+            "combined": 0.2631868131868132
+          },
+          "best_score": 0.2631868131868132,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 114,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "Okulda boş derslerim oluyor. Eve gelince daha az çalışmak için bütün YKS çalışmamı okulda yapmaya çalışsam olur mu?",
+          "raw": {
+            "sequence": 0.43478260869565216,
+            "jaccard": 0.0967741935483871,
+            "bigram_dice": 0.058823529411764705,
+            "combined": 0.25818826829469516
+          },
+          "masked": {
+            "sequence": 0.43478260869565216,
+            "jaccard": 0.0967741935483871,
+            "bigram_dice": 0.058823529411764705,
+            "combined": 0.25818826829469516
+          },
+          "best_score": 0.25818826829469516,
+          "label": "LOW"
+        }
+      ]
+    },
+    {
+      "id": "H019",
+      "category": "sinava_yakin_donem_ve_baski",
+      "user": "YKS'ye 9 gün kaldı. Son denemem kötü geldi. Yeni bir çalışma kampına başlayıp gece 2'ye kadar çalışmayı düşünüyorum.",
+      "top_label": "LOW",
+      "matches": [
+        {
+          "gold_example": 38,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "YKS'ye bir hafta kaldı. AYT matematikte eksiklerim var. Gece 3'e kadar çalışıp yeni bir kampı baştan sona bitirmeyi düşünüyorum.",
+          "raw": {
+            "sequence": 0.4789915966386555,
+            "jaccard": 0.25806451612903225,
+            "bigram_dice": 0.10256410256410256,
+            "combined": 0.3374279736708579
+          },
+          "masked": {
+            "sequence": 0.496,
+            "jaccard": 0.3103448275862069,
+            "bigram_dice": 0.15384615384615385,
+            "combined": 0.37187267904509286
+          },
+          "best_score": 0.37187267904509286,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 119,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "Sınava 5 gün kaldı. Son günlerde deneme netlerim düştü. Artık yeni kaynak alıp sabaha kadar soru çözmek istiyorum.",
+          "raw": {
+            "sequence": 0.5089285714285714,
+            "jaccard": 0.15625,
+            "bigram_dice": 0.1111111111111111,
+            "combined": 0.3235615079365079
+          },
+          "masked": {
+            "sequence": 0.5254237288135594,
+            "jaccard": 0.2,
+            "bigram_dice": 0.16666666666666666,
+            "combined": 0.356045197740113
+          },
+          "best_score": 0.356045197740113,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 30,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "YKS'ye bir hafta kaldı. Son hafta sabahlayıp bütün eksiklerimi kapatayım mı?",
+          "raw": {
+            "sequence": 0.44919786096256686,
+            "jaccard": 0.2,
+            "bigram_dice": 0.13333333333333333,
+            "combined": 0.3112655971479501
+          },
+          "masked": {
+            "sequence": 0.441025641025641,
+            "jaccard": 0.20833333333333334,
+            "bigram_dice": 0.13333333333333333,
+            "combined": 0.3096794871794872
+          },
+          "best_score": 0.3112655971479501,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 116,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "YKS'ye 12 gün kaldı. Konularım hâlâ eksik. Bundan sonra her gün 10 saat çalışıp hepsini bitirmeli miyim?",
+          "raw": {
+            "sequence": 0.38317757009345793,
+            "jaccard": 0.125,
+            "bigram_dice": 0.1111111111111111,
+            "combined": 0.25131100726895117
+          },
+          "masked": {
+            "sequence": 0.4298245614035088,
+            "jaccard": 0.1724137931034483,
+            "bigram_dice": 0.2222222222222222,
+            "combined": 0.3110808630772333
+          },
+          "best_score": 0.3110808630772333,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 41,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "11. sınıf sayısalım. TYT'ye yeni başladım. Okul derslerimi de aksatmak istemiyorum.",
+          "raw": {
+            "sequence": 0.3229166666666667,
+            "jaccard": 0.06896551724137931,
+            "bigram_dice": 0.0,
+            "combined": 0.18214798850574715
+          },
+          "masked": {
+            "sequence": 0.41379310344827586,
+            "jaccard": 0.1111111111111111,
+            "bigram_dice": 0.0,
+            "combined": 0.24022988505747125
+          },
+          "best_score": 0.24022988505747125,
+          "label": "LOW"
+        }
+      ]
+    },
+    {
+      "id": "H020",
+      "category": "sinava_yakin_donem_ve_baski",
+      "user": "Ailem her deneme sonrası netimi soruyor. Düşük gelince tartışıyoruz ve ertesi gün çalışamıyorum. Son haftalarda bunu nasıl yönetebilirim?",
+      "top_label": "LOW",
+      "matches": [
+        {
+          "gold_example": 118,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "Ailem son haftalarda sürekli netimi soruyor. Her denemeden sonra tartışıyoruz ve çalışmaya dönmekte zorlanıyorum.",
+          "raw": {
+            "sequence": 0.49795918367346936,
+            "jaccard": 0.3333333333333333,
+            "bigram_dice": 0.2,
+            "combined": 0.3889795918367347
+          },
+          "masked": {
+            "sequence": 0.49795918367346936,
+            "jaccard": 0.3333333333333333,
+            "bigram_dice": 0.2,
+            "combined": 0.3889795918367347
+          },
+          "best_score": 0.3889795918367347,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 118,
+          "turn_index": null,
+          "kind": "combined_user_turns",
+          "gold_user": "Ailem son haftalarda sürekli netimi soruyor. Her denemeden sonra tartışıyoruz ve çalışmaya dönmekte zorlanıyorum. Neredeyse her denemeden hemen sonra.",
+          "raw": {
+            "sequence": 0.4697508896797153,
+            "jaccard": 0.3076923076923077,
+            "bigram_dice": 0.17647058823529413,
+            "combined": 0.3624772547946088
+          },
+          "masked": {
+            "sequence": 0.4697508896797153,
+            "jaccard": 0.3076923076923077,
+            "bigram_dice": 0.17647058823529413,
+            "combined": 0.3624772547946088
+          },
+          "best_score": 0.3624772547946088,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 10,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "Mezunum. Bütün gün evdeyim ama düzen kuramıyorum. Bir gün 8 saat çalışıyorum, ertesi gün hiç çalışmıyorum.",
+          "raw": {
+            "sequence": 0.4322033898305085,
+            "jaccard": 0.06666666666666667,
+            "bigram_dice": 0.0625,
+            "combined": 0.24860169491525425
+          },
+          "masked": {
+            "sequence": 0.425,
+            "jaccard": 0.06666666666666667,
+            "bigram_dice": 0.0625,
+            "combined": 0.245
+          },
+          "best_score": 0.24860169491525425,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 51,
+          "turn_index": null,
+          "kind": "combined_user_turns",
+          "gold_user": "Okulda öğleden sonra çok yoruluyorum. Eve gelince direkt çalışmaya başlayınca verim alamıyorum. 17.30'da evde oluyorum. Toplam 3 saat ayırabiliyorum.",
+          "raw": {
+            "sequence": 0.4444444444444444,
+            "jaccard": 0.02631578947368421,
+            "bigram_dice": 0.0,
+            "combined": 0.23011695906432747
+          },
+          "masked": {
+            "sequence": 0.4452296819787986,
+            "jaccard": 0.027777777777777776,
+            "bigram_dice": 0.0,
+            "combined": 0.23094817432273262
+          },
+          "best_score": 0.23094817432273262,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 18,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "Ailem sürekli kaç net yaptığımı soruyor. Kötü yaptığımda çok baskı hissediyorum ve çalışasım gelmiyor.",
+          "raw": {
+            "sequence": 0.39316239316239315,
+            "jaccard": 0.10344827586206896,
+            "bigram_dice": 0.0,
+            "combined": 0.22761567933981727
+          },
+          "masked": {
+            "sequence": 0.39316239316239315,
+            "jaccard": 0.10344827586206896,
+            "bigram_dice": 0.0,
+            "combined": 0.22761567933981727
+          },
+          "best_score": 0.22761567933981727,
+          "label": "LOW"
+        }
+      ]
+    },
+    {
+      "id": "H021",
+      "category": "kontrollu_cikarim",
+      "user": "Bilgisayar mühendisliği istiyorum. TYT 80, AYT 45 civarı. Günde 6 saat çalışıyorum. Bana çalışma önceliği çıkar; zaten verdiğim bilgilerden çıkarılabilecek şeyleri tekrar sorma.",
+      "top_label": "LOW",
+      "matches": [
+        {
+          "gold_example": 11,
+          "turn_index": null,
+          "kind": "combined_user_turns",
+          "gold_user": "Ben bilgisayar mühendisliği istiyorum. Bundan sonra neye göre çalışmalıyım? TYT 72, AYT 38 civarı. İlk 30 bin istiyorum.",
+          "raw": {
+            "sequence": 0.4181184668989547,
+            "jaccard": 0.17142857142857143,
+            "bigram_dice": 0.1,
+            "combined": 0.2804878048780488
+          },
+          "masked": {
+            "sequence": 0.49019607843137253,
+            "jaccard": 0.23333333333333334,
+            "bigram_dice": 0.3,
+            "combined": 0.37509803921568624
+          },
+          "best_score": 0.37509803921568624,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 44,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "Mezunum, sayısalım. TYT 81, AYT 47 yapıyorum. Fizik en zayıf dersim. Günde 7 saat çalışabiliyorum. Bana çalışma dağılımı yap.",
+          "raw": {
+            "sequence": 0.4359861591695502,
+            "jaccard": 0.16666666666666666,
+            "bigram_dice": 0.05,
+            "combined": 0.2779930795847751
+          },
+          "masked": {
+            "sequence": 0.4919093851132686,
+            "jaccard": 0.22580645161290322,
+            "bigram_dice": 0.3,
+            "combined": 0.37369662804050524
+          },
+          "best_score": 0.37369662804050524,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 40,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "Mezunum, eşit ağırlığım. TYT 71, AYT 43 yapıyorum. Matematiğim edebiyattan daha zayıf. Günde 5 saat çalışıyorum. Bana nereden başlamam gerektiğini söyle.",
+          "raw": {
+            "sequence": 0.4227129337539432,
+            "jaccard": 0.15789473684210525,
+            "bigram_dice": 0.09523809523809523,
+            "combined": 0.2777725069772222
+          },
+          "masked": {
+            "sequence": 0.4807121661721068,
+            "jaccard": 0.21212121212121213,
+            "bigram_dice": 0.3333333333333333,
+            "combined": 0.3706591133890837
+          },
+          "best_score": 0.3706591133890837,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 106,
+          "turn_index": null,
+          "kind": "combined_user_turns",
+          "gold_user": "Tıp istiyorum ama şu an TYT 63, AYT 28 civarı. Bana dürüstçe söyle, yetişir mi? Sınava 5 ay var ve günde 6 saat çalışabilirim.",
+          "raw": {
+            "sequence": 0.363013698630137,
+            "jaccard": 0.20512820512820512,
+            "bigram_dice": 0.08888888888888889,
+            "combined": 0.2608230886313078
+          },
+          "masked": {
+            "sequence": 0.4240506329113924,
+            "jaccard": 0.23529411764705882,
+            "bigram_dice": 0.26666666666666666,
+            "combined": 0.3359468850831472
+          },
+          "best_score": 0.3359468850831472,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 1,
+          "turn_index": 3,
+          "kind": "single_user_turn",
+          "gold_user": "Mezunum, sayısalım. TYT 68 civarı geliyor. Günde 5 saat çalışabilirim.",
+          "raw": {
+            "sequence": 0.37130801687763715,
+            "jaccard": 0.13793103448275862,
+            "bigram_dice": 0.0,
+            "combined": 0.22703331878364616
+          },
+          "masked": {
+            "sequence": 0.41732283464566927,
+            "jaccard": 0.2,
+            "bigram_dice": 0.25806451612903225,
+            "combined": 0.32027432054864113
+          },
+          "best_score": 0.32027432054864113,
+          "label": "LOW"
+        }
+      ]
+    },
+    {
+      "id": "H022",
+      "category": "kontrollu_cikarim",
+      "user": "11. sınıfım, sayısalım ve okul derslerimi güçlü tutmak istiyorum. Hafta içi 2 saatim var. Bana 12. sınıf öğrencisiymişim gibi yoğun TYT programı verme.",
+      "top_label": "LOW",
+      "matches": [
+        {
+          "gold_example": 41,
+          "turn_index": null,
+          "kind": "combined_user_turns",
+          "gold_user": "11. sınıf sayısalım. TYT'ye yeni başladım. Okul derslerimi de aksatmak istemiyorum. Hafta içi 2,5 saat, hafta sonu 5 saat ayırabiliyorum.",
+          "raw": {
+            "sequence": 0.5869565217391305,
+            "jaccard": 0.2727272727272727,
+            "bigram_dice": 0.14285714285714285,
+            "combined": 0.4038678712591756
+          },
+          "masked": {
+            "sequence": 0.6372881355932203,
+            "jaccard": 0.26666666666666666,
+            "bigram_dice": 0.1951219512195122,
+            "combined": 0.4376684580405126
+          },
+          "best_score": 0.4376684580405126,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 6,
+          "turn_index": 3,
+          "kind": "single_user_turn",
+          "gold_user": "12. sınıf sayısalım. Hafta içi 3 saat, hafta sonu 6 saat çalışabiliyorum. Matematik ve fizik zayıf.",
+          "raw": {
+            "sequence": 0.3514644351464435,
+            "jaccard": 0.1935483870967742,
+            "bigram_dice": 0.10810810810810811,
+            "combined": 0.25541835532387563
+          },
+          "masked": {
+            "sequence": 0.49230769230769234,
+            "jaccard": 0.2222222222222222,
+            "bigram_dice": 0.16666666666666666,
+            "combined": 0.34615384615384615
+          },
+          "best_score": 0.34615384615384615,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 41,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "11. sınıf sayısalım. TYT'ye yeni başladım. Okul derslerimi de aksatmak istemiyorum.",
+          "raw": {
+            "sequence": 0.4642857142857143,
+            "jaccard": 0.20689655172413793,
+            "bigram_dice": 0.06060606060606061,
+            "combined": 0.3063330347813107
+          },
+          "masked": {
+            "sequence": 0.4641350210970464,
+            "jaccard": 0.2222222222222222,
+            "bigram_dice": 0.12121212121212122,
+            "combined": 0.3229766014576141
+          },
+          "best_score": 0.3229766014576141,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 36,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "12. sınıf sayısal öğrencisiyim. TYT 73, AYT 41. Hafta içi 3 saat, hafta sonu 6 saat çalışabiliyorum. AYT fizik ve matematik zayıf. Bana haftalık düzen çıkar.",
+          "raw": {
+            "sequence": 0.35374149659863946,
+            "jaccard": 0.1794871794871795,
+            "bigram_dice": 0.0851063829787234,
+            "combined": 0.24773817874121826
+          },
+          "masked": {
+            "sequence": 0.40498442367601245,
+            "jaccard": 0.21212121212121213,
+            "bigram_dice": 0.13043478260869565,
+            "combined": 0.292215531996109
+          },
+          "best_score": 0.292215531996109,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 6,
+          "turn_index": null,
+          "kind": "combined_user_turns",
+          "gold_user": "Bana haftalık program yap. Her gün ne çalışacağımı bilmek istiyorum. 12. sınıf sayısalım. Hafta içi 3 saat, hafta sonu 6 saat çalışabiliyorum. Matematik ve fizik zayıf.",
+          "raw": {
+            "sequence": 0.3464052287581699,
+            "jaccard": 0.20512820512820512,
+            "bigram_dice": 0.0851063829787234,
+            "combined": 0.2517623525132912
+          },
+          "masked": {
+            "sequence": 0.39143730886850153,
+            "jaccard": 0.22857142857142856,
+            "bigram_dice": 0.13043478260869565,
+            "combined": 0.2903770395274185
+          },
+          "best_score": 0.2903770395274185,
+          "label": "LOW"
+        }
+      ]
+    },
+    {
+      "id": "H023",
+      "category": "zaman_hesabi",
+      "user": "Bugün toplam 3 saat 30 dakikam var. 80 dakika matematik, 60 dakika fizik, 40 dakika Türkçe ve 30 dakika yanlış analizi yapmak istiyorum. Bu plan süreye sığıyor mu?",
+      "top_label": "LOW",
+      "matches": [
+        {
+          "gold_example": 37,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "Bugün toplam 4 saat çalışabilirim. Matematik ve fiziğe ağırlık vermek istiyorum ama biraz da Türkçe çözmem gerekiyor.",
+          "raw": {
+            "sequence": 0.4835164835164835,
+            "jaccard": 0.20588235294117646,
+            "bigram_dice": 0.046511627906976744,
+            "combined": 0.31282527322199005
+          },
+          "masked": {
+            "sequence": 0.46621621621621623,
+            "jaccard": 0.27586206896551724,
+            "bigram_dice": 0.15,
+            "combined": 0.34586672879776326
+          },
+          "best_score": 0.34586672879776326,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 71,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "Günde 3 saat çalışabiliyorum ama matematik, fizik, kimya, biyoloji, Türkçe ve sosyalin hepsini her gün çalışmak istiyorum.",
+          "raw": {
+            "sequence": 0.4727272727272727,
+            "jaccard": 0.20588235294117646,
+            "bigram_dice": 0.09302325581395349,
+            "combined": 0.31673299340878
+          },
+          "masked": {
+            "sequence": 0.47651006711409394,
+            "jaccard": 0.23333333333333334,
+            "bigram_dice": 0.1,
+            "combined": 0.328255033557047
+          },
+          "best_score": 0.328255033557047,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 2,
+          "turn_index": 3,
+          "kind": "single_user_turn",
+          "gold_user": "Sayısalım. Türkçe 24, sosyal 11, matematik 12, fen 8. Günde 6 saat ayırabilirim.",
+          "raw": {
+            "sequence": 0.3017241379310345,
+            "jaccard": 0.08823529411764706,
+            "bigram_dice": 0.0,
+            "combined": 0.17733265720081134
+          },
+          "masked": {
+            "sequence": 0.44776119402985076,
+            "jaccard": 0.16,
+            "bigram_dice": 0.1111111111111111,
+            "combined": 0.2941028192371476
+          },
+          "best_score": 0.2941028192371476,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 3,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "TYT denemem Türkçe 31, sosyal 15, matematik 18, fen 12 geldi. Ne yapmalıyım?",
+          "raw": {
+            "sequence": 0.3056768558951965,
+            "jaccard": 0.05714285714285714,
+            "bigram_dice": 0.0,
+            "combined": 0.1699812850904554
+          },
+          "masked": {
+            "sequence": 0.43846153846153846,
+            "jaccard": 0.1111111111111111,
+            "bigram_dice": 0.05555555555555555,
+            "combined": 0.2636752136752137
+          },
+          "best_score": 0.2636752136752137,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 68,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "AYT matematik 25, fizik 7, kimya 8, biyoloji 9 net. AYT puanım 49 mu oluyor?",
+          "raw": {
+            "sequence": 0.3231441048034934,
+            "jaccard": 0.08571428571428572,
+            "bigram_dice": 0.0,
+            "combined": 0.18728633811603243
+          },
+          "masked": {
+            "sequence": 0.39097744360902253,
+            "jaccard": 0.15384615384615385,
+            "bigram_dice": 0.10526315789473684,
+            "combined": 0.2626951995373048
+          },
+          "best_score": 0.2626951995373048,
+          "label": "LOW"
+        }
+      ]
+    },
+    {
+      "id": "H024",
+      "category": "zaman_hesabi",
+      "user": "18.30'da başlayacağım, 22.00'de bırakmam gerekiyor. İki tane 90 dakikalık ders bloğu ve iki tane 15 dakikalık mola planladım. Süre hesabı doğru mu?",
+      "top_label": "LOW",
+      "matches": [
+        {
+          "gold_example": 53,
+          "turn_index": 3,
+          "kind": "single_user_turn",
+          "gold_user": "Genelde 01.00'de yatıp 09.00'da kalkıyorum. Günde 6 saat çalışıyorum.",
+          "raw": {
+            "sequence": 0.2938388625592417,
+            "jaccard": 0.08823529411764706,
+            "bigram_dice": 0.05263157894736842,
+            "combined": 0.18391633530438864
+          },
+          "masked": {
+            "sequence": 0.39819004524886875,
+            "jaccard": 0.11538461538461539,
+            "bigram_dice": 0.125,
+            "combined": 0.25871040723981903
+          },
+          "best_score": 0.25871040723981903,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 59,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "AYT'de 45 netim var. 45 puanım var yani, doğru mu?",
+          "raw": {
+            "sequence": 0.2931937172774869,
+            "jaccard": 0.0967741935483871,
+            "bigram_dice": 0.05555555555555555,
+            "combined": 0.18674022781437066
+          },
+          "masked": {
+            "sequence": 0.3842364532019704,
+            "jaccard": 0.16,
+            "bigram_dice": 0.0625,
+            "combined": 0.2526182266009852
+          },
+          "best_score": 0.2526182266009852,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 27,
+          "turn_index": null,
+          "kind": "combined_user_turns",
+          "gold_user": "Bana dakika dakika program yap. Saat 08.10'da ne yapacağım bile belli olsun. 08.00'de başlayabilirim. Mezunum, günde 7 saat ayırabilirim. Matematik ve fizik öncelikli.",
+          "raw": {
+            "sequence": 0.26885245901639343,
+            "jaccard": 0.08888888888888889,
+            "bigram_dice": 0.038461538461538464,
+            "combined": 0.16878520386717108
+          },
+          "masked": {
+            "sequence": 0.35555555555555557,
+            "jaccard": 0.10810810810810811,
+            "bigram_dice": 0.08695652173913043,
+            "combined": 0.22760151455803632
+          },
+          "best_score": 0.22760151455803632,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 43,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "Dershaneye gidiyorum ve eve 19.30'da geliyorum. 12. sınıf sayısalım. Eve geldikten sonra 4 saat daha çalışmaya çalışıyorum ama iki gün sonra tükeniyorum.",
+          "raw": {
+            "sequence": 0.3003412969283277,
+            "jaccard": 0.09302325581395349,
+            "bigram_dice": 0.04081632653061224,
+            "combined": 0.18624089051447232
+          },
+          "masked": {
+            "sequence": 0.35294117647058826,
+            "jaccard": 0.11428571428571428,
+            "bigram_dice": 0.045454545454545456,
+            "combined": 0.2198472116119175
+          },
+          "best_score": 0.2198472116119175,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 72,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "Mezunum ve günde 8 saat çalışmak istiyorum ama şu an en fazla 4 saat sürdürebiliyorum.",
+          "raw": {
+            "sequence": 0.3231441048034934,
+            "jaccard": 0.02631578947368421,
+            "bigram_dice": 0.0,
+            "combined": 0.16946678924385197
+          },
+          "masked": {
+            "sequence": 0.3950617283950617,
+            "jaccard": 0.06451612903225806,
+            "bigram_dice": 0.0,
+            "combined": 0.21688570290720827
+          },
+          "best_score": 0.21688570290720827,
+          "label": "LOW"
+        }
+      ]
+    },
+    {
+      "id": "H025",
+      "category": "bilgi_uydurmama",
+      "user": "TYT matematiğim zayıf ama hangi konularda eksik olduğumu bilmiyorum. Bugün 2 saat matematik çalışacağım. Bana rastgele konu adı vermeden ne yapabileceğimi söyle.",
+      "top_label": "LOW",
+      "matches": [
+        {
+          "gold_example": 34,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "Sayısal mezunum. TYT matematiğim diğer derslere göre çok zayıf. Bugün matematiğe 3 saat ayırabilirim. Bana ne yapacağımı söyle.",
+          "raw": {
+            "sequence": 0.4412811387900356,
+            "jaccard": 0.25,
+            "bigram_dice": 0.05263157894736842,
+            "combined": 0.3061668851844915
+          },
+          "masked": {
+            "sequence": 0.45674740484429066,
+            "jaccard": 0.2903225806451613,
+            "bigram_dice": 0.10526315789473684,
+            "combined": 0.3365231081946411
+          },
+          "best_score": 0.3365231081946411,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 94,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "Uzun açıklama istemiyorum. Bugün 3 saatim var, AYT matematik çalışmam gerekiyor. Ne yapayım?",
+          "raw": {
+            "sequence": 0.5040650406504065,
+            "jaccard": 0.09375,
+            "bigram_dice": 0.0,
+            "combined": 0.28015752032520325
+          },
+          "masked": {
+            "sequence": 0.5275590551181102,
+            "jaccard": 0.12903225806451613,
+            "bigram_dice": 0.06060606060606061,
+            "combined": 0.31461041709962206
+          },
+          "best_score": 0.31461041709962206,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 40,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "Mezunum, eşit ağırlığım. TYT 71, AYT 43 yapıyorum. Matematiğim edebiyattan daha zayıf. Günde 5 saat çalışıyorum. Bana nereden başlamam gerektiğini söyle.",
+          "raw": {
+            "sequence": 0.375,
+            "jaccard": 0.16216216216216217,
+            "bigram_dice": 0.0,
+            "combined": 0.23614864864864865
+          },
+          "masked": {
+            "sequence": 0.4339622641509434,
+            "jaccard": 0.20588235294117646,
+            "bigram_dice": 0.04878048780487805,
+            "combined": 0.28850193551880027
+          },
+          "best_score": 0.28850193551880027,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 47,
+          "turn_index": null,
+          "kind": "combined_user_turns",
+          "gold_user": "Sayısalım. TYT matematik 28 net geliyor ama fen 9 net civarı. Ne yapmalıyım? Günde 5 saat çalışabiliyorum.",
+          "raw": {
+            "sequence": 0.3769230769230769,
+            "jaccard": 0.15151515151515152,
+            "bigram_dice": 0.0,
+            "combined": 0.23391608391608393
+          },
+          "masked": {
+            "sequence": 0.4072727272727273,
+            "jaccard": 0.2,
+            "bigram_dice": 0.05555555555555555,
+            "combined": 0.2747474747474748
+          },
+          "best_score": 0.2747474747474748,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 77,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "Günde 6 saatim var ama 2 saatini yolda geçiriyorum. Bu 2 saatte de ağır matematik çalışsam olur mu?",
+          "raw": {
+            "sequence": 0.47843137254901963,
+            "jaccard": 0.08333333333333333,
+            "bigram_dice": 0.0,
+            "combined": 0.2642156862745098
+          },
+          "masked": {
+            "sequence": 0.25830258302583026,
+            "jaccard": 0.08571428571428572,
+            "bigram_dice": 0.0,
+            "combined": 0.15486557722720085
+          },
+          "best_score": 0.2642156862745098,
+          "label": "LOW"
+        }
+      ]
+    },
+    {
+      "id": "H026",
+      "category": "bilgi_uydurmama",
+      "user": "Fen netim düşük. Fizik mi kimya mı biyoloji mi daha zayıf olduğunu söylemedim. Buna rağmen bana hangi fen dersine yüklenmem gerektiğini kesin söyleme; nasıl karar vereceğimi anlat.",
+      "top_label": "LOW",
+      "matches": [
+        {
+          "gold_example": 40,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "Mezunum, eşit ağırlığım. TYT 71, AYT 43 yapıyorum. Matematiğim edebiyattan daha zayıf. Günde 5 saat çalışıyorum. Bana nereden başlamam gerektiğini söyle.",
+          "raw": {
+            "sequence": 0.37267080745341613,
+            "jaccard": 0.09523809523809523,
+            "bigram_dice": 0.043478260869565216,
+            "combined": 0.22360248447204967
+          },
+          "masked": {
+            "sequence": 0.3795180722891566,
+            "jaccard": 0.1,
+            "bigram_dice": 0.043478260869565216,
+            "combined": 0.22845468831849136
+          },
+          "best_score": 0.22845468831849136,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 53,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "Ben gece daha iyi çalışıyorum. Sabah erken kalkınca verim alamıyorum ama herkes sabah çalışmam gerektiğini söylüyor.",
+          "raw": {
+            "sequence": 0.3586206896551724,
+            "jaccard": 0.05263157894736842,
+            "bigram_dice": 0.0,
+            "combined": 0.19509981851179672
+          },
+          "masked": {
+            "sequence": 0.3586206896551724,
+            "jaccard": 0.05263157894736842,
+            "bigram_dice": 0.0,
+            "combined": 0.19509981851179672
+          },
+          "best_score": 0.19509981851179672,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 71,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "Günde 3 saat çalışabiliyorum ama matematik, fizik, kimya, biyoloji, Türkçe ve sosyalin hepsini her gün çalışmak istiyorum.",
+          "raw": {
+            "sequence": 0.33447098976109213,
+            "jaccard": 0.07692307692307693,
+            "bigram_dice": 0.0,
+            "combined": 0.19031241795746914
+          },
+          "masked": {
+            "sequence": 0.3367003367003367,
+            "jaccard": 0.07692307692307693,
+            "bigram_dice": 0.0,
+            "combined": 0.19142709142709144
+          },
+          "best_score": 0.19142709142709144,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 35,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "TYT'de 64 net yapıyorum. Bana iki haftada 80 nete çıkaracak kesin bir program verir misin?",
+          "raw": {
+            "sequence": 0.3484848484848485,
+            "jaccard": 0.05128205128205128,
+            "bigram_dice": 0.0,
+            "combined": 0.18962703962703964
+          },
+          "masked": {
+            "sequence": 0.34814814814814815,
+            "jaccard": 0.05263157894736842,
+            "bigram_dice": 0.0,
+            "combined": 0.1898635477582846
+          },
+          "best_score": 0.1898635477582846,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 53,
+          "turn_index": null,
+          "kind": "combined_user_turns",
+          "gold_user": "Ben gece daha iyi çalışıyorum. Sabah erken kalkınca verim alamıyorum ama herkes sabah çalışmam gerektiğini söylüyor. Genelde 01.00'de yatıp 09.00'da kalkıyorum. Günde 6 saat çalışıyorum.",
+          "raw": {
+            "sequence": 0.35195530726256985,
+            "jaccard": 0.04081632653061224,
+            "bigram_dice": 0.0,
+            "combined": 0.1882225515904686
+          },
+          "masked": {
+            "sequence": 0.35359116022099446,
+            "jaccard": 0.043478260869565216,
+            "bigram_dice": 0.0,
+            "combined": 0.1898390583713668
+          },
+          "best_score": 0.1898390583713668,
+          "label": "LOW"
+        }
+      ]
+    },
+    {
+      "id": "H027",
+      "category": "cevap_uzunlugu_ve_odak",
+      "user": "Kısa cevap ver. Mezunum, sayısalım, günde 6 saat çalışabiliyorum ve AYT fizik önceliğim. Bugünkü planım ne olsun?",
+      "top_label": "LOW",
+      "matches": [
+        {
+          "gold_example": 27,
+          "turn_index": 3,
+          "kind": "single_user_turn",
+          "gold_user": "08.00'de başlayabilirim. Mezunum, günde 7 saat ayırabilirim. Matematik ve fizik öncelikli.",
+          "raw": {
+            "sequence": 0.5154639175257731,
+            "jaccard": 0.2,
+            "bigram_dice": 0.0,
+            "combined": 0.31773195876288657
+          },
+          "masked": {
+            "sequence": 0.5445544554455446,
+            "jaccard": 0.2727272727272727,
+            "bigram_dice": 0.14814814814814814,
+            "combined": 0.3837250391705837
+          },
+          "best_score": 0.3837250391705837,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 55,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "Mezunum, sayısalım. Günde 6 saat çalışıyorum. Son zamanlarda AYT matematiğe çok yükleniyorum ama TYT netim düşmeye başladı.",
+          "raw": {
+            "sequence": 0.5198237885462555,
+            "jaccard": 0.21428571428571427,
+            "bigram_dice": 0.25,
+            "combined": 0.37419760855884204
+          },
+          "masked": {
+            "sequence": 0.5361702127659574,
+            "jaccard": 0.21428571428571427,
+            "bigram_dice": 0.25,
+            "combined": 0.382370820668693
+          },
+          "best_score": 0.382370820668693,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 1,
+          "turn_index": 3,
+          "kind": "single_user_turn",
+          "gold_user": "Mezunum, sayısalım. TYT 68 civarı geliyor. Günde 5 saat çalışabilirim.",
+          "raw": {
+            "sequence": 0.4942528735632184,
+            "jaccard": 0.17391304347826086,
+            "bigram_dice": 0.08,
+            "combined": 0.3153003498250875
+          },
+          "masked": {
+            "sequence": 0.518918918918919,
+            "jaccard": 0.23809523809523808,
+            "bigram_dice": 0.24,
+            "combined": 0.37888803088803086
+          },
+          "best_score": 0.37888803088803086,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 44,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "Mezunum, sayısalım. TYT 81, AYT 47 yapıyorum. Fizik en zayıf dersim. Günde 7 saat çalışabiliyorum. Bana çalışma dağılımı yap.",
+          "raw": {
+            "sequence": 0.46017699115044247,
+            "jaccard": 0.2413793103448276,
+            "bigram_dice": 0.11764705882352941,
+            "combined": 0.32603170044337537
+          },
+          "masked": {
+            "sequence": 0.475,
+            "jaccard": 0.3076923076923077,
+            "bigram_dice": 0.23529411764705882,
+            "combined": 0.37686651583710407
+          },
+          "best_score": 0.37686651583710407,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 47,
+          "turn_index": 3,
+          "kind": "single_user_turn",
+          "gold_user": "Günde 5 saat çalışabiliyorum.",
+          "raw": {
+            "sequence": 0.39705882352941174,
+            "jaccard": 0.16666666666666666,
+            "bigram_dice": 0.10526315789473684,
+            "combined": 0.2695820433436532
+          },
+          "masked": {
+            "sequence": 0.4444444444444444,
+            "jaccard": 0.23529411764705882,
+            "bigram_dice": 0.3157894736842105,
+            "combined": 0.3559683522531819
+          },
+          "best_score": 0.3559683522531819,
+          "label": "LOW"
+        }
+      ]
+    },
+    {
+      "id": "H028",
+      "category": "cevap_uzunlugu_ve_odak",
+      "user": "Bana gereksiz motivasyon cümleleri kurmadan, sadece uygulanabilir şekilde anlat: TYT denemesinde süre yetiştiremiyorum ve özellikle matematikte oyalanıyorum.",
+      "top_label": "LOW",
+      "matches": [
+        {
+          "gold_example": 23,
+          "turn_index": null,
+          "kind": "combined_user_turns",
+          "gold_user": "TYT denemelerinde süreyi yetiştiremiyorum. Sonlara hep soru kalıyor. Türkçe yaklaşık 55 dakika sürüyor. Matematikte de çok oyalanıyorum. Fene geldiğimde çoğu zaman çok az süre kalıyor.",
+          "raw": {
+            "sequence": 0.4024024024024024,
+            "jaccard": 0.14285714285714285,
+            "bigram_dice": 0.0,
+            "combined": 0.24405834405834403
+          },
+          "masked": {
+            "sequence": 0.39880952380952384,
+            "jaccard": 0.14285714285714285,
+            "bigram_dice": 0.0,
+            "combined": 0.24226190476190476
+          },
+          "best_score": 0.24405834405834403,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 23,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "TYT denemelerinde süreyi yetiştiremiyorum. Sonlara hep soru kalıyor.",
+          "raw": {
+            "sequence": 0.41818181818181815,
+            "jaccard": 0.08695652173913043,
+            "bigram_dice": 0.0,
+            "combined": 0.2351778656126482
+          },
+          "masked": {
+            "sequence": 0.41818181818181815,
+            "jaccard": 0.08695652173913043,
+            "bigram_dice": 0.0,
+            "combined": 0.2351778656126482
+          },
+          "best_score": 0.2351778656126482,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 118,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "Ailem son haftalarda sürekli netimi soruyor. Her denemeden sonra tartışıyoruz ve çalışmaya dönmekte zorlanıyorum.",
+          "raw": {
+            "sequence": 0.4377358490566038,
+            "jaccard": 0.03333333333333333,
+            "bigram_dice": 0.0,
+            "combined": 0.2288679245283019
+          },
+          "masked": {
+            "sequence": 0.4377358490566038,
+            "jaccard": 0.03333333333333333,
+            "bigram_dice": 0.0,
+            "combined": 0.2288679245283019
+          },
+          "best_score": 0.2288679245283019,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 117,
+          "turn_index": null,
+          "kind": "combined_user_turns",
+          "gold_user": "Sınava az kaldıkça denemelerde elim ayağım titriyor. Netlerim normalde yaptığımın altına düşüyor. Özellikle matematiğe geçince çok geriliyorum.",
+          "raw": {
+            "sequence": 0.41496598639455784,
+            "jaccard": 0.030303030303030304,
+            "bigram_dice": 0.0,
+            "combined": 0.216573902288188
+          },
+          "masked": {
+            "sequence": 0.41496598639455784,
+            "jaccard": 0.030303030303030304,
+            "bigram_dice": 0.0,
+            "combined": 0.216573902288188
+          },
+          "best_score": 0.216573902288188,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 118,
+          "turn_index": null,
+          "kind": "combined_user_turns",
+          "gold_user": "Ailem son haftalarda sürekli netimi soruyor. Her denemeden sonra tartışıyoruz ve çalışmaya dönmekte zorlanıyorum. Neredeyse her denemeden hemen sonra.",
+          "raw": {
+            "sequence": 0.3853820598006645,
+            "jaccard": 0.03125,
+            "bigram_dice": 0.0,
+            "combined": 0.20206602990033223
+          },
+          "masked": {
+            "sequence": 0.3853820598006645,
+            "jaccard": 0.03125,
+            "bigram_dice": 0.0,
+            "combined": 0.20206602990033223
+          },
+          "best_score": 0.20206602990033223,
+          "label": "LOW"
+        }
+      ]
+    },
+    {
+      "id": "H029",
+      "category": "plan_revizyonu",
+      "user": "Geçen hafta yaptığımız planda günde 6 saat vardı ama ben üç gün üst üste en fazla 4 saat yapabildim. Planı başarısız saymadan nasıl revize etmeliyim?",
+      "top_label": "LOW",
+      "matches": [
+        {
+          "gold_example": 72,
+          "turn_index": null,
+          "kind": "combined_user_turns",
+          "gold_user": "Mezunum ve günde 8 saat çalışmak istiyorum ama şu an en fazla 4 saat sürdürebiliyorum. Yaklaşık 5 gün.",
+          "raw": {
+            "sequence": 0.3967611336032389,
+            "jaccard": 0.20588235294117646,
+            "bigram_dice": 0.14634146341463414,
+            "combined": 0.2894135653668992
+          },
+          "masked": {
+            "sequence": 0.449438202247191,
+            "jaccard": 0.22580645161290322,
+            "bigram_dice": 0.20512820512820512,
+            "combined": 0.3334866776331075
+          },
+          "best_score": 0.3334866776331075,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 72,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "Mezunum ve günde 8 saat çalışmak istiyorum ama şu an en fazla 4 saat sürdürebiliyorum.",
+          "raw": {
+            "sequence": 0.39655172413793105,
+            "jaccard": 0.1875,
+            "bigram_dice": 0.15789473684210525,
+            "combined": 0.2861048094373866
+          },
+          "masked": {
+            "sequence": 0.4435483870967742,
+            "jaccard": 0.2,
+            "bigram_dice": 0.2222222222222222,
+            "combined": 0.3262186379928315
+          },
+          "best_score": 0.3262186379928315,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 76,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "Hafta içi 2 saat, hafta sonu 7 saat çalışabiliyorum. Her gün aynı programı uygulamak istiyorum.",
+          "raw": {
+            "sequence": 0.3263598326359833,
+            "jaccard": 0.08823529411764706,
+            "bigram_dice": 0.0,
+            "combined": 0.18965050455328575
+          },
+          "masked": {
+            "sequence": 0.4392156862745098,
+            "jaccard": 0.12903225806451613,
+            "bigram_dice": 0.05555555555555555,
+            "combined": 0.26942863166772085
+          },
+          "best_score": 0.26942863166772085,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 39,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "12. sınıf sayısal öğrencisiyim. TYT 76 civarı geliyor. Hafta içi okuldan dolayı en fazla 3 saat çalışabiliyorum. Nasıl bir düzen kurmalıyım?",
+          "raw": {
+            "sequence": 0.36879432624113473,
+            "jaccard": 0.125,
+            "bigram_dice": 0.045454545454545456,
+            "combined": 0.23098807221147646
+          },
+          "masked": {
+            "sequence": 0.38,
+            "jaccard": 0.16666666666666666,
+            "bigram_dice": 0.13953488372093023,
+            "combined": 0.26790697674418606
+          },
+          "best_score": 0.26790697674418606,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 76,
+          "turn_index": null,
+          "kind": "combined_user_turns",
+          "gold_user": "Hafta içi 2 saat, hafta sonu 7 saat çalışabiliyorum. Her gün aynı programı uygulamak istiyorum. Sayısalım, matematik ve fizik zayıf.",
+          "raw": {
+            "sequence": 0.3284671532846715,
+            "jaccard": 0.07692307692307693,
+            "bigram_dice": 0.0,
+            "combined": 0.18731049971925884
+          },
+          "masked": {
+            "sequence": 0.42758620689655175,
+            "jaccard": 0.1111111111111111,
+            "bigram_dice": 0.04878048780487805,
+            "combined": 0.2568825343425848
+          },
+          "best_score": 0.2568825343425848,
+          "label": "LOW"
+        }
+      ]
+    },
+    {
+      "id": "H030",
+      "category": "plan_revizyonu",
+      "user": "Bir haftalık programımın yüzde 70'ini uygulayabildim. Kalan görevleri yeni haftaya yığmak mı, yoksa planı sadeleştirip devam etmek mi daha mantıklı?",
+      "top_label": "LOW",
+      "matches": [
+        {
+          "gold_example": 79,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "Haftalık programımda her güne 8 görev yazıyorum ama yarısı kalıyor.",
+          "raw": {
+            "sequence": 0.3791469194312796,
+            "jaccard": 0.03333333333333333,
+            "bigram_dice": 0.0,
+            "combined": 0.1995734597156398
+          },
+          "masked": {
+            "sequence": 0.41284403669724773,
+            "jaccard": 0.06896551724137931,
+            "bigram_dice": 0.0,
+            "combined": 0.22711167352103767
+          },
+          "best_score": 0.22711167352103767,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 79,
+          "turn_index": null,
+          "kind": "combined_user_turns",
+          "gold_user": "Haftalık programımda her güne 8 görev yazıyorum ama yarısı kalıyor. Yaklaşık 4 saat.",
+          "raw": {
+            "sequence": 0.3876651982378855,
+            "jaccard": 0.030303030303030304,
+            "bigram_dice": 0.0,
+            "combined": 0.20292350820985183
+          },
+          "masked": {
+            "sequence": 0.4117647058823529,
+            "jaccard": 0.06451612903225806,
+            "bigram_dice": 0.0,
+            "combined": 0.22523719165085387
+          },
+          "best_score": 0.22523719165085387,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 88,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "Bir günlük programımda 4 saat aktif çalışma yazıyor. Aralarla birlikte toplam kaç saat ayırmalıyım?",
+          "raw": {
+            "sequence": 0.30578512396694213,
+            "jaccard": 0.030303030303030304,
+            "bigram_dice": 0.0,
+            "combined": 0.16198347107438016
+          },
+          "masked": {
+            "sequence": 0.37751004016064255,
+            "jaccard": 0.0625,
+            "bigram_dice": 0.0,
+            "combined": 0.20750502008032126
+          },
+          "best_score": 0.20750502008032126,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 35,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "TYT'de 64 net yapıyorum. Bana iki haftada 80 nete çıkaracak kesin bir program verir misin?",
+          "raw": {
+            "sequence": 0.24034334763948498,
+            "jaccard": 0.027777777777777776,
+            "bigram_dice": 0.0,
+            "combined": 0.12850500715307583
+          },
+          "masked": {
+            "sequence": 0.371900826446281,
+            "jaccard": 0.058823529411764705,
+            "bigram_dice": 0.0,
+            "combined": 0.2035974720466699
+          },
+          "best_score": 0.2035974720466699,
+          "label": "LOW"
+        },
+        {
+          "gold_example": 119,
+          "turn_index": 1,
+          "kind": "single_user_turn",
+          "gold_user": "Sınava 5 gün kaldı. Son günlerde deneme netlerim düştü. Artık yeni kaynak alıp sabaha kadar soru çözmek istiyorum.",
+          "raw": {
+            "sequence": 0.3359375,
+            "jaccard": 0.02631578947368421,
+            "bigram_dice": 0.0,
+            "combined": 0.17586348684210526
+          },
+          "masked": {
+            "sequence": 0.3650190114068441,
+            "jaccard": 0.05405405405405406,
+            "bigram_dice": 0.0,
+            "combined": 0.19872572191963828
+          },
+          "best_score": 0.19872572191963828,
+          "label": "LOW"
+        }
+      ]
+    }
+  ]
+}

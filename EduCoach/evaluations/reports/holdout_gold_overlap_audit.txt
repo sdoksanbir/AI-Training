@@ -1,0 +1,1370 @@
+====================================================================================================
+EDUCOACH HOLDOUT / GOLD OVERLAP DENETIMI
+====================================================================================================
+
+Gold: C:\AI-Training\EduCoach\data\gold\gold_v0.5.jsonl
+Holdout: C:\AI-Training\EduCoach\evaluations\holdout\benchmark_v0.2.jsonl
+Gold ornek: 120
+Gold user aday: 220
+Holdout: 30
+
+NOT: VERY_HIGH/HIGH/MEDIUM etiketleri otomatik contamination karari degildir. Manuel inceleme onceligidir.
+
+====================================================================================================
+H001 | bilgiyi_dogru_kullanma | TOP LABEL: MEDIUM
+====================================================================================================
+
+HOLDOUT USER:
+12. sınıf sayısal öğrencisiyim. TYT 74 civarı geliyor. Hafta içi okuldan sonra 2,5 saat çalışabiliyorum. Cumartesi 6 saatim boş. Bana haftalık bir başlangıç düzeni çıkar ama verdiğim bilgileri tekrar sorma.
+
+TOP MATCHES
+----------------------------------------------------------------------------------------------------
+1. GOLD 39 | single_user_turn | turn=1
+   label=MEDIUM
+   raw combined=0.5093 | seq=0.6746 | jaccard=0.3333 | bigram=0.3600
+   masked combined=0.5663 | seq=0.7003 | jaccard=0.3939 | bigram=0.4898
+   GOLD USER:
+   12. sınıf sayısal öğrencisiyim. TYT 76 civarı geliyor. Hafta içi okuldan dolayı en fazla 3 saat çalışabiliyorum. Nasıl bir düzen kurmalıyım?
+
+2. GOLD 39 | combined_user_turns | turn=None
+   label=MEDIUM
+   raw combined=0.4740 | seq=0.6263 | jaccard=0.3256 | bigram=0.3158
+   masked combined=0.5252 | seq=0.6650 | jaccard=0.3514 | bigram=0.4364
+   GOLD USER:
+   12. sınıf sayısal öğrencisiyim. TYT 76 civarı geliyor. Hafta içi okuldan dolayı en fazla 3 saat çalışabiliyorum. Nasıl bir düzen kurmalıyım? Hafta sonu iki gün de 6 saat çalışabiliyorum.
+
+3. GOLD 36 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.4584 | seq=0.6246 | jaccard=0.3171 | bigram=0.2545
+   masked combined=0.5045 | seq=0.6614 | jaccard=0.3529 | bigram=0.3396
+   GOLD USER:
+   12. sınıf sayısal öğrencisiyim. TYT 73, AYT 41. Hafta içi 3 saat, hafta sonu 6 saat çalışabiliyorum. AYT fizik ve matematik zayıf. Bana haftalık düzen çıkar.
+
+4. GOLD 49 | combined_user_turns | turn=None
+   label=LOW
+   raw combined=0.4179 | seq=0.5072 | jaccard=0.3500 | bigram=0.2963
+   masked combined=0.4566 | seq=0.5445 | jaccard=0.3529 | bigram=0.3922
+   GOLD USER:
+   12. sınıf sayısal öğrencisiyim. TYT 78 civarı geliyor. AYT matematikte iyiyim ama fizik çok zayıf. Hafta içi 3,5 saat, hafta sonu 6 saat çalışabiliyorum.
+
+5. GOLD 46 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.4002 | seq=0.5266 | jaccard=0.2895 | bigram=0.2500
+   masked combined=0.4380 | seq=0.5523 | jaccard=0.3125 | bigram=0.3404
+   GOLD USER:
+   12. sınıf dil öğrencisiyim. TYT 74 civarı, YDT 58 geliyor. Okuldan sonra 3 saat çalışabiliyorum. YDT'yi yükseltmek istiyorum.
+
+
+====================================================================================================
+H002 | bilgiyi_dogru_kullanma | TOP LABEL: MEDIUM
+====================================================================================================
+
+HOLDOUT USER:
+Mezunum, eşit ağırlığım. TYT 78, AYT 44 yapıyorum. Edebiyatım iyi, matematikte zorlanıyorum. Günde 5 saat çalışabiliyorum. Nereden başlamalıyım?
+
+TOP MATCHES
+----------------------------------------------------------------------------------------------------
+1. GOLD 40 | single_user_turn | turn=1
+   label=MEDIUM
+   raw combined=0.5157 | seq=0.7163 | jaccard=0.3448 | bigram=0.2703
+   masked combined=0.5915 | seq=0.7483 | jaccard=0.4000 | bigram=0.4865
+   GOLD USER:
+   Mezunum, eşit ağırlığım. TYT 71, AYT 43 yapıyorum. Matematiğim edebiyattan daha zayıf. Günde 5 saat çalışıyorum. Bana nereden başlamam gerektiğini söyle.
+
+2. GOLD 50 | single_user_turn | turn=1
+   label=MEDIUM
+   raw combined=0.4411 | seq=0.6559 | jaccard=0.2963 | bigram=0.1212
+   masked combined=0.5718 | seq=0.7041 | jaccard=0.4091 | bigram=0.4848
+   GOLD USER:
+   Eşit ağırlık mezunuyum. TYT 77, AYT 49 yapıyorum. Edebiyatım güçlü, geometri çok zayıf. Günde 6 saat çalışabiliyorum.
+
+3. GOLD 45 | combined_user_turns | turn=None
+   label=MEDIUM
+   raw combined=0.4523 | seq=0.5627 | jaccard=0.3846 | bigram=0.2778
+   masked combined=0.5294 | seq=0.5845 | jaccard=0.5238 | bigram=0.4000
+   GOLD USER:
+   Eşit ağırlığım. TYT 68 civarı. AYT matematikte zorlanıyorum ama edebiyatım iyi. Hafta içi 4 saat, hafta sonu 7 saat çalışabiliyorum.
+
+4. GOLD 44 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.3885 | seq=0.6142 | jaccard=0.2333 | bigram=0.0571
+   masked combined=0.5081 | seq=0.6642 | jaccard=0.3200 | bigram=0.4000
+   GOLD USER:
+   Mezunum, sayısalım. TYT 81, AYT 47 yapıyorum. Fizik en zayıf dersim. Günde 7 saat çalışabiliyorum. Bana çalışma dağılımı yap.
+
+5. GOLD 45 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.4471 | seq=0.5472 | jaccard=0.3810 | bigram=0.2963
+   masked combined=0.4996 | seq=0.5511 | jaccard=0.5000 | bigram=0.3704
+   GOLD USER:
+   Eşit ağırlığım. TYT 68 civarı. AYT matematikte zorlanıyorum ama edebiyatım iyi.
+
+
+====================================================================================================
+H003 | yks_terminolojisi | TOP LABEL: MEDIUM
+====================================================================================================
+
+HOLDOUT USER:
+TYT 84 net, AYT 46 net yapıyorum. Toplam 130 puanım var diyebilir miyim?
+
+TOP MATCHES
+----------------------------------------------------------------------------------------------------
+1. GOLD 64 | single_user_turn | turn=1
+   label=MEDIUM
+   raw combined=0.4152 | seq=0.5970 | jaccard=0.3333 | bigram=0.0833
+   masked combined=0.6038 | seq=0.7105 | jaccard=0.5385 | bigram=0.4348
+   GOLD USER:
+   TYT 70, AYT 50. Toplam 120 net yaptım, YKS netim 120 diyebilir miyim?
+
+2. GOLD 60 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.3387 | seq=0.5714 | jaccard=0.1765 | bigram=0.0000
+   masked combined=0.4701 | seq=0.6667 | jaccard=0.3077 | bigram=0.2222
+   GOLD USER:
+   TYT 76, AYT 39 yapıyorum. Sıralamam kaç gelir?
+
+3. GOLD 58 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.3458 | seq=0.5536 | jaccard=0.1667 | bigram=0.0952
+   masked combined=0.4533 | seq=0.6667 | jaccard=0.2667 | bigram=0.2000
+   GOLD USER:
+   TYT'de 82 net yapıyorum. Bu 82 puan mı demek?
+
+4. GOLD 60 | combined_user_turns | turn=None
+   label=LOW
+   raw combined=0.3287 | seq=0.5574 | jaccard=0.1667 | bigram=0.0000
+   masked combined=0.4513 | seq=0.6471 | jaccard=0.2857 | bigram=0.2105
+   GOLD USER:
+   TYT 76, AYT 39 yapıyorum. Sıralamam kaç gelir? Sayısalım.
+
+5. GOLD 66 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.2985 | seq=0.4400 | jaccard=0.1875 | bigram=0.1111
+   masked combined=0.4061 | seq=0.4865 | jaccard=0.3077 | bigram=0.3529
+   GOLD USER:
+   AYT 35 net yapıyorum. Bu kötü mü?
+
+
+====================================================================================================
+H004 | yks_terminolojisi | TOP LABEL: LOW
+====================================================================================================
+
+HOLDOUT USER:
+Sayısal öğrencisiyim. TYT netim yükseldi ama aynı net artışı sıralamama neden birebir yansımıyor?
+
+TOP MATCHES
+----------------------------------------------------------------------------------------------------
+1. GOLD 70 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.3361 | seq=0.4675 | jaccard=0.2778 | bigram=0.0952
+   masked combined=0.3361 | seq=0.4675 | jaccard=0.2778 | bigram=0.0952
+   GOLD USER:
+   TYT netim arttı ama başarı sıram neden aynı kalmış olabilir?
+
+2. GOLD 47 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.2909 | seq=0.5000 | jaccard=0.1364 | bigram=0.0000
+   masked combined=0.2829 | seq=0.4800 | jaccard=0.1429 | bigram=0.0000
+   GOLD USER:
+   Sayısalım. TYT matematik 28 net geliyor ama fen 9 net civarı. Ne yapmalıyım?
+
+3. GOLD 49 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.2765 | seq=0.3915 | jaccard=0.1667 | bigram=0.1538
+   masked combined=0.2778 | seq=0.3897 | jaccard=0.1739 | bigram=0.1538
+   GOLD USER:
+   12. sınıf sayısal öğrencisiyim. TYT 78 civarı geliyor. AYT matematikte iyiyim ama fizik çok zayıf.
+
+4. GOLD 49 | combined_user_turns | turn=None
+   label=LOW
+   raw combined=0.2705 | seq=0.4215 | jaccard=0.1250 | bigram=0.1111
+   masked combined=0.2711 | seq=0.4094 | jaccard=0.1429 | bigram=0.1176
+   GOLD USER:
+   12. sınıf sayısal öğrencisiyim. TYT 78 civarı geliyor. AYT matematikte iyiyim ama fizik çok zayıf. Hafta içi 3,5 saat, hafta sonu 6 saat çalışabiliyorum.
+
+5. GOLD 47 | combined_user_turns | turn=None
+   label=LOW
+   raw combined=0.2681 | seq=0.4670 | jaccard=0.1154 | bigram=0.0000
+   masked combined=0.2587 | seq=0.4423 | jaccard=0.1250 | bigram=0.0000
+   GOLD USER:
+   Sayısalım. TYT matematik 28 net geliyor ama fen 9 net civarı. Ne yapmalıyım? Günde 5 saat çalışabiliyorum.
+
+
+====================================================================================================
+H005 | gercekci_planlama | TOP LABEL: LOW
+====================================================================================================
+
+HOLDOUT USER:
+Hafta içi okuldan sonra 2 saatim var. Her gün matematik, fizik, kimya, biyoloji, Türkçe ve paragraf çalışmak istiyorum. Bana program yap.
+
+TOP MATCHES
+----------------------------------------------------------------------------------------------------
+1. GOLD 71 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.4845 | seq=0.5992 | jaccard=0.3571 | bigram=0.3889
+   masked combined=0.5137 | seq=0.6275 | jaccard=0.4074 | bigram=0.3889
+   GOLD USER:
+   Günde 3 saat çalışabiliyorum ama matematik, fizik, kimya, biyoloji, Türkçe ve sosyalin hepsini her gün çalışmak istiyorum.
+
+2. GOLD 73 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.3631 | seq=0.4348 | jaccard=0.3103 | bigram=0.2632
+   masked combined=0.3726 | seq=0.4538 | jaccard=0.3103 | bigram=0.2632
+   GOLD USER:
+   Okuldan sonra 2 saatim var. Bana hem TYT hem AYT hem de okul tekrarını aynı gün bitirecek program yap.
+
+3. GOLD 76 | combined_user_turns | turn=None
+   label=LOW
+   raw combined=0.3284 | seq=0.4358 | jaccard=0.3000 | bigram=0.1026
+   masked combined=0.3372 | seq=0.4461 | jaccard=0.3103 | bigram=0.1053
+   GOLD USER:
+   Hafta içi 2 saat, hafta sonu 7 saat çalışabiliyorum. Her gün aynı programı uygulamak istiyorum. Sayısalım, matematik ve fizik zayıf.
+
+4. GOLD 76 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.3130 | seq=0.4505 | jaccard=0.2143 | bigram=0.1176
+   masked combined=0.3217 | seq=0.4615 | jaccard=0.2222 | bigram=0.1212
+   GOLD USER:
+   Hafta içi 2 saat, hafta sonu 7 saat çalışabiliyorum. Her gün aynı programı uygulamak istiyorum.
+
+5. GOLD 94 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.2709 | seq=0.4587 | jaccard=0.0968 | bigram=0.0625
+   masked combined=0.3084 | seq=0.4867 | jaccard=0.1333 | bigram=0.1250
+   GOLD USER:
+   Uzun açıklama istemiyorum. Bugün 3 saatim var, AYT matematik çalışmam gerekiyor. Ne yapayım?
+
+
+====================================================================================================
+H006 | gercekci_planlama | TOP LABEL: LOW
+====================================================================================================
+
+HOLDOUT USER:
+Şu an günde 3-4 saat çalışabiliyorum ama önümüzdeki haftadan itibaren her gün 9 saat çalışmaya karar verdim. Sence planı nasıl kurmalıyım?
+
+TOP MATCHES
+----------------------------------------------------------------------------------------------------
+1. GOLD 71 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.3481 | seq=0.4743 | jaccard=0.2258 | bigram=0.2162
+   masked combined=0.3659 | seq=0.4758 | jaccard=0.2414 | bigram=0.2778
+   GOLD USER:
+   Günde 3 saat çalışabiliyorum ama matematik, fizik, kimya, biyoloji, Türkçe ve sosyalin hepsini her gün çalışmak istiyorum.
+
+2. GOLD 76 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.2558 | seq=0.3860 | jaccard=0.1333 | bigram=0.1143
+   masked combined=0.3158 | seq=0.4435 | jaccard=0.1923 | bigram=0.1818
+   GOLD USER:
+   Hafta içi 2 saat, hafta sonu 7 saat çalışabiliyorum. Her gün aynı programı uygulamak istiyorum.
+
+3. GOLD 76 | combined_user_turns | turn=None
+   label=LOW
+   raw combined=0.2444 | seq=0.3802 | jaccard=0.1143 | bigram=0.1000
+   masked combined=0.3061 | seq=0.4523 | jaccard=0.1613 | bigram=0.1579
+   GOLD USER:
+   Hafta içi 2 saat, hafta sonu 7 saat çalışabiliyorum. Her gün aynı programı uygulamak istiyorum. Sayısalım, matematik ve fizik zayıf.
+
+4. GOLD 85 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.2366 | seq=0.3982 | jaccard=0.1250 | bigram=0.0000
+   masked combined=0.2970 | seq=0.4634 | jaccard=0.1786 | bigram=0.0588
+   GOLD USER:
+   Programda her konuya 1 saat yazıyorum ama bazı konular 2 saat sürüyor ve bütün gün kayıyor.
+
+5. GOLD 47 | single_user_turn | turn=3
+   label=LOW
+   raw combined=0.2222 | seq=0.3293 | jaccard=0.1364 | bigram=0.0833
+   masked combined=0.2931 | seq=0.3556 | jaccard=0.2105 | bigram=0.2609
+   GOLD USER:
+   Günde 5 saat çalışabiliyorum.
+
+
+====================================================================================================
+H007 | sure_yonetimi | TOP LABEL: MEDIUM
+====================================================================================================
+
+HOLDOUT USER:
+TYT matematikte zor sorulara çok takılıyorum. Son 15 soruya çoğu denemede bakamıyorum. Konuları biliyorum ama süre yetmiyor.
+
+TOP MATCHES
+----------------------------------------------------------------------------------------------------
+1. GOLD 104 | single_user_turn | turn=3
+   label=MEDIUM
+   raw combined=0.4750 | seq=0.6120 | jaccard=0.3500 | bigram=0.3200
+   masked combined=0.5402 | seq=0.6218 | jaccard=0.4444 | bigram=0.4800
+   GOLD USER:
+   Zor sorulara çok takılıyorum, son 8-10 soruya bazen bakamıyorum.
+
+2. GOLD 104 | combined_user_turns | turn=None
+   label=LOW
+   raw combined=0.3968 | seq=0.5547 | jaccard=0.2500 | bigram=0.2222
+   masked combined=0.4443 | seq=0.5515 | jaccard=0.3333 | bigram=0.3429
+   GOLD USER:
+   AYT denemelerinde matematik netim bazen 24 bazen 17 geliyor. Çok dengesiz. Zor sorulara çok takılıyorum, son 8-10 soruya bazen bakamıyorum.
+
+3. GOLD 82 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.2583 | seq=0.4206 | jaccard=0.1600 | bigram=0.0000
+   masked combined=0.2716 | seq=0.4182 | jaccard=0.2083 | bigram=0.0000
+   GOLD USER:
+   TYT Türkçede 50 dakika harcıyorum, matematikte de çok oyalanıyorum. Son bölümlere yetişemiyorum.
+
+4. GOLD 23 | single_user_turn | turn=3
+   label=LOW
+   raw combined=0.2517 | seq=0.4206 | jaccard=0.1379 | bigram=0.0000
+   masked combined=0.2628 | seq=0.4184 | jaccard=0.1786 | bigram=0.0000
+   GOLD USER:
+   Türkçe yaklaşık 55 dakika sürüyor. Matematikte de çok oyalanıyorum. Fene geldiğimde çoğu zaman çok az süre kalıyor.
+
+5. GOLD 47 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.1975 | seq=0.3505 | jaccard=0.0741 | bigram=0.0000
+   masked combined=0.2370 | seq=0.4020 | jaccard=0.1200 | bigram=0.0000
+   GOLD USER:
+   Sayısalım. TYT matematik 28 net geliyor ama fen 9 net civarı. Ne yapmalıyım?
+
+
+====================================================================================================
+H008 | sure_yonetimi | TOP LABEL: LOW
+====================================================================================================
+
+HOLDOUT USER:
+Akşam 19.00 ile 22.00 arasında çalışabiliyorum ama ilk 40 dakikam hangi derse başlayacağıma karar vermekle geçiyor. Bunu nasıl düzeltirim?
+
+TOP MATCHES
+----------------------------------------------------------------------------------------------------
+1. GOLD 84 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.3071 | seq=0.5106 | jaccard=0.1333 | bigram=0.0588
+   masked combined=0.3513 | seq=0.5372 | jaccard=0.1923 | bigram=0.1250
+   GOLD USER:
+   Akşam 3 saat çalışacağım diyorum ama masaya geçince ne yapacağıma karar vermekle yarım saat gidiyor.
+
+2. GOLD 8 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.2270 | seq=0.4340 | jaccard=0.0333 | bigram=0.0000
+   masked combined=0.2651 | seq=0.4840 | jaccard=0.0769 | bigram=0.0000
+   GOLD USER:
+   Günde 6 saat çalışıyorum ama netlerim artmıyor. Daha ne yapacağımı bilmiyorum.
+
+3. GOLD 71 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.2259 | seq=0.3953 | jaccard=0.0571 | bigram=0.0556
+   masked combined=0.2562 | seq=0.4308 | jaccard=0.0968 | bigram=0.0588
+   GOLD USER:
+   Günde 3 saat çalışabiliyorum ama matematik, fizik, kimya, biyoloji, Türkçe ve sosyalin hepsini her gün çalışmak istiyorum.
+
+4. GOLD 72 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.1629 | seq=0.3077 | jaccard=0.0303 | bigram=0.0000
+   masked combined=0.2413 | seq=0.4397 | jaccard=0.0714 | bigram=0.0000
+   GOLD USER:
+   Mezunum ve günde 8 saat çalışmak istiyorum ama şu an en fazla 4 saat sürdürebiliyorum.
+
+5. GOLD 99 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.2354 | seq=0.4279 | jaccard=0.0714 | bigram=0.0000
+   masked combined=0.2350 | seq=0.4220 | jaccard=0.0800 | bigram=0.0000
+   GOLD USER:
+   Deneme çözüyorum ama yanlışlarıma sadece bakıp geçiyorum. Nasıl analiz etmeliyim?
+
+
+====================================================================================================
+H009 | erteleme_ve_surdurulebilirlik | TOP LABEL: LOW
+====================================================================================================
+
+HOLDOUT USER:
+Pazartesi çok iyi başlıyorum, salı da çalışıyorum ama çarşamba aksarsa haftanın geri kalanını tamamen bırakıyorum. Bu döngüyü nasıl kırarım?
+
+TOP MATCHES
+----------------------------------------------------------------------------------------------------
+1. GOLD 32 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.3462 | seq=0.5138 | jaccard=0.2143 | bigram=0.1250
+   masked combined=0.3462 | seq=0.5138 | jaccard=0.2143 | bigram=0.1250
+   GOLD USER:
+   Programı pazartesi ve salı uyguluyorum ama çarşamba yorulunca tamamen bırakıyorum. Sonra diğer günler de çalışmıyorum.
+
+2. GOLD 91 | combined_user_turns | turn=None
+   label=LOW
+   raw combined=0.2349 | seq=0.3701 | jaccard=0.1290 | bigram=0.0556
+   masked combined=0.2458 | seq=0.3893 | jaccard=0.1333 | bigram=0.0556
+   GOLD USER:
+   Üç gün çok iyi çalışıyorum, dördüncü gün tamamen tükeniyorum. Sonra iki gün hiçbir şey yapamıyorum. 8-9 saat çalışıyorum.
+
+3. GOLD 91 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.2442 | seq=0.3777 | jaccard=0.1429 | bigram=0.0625
+   masked combined=0.2442 | seq=0.3777 | jaccard=0.1429 | bigram=0.0625
+   GOLD USER:
+   Üç gün çok iyi çalışıyorum, dördüncü gün tamamen tükeniyorum. Sonra iki gün hiçbir şey yapamıyorum.
+
+4. GOLD 110 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.2293 | seq=0.4372 | jaccard=0.0357 | bigram=0.0000
+   masked combined=0.2293 | seq=0.4372 | jaccard=0.0357 | bigram=0.0000
+   GOLD USER:
+   Okul sınavları başladı. YKS çalışmasını tamamen bırakıp yazılılara mı çalışayım?
+
+5. GOLD 8 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.2235 | seq=0.3756 | jaccard=0.0714 | bigram=0.0714
+   masked combined=0.2293 | seq=0.3871 | jaccard=0.0714 | bigram=0.0714
+   GOLD USER:
+   Günde 6 saat çalışıyorum ama netlerim artmıyor. Daha ne yapacağımı bilmiyorum.
+
+
+====================================================================================================
+H010 | erteleme_ve_surdurulebilirlik | TOP LABEL: LOW
+====================================================================================================
+
+HOLDOUT USER:
+Derse başlamadan önce kaynak araştırmaya, masa düzenlemeye ve plan yazmaya dalıyorum. Çalışıyormuş gibi hissediyorum ama soru çözmeye başlayamıyorum.
+
+TOP MATCHES
+----------------------------------------------------------------------------------------------------
+1. GOLD 90 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.2225 | seq=0.3849 | jaccard=0.1000 | bigram=0.0000
+   masked combined=0.2225 | seq=0.3849 | jaccard=0.1000 | bigram=0.0000
+   GOLD USER:
+   Derse başlayacağım zaman sürekli önce masayı düzenliyorum, kaynak seçiyorum, video arıyorum. Bir bakıyorum bir saat geçmiş.
+
+2. GOLD 16 | single_user_turn | turn=3
+   label=LOW
+   raw combined=0.2045 | seq=0.3628 | jaccard=0.0769 | bigram=0.0000
+   masked combined=0.2045 | seq=0.3628 | jaccard=0.0769 | bigram=0.0000
+   GOLD USER:
+   Bir günü kaçırınca bütün program bozulmuş gibi geliyor ve bırakıyorum.
+
+3. GOLD 20 | single_user_turn | turn=3
+   label=LOW
+   raw combined=0.1932 | seq=0.3489 | jaccard=0.0625 | bigram=0.0000
+   masked combined=0.2044 | seq=0.3689 | jaccard=0.0667 | bigram=0.0000
+   GOLD USER:
+   Bir ay önce 61 net civarıydım, şimdi genelde 68-70 geliyor ama bana hâlâ çok düşük geliyor.
+
+4. GOLD 87 | combined_user_turns | turn=None
+   label=LOW
+   raw combined=0.2024 | seq=0.3402 | jaccard=0.0645 | bigram=0.0645
+   masked combined=0.2003 | seq=0.3361 | jaccard=0.0645 | bigram=0.0645
+   GOLD USER:
+   Hafta içi sadece 90 dakikam kalıyor. Bu sürede hiçbir şey yetişmiyor gibi hissediyorum. AYT fizik.
+
+5. GOLD 111 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.1942 | seq=0.3346 | jaccard=0.0556 | bigram=0.0513
+   masked combined=0.1996 | seq=0.3370 | jaccard=0.0645 | bigram=0.0588
+   GOLD USER:
+   Sabah 08.00-16.00 okuldayım, akşam da 18.00-20.00 dershanem var. Eve gelince 3 saat daha çalışmam gerekiyor gibi hissediyorum.
+
+
+====================================================================================================
+H011 | sabirsiz_ogrenci | TOP LABEL: LOW
+====================================================================================================
+
+HOLDOUT USER:
+Bana uzun uzun soru sorma. Sayısalım, TYT 67, günde 4 saatim var. Bugünden başlayabileceğim bir düzen söyle.
+
+TOP MATCHES
+----------------------------------------------------------------------------------------------------
+1. GOLD 96 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.3734 | seq=0.5354 | jaccard=0.2692 | bigram=0.1250
+   masked combined=0.4771 | seq=0.5860 | jaccard=0.3636 | bigram=0.3750
+   GOLD USER:
+   Program yaparken bana 10 tane soru sorma. Mezunum, eşit ağırlığım, TYT 72, günde 6 saatim var. Başla.
+
+2. GOLD 1 | combined_user_turns | turn=None
+   label=LOW
+   raw combined=0.4089 | seq=0.5487 | jaccard=0.2963 | bigram=0.2286
+   masked combined=0.4769 | seq=0.5917 | jaccard=0.3750 | bigram=0.3429
+   GOLD USER:
+   Bana hemen bir çalışma programı yap. Uzun uzun soru sorma. Mezunum, sayısalım. TYT 68 civarı geliyor. Günde 5 saat çalışabilirim.
+
+3. GOLD 92 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.3719 | seq=0.4663 | jaccard=0.3333 | bigram=0.1935
+   masked combined=0.4540 | seq=0.5217 | jaccard=0.4286 | bigram=0.3226
+   GOLD USER:
+   Bana soru sorma, direkt bugün ne çalışacağımı söyle. Sayısalım, TYT 70 civarı ve 5 saatim var.
+
+4. GOLD 93 | combined_user_turns | turn=None
+   label=LOW
+   raw combined=0.3722 | seq=0.4678 | jaccard=0.3182 | bigram=0.2143
+   masked combined=0.4359 | seq=0.5189 | jaccard=0.3500 | bigram=0.3571
+   GOLD USER:
+   Çok soru sorma. Hemen bir program çıkar. Sayısalım, TYT 64, günde 4 saat.
+
+5. GOLD 93 | single_user_turn | turn=3
+   label=LOW
+   raw combined=0.3169 | seq=0.4242 | jaccard=0.2222 | bigram=0.1905
+   masked combined=0.3978 | seq=0.4932 | jaccard=0.2500 | bigram=0.3810
+   GOLD USER:
+   Sayısalım, TYT 64, günde 4 saat.
+
+
+====================================================================================================
+H012 | sabirsiz_ogrenci | TOP LABEL: LOW
+====================================================================================================
+
+HOLDOUT USER:
+Detaya girmeyelim. Yarın 5 saat çalışacağım, eşit ağırlığım. İlk günü direkt planla.
+
+TOP MATCHES
+----------------------------------------------------------------------------------------------------
+1. GOLD 97 | combined_user_turns | turn=None
+   label=LOW
+   raw combined=0.3964 | seq=0.5732 | jaccard=0.2500 | bigram=0.1739
+   masked combined=0.3075 | seq=0.3953 | jaccard=0.2500 | bigram=0.1739
+   GOLD USER:
+   Detaya girmeyelim, yarından itibaren başlayacağım. Bana ilk günü ver. Sayısalım, 5 saat.
+
+2. GOLD 97 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.3803 | seq=0.6259 | jaccard=0.1579 | bigram=0.1000
+   masked combined=0.3786 | seq=0.6225 | jaccard=0.1579 | bigram=0.1000
+   GOLD USER:
+   Detaya girmeyelim, yarından itibaren başlayacağım. Bana ilk günü ver.
+
+3. GOLD 84 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.2505 | seq=0.4222 | jaccard=0.0800 | bigram=0.0769
+   masked combined=0.2970 | seq=0.4574 | jaccard=0.1250 | bigram=0.1538
+   GOLD USER:
+   Akşam 3 saat çalışacağım diyorum ama masaya geçince ne yapacağıma karar vermekle yarım saat gidiyor.
+
+4. GOLD 96 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.2630 | seq=0.4545 | jaccard=0.0714 | bigram=0.0714
+   masked combined=0.2871 | seq=0.4737 | jaccard=0.1200 | bigram=0.0714
+   GOLD USER:
+   Program yaparken bana 10 tane soru sorma. Mezunum, eşit ağırlığım, TYT 72, günde 6 saatim var. Başla.
+
+5. GOLD 43 | single_user_turn | turn=3
+   label=LOW
+   raw combined=0.2383 | seq=0.3590 | jaccard=0.1176 | bigram=0.1176
+   masked combined=0.2820 | seq=0.4390 | jaccard=0.1250 | bigram=0.1250
+   GOLD USER:
+   Yaklaşık 2,5 saat rahat ayırabilirim.
+
+
+====================================================================================================
+H013 | deneme_ve_yanlis_analizi | TOP LABEL: LOW
+====================================================================================================
+
+HOLDOUT USER:
+Son dört TYT denememde toplam netim hemen hemen aynı ama matematiğim düşerken fenim yükseliyor. Programımı komple değiştirmeli miyim?
+
+TOP MATCHES
+----------------------------------------------------------------------------------------------------
+1. GOLD 64 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.2062 | seq=0.3163 | jaccard=0.1600 | bigram=0.0000
+   masked combined=0.2221 | seq=0.3398 | jaccard=0.1739 | bigram=0.0000
+   GOLD USER:
+   TYT 70, AYT 50. Toplam 120 net yaptım, YKS netim 120 diyebilir miyim?
+
+2. GOLD 104 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.2184 | seq=0.4138 | jaccard=0.0385 | bigram=0.0000
+   masked combined=0.2177 | seq=0.4115 | jaccard=0.0400 | bigram=0.0000
+   GOLD USER:
+   AYT denemelerinde matematik netim bazen 24 bazen 17 geliyor. Çok dengesiz.
+
+3. GOLD 45 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.1970 | seq=0.3478 | jaccard=0.0769 | bigram=0.0000
+   masked combined=0.2040 | seq=0.3619 | jaccard=0.0769 | bigram=0.0000
+   GOLD USER:
+   Eşit ağırlığım. TYT 68 civarı. AYT matematikte zorlanıyorum ama edebiyatım iyi.
+
+4. GOLD 57 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.2013 | seq=0.3333 | jaccard=0.1154 | bigram=0.0000
+   masked combined=0.2036 | seq=0.3380 | jaccard=0.1154 | bigram=0.0000
+   GOLD USER:
+   TYT netim 84 ama AYT'ye yeni yeni ağırlık vermeye başladım. Sayısal öğrencisiyim.
+
+5. GOLD 52 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.1986 | seq=0.3806 | jaccard=0.0278 | bigram=0.0000
+   masked combined=0.2033 | seq=0.3878 | jaccard=0.0312 | bigram=0.0000
+   GOLD USER:
+   Sayısal mezunum. TYT Türkçe 33, matematik 24, sosyal 15, fen 10 geliyor. Günde 5 saatim var. En çok nereyi geliştirmeliyim?
+
+
+====================================================================================================
+H014 | deneme_ve_yanlis_analizi | TOP LABEL: LOW
+====================================================================================================
+
+HOLDOUT USER:
+Bir soruyu yanlış yaptıysam konuyu baştan tekrar ediyorum. Yanlış analizim bu yüzden çok uzun sürüyor. Daha doğru yöntem nedir?
+
+TOP MATCHES
+----------------------------------------------------------------------------------------------------
+1. GOLD 103 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.2356 | seq=0.4020 | jaccard=0.1154 | bigram=0.0000
+   masked combined=0.2356 | seq=0.4020 | jaccard=0.1154 | bigram=0.0000
+   GOLD USER:
+   Her denemeden sonra yanlış yaptığım bütün konuları tekrar baştan çalışmalı mıyım?
+
+2. GOLD 83 | combined_user_turns | turn=None
+   label=LOW
+   raw combined=0.2077 | seq=0.3725 | jaccard=0.0714 | bigram=0.0000
+   masked combined=0.2032 | seq=0.3619 | jaccard=0.0741 | bigram=0.0000
+   GOLD USER:
+   Ders çalışırken bir soruya takılınca 15-20 dakika uğraşıyorum. En çok matematikte.
+
+3. GOLD 48 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.2056 | seq=0.3780 | jaccard=0.0556 | bigram=0.0000
+   masked combined=0.2076 | seq=0.3798 | jaccard=0.0588 | bigram=0.0000
+   GOLD USER:
+   Mezunum. Sabah daha iyi çalışıyorum. Akşam 20.00'den sonra verimim çok düşüyor. Günde toplam 6 saat çalışabilirim. Matematik önceliğim.
+
+4. GOLD 12 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.2072 | seq=0.3945 | jaccard=0.0333 | bigram=0.0000
+   masked combined=0.2072 | seq=0.3945 | jaccard=0.0333 | bigram=0.0000
+   GOLD USER:
+   Deneme çözüyorum ama sonra sadece netime bakıp geçiyorum. Yanlışları incelemek çok zaman alıyor.
+
+5. GOLD 85 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.1963 | seq=0.3738 | jaccard=0.0312 | bigram=0.0000
+   masked combined=0.1989 | seq=0.3784 | jaccard=0.0323 | bigram=0.0000
+   GOLD USER:
+   Programda her konuya 1 saat yazıyorum ama bazı konular 2 saat sürüyor ve bütün gün kayıyor.
+
+
+====================================================================================================
+H015 | hedef_gercekciligi | TOP LABEL: LOW
+====================================================================================================
+
+HOLDOUT USER:
+Şu an TYT 58, AYT 25 civarıyım. Altı ay sonra çok yüksek bir sıralama istiyorum. Bana bunun kesin olacağını söylemeden nasıl bir yol izlemem gerektiğini anlat.
+
+TOP MATCHES
+----------------------------------------------------------------------------------------------------
+1. GOLD 2 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.3655 | seq=0.5040 | jaccard=0.2571 | bigram=0.1818
+   masked combined=0.3830 | seq=0.4981 | jaccard=0.3226 | bigram=0.1860
+   GOLD USER:
+   Şu an TYT'de 55 net yapıyorum. 2 ay sonra 100 net yapmak istiyorum. Bana çok sıkı bir program yap.
+
+2. GOLD 106 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.2039 | seq=0.2609 | jaccard=0.1765 | bigram=0.1026
+   masked combined=0.3256 | seq=0.4132 | jaccard=0.2258 | bigram=0.2564
+   GOLD USER:
+   Tıp istiyorum ama şu an TYT 63, AYT 28 civarı. Bana dürüstçe söyle, yetişir mi?
+
+3. GOLD 2 | combined_user_turns | turn=None
+   label=LOW
+   raw combined=0.3089 | seq=0.4492 | jaccard=0.1875 | bigram=0.1404
+   masked combined=0.3212 | seq=0.4314 | jaccard=0.2564 | bigram=0.1429
+   GOLD USER:
+   Şu an TYT'de 55 net yapıyorum. 2 ay sonra 100 net yapmak istiyorum. Bana çok sıkı bir program yap. Sayısalım. Türkçe 24, sosyal 11, matematik 12, fen 8. Günde 6 saat ayırabilirim.
+
+4. GOLD 106 | combined_user_turns | turn=None
+   label=LOW
+   raw combined=0.2080 | seq=0.2826 | jaccard=0.1667 | bigram=0.0833
+   masked combined=0.3092 | seq=0.4054 | jaccard=0.2162 | bigram=0.2083
+   GOLD USER:
+   Tıp istiyorum ama şu an TYT 63, AYT 28 civarı. Bana dürüstçe söyle, yetişir mi? Sınava 5 ay var ve günde 6 saat çalışabilirim.
+
+5. GOLD 40 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.2179 | seq=0.3787 | jaccard=0.0952 | bigram=0.0000
+   masked combined=0.2838 | seq=0.4353 | jaccard=0.1316 | bigram=0.1333
+   GOLD USER:
+   Mezunum, eşit ağırlığım. TYT 71, AYT 43 yapıyorum. Matematiğim edebiyattan daha zayıf. Günde 5 saat çalışıyorum. Bana nereden başlamam gerektiğini söyle.
+
+
+====================================================================================================
+H016 | hedef_gercekciligi | TOP LABEL: LOW
+====================================================================================================
+
+HOLDOUT USER:
+İki haftada 20 net artırmam gerekiyor. Bunun için her gün 10 saat çalışırsam kesin olur mu?
+
+TOP MATCHES
+----------------------------------------------------------------------------------------------------
+1. GOLD 116 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.3224 | seq=0.4921 | jaccard=0.1333 | bigram=0.1818
+   masked combined=0.3748 | seq=0.5911 | jaccard=0.1429 | bigram=0.1818
+   GOLD USER:
+   YKS'ye 12 gün kaldı. Konularım hâlâ eksik. Bundan sonra her gün 10 saat çalışıp hepsini bitirmeli miyim?
+
+2. GOLD 9 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.2693 | seq=0.4079 | jaccard=0.1667 | bigram=0.0769
+   masked combined=0.3409 | seq=0.5466 | jaccard=0.1739 | bigram=0.0769
+   GOLD USER:
+   YKS'yi kazanmak için günde 10 saat çalışmam gerekiyor değil mi?
+
+3. GOLD 76 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.2390 | seq=0.3846 | jaccard=0.1111 | bigram=0.0667
+   masked combined=0.3276 | seq=0.5000 | jaccard=0.1667 | bigram=0.1379
+   GOLD USER:
+   Hafta içi 2 saat, hafta sonu 7 saat çalışabiliyorum. Her gün aynı programı uygulamak istiyorum.
+
+4. GOLD 109 | single_user_turn | turn=3
+   label=LOW
+   raw combined=0.2242 | seq=0.3220 | jaccard=0.1500 | bigram=0.0909
+   masked combined=0.3123 | seq=0.3692 | jaccard=0.2353 | bigram=0.2857
+   GOLD USER:
+   Neredeyse her gün 2-2,5 saat.
+
+5. GOLD 10 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.2342 | seq=0.4271 | jaccard=0.0690 | bigram=0.0000
+   masked combined=0.3116 | seq=0.5050 | jaccard=0.1111 | bigram=0.1290
+   GOLD USER:
+   Mezunum. Bütün gün evdeyim ama düzen kuramıyorum. Bir gün 8 saat çalışıyorum, ertesi gün hiç çalışmıyorum.
+
+
+====================================================================================================
+H017 | okul_dershane_dengesi | TOP LABEL: LOW
+====================================================================================================
+
+HOLDOUT USER:
+12. sınıfım. Pazartesi, salı ve perşembe dershanem var. Diğer günlerde okuldan sonra 3 saat boşum. Dershane ödevleri de çok fazla. Kendi eksiklerime nasıl zaman ayırırım?
+
+TOP MATCHES
+----------------------------------------------------------------------------------------------------
+1. GOLD 46 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.2808 | seq=0.4255 | jaccard=0.1316 | bigram=0.1429
+   masked combined=0.2847 | seq=0.4437 | jaccard=0.1143 | bigram=0.1429
+   GOLD USER:
+   12. sınıf dil öğrencisiyim. TYT 74 civarı, YDT 58 geliyor. Okuldan sonra 3 saat çalışabiliyorum. YDT'yi yükseltmek istiyorum.
+
+2. GOLD 56 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.2742 | seq=0.3742 | jaccard=0.2051 | bigram=0.1277
+   masked combined=0.2690 | seq=0.3765 | jaccard=0.1842 | bigram=0.1277
+   GOLD USER:
+   12. sınıf sayısalım. Hafta içi yalnızca pazartesi, çarşamba ve cuma 3 saat çalışabiliyorum. Salı ve perşembe dershaneden çok geç çıkıyorum. Matematik ve kimya önceliğim.
+
+3. GOLD 14 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.2610 | seq=0.4291 | jaccard=0.1176 | bigram=0.0556
+   masked combined=0.2652 | seq=0.4354 | jaccard=0.1212 | bigram=0.0556
+   GOLD USER:
+   12. sınıfım. Okuldan çıkıyorum, dershaneye gidiyorum. Eve gelince de çalışmam gerekiyor ama yetişmiyor.
+
+4. GOLD 39 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.2588 | seq=0.4094 | jaccard=0.1500 | bigram=0.0455
+   masked combined=0.2644 | seq=0.4317 | jaccard=0.1316 | bigram=0.0455
+   GOLD USER:
+   12. sınıf sayısal öğrencisiyim. TYT 76 civarı geliyor. Hafta içi okuldan dolayı en fazla 3 saat çalışabiliyorum. Nasıl bir düzen kurmalıyım?
+
+5. GOLD 107 | single_user_turn | turn=3
+   label=LOW
+   raw combined=0.2268 | seq=0.2689 | jaccard=0.1935 | bigram=0.1714
+   masked combined=0.2602 | seq=0.3213 | jaccard=0.2143 | bigram=0.1765
+   GOLD USER:
+   Dershane günleri 20.00 gibi evdeyim. Salı ve perşembe 3 saat çalışabiliyorum.
+
+
+====================================================================================================
+H018 | okul_dershane_dengesi | TOP LABEL: LOW
+====================================================================================================
+
+HOLDOUT USER:
+Okulda AYT matematik işliyoruz, dershanede de aynı konu var. Eve gelince üçüncü kez konu anlatımı izlemek zorunda mıyım?
+
+TOP MATCHES
+----------------------------------------------------------------------------------------------------
+1. GOLD 108 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.3150 | seq=0.4930 | jaccard=0.1852 | bigram=0.0645
+   masked combined=0.3150 | seq=0.4930 | jaccard=0.1852 | bigram=0.0645
+   GOLD USER:
+   Okulda zaten matematik ve fizik görüyorum. Eve gelince aynı dersleri tekrar çalışmak zaman kaybı mı?
+
+2. GOLD 14 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.2890 | seq=0.4837 | jaccard=0.1111 | bigram=0.0690
+   masked combined=0.2857 | seq=0.4771 | jaccard=0.1111 | bigram=0.0690
+   GOLD USER:
+   12. sınıfım. Okuldan çıkıyorum, dershaneye gidiyorum. Eve gelince de çalışmam gerekiyor ama yetişmiyor.
+
+3. GOLD 111 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.2637 | seq=0.4333 | jaccard=0.0882 | bigram=0.1026
+   masked combined=0.2759 | seq=0.4426 | jaccard=0.1034 | bigram=0.1176
+   GOLD USER:
+   Sabah 08.00-16.00 okuldayım, akşam da 18.00-20.00 dershanem var. Eve gelince 3 saat daha çalışmam gerekiyor gibi hissediyorum.
+
+4. GOLD 51 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.2632 | seq=0.4286 | jaccard=0.1154 | bigram=0.0714
+   masked combined=0.2632 | seq=0.4286 | jaccard=0.1154 | bigram=0.0714
+   GOLD USER:
+   Okulda öğleden sonra çok yoruluyorum. Eve gelince direkt çalışmaya başlayınca verim alamıyorum.
+
+5. GOLD 114 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.2582 | seq=0.4348 | jaccard=0.0968 | bigram=0.0588
+   masked combined=0.2582 | seq=0.4348 | jaccard=0.0968 | bigram=0.0588
+   GOLD USER:
+   Okulda boş derslerim oluyor. Eve gelince daha az çalışmak için bütün YKS çalışmamı okulda yapmaya çalışsam olur mu?
+
+
+====================================================================================================
+H019 | sinava_yakin_donem_ve_baski | TOP LABEL: LOW
+====================================================================================================
+
+HOLDOUT USER:
+YKS'ye 9 gün kaldı. Son denemem kötü geldi. Yeni bir çalışma kampına başlayıp gece 2'ye kadar çalışmayı düşünüyorum.
+
+TOP MATCHES
+----------------------------------------------------------------------------------------------------
+1. GOLD 38 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.3374 | seq=0.4790 | jaccard=0.2581 | bigram=0.1026
+   masked combined=0.3719 | seq=0.4960 | jaccard=0.3103 | bigram=0.1538
+   GOLD USER:
+   YKS'ye bir hafta kaldı. AYT matematikte eksiklerim var. Gece 3'e kadar çalışıp yeni bir kampı baştan sona bitirmeyi düşünüyorum.
+
+2. GOLD 119 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.3236 | seq=0.5089 | jaccard=0.1562 | bigram=0.1111
+   masked combined=0.3560 | seq=0.5254 | jaccard=0.2000 | bigram=0.1667
+   GOLD USER:
+   Sınava 5 gün kaldı. Son günlerde deneme netlerim düştü. Artık yeni kaynak alıp sabaha kadar soru çözmek istiyorum.
+
+3. GOLD 30 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.3113 | seq=0.4492 | jaccard=0.2000 | bigram=0.1333
+   masked combined=0.3097 | seq=0.4410 | jaccard=0.2083 | bigram=0.1333
+   GOLD USER:
+   YKS'ye bir hafta kaldı. Son hafta sabahlayıp bütün eksiklerimi kapatayım mı?
+
+4. GOLD 116 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.2513 | seq=0.3832 | jaccard=0.1250 | bigram=0.1111
+   masked combined=0.3111 | seq=0.4298 | jaccard=0.1724 | bigram=0.2222
+   GOLD USER:
+   YKS'ye 12 gün kaldı. Konularım hâlâ eksik. Bundan sonra her gün 10 saat çalışıp hepsini bitirmeli miyim?
+
+5. GOLD 41 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.1821 | seq=0.3229 | jaccard=0.0690 | bigram=0.0000
+   masked combined=0.2402 | seq=0.4138 | jaccard=0.1111 | bigram=0.0000
+   GOLD USER:
+   11. sınıf sayısalım. TYT'ye yeni başladım. Okul derslerimi de aksatmak istemiyorum.
+
+
+====================================================================================================
+H020 | sinava_yakin_donem_ve_baski | TOP LABEL: LOW
+====================================================================================================
+
+HOLDOUT USER:
+Ailem her deneme sonrası netimi soruyor. Düşük gelince tartışıyoruz ve ertesi gün çalışamıyorum. Son haftalarda bunu nasıl yönetebilirim?
+
+TOP MATCHES
+----------------------------------------------------------------------------------------------------
+1. GOLD 118 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.3890 | seq=0.4980 | jaccard=0.3333 | bigram=0.2000
+   masked combined=0.3890 | seq=0.4980 | jaccard=0.3333 | bigram=0.2000
+   GOLD USER:
+   Ailem son haftalarda sürekli netimi soruyor. Her denemeden sonra tartışıyoruz ve çalışmaya dönmekte zorlanıyorum.
+
+2. GOLD 118 | combined_user_turns | turn=None
+   label=LOW
+   raw combined=0.3625 | seq=0.4698 | jaccard=0.3077 | bigram=0.1765
+   masked combined=0.3625 | seq=0.4698 | jaccard=0.3077 | bigram=0.1765
+   GOLD USER:
+   Ailem son haftalarda sürekli netimi soruyor. Her denemeden sonra tartışıyoruz ve çalışmaya dönmekte zorlanıyorum. Neredeyse her denemeden hemen sonra.
+
+3. GOLD 10 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.2486 | seq=0.4322 | jaccard=0.0667 | bigram=0.0625
+   masked combined=0.2450 | seq=0.4250 | jaccard=0.0667 | bigram=0.0625
+   GOLD USER:
+   Mezunum. Bütün gün evdeyim ama düzen kuramıyorum. Bir gün 8 saat çalışıyorum, ertesi gün hiç çalışmıyorum.
+
+4. GOLD 51 | combined_user_turns | turn=None
+   label=LOW
+   raw combined=0.2301 | seq=0.4444 | jaccard=0.0263 | bigram=0.0000
+   masked combined=0.2309 | seq=0.4452 | jaccard=0.0278 | bigram=0.0000
+   GOLD USER:
+   Okulda öğleden sonra çok yoruluyorum. Eve gelince direkt çalışmaya başlayınca verim alamıyorum. 17.30'da evde oluyorum. Toplam 3 saat ayırabiliyorum.
+
+5. GOLD 18 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.2276 | seq=0.3932 | jaccard=0.1034 | bigram=0.0000
+   masked combined=0.2276 | seq=0.3932 | jaccard=0.1034 | bigram=0.0000
+   GOLD USER:
+   Ailem sürekli kaç net yaptığımı soruyor. Kötü yaptığımda çok baskı hissediyorum ve çalışasım gelmiyor.
+
+
+====================================================================================================
+H021 | kontrollu_cikarim | TOP LABEL: LOW
+====================================================================================================
+
+HOLDOUT USER:
+Bilgisayar mühendisliği istiyorum. TYT 80, AYT 45 civarı. Günde 6 saat çalışıyorum. Bana çalışma önceliği çıkar; zaten verdiğim bilgilerden çıkarılabilecek şeyleri tekrar sorma.
+
+TOP MATCHES
+----------------------------------------------------------------------------------------------------
+1. GOLD 11 | combined_user_turns | turn=None
+   label=LOW
+   raw combined=0.2805 | seq=0.4181 | jaccard=0.1714 | bigram=0.1000
+   masked combined=0.3751 | seq=0.4902 | jaccard=0.2333 | bigram=0.3000
+   GOLD USER:
+   Ben bilgisayar mühendisliği istiyorum. Bundan sonra neye göre çalışmalıyım? TYT 72, AYT 38 civarı. İlk 30 bin istiyorum.
+
+2. GOLD 44 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.2780 | seq=0.4360 | jaccard=0.1667 | bigram=0.0500
+   masked combined=0.3737 | seq=0.4919 | jaccard=0.2258 | bigram=0.3000
+   GOLD USER:
+   Mezunum, sayısalım. TYT 81, AYT 47 yapıyorum. Fizik en zayıf dersim. Günde 7 saat çalışabiliyorum. Bana çalışma dağılımı yap.
+
+3. GOLD 40 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.2778 | seq=0.4227 | jaccard=0.1579 | bigram=0.0952
+   masked combined=0.3707 | seq=0.4807 | jaccard=0.2121 | bigram=0.3333
+   GOLD USER:
+   Mezunum, eşit ağırlığım. TYT 71, AYT 43 yapıyorum. Matematiğim edebiyattan daha zayıf. Günde 5 saat çalışıyorum. Bana nereden başlamam gerektiğini söyle.
+
+4. GOLD 106 | combined_user_turns | turn=None
+   label=LOW
+   raw combined=0.2608 | seq=0.3630 | jaccard=0.2051 | bigram=0.0889
+   masked combined=0.3359 | seq=0.4241 | jaccard=0.2353 | bigram=0.2667
+   GOLD USER:
+   Tıp istiyorum ama şu an TYT 63, AYT 28 civarı. Bana dürüstçe söyle, yetişir mi? Sınava 5 ay var ve günde 6 saat çalışabilirim.
+
+5. GOLD 1 | single_user_turn | turn=3
+   label=LOW
+   raw combined=0.2270 | seq=0.3713 | jaccard=0.1379 | bigram=0.0000
+   masked combined=0.3203 | seq=0.4173 | jaccard=0.2000 | bigram=0.2581
+   GOLD USER:
+   Mezunum, sayısalım. TYT 68 civarı geliyor. Günde 5 saat çalışabilirim.
+
+
+====================================================================================================
+H022 | kontrollu_cikarim | TOP LABEL: LOW
+====================================================================================================
+
+HOLDOUT USER:
+11. sınıfım, sayısalım ve okul derslerimi güçlü tutmak istiyorum. Hafta içi 2 saatim var. Bana 12. sınıf öğrencisiymişim gibi yoğun TYT programı verme.
+
+TOP MATCHES
+----------------------------------------------------------------------------------------------------
+1. GOLD 41 | combined_user_turns | turn=None
+   label=LOW
+   raw combined=0.4039 | seq=0.5870 | jaccard=0.2727 | bigram=0.1429
+   masked combined=0.4377 | seq=0.6373 | jaccard=0.2667 | bigram=0.1951
+   GOLD USER:
+   11. sınıf sayısalım. TYT'ye yeni başladım. Okul derslerimi de aksatmak istemiyorum. Hafta içi 2,5 saat, hafta sonu 5 saat ayırabiliyorum.
+
+2. GOLD 6 | single_user_turn | turn=3
+   label=LOW
+   raw combined=0.2554 | seq=0.3515 | jaccard=0.1935 | bigram=0.1081
+   masked combined=0.3462 | seq=0.4923 | jaccard=0.2222 | bigram=0.1667
+   GOLD USER:
+   12. sınıf sayısalım. Hafta içi 3 saat, hafta sonu 6 saat çalışabiliyorum. Matematik ve fizik zayıf.
+
+3. GOLD 41 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.3063 | seq=0.4643 | jaccard=0.2069 | bigram=0.0606
+   masked combined=0.3230 | seq=0.4641 | jaccard=0.2222 | bigram=0.1212
+   GOLD USER:
+   11. sınıf sayısalım. TYT'ye yeni başladım. Okul derslerimi de aksatmak istemiyorum.
+
+4. GOLD 36 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.2477 | seq=0.3537 | jaccard=0.1795 | bigram=0.0851
+   masked combined=0.2922 | seq=0.4050 | jaccard=0.2121 | bigram=0.1304
+   GOLD USER:
+   12. sınıf sayısal öğrencisiyim. TYT 73, AYT 41. Hafta içi 3 saat, hafta sonu 6 saat çalışabiliyorum. AYT fizik ve matematik zayıf. Bana haftalık düzen çıkar.
+
+5. GOLD 6 | combined_user_turns | turn=None
+   label=LOW
+   raw combined=0.2518 | seq=0.3464 | jaccard=0.2051 | bigram=0.0851
+   masked combined=0.2904 | seq=0.3914 | jaccard=0.2286 | bigram=0.1304
+   GOLD USER:
+   Bana haftalık program yap. Her gün ne çalışacağımı bilmek istiyorum. 12. sınıf sayısalım. Hafta içi 3 saat, hafta sonu 6 saat çalışabiliyorum. Matematik ve fizik zayıf.
+
+
+====================================================================================================
+H023 | zaman_hesabi | TOP LABEL: LOW
+====================================================================================================
+
+HOLDOUT USER:
+Bugün toplam 3 saat 30 dakikam var. 80 dakika matematik, 60 dakika fizik, 40 dakika Türkçe ve 30 dakika yanlış analizi yapmak istiyorum. Bu plan süreye sığıyor mu?
+
+TOP MATCHES
+----------------------------------------------------------------------------------------------------
+1. GOLD 37 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.3128 | seq=0.4835 | jaccard=0.2059 | bigram=0.0465
+   masked combined=0.3459 | seq=0.4662 | jaccard=0.2759 | bigram=0.1500
+   GOLD USER:
+   Bugün toplam 4 saat çalışabilirim. Matematik ve fiziğe ağırlık vermek istiyorum ama biraz da Türkçe çözmem gerekiyor.
+
+2. GOLD 71 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.3167 | seq=0.4727 | jaccard=0.2059 | bigram=0.0930
+   masked combined=0.3283 | seq=0.4765 | jaccard=0.2333 | bigram=0.1000
+   GOLD USER:
+   Günde 3 saat çalışabiliyorum ama matematik, fizik, kimya, biyoloji, Türkçe ve sosyalin hepsini her gün çalışmak istiyorum.
+
+3. GOLD 2 | single_user_turn | turn=3
+   label=LOW
+   raw combined=0.1773 | seq=0.3017 | jaccard=0.0882 | bigram=0.0000
+   masked combined=0.2941 | seq=0.4478 | jaccard=0.1600 | bigram=0.1111
+   GOLD USER:
+   Sayısalım. Türkçe 24, sosyal 11, matematik 12, fen 8. Günde 6 saat ayırabilirim.
+
+4. GOLD 3 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.1700 | seq=0.3057 | jaccard=0.0571 | bigram=0.0000
+   masked combined=0.2637 | seq=0.4385 | jaccard=0.1111 | bigram=0.0556
+   GOLD USER:
+   TYT denemem Türkçe 31, sosyal 15, matematik 18, fen 12 geldi. Ne yapmalıyım?
+
+5. GOLD 68 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.1873 | seq=0.3231 | jaccard=0.0857 | bigram=0.0000
+   masked combined=0.2627 | seq=0.3910 | jaccard=0.1538 | bigram=0.1053
+   GOLD USER:
+   AYT matematik 25, fizik 7, kimya 8, biyoloji 9 net. AYT puanım 49 mu oluyor?
+
+
+====================================================================================================
+H024 | zaman_hesabi | TOP LABEL: LOW
+====================================================================================================
+
+HOLDOUT USER:
+18.30'da başlayacağım, 22.00'de bırakmam gerekiyor. İki tane 90 dakikalık ders bloğu ve iki tane 15 dakikalık mola planladım. Süre hesabı doğru mu?
+
+TOP MATCHES
+----------------------------------------------------------------------------------------------------
+1. GOLD 53 | single_user_turn | turn=3
+   label=LOW
+   raw combined=0.1839 | seq=0.2938 | jaccard=0.0882 | bigram=0.0526
+   masked combined=0.2587 | seq=0.3982 | jaccard=0.1154 | bigram=0.1250
+   GOLD USER:
+   Genelde 01.00'de yatıp 09.00'da kalkıyorum. Günde 6 saat çalışıyorum.
+
+2. GOLD 59 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.1867 | seq=0.2932 | jaccard=0.0968 | bigram=0.0556
+   masked combined=0.2526 | seq=0.3842 | jaccard=0.1600 | bigram=0.0625
+   GOLD USER:
+   AYT'de 45 netim var. 45 puanım var yani, doğru mu?
+
+3. GOLD 27 | combined_user_turns | turn=None
+   label=LOW
+   raw combined=0.1688 | seq=0.2689 | jaccard=0.0889 | bigram=0.0385
+   masked combined=0.2276 | seq=0.3556 | jaccard=0.1081 | bigram=0.0870
+   GOLD USER:
+   Bana dakika dakika program yap. Saat 08.10'da ne yapacağım bile belli olsun. 08.00'de başlayabilirim. Mezunum, günde 7 saat ayırabilirim. Matematik ve fizik öncelikli.
+
+4. GOLD 43 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.1862 | seq=0.3003 | jaccard=0.0930 | bigram=0.0408
+   masked combined=0.2198 | seq=0.3529 | jaccard=0.1143 | bigram=0.0455
+   GOLD USER:
+   Dershaneye gidiyorum ve eve 19.30'da geliyorum. 12. sınıf sayısalım. Eve geldikten sonra 4 saat daha çalışmaya çalışıyorum ama iki gün sonra tükeniyorum.
+
+5. GOLD 72 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.1695 | seq=0.3231 | jaccard=0.0263 | bigram=0.0000
+   masked combined=0.2169 | seq=0.3951 | jaccard=0.0645 | bigram=0.0000
+   GOLD USER:
+   Mezunum ve günde 8 saat çalışmak istiyorum ama şu an en fazla 4 saat sürdürebiliyorum.
+
+
+====================================================================================================
+H025 | bilgi_uydurmama | TOP LABEL: LOW
+====================================================================================================
+
+HOLDOUT USER:
+TYT matematiğim zayıf ama hangi konularda eksik olduğumu bilmiyorum. Bugün 2 saat matematik çalışacağım. Bana rastgele konu adı vermeden ne yapabileceğimi söyle.
+
+TOP MATCHES
+----------------------------------------------------------------------------------------------------
+1. GOLD 34 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.3062 | seq=0.4413 | jaccard=0.2500 | bigram=0.0526
+   masked combined=0.3365 | seq=0.4567 | jaccard=0.2903 | bigram=0.1053
+   GOLD USER:
+   Sayısal mezunum. TYT matematiğim diğer derslere göre çok zayıf. Bugün matematiğe 3 saat ayırabilirim. Bana ne yapacağımı söyle.
+
+2. GOLD 94 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.2802 | seq=0.5041 | jaccard=0.0938 | bigram=0.0000
+   masked combined=0.3146 | seq=0.5276 | jaccard=0.1290 | bigram=0.0606
+   GOLD USER:
+   Uzun açıklama istemiyorum. Bugün 3 saatim var, AYT matematik çalışmam gerekiyor. Ne yapayım?
+
+3. GOLD 40 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.2361 | seq=0.3750 | jaccard=0.1622 | bigram=0.0000
+   masked combined=0.2885 | seq=0.4340 | jaccard=0.2059 | bigram=0.0488
+   GOLD USER:
+   Mezunum, eşit ağırlığım. TYT 71, AYT 43 yapıyorum. Matematiğim edebiyattan daha zayıf. Günde 5 saat çalışıyorum. Bana nereden başlamam gerektiğini söyle.
+
+4. GOLD 47 | combined_user_turns | turn=None
+   label=LOW
+   raw combined=0.2339 | seq=0.3769 | jaccard=0.1515 | bigram=0.0000
+   masked combined=0.2747 | seq=0.4073 | jaccard=0.2000 | bigram=0.0556
+   GOLD USER:
+   Sayısalım. TYT matematik 28 net geliyor ama fen 9 net civarı. Ne yapmalıyım? Günde 5 saat çalışabiliyorum.
+
+5. GOLD 77 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.2642 | seq=0.4784 | jaccard=0.0833 | bigram=0.0000
+   masked combined=0.1549 | seq=0.2583 | jaccard=0.0857 | bigram=0.0000
+   GOLD USER:
+   Günde 6 saatim var ama 2 saatini yolda geçiriyorum. Bu 2 saatte de ağır matematik çalışsam olur mu?
+
+
+====================================================================================================
+H026 | bilgi_uydurmama | TOP LABEL: LOW
+====================================================================================================
+
+HOLDOUT USER:
+Fen netim düşük. Fizik mi kimya mı biyoloji mi daha zayıf olduğunu söylemedim. Buna rağmen bana hangi fen dersine yüklenmem gerektiğini kesin söyleme; nasıl karar vereceğimi anlat.
+
+TOP MATCHES
+----------------------------------------------------------------------------------------------------
+1. GOLD 40 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.2236 | seq=0.3727 | jaccard=0.0952 | bigram=0.0435
+   masked combined=0.2285 | seq=0.3795 | jaccard=0.1000 | bigram=0.0435
+   GOLD USER:
+   Mezunum, eşit ağırlığım. TYT 71, AYT 43 yapıyorum. Matematiğim edebiyattan daha zayıf. Günde 5 saat çalışıyorum. Bana nereden başlamam gerektiğini söyle.
+
+2. GOLD 53 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.1951 | seq=0.3586 | jaccard=0.0526 | bigram=0.0000
+   masked combined=0.1951 | seq=0.3586 | jaccard=0.0526 | bigram=0.0000
+   GOLD USER:
+   Ben gece daha iyi çalışıyorum. Sabah erken kalkınca verim alamıyorum ama herkes sabah çalışmam gerektiğini söylüyor.
+
+3. GOLD 71 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.1903 | seq=0.3345 | jaccard=0.0769 | bigram=0.0000
+   masked combined=0.1914 | seq=0.3367 | jaccard=0.0769 | bigram=0.0000
+   GOLD USER:
+   Günde 3 saat çalışabiliyorum ama matematik, fizik, kimya, biyoloji, Türkçe ve sosyalin hepsini her gün çalışmak istiyorum.
+
+4. GOLD 35 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.1896 | seq=0.3485 | jaccard=0.0513 | bigram=0.0000
+   masked combined=0.1899 | seq=0.3481 | jaccard=0.0526 | bigram=0.0000
+   GOLD USER:
+   TYT'de 64 net yapıyorum. Bana iki haftada 80 nete çıkaracak kesin bir program verir misin?
+
+5. GOLD 53 | combined_user_turns | turn=None
+   label=LOW
+   raw combined=0.1882 | seq=0.3520 | jaccard=0.0408 | bigram=0.0000
+   masked combined=0.1898 | seq=0.3536 | jaccard=0.0435 | bigram=0.0000
+   GOLD USER:
+   Ben gece daha iyi çalışıyorum. Sabah erken kalkınca verim alamıyorum ama herkes sabah çalışmam gerektiğini söylüyor. Genelde 01.00'de yatıp 09.00'da kalkıyorum. Günde 6 saat çalışıyorum.
+
+
+====================================================================================================
+H027 | cevap_uzunlugu_ve_odak | TOP LABEL: LOW
+====================================================================================================
+
+HOLDOUT USER:
+Kısa cevap ver. Mezunum, sayısalım, günde 6 saat çalışabiliyorum ve AYT fizik önceliğim. Bugünkü planım ne olsun?
+
+TOP MATCHES
+----------------------------------------------------------------------------------------------------
+1. GOLD 27 | single_user_turn | turn=3
+   label=LOW
+   raw combined=0.3177 | seq=0.5155 | jaccard=0.2000 | bigram=0.0000
+   masked combined=0.3837 | seq=0.5446 | jaccard=0.2727 | bigram=0.1481
+   GOLD USER:
+   08.00'de başlayabilirim. Mezunum, günde 7 saat ayırabilirim. Matematik ve fizik öncelikli.
+
+2. GOLD 55 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.3742 | seq=0.5198 | jaccard=0.2143 | bigram=0.2500
+   masked combined=0.3824 | seq=0.5362 | jaccard=0.2143 | bigram=0.2500
+   GOLD USER:
+   Mezunum, sayısalım. Günde 6 saat çalışıyorum. Son zamanlarda AYT matematiğe çok yükleniyorum ama TYT netim düşmeye başladı.
+
+3. GOLD 1 | single_user_turn | turn=3
+   label=LOW
+   raw combined=0.3153 | seq=0.4943 | jaccard=0.1739 | bigram=0.0800
+   masked combined=0.3789 | seq=0.5189 | jaccard=0.2381 | bigram=0.2400
+   GOLD USER:
+   Mezunum, sayısalım. TYT 68 civarı geliyor. Günde 5 saat çalışabilirim.
+
+4. GOLD 44 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.3260 | seq=0.4602 | jaccard=0.2414 | bigram=0.1176
+   masked combined=0.3769 | seq=0.4750 | jaccard=0.3077 | bigram=0.2353
+   GOLD USER:
+   Mezunum, sayısalım. TYT 81, AYT 47 yapıyorum. Fizik en zayıf dersim. Günde 7 saat çalışabiliyorum. Bana çalışma dağılımı yap.
+
+5. GOLD 47 | single_user_turn | turn=3
+   label=LOW
+   raw combined=0.2696 | seq=0.3971 | jaccard=0.1667 | bigram=0.1053
+   masked combined=0.3560 | seq=0.4444 | jaccard=0.2353 | bigram=0.3158
+   GOLD USER:
+   Günde 5 saat çalışabiliyorum.
+
+
+====================================================================================================
+H028 | cevap_uzunlugu_ve_odak | TOP LABEL: LOW
+====================================================================================================
+
+HOLDOUT USER:
+Bana gereksiz motivasyon cümleleri kurmadan, sadece uygulanabilir şekilde anlat: TYT denemesinde süre yetiştiremiyorum ve özellikle matematikte oyalanıyorum.
+
+TOP MATCHES
+----------------------------------------------------------------------------------------------------
+1. GOLD 23 | combined_user_turns | turn=None
+   label=LOW
+   raw combined=0.2441 | seq=0.4024 | jaccard=0.1429 | bigram=0.0000
+   masked combined=0.2423 | seq=0.3988 | jaccard=0.1429 | bigram=0.0000
+   GOLD USER:
+   TYT denemelerinde süreyi yetiştiremiyorum. Sonlara hep soru kalıyor. Türkçe yaklaşık 55 dakika sürüyor. Matematikte de çok oyalanıyorum. Fene geldiğimde çoğu zaman çok az süre kalıyor.
+
+2. GOLD 23 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.2352 | seq=0.4182 | jaccard=0.0870 | bigram=0.0000
+   masked combined=0.2352 | seq=0.4182 | jaccard=0.0870 | bigram=0.0000
+   GOLD USER:
+   TYT denemelerinde süreyi yetiştiremiyorum. Sonlara hep soru kalıyor.
+
+3. GOLD 118 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.2289 | seq=0.4377 | jaccard=0.0333 | bigram=0.0000
+   masked combined=0.2289 | seq=0.4377 | jaccard=0.0333 | bigram=0.0000
+   GOLD USER:
+   Ailem son haftalarda sürekli netimi soruyor. Her denemeden sonra tartışıyoruz ve çalışmaya dönmekte zorlanıyorum.
+
+4. GOLD 117 | combined_user_turns | turn=None
+   label=LOW
+   raw combined=0.2166 | seq=0.4150 | jaccard=0.0303 | bigram=0.0000
+   masked combined=0.2166 | seq=0.4150 | jaccard=0.0303 | bigram=0.0000
+   GOLD USER:
+   Sınava az kaldıkça denemelerde elim ayağım titriyor. Netlerim normalde yaptığımın altına düşüyor. Özellikle matematiğe geçince çok geriliyorum.
+
+5. GOLD 118 | combined_user_turns | turn=None
+   label=LOW
+   raw combined=0.2021 | seq=0.3854 | jaccard=0.0312 | bigram=0.0000
+   masked combined=0.2021 | seq=0.3854 | jaccard=0.0312 | bigram=0.0000
+   GOLD USER:
+   Ailem son haftalarda sürekli netimi soruyor. Her denemeden sonra tartışıyoruz ve çalışmaya dönmekte zorlanıyorum. Neredeyse her denemeden hemen sonra.
+
+
+====================================================================================================
+H029 | plan_revizyonu | TOP LABEL: LOW
+====================================================================================================
+
+HOLDOUT USER:
+Geçen hafta yaptığımız planda günde 6 saat vardı ama ben üç gün üst üste en fazla 4 saat yapabildim. Planı başarısız saymadan nasıl revize etmeliyim?
+
+TOP MATCHES
+----------------------------------------------------------------------------------------------------
+1. GOLD 72 | combined_user_turns | turn=None
+   label=LOW
+   raw combined=0.2894 | seq=0.3968 | jaccard=0.2059 | bigram=0.1463
+   masked combined=0.3335 | seq=0.4494 | jaccard=0.2258 | bigram=0.2051
+   GOLD USER:
+   Mezunum ve günde 8 saat çalışmak istiyorum ama şu an en fazla 4 saat sürdürebiliyorum. Yaklaşık 5 gün.
+
+2. GOLD 72 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.2861 | seq=0.3966 | jaccard=0.1875 | bigram=0.1579
+   masked combined=0.3262 | seq=0.4435 | jaccard=0.2000 | bigram=0.2222
+   GOLD USER:
+   Mezunum ve günde 8 saat çalışmak istiyorum ama şu an en fazla 4 saat sürdürebiliyorum.
+
+3. GOLD 76 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.1897 | seq=0.3264 | jaccard=0.0882 | bigram=0.0000
+   masked combined=0.2694 | seq=0.4392 | jaccard=0.1290 | bigram=0.0556
+   GOLD USER:
+   Hafta içi 2 saat, hafta sonu 7 saat çalışabiliyorum. Her gün aynı programı uygulamak istiyorum.
+
+4. GOLD 39 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.2310 | seq=0.3688 | jaccard=0.1250 | bigram=0.0455
+   masked combined=0.2679 | seq=0.3800 | jaccard=0.1667 | bigram=0.1395
+   GOLD USER:
+   12. sınıf sayısal öğrencisiyim. TYT 76 civarı geliyor. Hafta içi okuldan dolayı en fazla 3 saat çalışabiliyorum. Nasıl bir düzen kurmalıyım?
+
+5. GOLD 76 | combined_user_turns | turn=None
+   label=LOW
+   raw combined=0.1873 | seq=0.3285 | jaccard=0.0769 | bigram=0.0000
+   masked combined=0.2569 | seq=0.4276 | jaccard=0.1111 | bigram=0.0488
+   GOLD USER:
+   Hafta içi 2 saat, hafta sonu 7 saat çalışabiliyorum. Her gün aynı programı uygulamak istiyorum. Sayısalım, matematik ve fizik zayıf.
+
+
+====================================================================================================
+H030 | plan_revizyonu | TOP LABEL: LOW
+====================================================================================================
+
+HOLDOUT USER:
+Bir haftalık programımın yüzde 70'ini uygulayabildim. Kalan görevleri yeni haftaya yığmak mı, yoksa planı sadeleştirip devam etmek mi daha mantıklı?
+
+TOP MATCHES
+----------------------------------------------------------------------------------------------------
+1. GOLD 79 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.1996 | seq=0.3791 | jaccard=0.0333 | bigram=0.0000
+   masked combined=0.2271 | seq=0.4128 | jaccard=0.0690 | bigram=0.0000
+   GOLD USER:
+   Haftalık programımda her güne 8 görev yazıyorum ama yarısı kalıyor.
+
+2. GOLD 79 | combined_user_turns | turn=None
+   label=LOW
+   raw combined=0.2029 | seq=0.3877 | jaccard=0.0303 | bigram=0.0000
+   masked combined=0.2252 | seq=0.4118 | jaccard=0.0645 | bigram=0.0000
+   GOLD USER:
+   Haftalık programımda her güne 8 görev yazıyorum ama yarısı kalıyor. Yaklaşık 4 saat.
+
+3. GOLD 88 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.1620 | seq=0.3058 | jaccard=0.0303 | bigram=0.0000
+   masked combined=0.2075 | seq=0.3775 | jaccard=0.0625 | bigram=0.0000
+   GOLD USER:
+   Bir günlük programımda 4 saat aktif çalışma yazıyor. Aralarla birlikte toplam kaç saat ayırmalıyım?
+
+4. GOLD 35 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.1285 | seq=0.2403 | jaccard=0.0278 | bigram=0.0000
+   masked combined=0.2036 | seq=0.3719 | jaccard=0.0588 | bigram=0.0000
+   GOLD USER:
+   TYT'de 64 net yapıyorum. Bana iki haftada 80 nete çıkaracak kesin bir program verir misin?
+
+5. GOLD 119 | single_user_turn | turn=1
+   label=LOW
+   raw combined=0.1759 | seq=0.3359 | jaccard=0.0263 | bigram=0.0000
+   masked combined=0.1987 | seq=0.3650 | jaccard=0.0541 | bigram=0.0000
+   GOLD USER:
+   Sınava 5 gün kaldı. Son günlerde deneme netlerim düştü. Artık yeni kaynak alıp sabaha kadar soru çözmek istiyorum.
+
+
+====================================================================================================
+GENEL OZET
+====================================================================================================
+
+VERY_HIGH: 0 []
+HIGH     : 0 []
+MEDIUM   : 4 ['H001', 'H002', 'H003', 'H007']
+LOW      : 26

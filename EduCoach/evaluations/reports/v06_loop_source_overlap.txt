@@ -1,0 +1,261 @@
+====================================================================================================
+V06 LOOP KAYNAK ORTUSME ANALIZI
+====================================================================================================
+
+Gold ornek sayisi      : 120
+Gold assistant mesaji  : 170
+V06 benchmark sonucu   : 30
+
+====================================================================================================
+H001
+====================================================================================================
+Kategori             : bilgiyi_dogru_kullanma
+Sentence similarity  : 1.0000
+Ngram boyutu         : 5
+Ngram coverage       : 0.6383
+Ngram tekrar sayisi  : 3
+Tekrar tipi sayisi   : 26
+Tekrar ornegi        : 3 saatlik deneme ve 3
+
+GOLD ESLESMESI: HAYIR
+V06'nin tekrar ettigi bu 5-8 kelimelik ifade gold_v0.5 assistant mesajlarinda birebir bulunmadi.
+
+====================================================================================================
+H002
+====================================================================================================
+Kategori             : bilgiyi_dogru_kullanma
+Sentence similarity  : 1.0000
+Ngram boyutu         : 5
+Ngram coverage       : 0.8696
+Ngram tekrar sayisi  : 16
+Tekrar tipi sayisi   : 5
+Tekrar ornegi        : matematikteki zayıf alanları belirleyelim ayt
+
+GOLD ESLESMESI: HAYIR
+V06'nin tekrar ettigi bu 5-8 kelimelik ifade gold_v0.5 assistant mesajlarinda birebir bulunmadi.
+
+====================================================================================================
+H003
+====================================================================================================
+Kategori             : yks_terminolojisi
+Sentence similarity  : 1.0000
+Ngram boyutu         : 5
+Ngram coverage       : 0.8561
+Ngram tekrar sayisi  : 14
+Tekrar tipi sayisi   : 11
+Tekrar ornegi        : tyt ve ayt puanları farklı
+
+GOLD ESLESMESI: HAYIR
+V06'nin tekrar ettigi bu 5-8 kelimelik ifade gold_v0.5 assistant mesajlarinda birebir bulunmadi.
+
+====================================================================================================
+H005
+====================================================================================================
+Kategori             : gercekci_planlama
+Sentence similarity  : 0.4286
+Ngram boyutu         : 5
+Ngram coverage       : 0.4455
+Ngram tekrar sayisi  : 5
+Tekrar tipi sayisi   : 7
+Tekrar ornegi        : 1 saat paragraf 30 dakika
+
+GOLD ESLESMESI: HAYIR
+V06'nin tekrar ettigi bu 5-8 kelimelik ifade gold_v0.5 assistant mesajlarinda birebir bulunmadi.
+
+====================================================================================================
+H006
+====================================================================================================
+Kategori             : gercekci_planlama
+Sentence similarity  : 0.6690
+Ngram boyutu         : 5
+Ngram coverage       : 0.5366
+Ngram tekrar sayisi  : 2
+Tekrar tipi sayisi   : 12
+Tekrar ornegi        : her gün aynı süreyi tamamlamak
+
+GOLD ESLESMESI: HAYIR
+V06'nin tekrar ettigi bu 5-8 kelimelik ifade gold_v0.5 assistant mesajlarinda birebir bulunmadi.
+
+====================================================================================================
+H009
+====================================================================================================
+Kategori             : erteleme_ve_surdurulebilirlik
+Sentence similarity  : 0.0068
+Ngram boyutu         : 5
+Ngram coverage       : 0.9565
+Ngram tekrar sayisi  : 11
+Tekrar tipi sayisi   : 10
+Tekrar ornegi        : çarşamba gününe aksatmak yerine haftanın
+
+GOLD ESLESMESI: HAYIR
+V06'nin tekrar ettigi bu 5-8 kelimelik ifade gold_v0.5 assistant mesajlarinda birebir bulunmadi.
+
+====================================================================================================
+H012
+====================================================================================================
+Kategori             : sabirsiz_ogrenci
+Sentence similarity  : 1.0000
+Ngram boyutu         : 5
+Ngram coverage       : 0.7073
+Ngram tekrar sayisi  : 3
+Tekrar tipi sayisi   : 22
+Tekrar ornegi        : için 20 dakika her ders
+
+GOLD ESLESMESI: HAYIR
+V06'nin tekrar ettigi bu 5-8 kelimelik ifade gold_v0.5 assistant mesajlarinda birebir bulunmadi.
+
+====================================================================================================
+H014
+====================================================================================================
+Kategori             : deneme_ve_yanlis_analizi
+Sentence similarity  : 0.5607
+Ngram boyutu         : 5
+Ngram coverage       : 0.2083
+Ngram tekrar sayisi  : 2
+Tekrar tipi sayisi   : 1
+Tekrar ornegi        : belirleyip ona göre çalışma planını
+
+GOLD ESLESMESI: HAYIR
+V06'nin tekrar ettigi bu 5-8 kelimelik ifade gold_v0.5 assistant mesajlarinda birebir bulunmadi.
+
+====================================================================================================
+H017
+====================================================================================================
+Kategori             : okul_dershane_dengesi
+Sentence similarity  : 1.0000
+Ngram boyutu         : 5
+Ngram coverage       : 0.4800
+Ngram tekrar sayisi  : 3
+Tekrar tipi sayisi   : 13
+Tekrar ornegi        : ödev sürenizden sonra eksiklerinizi tamamlamak
+
+GOLD ESLESMESI: HAYIR
+V06'nin tekrar ettigi bu 5-8 kelimelik ifade gold_v0.5 assistant mesajlarinda birebir bulunmadi.
+
+====================================================================================================
+H018
+====================================================================================================
+Kategori             : okul_dershane_dengesi
+Sentence similarity  : 0.0096
+Ngram boyutu         : 5
+Ngram coverage       : 0.8125
+Ngram tekrar sayisi  : 15
+Tekrar tipi sayisi   : 6
+Tekrar ornegi        : konuyu tekrar izlemek yerine önce
+
+GOLD ESLESMESI: HAYIR
+V06'nin tekrar ettigi bu 5-8 kelimelik ifade gold_v0.5 assistant mesajlarinda birebir bulunmadi.
+
+====================================================================================================
+H021
+====================================================================================================
+Kategori             : kontrollu_cikarim
+Sentence similarity  : 1.0000
+Ngram boyutu         : 5
+Ngram coverage       : 0.7833
+Ngram tekrar sayisi  : 7
+Tekrar tipi sayisi   : 20
+Tekrar ornegi        : tyt yi tamamladığında ayt ye
+
+GOLD ESLESMESI: HAYIR
+V06'nin tekrar ettigi bu 5-8 kelimelik ifade gold_v0.5 assistant mesajlarinda birebir bulunmadi.
+
+====================================================================================================
+H022
+====================================================================================================
+Kategori             : kontrollu_cikarim
+Sentence similarity  : 1.0000
+Ngram boyutu         : 5
+Ngram coverage       : 0.8947
+Ngram tekrar sayisi  : 7
+Tekrar tipi sayisi   : 17
+Tekrar ornegi        : hafta içi 2 saatim varsa
+
+GOLD ESLESMESI: HAYIR
+V06'nin tekrar ettigi bu 5-8 kelimelik ifade gold_v0.5 assistant mesajlarinda birebir bulunmadi.
+
+====================================================================================================
+H024
+====================================================================================================
+Kategori             : zaman_hesabi
+Sentence similarity  : 1.0000
+Ngram boyutu         : 0
+Ngram coverage       : 0.0000
+Ngram tekrar sayisi  : 0
+Tekrar tipi sayisi   : 0
+Tekrar ornegi        : 
+
+SONUC:
+Bu loop n-gram tekrariyla degil, cumle benzerligiyle yakalandi.
+Bu vaka icin birebir tekrar ifadesi gold'da aranamaz.
+
+====================================================================================================
+H025
+====================================================================================================
+Kategori             : bilgi_uydurmama
+Sentence similarity  : 1.0000
+Ngram boyutu         : 5
+Ngram coverage       : 0.8679
+Ngram tekrar sayisi  : 2
+Tekrar tipi sayisi   : 19
+Tekrar ornegi        : önce tyt matematik sınavında hangi
+
+GOLD ESLESMESI: HAYIR
+V06'nin tekrar ettigi bu 5-8 kelimelik ifade gold_v0.5 assistant mesajlarinda birebir bulunmadi.
+
+====================================================================================================
+H028
+====================================================================================================
+Kategori             : cevap_uzunlugu_ve_odak
+Sentence similarity  : 0.8721
+Ngram boyutu         : 0
+Ngram coverage       : 0.0000
+Ngram tekrar sayisi  : 0
+Tekrar tipi sayisi   : 0
+Tekrar ornegi        : 
+
+SONUC:
+Bu loop n-gram tekrariyla degil, cumle benzerligiyle yakalandi.
+Bu vaka icin birebir tekrar ifadesi gold'da aranamaz.
+
+====================================================================================================
+H029
+====================================================================================================
+Kategori             : plan_revizyonu
+Sentence similarity  : 0.4916
+Ngram boyutu         : 5
+Ngram coverage       : 0.2564
+Ngram tekrar sayisi  : 2
+Tekrar tipi sayisi   : 1
+Tekrar ornegi        : hangi günlerde daha az çalışmış
+
+GOLD ESLESMESI: HAYIR
+V06'nin tekrar ettigi bu 5-8 kelimelik ifade gold_v0.5 assistant mesajlarinda birebir bulunmadi.
+
+====================================================================================================
+H030
+====================================================================================================
+Kategori             : plan_revizyonu
+Sentence similarity  : 1.0000
+Ngram boyutu         : 5
+Ngram coverage       : 0.6250
+Ngram tekrar sayisi  : 2
+Tekrar tipi sayisi   : 26
+Tekrar ornegi        : 2 3 saat daha uzatmak
+
+GOLD ESLESMESI: HAYIR
+V06'nin tekrar ettigi bu 5-8 kelimelik ifade gold_v0.5 assistant mesajlarinda birebir bulunmadi.
+
+====================================================================================================
+OZET
+====================================================================================================
+Toplam V06 loop adayi              : 17
+Ngram tekrari bulunan loop         : 15
+Yalniz cumle benzerligi loopu       : 2
+Tekrar ifadesi gold'da bulunan      : 0
+Tekrar ifadesi gold'da bulunmayan   : 15
+
+YORUM KILAVUZU:
+- Gold eslesmesi EVET: modelin tekrar ettigi ifadenin en az bir 5-8 kelimelik kalibi egitim verisinde birebir var.
+- Gold eslesmesi HAYIR: loop ifadesi gold assistant cevaplarindan birebir kopyalanmis gorunmuyor.
+- Bu test tek basina nedensellik kanitlamaz; yalnizca tekrar kalibinin gold'daki birebir varligini test eder.

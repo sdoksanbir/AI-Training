@@ -1,0 +1,134 @@
+====================================================================================================
+H002 CLEAN LORA SCALE DIAGNOSTIC
+====================================================================================================
+
+GPU: NVIDIA GeForce RTX 5070 Ti
+Reference tokens: 300
+Original scaling: [2.0]
+
+KONTROL
+----------------------------------------------------------------------------------------------------
+Ilk %100 == referans : True
+Son %100 == ilk %100 : True
+Son %100 == referans : True
+Scale test gecerli   : True
+
+====================================================================================================
+LORA_100_FIRST
+====================================================================================================
+Factor             : 1.0
+Scaling            : [2.0]
+Generated tokens   : 300
+300 token cap      : True
+im_end positions   : []
+Loop               : True
+Ngram              : 5
+Coverage           : 0.8696
+Repeat count       : 16
+Repeat example     : matematikteki zayıf alanları belirleyelim ayt
+Matches reference  : True
+Reference diff     : None
+Matches first 100  : True
+First 100 diff     : None
+
+ASSISTANT
+----------------------------------------------------------------------------------------------------
+Matematikteki zorlanma ve TYT-AYT performansına bakarak AYT matematik ve TYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT mat
+
+====================================================================================================
+LORA_75
+====================================================================================================
+Factor             : 0.75
+Scaling            : [1.5]
+Generated tokens   : 110
+300 token cap      : False
+im_end positions   : [109]
+Loop               : False
+Ngram              : 0
+Coverage           : 0.0
+Repeat count       : 0
+Repeat example     : 
+Matches reference  : False
+Reference diff     : 0
+Matches first 100  : False
+First 100 diff     : 0
+
+ASSISTANT
+----------------------------------------------------------------------------------------------------
+Günde 5 saat çalışabiliyorsan, bu süreyi iki ana bloğa böl. İlk 2-3 saatte matematik ve derslerdeki zor noktaları analiz et, ardından 2-3 saatte AYT ve TYT’deki sorulara odaklan. Matematikteki zorlanma nedeni ne? Derslerdeki zor noktaları belirleyip onlara öncelik ver.
+
+====================================================================================================
+LORA_50
+====================================================================================================
+Factor             : 0.5
+Scaling            : [1.0]
+Generated tokens   : 300
+300 token cap      : True
+im_end positions   : []
+Loop               : True
+Ngram              : 5
+Coverage           : 0.5763
+Repeat count       : 3
+Repeat example     : 10 15 puan artışı yapman
+Matches reference  : False
+Reference diff     : 0
+Matches first 100  : False
+First 100 diff     : 0
+
+ASSISTANT
+----------------------------------------------------------------------------------------------------
+Günde 5 saat çalışabiliyorsan, bu süreyi dört temel alana bölmen gerekir: **TYT, AYT, matematik ve genel bilgi**. AYT’de 44 puan alıyorsan, matematikteki zorlanma senin en büyük engel olabilir. AYT’de matematikte 20-25 puan alıyorsan, bu alanda 30-35 puan elde etmek için 10-15 puan artışı yapman gerekir. Bu yüzden matematikteki zorlanmayı öncelikli hedef olarak belirleyelim. TYT’de 78 puan alıyorsan, bu alanda 80-85 puan elde etmek için 2-5 puan artışı yapman gerekir. Genel bilgi alanda 10-15 puan artışı yapman gerekir. Bu üç alanda 10-15 puan artışı yapman gerekir. Matematikteki zorlanmayı öncelikli hedef olarak belirleyelim. TYT’de 78 puan alıyorsan, bu alanda 80-85 puan elde etmek için 2-5 puan artışı
+
+====================================================================================================
+LORA_25
+====================================================================================================
+Factor             : 0.25
+Scaling            : [0.5]
+Generated tokens   : 300
+300 token cap      : True
+im_end positions   : []
+Loop               : False
+Ngram              : 0
+Coverage           : 0.0
+Repeat count       : 0
+Repeat example     : 
+Matches reference  : False
+Reference diff     : 0
+Matches first 100  : False
+First 100 diff     : 0
+
+ASSISTANT
+----------------------------------------------------------------------------------------------------
+İlk adım olarak, mevcut durumunuza göre bir plan oluşturmak ve hedeflerinizi daha somut hale getirmek önemlidir. Sizin için şu anda en önemli noktalar:
+
+### 1. **Hedefinizi Belirleyin**
+- **YKS puanı hedefiniz nedir?** (Örneğin: 400, 450, 500 gibi)
+- **Hangi puanı hedefliyorsunuz?** (Örneğin: 400 puanı 500 puanı için ne kadar çalışmanız gerekir?)
+
+### 2. **Mevcut Seviyenizi Değerlendirin**
+- **TYT 78, AYT 44** → Bu puanlar, genel olarak **400 puanı hedefleyen bir öğrenci için yeterli değildir**. Ancak bu puanlar, **500 puan hedefi için çok uzun bir yol** anlamına gelir.
+- **Edebiyatınız iyi, matematikte zorlanıyorsunuz** → Bu durumda, **matematikteki zorlukları azaltmak** ve **edebiyatı güçlendirmek** önemli olacak.
+
+### 3. **Günde 5 Sa
+
+====================================================================================================
+LORA_100_FINAL
+====================================================================================================
+Factor             : 1.0
+Scaling            : [2.0]
+Generated tokens   : 300
+300 token cap      : True
+im_end positions   : []
+Loop               : True
+Ngram              : 5
+Coverage           : 0.8696
+Repeat count       : 16
+Repeat example     : matematikteki zayıf alanları belirleyelim ayt
+Matches reference  : True
+Reference diff     : None
+Matches first 100  : True
+First 100 diff     : None
+
+ASSISTANT
+----------------------------------------------------------------------------------------------------
+Matematikteki zorlanma ve TYT-AYT performansına bakarak AYT matematik ve TYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT matematikteki zayıf alanları belirleyelim. AYT mat
