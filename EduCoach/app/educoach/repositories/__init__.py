@@ -5,6 +5,7 @@ from .availability import AvailabilityRepository
 from .goal import GoalRepository
 from .evidence import LearningEvidenceRepository
 from .learner import LearnerRepository
+from .study import StudyRepository
 
 __all__ = [
     "AssessmentRepository",
@@ -12,4 +13,5 @@ __all__ = [
     "GoalRepository",
     "LearningEvidenceRepository",
     "LearnerRepository",
+    "StudyRepository",
 ]

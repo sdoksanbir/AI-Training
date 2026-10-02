@@ -160,6 +160,11 @@ class GoalRow(Base):
             name="fk_goals_context_owner",
             ondelete="CASCADE",
         ),
+        UniqueConstraint(
+            "goal_id",
+            "learner_id",
+            name="uq_goals_goal_learner",
+        ),
     )
 
     goal_id: Mapped[str] = mapped_column(
@@ -607,4 +612,332 @@ class LearningEvidenceRow(Base):
     notes: Mapped[str | None] = mapped_column(
         String(1000),
         nullable=True,
+    )
+
+
+
+class StudyPlanRow(Base):
+    __tablename__ = "study_plans"
+
+    __table_args__ = (
+        CheckConstraint(
+            "end_date >= start_date",
+            name="ck_study_plans_date_range",
+        ),
+        ForeignKeyConstraint(
+            ["context_id", "learner_id"],
+            [
+                "learning_contexts.context_id",
+                "learning_contexts.learner_id",
+            ],
+            name="fk_study_plans_context_owner",
+            ondelete="CASCADE",
+        ),
+        ForeignKeyConstraint(
+            ["goal_id", "learner_id"],
+            [
+                "goals.goal_id",
+                "goals.learner_id",
+            ],
+            name="fk_study_plans_goal_owner",
+            ondelete="CASCADE",
+        ),
+        UniqueConstraint(
+            "plan_id",
+            "learner_id",
+            name="uq_study_plans_plan_learner",
+        ),
+    )
+
+    plan_id: Mapped[str] = mapped_column(
+        String(36),
+        primary_key=True,
+    )
+
+    learner_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey(
+            "learners.learner_id",
+            ondelete="CASCADE",
+        ),
+        nullable=False,
+        index=True,
+    )
+
+    context_id: Mapped[str | None] = mapped_column(
+        String(36),
+        nullable=True,
+        index=True,
+    )
+
+    goal_id: Mapped[str | None] = mapped_column(
+        String(36),
+        nullable=True,
+        index=True,
+    )
+
+    title: Mapped[str] = mapped_column(
+        String(255),
+        nullable=False,
+    )
+
+    plan_type: Mapped[str] = mapped_column(
+        String(32),
+        nullable=False,
+    )
+
+    start_date: Mapped[date] = mapped_column(
+        Date,
+        nullable=False,
+    )
+
+    end_date: Mapped[date] = mapped_column(
+        Date,
+        nullable=False,
+    )
+
+    status: Mapped[str] = mapped_column(
+        String(32),
+        nullable=False,
+    )
+
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        nullable=False,
+    )
+
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        nullable=False,
+    )
+
+
+class StudyTaskRow(Base):
+    __tablename__ = "study_tasks"
+
+    __table_args__ = (
+        CheckConstraint(
+            "planned_minutes >= 1",
+            name="ck_study_tasks_planned_minutes",
+        ),
+        CheckConstraint(
+            "(area_type IS NULL AND area_code IS NULL) "
+            "OR "
+            "(area_type IS NOT NULL AND area_code IS NOT NULL)",
+            name="ck_study_tasks_area_pair",
+        ),
+        CheckConstraint(
+            "(status = 'completed' AND completed_at IS NOT NULL) "
+            "OR "
+            "(status != 'completed' AND completed_at IS NULL)",
+            name="ck_study_tasks_completion_state",
+        ),
+        ForeignKeyConstraint(
+            ["plan_id", "learner_id"],
+            [
+                "study_plans.plan_id",
+                "study_plans.learner_id",
+            ],
+            name="fk_study_tasks_plan_owner",
+            ondelete="CASCADE",
+        ),
+        ForeignKeyConstraint(
+            ["context_id", "learner_id"],
+            [
+                "learning_contexts.context_id",
+                "learning_contexts.learner_id",
+            ],
+            name="fk_study_tasks_context_owner",
+            ondelete="CASCADE",
+        ),
+        UniqueConstraint(
+            "task_id",
+            "learner_id",
+            "context_id",
+            name="uq_study_tasks_task_learner_context",
+        ),
+    )
+
+    task_id: Mapped[str] = mapped_column(
+        String(36),
+        primary_key=True,
+    )
+
+    plan_id: Mapped[str] = mapped_column(
+        String(36),
+        nullable=False,
+        index=True,
+    )
+
+    # Persistence-only ownership field.
+    learner_id: Mapped[str] = mapped_column(
+        String(36),
+        nullable=False,
+        index=True,
+    )
+
+    context_id: Mapped[str] = mapped_column(
+        String(36),
+        nullable=False,
+        index=True,
+    )
+
+    task_date: Mapped[date] = mapped_column(
+        Date,
+        nullable=False,
+    )
+
+    area_type: Mapped[str | None] = mapped_column(
+        String(64),
+        nullable=True,
+    )
+
+    area_code: Mapped[str | None] = mapped_column(
+        String(100),
+        nullable=True,
+    )
+
+    task_type: Mapped[str] = mapped_column(
+        String(32),
+        nullable=False,
+    )
+
+    description: Mapped[str] = mapped_column(
+        String(1000),
+        nullable=False,
+    )
+
+    planned_minutes: Mapped[int] = mapped_column(
+        Integer,
+        nullable=False,
+    )
+
+    priority: Mapped[str] = mapped_column(
+        String(32),
+        nullable=False,
+    )
+
+    status: Mapped[str] = mapped_column(
+        String(32),
+        nullable=False,
+    )
+
+    completed_at: Mapped[datetime | None] = mapped_column(
+        DateTime(timezone=True),
+        nullable=True,
+    )
+
+
+class StudySessionRow(Base):
+    __tablename__ = "study_sessions"
+
+    __table_args__ = (
+        CheckConstraint(
+            "duration_minutes >= 1",
+            name="ck_study_sessions_duration",
+        ),
+        CheckConstraint(
+            "(started_at IS NULL AND ended_at IS NULL) "
+            "OR "
+            "(started_at IS NOT NULL AND ended_at IS NOT NULL)",
+            name="ck_study_sessions_time_pair",
+        ),
+        CheckConstraint(
+            "ended_at IS NULL OR started_at IS NULL "
+            "OR ended_at > started_at",
+            name="ck_study_sessions_time_order",
+        ),
+        CheckConstraint(
+            "(area_type IS NULL AND area_code IS NULL) "
+            "OR "
+            "(area_type IS NOT NULL AND area_code IS NOT NULL)",
+            name="ck_study_sessions_area_pair",
+        ),
+        CheckConstraint(
+            "completion_level IS NULL OR "
+            "(completion_level >= 0 AND completion_level <= 1)",
+            name="ck_study_sessions_completion_level",
+        ),
+        ForeignKeyConstraint(
+            ["context_id", "learner_id"],
+            [
+                "learning_contexts.context_id",
+                "learning_contexts.learner_id",
+            ],
+            name="fk_study_sessions_context_owner",
+            ondelete="CASCADE",
+        ),
+        ForeignKeyConstraint(
+            ["task_id", "learner_id", "context_id"],
+            [
+                "study_tasks.task_id",
+                "study_tasks.learner_id",
+                "study_tasks.context_id",
+            ],
+            name="fk_study_sessions_task_owner",
+            ondelete="CASCADE",
+        ),
+    )
+
+    session_id: Mapped[str] = mapped_column(
+        String(36),
+        primary_key=True,
+    )
+
+    learner_id: Mapped[str] = mapped_column(
+        String(36),
+        nullable=False,
+        index=True,
+    )
+
+    context_id: Mapped[str] = mapped_column(
+        String(36),
+        nullable=False,
+        index=True,
+    )
+
+    task_id: Mapped[str | None] = mapped_column(
+        String(36),
+        nullable=True,
+        index=True,
+    )
+
+    started_at: Mapped[datetime | None] = mapped_column(
+        DateTime(timezone=True),
+        nullable=True,
+    )
+
+    ended_at: Mapped[datetime | None] = mapped_column(
+        DateTime(timezone=True),
+        nullable=True,
+    )
+
+    duration_minutes: Mapped[int] = mapped_column(
+        Integer,
+        nullable=False,
+    )
+
+    area_type: Mapped[str | None] = mapped_column(
+        String(64),
+        nullable=True,
+    )
+
+    area_code: Mapped[str | None] = mapped_column(
+        String(100),
+        nullable=True,
+    )
+
+    completion_level: Mapped[float | None] = mapped_column(
+        Float,
+        nullable=True,
+    )
+
+    learner_note: Mapped[str | None] = mapped_column(
+        String(1000),
+        nullable=True,
+    )
+
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        nullable=False,
     )
