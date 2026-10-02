@@ -1,10 +1,11 @@
 """StudyPlan, StudyTask and StudySession repository."""
 
-from datetime import datetime, timezone
 from uuid import UUID
 
 from sqlalchemy import select
 from sqlalchemy.orm import Session
+
+from educoach.persistence.datetime_utils import restore_utc
 
 from educoach.models import (
     PlanStatus,
@@ -21,18 +22,6 @@ from educoach.persistence.tables import (
     StudySessionRow,
     StudyTaskRow,
 )
-
-
-def _restore_utc(
-    value: datetime | None,
-) -> datetime | None:
-    if value is None:
-        return None
-
-    if value.tzinfo is None:
-        return value.replace(tzinfo=timezone.utc)
-
-    return value
 
 
 class StudyRepository:
@@ -96,8 +85,8 @@ class StudyRepository:
             start_date=row.start_date,
             end_date=row.end_date,
             status=PlanStatus(row.status),
-            created_at=_restore_utc(row.created_at),
-            updated_at=_restore_utc(row.updated_at),
+            created_at=restore_utc(row.created_at),
+            updated_at=restore_utc(row.updated_at),
         )
 
     def add_task(self, task: StudyTask) -> StudyTask:
@@ -242,7 +231,7 @@ class StudyRepository:
             planned_minutes=row.planned_minutes,
             priority=TaskPriority(row.priority),
             status=TaskStatus(row.status),
-            completed_at=_restore_utc(row.completed_at),
+            completed_at=restore_utc(row.completed_at),
         )
 
     @staticmethod
@@ -258,12 +247,12 @@ class StudyRepository:
                 if row.task_id is not None
                 else None
             ),
-            started_at=_restore_utc(row.started_at),
-            ended_at=_restore_utc(row.ended_at),
+            started_at=restore_utc(row.started_at),
+            ended_at=restore_utc(row.ended_at),
             duration_minutes=row.duration_minutes,
             area_type=row.area_type,
             area_code=row.area_code,
             completion_level=row.completion_level,
             learner_note=row.learner_note,
-            created_at=_restore_utc(row.created_at),
+            created_at=restore_utc(row.created_at),
         )

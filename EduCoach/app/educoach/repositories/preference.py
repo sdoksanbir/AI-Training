@@ -1,23 +1,17 @@
 """Preference repository."""
 
-from datetime import datetime, timezone
 from uuid import UUID
 
 from sqlalchemy import select
 from sqlalchemy.orm import Session
+
+from educoach.persistence.datetime_utils import restore_utc
 
 from educoach.models import (
     EvidenceSource,
     Preference,
 )
 from educoach.persistence.tables import PreferenceRow
-
-
-def _restore_utc(value: datetime) -> datetime:
-    if value.tzinfo is None:
-        return value.replace(tzinfo=timezone.utc)
-
-    return value
 
 
 class PreferenceRepository:
@@ -106,6 +100,6 @@ class PreferenceRepository:
                 row.source_type
             ),
             confidence=row.confidence,
-            created_at=_restore_utc(row.created_at),
-            updated_at=_restore_utc(row.updated_at),
+            created_at=restore_utc(row.created_at),
+            updated_at=restore_utc(row.updated_at),
         )

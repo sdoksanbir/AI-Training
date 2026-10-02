@@ -1,28 +1,17 @@
 """CoachingState repository."""
 
-from datetime import datetime, timezone
 from uuid import UUID
 
 from sqlalchemy import select
 from sqlalchemy.orm import Session
+
+from educoach.persistence.datetime_utils import restore_utc
 
 from educoach.models import (
     CoachingState,
     CoachingStatus,
 )
 from educoach.persistence.tables import CoachingStateRow
-
-
-def _restore_utc(
-    value: datetime | None,
-) -> datetime | None:
-    if value is None:
-        return None
-
-    if value.tzinfo is None:
-        return value.replace(tzinfo=timezone.utc)
-
-    return value
 
 
 class CoachingStateRepository:
@@ -102,12 +91,12 @@ class CoachingStateRepository:
             ),
             status=CoachingStatus(row.status),
             current_focus=row.current_focus,
-            last_interaction_at=_restore_utc(
+            last_interaction_at=restore_utc(
                 row.last_interaction_at
             ),
-            next_review_at=_restore_utc(
+            next_review_at=restore_utc(
                 row.next_review_at
             ),
-            created_at=_restore_utc(row.created_at),
-            updated_at=_restore_utc(row.updated_at),
+            created_at=restore_utc(row.created_at),
+            updated_at=restore_utc(row.updated_at),
         )

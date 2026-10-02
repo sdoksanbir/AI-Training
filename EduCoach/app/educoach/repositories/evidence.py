@@ -1,10 +1,11 @@
 """LearningEvidence repository."""
 
-from datetime import datetime, timezone
 from uuid import UUID
 
 from sqlalchemy import select
 from sqlalchemy.orm import Session
+
+from educoach.persistence.datetime_utils import restore_utc
 
 from educoach.models import (
     EvidenceSource,
@@ -12,18 +13,6 @@ from educoach.models import (
     LearningEvidence,
 )
 from educoach.persistence.tables import LearningEvidenceRow
-
-
-def _restore_utc(
-    value: datetime | None,
-) -> datetime | None:
-    if value is None:
-        return None
-
-    if value.tzinfo is None:
-        return value.replace(tzinfo=timezone.utc)
-
-    return value
 
 
 class LearningEvidenceRepository:
@@ -110,7 +99,7 @@ class LearningEvidenceRepository:
                 if row.assessment_id is not None
                 else None
             ),
-            observed_at=_restore_utc(row.observed_at),
-            valid_until=_restore_utc(row.valid_until),
+            observed_at=restore_utc(row.observed_at),
+            valid_until=restore_utc(row.valid_until),
             notes=row.notes,
         )

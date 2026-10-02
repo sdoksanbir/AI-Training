@@ -1,10 +1,11 @@
 """Assessment and AssessmentResult repository."""
 
-from datetime import datetime, timezone
 from uuid import UUID
 
 from sqlalchemy import select
 from sqlalchemy.orm import Session
+
+from educoach.persistence.datetime_utils import restore_utc
 
 from educoach.models import (
     Assessment,
@@ -15,13 +16,6 @@ from educoach.persistence.tables import (
     AssessmentResultRow,
     AssessmentRow,
 )
-
-
-def _restore_utc(value: datetime) -> datetime:
-    if value.tzinfo is None:
-        return value.replace(tzinfo=timezone.utc)
-
-    return value
 
 
 class AssessmentRepository:
@@ -70,7 +64,7 @@ class AssessmentRepository:
             assessment_date=row.assessment_date,
             source_type=EvidenceSource(row.source_type),
             notes=row.notes,
-            created_at=_restore_utc(row.created_at),
+            created_at=restore_utc(row.created_at),
         )
 
     def add_result(
