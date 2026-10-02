@@ -1,5 +1,7 @@
 """EduCoach core domain models."""
 
+from .availability import Availability, AvailabilityType, DayOfWeek
+from .goal import Goal, GoalPriority, GoalStatus
 from .learner import (
     ContextStatus,
     ContextType,
@@ -10,10 +12,16 @@ from .learner import (
 )
 
 __all__ = [
+    "Availability",
+    "AvailabilityType",
     "ContextStatus",
     "ContextType",
+    "DayOfWeek",
     "EducationStatus",
     "EvidenceSource",
+    "Goal",
+    "GoalPriority",
+    "GoalStatus",
     "Learner",
     "LearningContext",
 ]
