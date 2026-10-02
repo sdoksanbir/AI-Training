@@ -1,9 +1,11 @@
 """EduCoach core domain models."""
 
 from .assessment import Assessment, AssessmentResult
+from .coaching import CoachingState, CoachingStatus
 from .availability import Availability, AvailabilityType, DayOfWeek
 from .evidence import EvidenceState, LearningEvidence
 from .goal import Goal, GoalPriority, GoalStatus
+from .preference import Preference
 from .study import (
     PlanStatus,
     PlanType,
@@ -26,6 +28,8 @@ from .learner import (
 __all__ = [
     "Assessment",
     "AssessmentResult",
+    "CoachingState",
+    "CoachingStatus",
     "Availability",
     "AvailabilityType",
     "ContextStatus",
@@ -40,6 +44,7 @@ __all__ = [
     "Learner",
     "LearningContext",
     "LearningEvidence",
+    "Preference",
     "PlanStatus",
     "PlanType",
     "StudyPlan",
