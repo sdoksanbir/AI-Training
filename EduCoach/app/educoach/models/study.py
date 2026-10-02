@@ -58,7 +58,7 @@ class StudyPlan(BaseModel):
 
     plan_id: UUID = Field(default_factory=uuid4)
     learner_id: UUID
-    context_id: UUID
+    context_id: UUID | None = None
     goal_id: UUID | None = None
 
     title: str = Field(min_length=1)
@@ -168,14 +168,21 @@ class StudySession(BaseModel):
                 "started_at ve ended_at birlikte verilmelidir"
             )
 
-        if (
-            self.started_at is not None
-            and self.ended_at is not None
-            and self.ended_at <= self.started_at
-        ):
-            raise ValueError(
-                "ended_at, started_at değerinden sonra olmalıdır"
-            )
+        if self.started_at is not None and self.ended_at is not None:
+            if self.ended_at <= self.started_at:
+                raise ValueError(
+                    "ended_at, started_at değerinden sonra olmalıdır"
+                )
+
+            elapsed_seconds = (
+                self.ended_at - self.started_at
+            ).total_seconds()
+
+            if elapsed_seconds != self.duration_minutes * 60:
+                raise ValueError(
+                    "duration_minutes başlangıç ve bitiş zamanıyla "
+                    "tutarlı olmalıdır"
+                )
 
         if (self.area_type is None) != (self.area_code is None):
             raise ValueError(

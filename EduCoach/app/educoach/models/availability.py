@@ -46,6 +46,11 @@ class Availability(BaseModel):
 
     @model_validator(mode="after")
     def validate_availability(self) -> "Availability":
+        if (self.start_time is None) != (self.end_time is None):
+            raise ValueError(
+                "start_time ve end_time birlikte verilmelidir"
+            )
+
         if (
             self.start_time is not None
             and self.end_time is not None
@@ -62,13 +67,35 @@ class Availability(BaseModel):
                 "effective_until, effective_from tarihinden önce olamaz"
             )
 
+        has_time_range = (
+            self.start_time is not None and self.end_time is not None
+        )
+
         if (
             self.availability_type == AvailabilityType.AVAILABLE
             and self.available_minutes is None
-            and (self.start_time is None or self.end_time is None)
+            and not has_time_range
         ):
             raise ValueError(
                 "AVAILABLE kaydı için available_minutes veya zaman aralığı gereklidir"
             )
+
+        if (
+            self.availability_type != AvailabilityType.AVAILABLE
+            and self.available_minutes is not None
+        ):
+            raise ValueError(
+                "available_minutes yalnız AVAILABLE kaydında kullanılabilir"
+            )
+
+        if has_time_range and self.available_minutes is not None:
+            start_minutes = self.start_time.hour * 60 + self.start_time.minute
+            end_minutes = self.end_time.hour * 60 + self.end_time.minute
+            range_minutes = end_minutes - start_minutes
+
+            if self.available_minutes != range_minutes:
+                raise ValueError(
+                    "available_minutes zaman aralığıyla tutarlı olmalıdır"
+                )
 
         return self

@@ -4,7 +4,7 @@ from datetime import date, datetime, timezone
 from enum import StrEnum
 from uuid import UUID, uuid4
 
-from pydantic import BaseModel, ConfigDict, Field, field_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
 
 def utc_now() -> datetime:
@@ -53,6 +53,16 @@ class Goal(BaseModel):
             raise ValueError("alan boş olamaz")
 
         return cleaned
+
+
+    @model_validator(mode="after")
+    def validate_target(self) -> "Goal":
+        if (self.target_value is None) != (self.target_unit is None):
+            raise ValueError(
+                "target_value ve target_unit birlikte verilmelidir"
+            )
+
+        return self
 
     @field_validator("target_unit")
     @classmethod

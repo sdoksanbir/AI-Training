@@ -40,6 +40,7 @@ class ContextStatus(StrEnum):
 class EvidenceSource(StrEnum):
     LEARNER_REPORTED = "learner_reported"
     TEACHER_REPORTED = "teacher_reported"
+    PARENT_REPORTED = "parent_reported"
     ASSESSMENT_DERIVED = "assessment_derived"
     COACH_INFERRED = "coach_inferred"
     SYSTEM_OBSERVED = "system_observed"
