@@ -10,6 +10,7 @@ from sqlalchemy import (
     ForeignKeyConstraint,
     Float,
     Integer,
+    JSON,
     String,
     Time,
     UniqueConstraint,
@@ -938,6 +939,146 @@ class StudySessionRow(Base):
     )
 
     created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        nullable=False,
+    )
+
+
+
+class PreferenceRow(Base):
+    __tablename__ = "preferences"
+
+    __table_args__ = (
+        CheckConstraint(
+            "confidence IS NULL OR "
+            "(confidence >= 0 AND confidence <= 1)",
+            name="ck_preferences_confidence",
+        ),
+        ForeignKeyConstraint(
+            ["context_id", "learner_id"],
+            [
+                "learning_contexts.context_id",
+                "learning_contexts.learner_id",
+            ],
+            name="fk_preferences_context_owner",
+            ondelete="CASCADE",
+        ),
+    )
+
+    preference_id: Mapped[str] = mapped_column(
+        String(36),
+        primary_key=True,
+    )
+
+    learner_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey(
+            "learners.learner_id",
+            ondelete="CASCADE",
+        ),
+        nullable=False,
+        index=True,
+    )
+
+    context_id: Mapped[str | None] = mapped_column(
+        String(36),
+        nullable=True,
+        index=True,
+    )
+
+    preference_key: Mapped[str] = mapped_column(
+        String(100),
+        nullable=False,
+    )
+
+    preference_value: Mapped[object] = mapped_column(
+        JSON,
+        nullable=False,
+    )
+
+    source_type: Mapped[str] = mapped_column(
+        String(32),
+        nullable=False,
+    )
+
+    confidence: Mapped[float | None] = mapped_column(
+        Float,
+        nullable=True,
+    )
+
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        nullable=False,
+    )
+
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        nullable=False,
+    )
+
+
+class CoachingStateRow(Base):
+    __tablename__ = "coaching_states"
+
+    __table_args__ = (
+        ForeignKeyConstraint(
+            ["context_id", "learner_id"],
+            [
+                "learning_contexts.context_id",
+                "learning_contexts.learner_id",
+            ],
+            name="fk_coaching_states_context_owner",
+            ondelete="CASCADE",
+        ),
+    )
+
+    state_id: Mapped[str] = mapped_column(
+        String(36),
+        primary_key=True,
+    )
+
+    learner_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey(
+            "learners.learner_id",
+            ondelete="CASCADE",
+        ),
+        nullable=False,
+        index=True,
+    )
+
+    context_id: Mapped[str | None] = mapped_column(
+        String(36),
+        nullable=True,
+        index=True,
+    )
+
+    status: Mapped[str] = mapped_column(
+        String(32),
+        nullable=False,
+    )
+
+    current_focus: Mapped[str | None] = mapped_column(
+        String(1000),
+        nullable=True,
+    )
+
+    last_interaction_at: Mapped[datetime | None] = mapped_column(
+        DateTime(timezone=True),
+        nullable=True,
+    )
+
+    next_review_at: Mapped[datetime | None] = mapped_column(
+        DateTime(timezone=True),
+        nullable=True,
+    )
+
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        nullable=False,
+    )
+
+    updated_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),
         nullable=False,
     )
