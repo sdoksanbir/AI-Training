@@ -45,3 +45,5 @@ huggingface/
 # Secrets
 .env
 .env.*
+.venv-training/
+.venv-app/
