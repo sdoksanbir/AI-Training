@@ -7,10 +7,12 @@ from sqlalchemy import (
     Date,
     DateTime,
     ForeignKey,
+    ForeignKeyConstraint,
     Float,
     Integer,
     String,
     Time,
+    UniqueConstraint,
 )
 from sqlalchemy.orm import Mapped, mapped_column
 
@@ -74,6 +76,11 @@ class LearningContextRow(Base):
             "ended_at IS NULL OR started_at IS NULL "
             "OR ended_at >= started_at",
             name="ck_learning_contexts_date_range",
+        ),
+        UniqueConstraint(
+            "context_id",
+            "learner_id",
+            name="uq_learning_contexts_context_learner",
         ),
     )
 
@@ -144,6 +151,15 @@ class GoalRow(Base):
             "(target_value IS NOT NULL AND target_unit IS NOT NULL)",
             name="ck_goals_target_pair",
         ),
+        ForeignKeyConstraint(
+            ["context_id", "learner_id"],
+            [
+                "learning_contexts.context_id",
+                "learning_contexts.learner_id",
+            ],
+            name="fk_goals_context_owner",
+            ondelete="CASCADE",
+        ),
     )
 
     goal_id: Mapped[str] = mapped_column(
@@ -163,10 +179,6 @@ class GoalRow(Base):
 
     context_id: Mapped[str | None] = mapped_column(
         String(36),
-        ForeignKey(
-            "learning_contexts.context_id",
-            ondelete="CASCADE",
-        ),
         nullable=True,
         index=True,
     )
@@ -295,6 +307,301 @@ class AvailabilityRow(Base):
     source_type: Mapped[str] = mapped_column(
         String(32),
         nullable=False,
+    )
+
+    notes: Mapped[str | None] = mapped_column(
+        String(1000),
+        nullable=True,
+    )
+
+
+
+class AssessmentRow(Base):
+    __tablename__ = "assessments"
+
+    __table_args__ = (
+        ForeignKeyConstraint(
+            ["context_id", "learner_id"],
+            [
+                "learning_contexts.context_id",
+                "learning_contexts.learner_id",
+            ],
+            name="fk_assessments_context_owner",
+            ondelete="CASCADE",
+        ),
+        UniqueConstraint(
+            "assessment_id",
+            "learner_id",
+            "context_id",
+            name="uq_assessments_assessment_learner_context",
+        ),
+    )
+
+    assessment_id: Mapped[str] = mapped_column(
+        String(36),
+        primary_key=True,
+    )
+
+    learner_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey(
+            "learners.learner_id",
+            ondelete="CASCADE",
+        ),
+        nullable=False,
+        index=True,
+    )
+
+    context_id: Mapped[str] = mapped_column(
+        String(36),
+        nullable=False,
+        index=True,
+    )
+
+    assessment_type: Mapped[str] = mapped_column(
+        String(100),
+        nullable=False,
+    )
+
+    assessment_name: Mapped[str] = mapped_column(
+        String(255),
+        nullable=False,
+    )
+
+    assessment_date: Mapped[date] = mapped_column(
+        Date,
+        nullable=False,
+    )
+
+    source_type: Mapped[str] = mapped_column(
+        String(32),
+        nullable=False,
+    )
+
+    notes: Mapped[str | None] = mapped_column(
+        String(1000),
+        nullable=True,
+    )
+
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        nullable=False,
+    )
+
+
+class AssessmentResultRow(Base):
+    __tablename__ = "assessment_results"
+
+    __table_args__ = (
+        CheckConstraint(
+            "(area_type IS NULL AND area_code IS NULL) "
+            "OR "
+            "(area_type IS NOT NULL AND area_code IS NOT NULL)",
+            name="ck_assessment_results_area_pair",
+        ),
+        CheckConstraint(
+            "correct IS NULL OR correct >= 0",
+            name="ck_assessment_results_correct",
+        ),
+        CheckConstraint(
+            "incorrect IS NULL OR incorrect >= 0",
+            name="ck_assessment_results_incorrect",
+        ),
+        CheckConstraint(
+            "blank IS NULL OR blank >= 0",
+            name="ck_assessment_results_blank",
+        ),
+        CheckConstraint(
+            "percentage IS NULL OR "
+            "(percentage >= 0 AND percentage <= 100)",
+            name="ck_assessment_results_percentage",
+        ),
+        CheckConstraint(
+            "duration_minutes IS NULL OR duration_minutes >= 0",
+            name="ck_assessment_results_duration",
+        ),
+        CheckConstraint(
+            "correct IS NOT NULL OR "
+            "incorrect IS NOT NULL OR "
+            "blank IS NOT NULL OR "
+            "net IS NOT NULL OR "
+            "score IS NOT NULL OR "
+            "percentage IS NOT NULL OR "
+            "grade IS NOT NULL OR "
+            "duration_minutes IS NOT NULL",
+            name="ck_assessment_results_has_metric",
+        ),
+    )
+
+    assessment_result_id: Mapped[str] = mapped_column(
+        String(36),
+        primary_key=True,
+    )
+
+    assessment_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey(
+            "assessments.assessment_id",
+            ondelete="CASCADE",
+        ),
+        nullable=False,
+        index=True,
+    )
+
+    area_type: Mapped[str | None] = mapped_column(
+        String(64),
+        nullable=True,
+    )
+
+    area_code: Mapped[str | None] = mapped_column(
+        String(100),
+        nullable=True,
+    )
+
+    correct: Mapped[int | None] = mapped_column(
+        Integer,
+        nullable=True,
+    )
+
+    incorrect: Mapped[int | None] = mapped_column(
+        Integer,
+        nullable=True,
+    )
+
+    blank: Mapped[int | None] = mapped_column(
+        Integer,
+        nullable=True,
+    )
+
+    net: Mapped[float | None] = mapped_column(
+        Float,
+        nullable=True,
+    )
+
+    score: Mapped[float | None] = mapped_column(
+        Float,
+        nullable=True,
+    )
+
+    percentage: Mapped[float | None] = mapped_column(
+        Float,
+        nullable=True,
+    )
+
+    grade: Mapped[float | None] = mapped_column(
+        Float,
+        nullable=True,
+    )
+
+    duration_minutes: Mapped[int | None] = mapped_column(
+        Integer,
+        nullable=True,
+    )
+
+
+class LearningEvidenceRow(Base):
+    __tablename__ = "learning_evidence"
+
+    __table_args__ = (
+        CheckConstraint(
+            "confidence IS NULL OR "
+            "(confidence >= 0 AND confidence <= 1)",
+            name="ck_learning_evidence_confidence",
+        ),
+        CheckConstraint(
+            "valid_until IS NULL OR valid_until >= observed_at",
+            name="ck_learning_evidence_validity",
+        ),
+        CheckConstraint(
+            "source_type != 'assessment_derived' "
+            "OR assessment_id IS NOT NULL",
+            name="ck_learning_evidence_assessment_source",
+        ),
+        ForeignKeyConstraint(
+            ["context_id", "learner_id"],
+            [
+                "learning_contexts.context_id",
+                "learning_contexts.learner_id",
+            ],
+            name="fk_learning_evidence_context_owner",
+            ondelete="CASCADE",
+        ),
+        ForeignKeyConstraint(
+            [
+                "assessment_id",
+                "learner_id",
+                "context_id",
+            ],
+            [
+                "assessments.assessment_id",
+                "assessments.learner_id",
+                "assessments.context_id",
+            ],
+            name="fk_learning_evidence_assessment_owner",
+            ondelete="CASCADE",
+        ),
+    )
+
+    evidence_id: Mapped[str] = mapped_column(
+        String(36),
+        primary_key=True,
+    )
+
+    learner_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey(
+            "learners.learner_id",
+            ondelete="CASCADE",
+        ),
+        nullable=False,
+        index=True,
+    )
+
+    context_id: Mapped[str] = mapped_column(
+        String(36),
+        nullable=False,
+        index=True,
+    )
+
+    area_type: Mapped[str] = mapped_column(
+        String(64),
+        nullable=False,
+    )
+
+    area_code: Mapped[str] = mapped_column(
+        String(100),
+        nullable=False,
+    )
+
+    state: Mapped[str] = mapped_column(
+        String(32),
+        nullable=False,
+    )
+
+    source_type: Mapped[str] = mapped_column(
+        String(32),
+        nullable=False,
+    )
+
+    confidence: Mapped[float | None] = mapped_column(
+        Float,
+        nullable=True,
+    )
+
+    assessment_id: Mapped[str | None] = mapped_column(
+        String(36),
+        nullable=True,
+        index=True,
+    )
+
+    observed_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        nullable=False,
+    )
+
+    valid_until: Mapped[datetime | None] = mapped_column(
+        DateTime(timezone=True),
+        nullable=True,
     )
 
     notes: Mapped[str | None] = mapped_column(
