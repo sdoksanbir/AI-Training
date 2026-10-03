@@ -21,6 +21,9 @@ class LLMResponse:
 
 
 class LLMProvider:
+    def health(self) -> bool:
+        raise NotImplementedError
+
     def generate(self, request: LLMRequest) -> LLMResponse:
         raise NotImplementedError
 
@@ -60,12 +63,23 @@ class OllamaProvider(LLMProvider):
             raise OllamaProviderError("Ollama geçerli bir cevap döndürmedi")
         return LLMResponse(text=text, model=self.model)
 
+    def health(self) -> bool:
+        try:
+            with urlopen(f"{self.base_url}/api/tags", timeout=3) as response:
+                body = json.loads(response.read().decode("utf-8"))
+            return any(item.get("name") == self.model for item in body.get("models", []))
+        except (OSError, URLError, TimeoutError, json.JSONDecodeError):
+            return False
+
 
 @dataclass
 class FakeLLMProvider(LLMProvider):
     responder: Callable[[LLMRequest], str] | None = None
     model: str = "fake"
     requests: list[LLMRequest] = field(default_factory=list)
+
+    def health(self) -> bool:
+        return True
 
     def generate(self, request: LLMRequest) -> LLMResponse:
         self.requests.append(request)

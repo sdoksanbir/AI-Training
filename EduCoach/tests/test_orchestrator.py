@@ -78,6 +78,17 @@ def test_ollama_provider_normalizes_chat_response(monkeypatch) -> None:
     assert response.model == "qwen3:4b"
 
 
+def test_ollama_provider_health_checks_model(monkeypatch) -> None:
+    class FakeHTTPResponse:
+        def __enter__(self): return self
+        def __exit__(self, *args): return False
+        def read(self): return b'{"models":[{"name":"qwen3:14b"}]}'
+
+    monkeypatch.setattr(provider_module, "urlopen", lambda url, timeout: FakeHTTPResponse())
+    assert OllamaProvider("qwen3:14b").health() is True
+    assert OllamaProvider("missing").health() is False
+
+
 def test_orchestrator_isolates_learner_memory() -> None:
     engine = create_sqlite_engine("sqlite+pysqlite:///:memory:")
     create_schema(engine)
