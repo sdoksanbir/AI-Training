@@ -26,6 +26,11 @@ class InMemoryRetriever:
             if not line.strip():
                 continue
             item = json.loads(line)
+            required = ("chunk_id", "text", "title", "source")
+            if any(not isinstance(item.get(key), str) or not item[key].strip() for key in required):
+                raise ValueError("Knowledge chunk required fields are invalid")
+            if not isinstance(item.get("metadata", {}), dict):
+                raise ValueError("Knowledge chunk metadata must be an object")
             chunks.append(KnowledgeChunk(**item))
         return cls(chunks)
 

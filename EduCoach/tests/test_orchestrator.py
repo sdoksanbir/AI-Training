@@ -236,6 +236,14 @@ def test_curated_knowledge_file_is_loadable() -> None:
     assert results[0].metadata["version"] == "1"
 
 
+def test_knowledge_loader_rejects_invalid_chunk(tmp_path) -> None:
+    path = tmp_path / "invalid.jsonl"
+    path.write_text('{"chunk_id":"x","text":"","title":"T","source":"S"}\n', encoding="utf-8")
+    import pytest
+    with pytest.raises(ValueError, match="required fields"):
+        InMemoryRetriever.from_jsonl(path)
+
+
 def test_orchestrator_filters_knowledge_by_single_context_program() -> None:
     engine = create_sqlite_engine("sqlite+pysqlite:///:memory:")
     create_schema(engine)
