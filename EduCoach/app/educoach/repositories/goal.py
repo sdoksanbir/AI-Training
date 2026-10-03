@@ -64,7 +64,7 @@ class GoalRepository:
             .where(
                 GoalRow.learner_id == str(learner_id)
             )
-            .order_by(GoalRow.created_at)
+            .order_by(GoalRow.created_at, GoalRow.goal_id)
         )
 
         rows = self.session.scalars(statement).all()

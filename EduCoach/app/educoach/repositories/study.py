@@ -93,7 +93,10 @@ class StudyRepository:
         statement = (
             select(StudyPlanRow)
             .where(StudyPlanRow.learner_id == str(learner_id))
-            .order_by(StudyPlanRow.start_date.desc())
+            .order_by(
+                StudyPlanRow.start_date.desc(),
+                StudyPlanRow.plan_id,
+            )
         )
         return [
             self.get_plan(UUID(row.plan_id))
@@ -176,6 +179,20 @@ class StudyRepository:
             for row in rows
         ]
 
+    def list_tasks_for_learner(
+        self,
+        learner_id: UUID,
+    ) -> list[StudyTask]:
+        statement = (
+            select(StudyTaskRow)
+            .where(StudyTaskRow.learner_id == str(learner_id))
+            .order_by(StudyTaskRow.task_date, StudyTaskRow.task_id)
+        )
+        return [
+            self._task_from_row(row)
+            for row in self.session.scalars(statement).all()
+        ]
+
     def add_session(
         self,
         study_session: StudySession,
@@ -237,6 +254,20 @@ class StudyRepository:
         return [
             self._session_from_row(row)
             for row in rows
+        ]
+
+    def list_sessions_for_learner(
+        self,
+        learner_id: UUID,
+    ) -> list[StudySession]:
+        statement = (
+            select(StudySessionRow)
+            .where(StudySessionRow.learner_id == str(learner_id))
+            .order_by(StudySessionRow.created_at, StudySessionRow.session_id)
+        )
+        return [
+            self._session_from_row(row)
+            for row in self.session.scalars(statement).all()
         ]
 
     @staticmethod

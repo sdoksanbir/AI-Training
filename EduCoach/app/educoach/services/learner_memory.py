@@ -2,6 +2,7 @@
 
 from collections.abc import Iterable
 from datetime import datetime, timezone
+from uuid import UUID
 
 from sqlalchemy.orm import Session, sessionmaker
 
@@ -19,11 +20,16 @@ from educoach.models import (
 )
 from educoach.repositories import (
     AssessmentRepository,
+    AvailabilityRepository,
+    CoachingStateRepository,
     GoalRepository,
     LearnerRepository,
     LearningEvidenceRepository,
+    PreferenceRepository,
     StudyRepository,
 )
+
+from .snapshot import LearnerMemorySnapshot
 
 
 class LearnerMemoryService:
@@ -233,8 +239,11 @@ class LearnerMemoryService:
 
         return study_session
 
-    def get_learner_memory_summary(self, learner_id):
-        """Koç bağlamı için öğrencinin kayıtlı hafızasını tek okumada toplar."""
+    def get_learner_memory_snapshot(
+        self,
+        learner_id: UUID,
+    ) -> LearnerMemorySnapshot:
+        """Persist edilmiş Learner Memory verisini tek read modelde toplar."""
         with self.session_factory() as session:
             learner_repository = LearnerRepository(session)
             learner = learner_repository.get_learner(learner_id)
@@ -245,15 +254,35 @@ class LearnerMemoryService:
             assessment_repository = AssessmentRepository(session)
             study_repository = StudyRepository(session)
             assessments = assessment_repository.list_for_learner(learner_id)
+            results = tuple(
+                result
+                for assessment in assessments
+                for result in assessment_repository.list_results(
+                    assessment.assessment_id
+                )
+            )
 
-            return {
-                "learner": learner,
-                "contexts": learner_repository.list_contexts(learner_id),
-                "goals": GoalRepository(session).list_for_learner(learner_id),
-                "assessments": assessments,
-                "assessment_results": {
-                    str(item.assessment_id): assessment_repository.list_results(item.assessment_id)
-                    for item in assessments
-                },
-                "study_plans": study_repository.list_plans_for_learner(learner_id),
-            }
+            return LearnerMemorySnapshot(
+                learner=learner,
+                contexts=tuple(learner_repository.list_contexts(learner_id)),
+                goals=tuple(GoalRepository(session).list_for_learner(learner_id)),
+                availability=tuple(
+                    AvailabilityRepository(session).list_for_learner(learner_id)
+                ),
+                assessments=tuple(assessments),
+                assessment_results=results,
+                learning_evidence=tuple(
+                    LearningEvidenceRepository(session).list_for_learner(learner_id)
+                ),
+                study_plans=tuple(study_repository.list_plans_for_learner(learner_id)),
+                study_tasks=tuple(study_repository.list_tasks_for_learner(learner_id)),
+                study_sessions=tuple(
+                    study_repository.list_sessions_for_learner(learner_id)
+                ),
+                preferences=tuple(
+                    PreferenceRepository(session).list_for_learner(learner_id)
+                ),
+                coaching_states=tuple(
+                    CoachingStateRepository(session).list_for_learner(learner_id)
+                ),
+            )

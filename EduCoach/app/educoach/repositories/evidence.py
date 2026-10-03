@@ -71,7 +71,10 @@ class LearningEvidenceRepository:
                 LearningEvidenceRow.learner_id
                 == str(learner_id)
             )
-            .order_by(LearningEvidenceRow.observed_at)
+            .order_by(
+                LearningEvidenceRow.observed_at,
+                LearningEvidenceRow.evidence_id,
+            )
         )
 
         rows = self.session.scalars(statement).all()

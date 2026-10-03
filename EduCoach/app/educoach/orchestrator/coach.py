@@ -24,10 +24,10 @@ class CoachOrchestrator:
 
     def respond(self, learner_id: UUID, message: str) -> CoachResult:
         message = validate_user_message(message)
-        summary = self.memory.get_learner_memory_summary(learner_id)
+        snapshot = self.memory.get_learner_memory_snapshot(learner_id)
         knowledge = ""
         if self.retriever is not None:
-            contexts = summary["contexts"]
+            contexts = snapshot.contexts
             filters = None
             if contexts:
                 filters = {"program": {context.program_code for context in contexts}}
@@ -41,7 +41,7 @@ class CoachOrchestrator:
                 "gerçek bilgileri kullan; bilinmeyenleri uydurma."
             ),
             user_message=message,
-            memory_context=repr(summary) + ("\nKnowledge:\n" + knowledge if knowledge else ""),
+            memory_context=repr(snapshot) + ("\nKnowledge:\n" + knowledge if knowledge else ""),
         )
         response = self.provider.generate(request)
         return CoachResult(validate_response(response.text), response.model)

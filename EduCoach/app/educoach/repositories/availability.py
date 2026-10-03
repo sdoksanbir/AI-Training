@@ -74,6 +74,7 @@ class AvailabilityRepository:
             .order_by(
                 AvailabilityRow.day_of_week,
                 AvailabilityRow.start_time,
+                AvailabilityRow.availability_id,
             )
         )
 

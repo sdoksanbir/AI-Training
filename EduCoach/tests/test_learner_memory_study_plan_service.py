@@ -461,7 +461,7 @@ def test_record_study_session_rejects_wrong_task_context(
         assert StudyRepository(session).get_session(invalid_session.session_id) is None
 
 
-def test_get_learner_memory_summary_collects_core_memory(
+def test_get_learner_memory_snapshot_collects_core_memory(
     session_factory_fixture: sessionmaker[Session],
 ) -> None:
     learner, context, _ = register_learner_with_two_contexts(
@@ -476,13 +476,13 @@ def test_get_learner_memory_summary_collects_core_memory(
     )
     LearnerMemoryService(session_factory_fixture).save_study_plan(plan)
 
-    summary = LearnerMemoryService(
+    snapshot = LearnerMemoryService(
         session_factory_fixture
-    ).get_learner_memory_summary(learner.learner_id)
+    ).get_learner_memory_snapshot(learner.learner_id)
 
-    assert summary["learner"].learner_id == learner.learner_id
-    assert len(summary["contexts"]) == 2
-    assert summary["goals"] == []
-    assert summary["assessments"] == []
-    assert summary["assessment_results"] == {}
-    assert summary["study_plans"][0].plan_id == plan.plan_id
+    assert snapshot.learner.learner_id == learner.learner_id
+    assert len(snapshot.contexts) == 2
+    assert snapshot.goals == ()
+    assert snapshot.assessments == ()
+    assert snapshot.assessment_results == ()
+    assert snapshot.study_plans[0].plan_id == plan.plan_id

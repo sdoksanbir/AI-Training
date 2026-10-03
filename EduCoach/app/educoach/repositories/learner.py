@@ -110,7 +110,10 @@ class LearnerRepository:
                 LearningContextRow.learner_id
                 == str(learner_id)
             )
-            .order_by(LearningContextRow.program_code)
+            .order_by(
+                LearningContextRow.program_code,
+                LearningContextRow.context_id,
+            )
         )
 
         rows = self.session.scalars(statement).all()

@@ -71,7 +71,10 @@ class AssessmentRepository:
         statement = (
             select(AssessmentRow)
             .where(AssessmentRow.learner_id == str(learner_id))
-            .order_by(AssessmentRow.assessment_date.desc())
+            .order_by(
+                AssessmentRow.assessment_date.desc(),
+                AssessmentRow.assessment_id,
+            )
         )
         return [
             self.get_assessment(UUID(row.assessment_id))

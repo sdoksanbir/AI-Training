@@ -67,7 +67,10 @@ class CoachingStateRepository:
                 CoachingStateRow.learner_id
                 == str(learner_id)
             )
-            .order_by(CoachingStateRow.created_at)
+            .order_by(
+                CoachingStateRow.created_at,
+                CoachingStateRow.state_id,
+            )
         )
 
         rows = self.session.scalars(statement).all()
