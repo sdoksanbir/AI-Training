@@ -35,7 +35,7 @@ def run() -> list[RegressionResult]:
         KnowledgeChunk("lgs-1", "LGS çalışma planı", "LGS", "regression", {"program": "lgs"}),
     ])
     CoachOrchestrator(memory, provider, retriever).respond(
-        learner.learner_id, "Bugün nasıl çalışmalıyım?"
+        learner.learner_id, "YKS çalışma planı"
     )
     context_text = provider.requests[-1].memory_context
     results = [
