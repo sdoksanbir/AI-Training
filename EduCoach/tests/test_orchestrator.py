@@ -7,6 +7,7 @@ from educoach.models import ContextType, Learner, LearningContext
 from educoach.orchestrator import CoachOrchestrator
 from educoach.persistence import create_schema, create_session_factory, create_sqlite_engine
 from educoach.services import LearnerMemoryService
+from educoach.rag import InMemoryRetriever, KnowledgeChunk
 import pytest
 
 
@@ -148,4 +149,27 @@ def test_orchestrator_rejects_unverified_external_links() -> None:
             memory,
             FakeLLMProvider(responder=lambda _: "Kaynak: https://example.com"),
         ).respond(learner.learner_id, "Kaynak ver")
+    engine.dispose()
+
+
+def test_orchestrator_adds_retrieved_knowledge_context() -> None:
+    engine = create_sqlite_engine("sqlite+pysqlite:///:memory:")
+    create_schema(engine)
+    factory = create_session_factory(engine)
+    learner = Learner()
+    context = LearningContext(
+        learner_id=learner.learner_id,
+        context_type=ContextType.SCHOOL,
+        program_code="school_11",
+    )
+    memory = LearnerMemoryService(factory)
+    memory.register_learner(learner, [context])
+    retriever = InMemoryRetriever([
+        KnowledgeChunk("c1", "Aralıklı tekrar öğrenmeyi destekler.", "Tekrar", "internal_guide")
+    ])
+    provider = FakeLLMProvider()
+    CoachOrchestrator(memory, provider, retriever).respond(
+        learner.learner_id, "Aralıklı tekrar nasıl yapılır?"
+    )
+    assert "Aralıklı tekrar öğrenmeyi destekler" in provider.requests[-1].memory_context
     engine.dispose()
