@@ -21,8 +21,13 @@ def main(argv: list[str] | None = None) -> int:
     database_url = args.database if "://" in args.database else f"sqlite+pysqlite:///{args.database}"
     engine = create_sqlite_engine(database_url)
     factory = create_session_factory(engine)
+    provider = OllamaProvider(args.model)
+    if not provider.health():
+        raise SystemExit(
+            f"Ollama erişilemiyor veya model yüklü değil: {args.model}"
+        )
     result = CoachOrchestrator(
-        LearnerMemoryService(factory), OllamaProvider(args.model)
+        LearnerMemoryService(factory), provider
     ).respond(args.learner_id, args.message)
     print(result.text)
     engine.dispose()
