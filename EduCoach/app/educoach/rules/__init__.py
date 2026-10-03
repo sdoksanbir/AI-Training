@@ -1,3 +1,9 @@
 from .coach_rules import validate_coach_response
+from .contracts import RuleEvaluation, RuleSeverity, RuleViolation
 
-__all__ = ["validate_coach_response"]
+__all__ = [
+    "RuleEvaluation",
+    "RuleSeverity",
+    "RuleViolation",
+    "validate_coach_response",
+]
