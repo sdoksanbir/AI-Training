@@ -12,8 +12,10 @@ from educoach.models import (
     LearningContext,
     PlanType,
     StudyPlan,
+    StudySession,
     StudyTask,
     TaskType,
+    TaskStatus,
 )
 from educoach.persistence import (
     create_schema,
@@ -370,3 +372,117 @@ def test_context_specific_plan_rejects_goal_from_another_context(
         ).get_plan(plan.plan_id)
 
     assert loaded is None
+
+
+def test_record_study_session_commits_session_for_existing_task(
+    session_factory_fixture: sessionmaker[Session],
+) -> None:
+    learner, context, _ = register_learner_with_two_contexts(
+        session_factory_fixture
+    )
+    plan = StudyPlan(
+        learner_id=learner.learner_id,
+        title="Günlük plan",
+        plan_type=PlanType.DAILY,
+        start_date=date(2026, 10, 5),
+        end_date=date(2026, 10, 5),
+    )
+    task = StudyTask(
+        plan_id=plan.plan_id,
+        context_id=context.context_id,
+        task_date=date(2026, 10, 5),
+        task_type=TaskType.STUDY,
+        description="Matematik",
+        planned_minutes=60,
+    )
+    service = LearnerMemoryService(session_factory_fixture)
+    service.save_study_plan(plan, [task])
+
+    study_session = StudySession(
+        learner_id=learner.learner_id,
+        context_id=context.context_id,
+        task_id=task.task_id,
+        duration_minutes=42,
+        completion_level=1,
+        learner_note="Konu tekrarını tamamladım",
+    )
+    service.record_study_session(study_session)
+
+    with session_factory_fixture() as session:
+        loaded = StudyRepository(session).get_session(study_session.session_id)
+
+    assert loaded is not None
+    assert loaded.duration_minutes == 42
+    assert loaded.task_id == task.task_id
+
+    with session_factory_fixture() as session:
+        loaded_task = StudyRepository(session).get_task(task.task_id)
+
+    assert loaded_task is not None
+    assert loaded_task.status == TaskStatus.COMPLETED
+    assert loaded_task.completed_at is not None
+
+
+def test_record_study_session_rejects_wrong_task_context(
+    session_factory_fixture: sessionmaker[Session],
+) -> None:
+    learner, school_context, exam_context = register_learner_with_two_contexts(
+        session_factory_fixture
+    )
+    plan = StudyPlan(
+        learner_id=learner.learner_id,
+        title="Karma plan",
+        plan_type=PlanType.DAILY,
+        start_date=date(2026, 10, 5),
+        end_date=date(2026, 10, 5),
+    )
+    task = StudyTask(
+        plan_id=plan.plan_id,
+        context_id=school_context.context_id,
+        task_date=date(2026, 10, 5),
+        task_type=TaskType.STUDY,
+        description="Matematik",
+        planned_minutes=30,
+    )
+    service = LearnerMemoryService(session_factory_fixture)
+    service.save_study_plan(plan, [task])
+
+    invalid_session = StudySession(
+        learner_id=learner.learner_id,
+        context_id=exam_context.context_id,
+        task_id=task.task_id,
+        duration_minutes=20,
+    )
+
+    with pytest.raises(ValueError):
+        service.record_study_session(invalid_session)
+
+    with session_factory_fixture() as session:
+        assert StudyRepository(session).get_session(invalid_session.session_id) is None
+
+
+def test_get_learner_memory_summary_collects_core_memory(
+    session_factory_fixture: sessionmaker[Session],
+) -> None:
+    learner, context, _ = register_learner_with_two_contexts(
+        session_factory_fixture
+    )
+    plan = StudyPlan(
+        learner_id=learner.learner_id,
+        title="Özet planı",
+        plan_type=PlanType.DAILY,
+        start_date=date(2026, 10, 5),
+        end_date=date(2026, 10, 5),
+    )
+    LearnerMemoryService(session_factory_fixture).save_study_plan(plan)
+
+    summary = LearnerMemoryService(
+        session_factory_fixture
+    ).get_learner_memory_summary(learner.learner_id)
+
+    assert summary["learner"].learner_id == learner.learner_id
+    assert len(summary["contexts"]) == 2
+    assert summary["goals"] == []
+    assert summary["assessments"] == []
+    assert summary["assessment_results"] == {}
+    assert summary["study_plans"][0].plan_id == plan.plan_id

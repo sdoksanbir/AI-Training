@@ -1,6 +1,7 @@
 """Learner Memory application service."""
 
 from collections.abc import Iterable
+from datetime import datetime, timezone
 
 from sqlalchemy.orm import Session, sessionmaker
 
@@ -12,7 +13,9 @@ from educoach.models import (
     LearningContext,
     LearningEvidence,
     StudyPlan,
+    StudySession,
     StudyTask,
+    TaskStatus,
 )
 from educoach.repositories import (
     AssessmentRepository,
@@ -181,3 +184,76 @@ class LearnerMemoryService:
                     repository.add_task(task)
 
         return plan
+
+    def record_study_session(
+        self,
+        study_session: StudySession,
+    ) -> StudySession:
+        """Kaydedilmiş bir çalışma oturumunu öğrenci hafızasına ekler."""
+
+        with self.session_factory() as session:
+            repository = StudyRepository(session)
+
+            with session.begin():
+                if study_session.task_id is not None:
+                    task = repository.get_task(study_session.task_id)
+
+                    if task is None:
+                        raise ValueError(
+                            "StudySession için StudyTask bulunamadı"
+                        )
+
+                    plan = repository.get_plan(task.plan_id)
+
+                    if plan is None or plan.learner_id != study_session.learner_id:
+                        raise ValueError(
+                            "StudySession learner_id, görevin öğrencisiyle "
+                            "aynı olmalıdır"
+                        )
+
+                    if task.context_id != study_session.context_id:
+                        raise ValueError(
+                            "StudySession context_id, görevin context'iyle "
+                            "aynı olmalıdır"
+                        )
+
+                    if (
+                        study_session.completion_level is not None
+                        and study_session.completion_level >= 1
+                    ):
+                        task.status = TaskStatus.COMPLETED
+                        task.completed_at = datetime.now(timezone.utc)
+                    else:
+                        task.status = TaskStatus.IN_PROGRESS
+                        task.completed_at = None
+
+                    repository.update_task(task)
+
+                repository.add_session(study_session)
+
+        return study_session
+
+    def get_learner_memory_summary(self, learner_id):
+        """Koç bağlamı için öğrencinin kayıtlı hafızasını tek okumada toplar."""
+        with self.session_factory() as session:
+            learner_repository = LearnerRepository(session)
+            learner = learner_repository.get_learner(learner_id)
+
+            if learner is None:
+                raise ValueError("Learner bulunamadı")
+
+            assessment_repository = AssessmentRepository(session)
+            study_repository = StudyRepository(session)
+            assessments = assessment_repository.list_for_learner(learner_id)
+
+            return {
+                "learner": learner,
+                "contexts": learner_repository.list_contexts(learner_id),
+                "goals": GoalRepository(session).list_for_learner(learner_id),
+                "assessments": assessments,
+                "assessment_results": {
+                    str(item.assessment_id): assessment_repository.list_results(item.assessment_id)
+                    for item in assessments
+                },
+                "study_plans": study_repository.list_plans_for_learner(learner_id),
+            }

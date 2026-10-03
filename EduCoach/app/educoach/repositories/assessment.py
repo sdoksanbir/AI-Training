@@ -67,6 +67,17 @@ class AssessmentRepository:
             created_at=restore_utc(row.created_at),
         )
 
+    def list_for_learner(self, learner_id: UUID) -> list[Assessment]:
+        statement = (
+            select(AssessmentRow)
+            .where(AssessmentRow.learner_id == str(learner_id))
+            .order_by(AssessmentRow.assessment_date.desc())
+        )
+        return [
+            self.get_assessment(UUID(row.assessment_id))
+            for row in self.session.scalars(statement).all()
+        ]
+
     def add_result(
         self,
         result: AssessmentResult,

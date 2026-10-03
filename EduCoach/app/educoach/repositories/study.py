@@ -89,6 +89,17 @@ class StudyRepository:
             updated_at=restore_utc(row.updated_at),
         )
 
+    def list_plans_for_learner(self, learner_id: UUID) -> list[StudyPlan]:
+        statement = (
+            select(StudyPlanRow)
+            .where(StudyPlanRow.learner_id == str(learner_id))
+            .order_by(StudyPlanRow.start_date.desc())
+        )
+        return [
+            self.get_plan(UUID(row.plan_id))
+            for row in self.session.scalars(statement).all()
+        ]
+
     def add_task(self, task: StudyTask) -> StudyTask:
         plan_row = self.session.get(
             StudyPlanRow,
@@ -131,6 +142,17 @@ class StudyRepository:
             return None
 
         return self._task_from_row(row)
+
+    def update_task(self, task: StudyTask) -> StudyTask:
+        row = self.session.get(StudyTaskRow, str(task.task_id))
+
+        if row is None:
+            raise ValueError("Güncellenecek StudyTask bulunamadı")
+
+        row.status = task.status.value
+        row.completed_at = task.completed_at
+        self.session.flush()
+        return task
 
     def list_tasks(
         self,
