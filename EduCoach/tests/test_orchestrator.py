@@ -196,6 +196,13 @@ def test_retriever_applies_metadata_filters() -> None:
     assert [item.chunk_id for item in results] == ["yks"]
 
 
+def test_retriever_ignores_turkish_punctuation() -> None:
+    retriever = InMemoryRetriever([
+        KnowledgeChunk("c1", "Aktif hatırlama öğrenmeyi destekler.", "Aktif", "guide"),
+    ])
+    assert retriever.search("Aktif hatırlama nasıl?")[0].chunk_id == "c1"
+
+
 def test_curated_knowledge_file_is_loadable() -> None:
     retriever = InMemoryRetriever.from_jsonl("data/knowledge/learning_methods_v1.jsonl")
     results = retriever.search("aktif hatırlama")

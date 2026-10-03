@@ -1,5 +1,6 @@
 from dataclasses import dataclass, field
 import json
+import re
 from pathlib import Path
 from typing import Protocol
 
@@ -37,7 +38,7 @@ class InMemoryRetriever:
         limit: int = 3,
         filters: dict[str, str] | None = None,
     ) -> list[KnowledgeChunk]:
-        terms = {term.lower() for term in query.split() if len(term) > 2}
+        terms = self._terms(query)
         candidates = self.chunks
         if filters:
             candidates = [
@@ -46,7 +47,14 @@ class InMemoryRetriever:
             ]
         ranked = sorted(
             candidates,
-            key=lambda chunk: len(terms & set(chunk.text.lower().split())),
+            key=lambda chunk: len(terms & self._terms(chunk.text)),
             reverse=True,
         )
-        return [chunk for chunk in ranked if terms & set(chunk.text.lower().split())][:limit]
+        return [chunk for chunk in ranked if terms & self._terms(chunk.text)][:limit]
+
+    @staticmethod
+    def _terms(text: str) -> set[str]:
+        return {
+            term for term in re.findall(r"[\wçğıöşüÇĞİÖŞÜ]+", text.casefold())
+            if len(term) > 2
+        }
