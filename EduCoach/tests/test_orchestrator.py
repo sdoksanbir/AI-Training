@@ -185,3 +185,12 @@ def test_retriever_loads_versioned_jsonl_knowledge(tmp_path) -> None:
     results = retriever.search("aktif tekrar")
     assert len(results) == 1
     assert results[0].metadata["version"] == "1"
+
+
+def test_retriever_applies_metadata_filters() -> None:
+    retriever = InMemoryRetriever([
+        KnowledgeChunk("yks", "Matematik tekrar", "YKS", "guide", {"program": "yks"}),
+        KnowledgeChunk("lgs", "Matematik tekrar", "LGS", "guide", {"program": "lgs"}),
+    ])
+    results = retriever.search("matematik", filters={"program": "yks"})
+    assert [item.chunk_id for item in results] == ["yks"]

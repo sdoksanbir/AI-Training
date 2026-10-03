@@ -31,10 +31,21 @@ class InMemoryRetriever:
     def __init__(self, chunks: list[KnowledgeChunk] = ()) -> None:
         self.chunks = list(chunks)
 
-    def search(self, query: str, limit: int = 3) -> list[KnowledgeChunk]:
+    def search(
+        self,
+        query: str,
+        limit: int = 3,
+        filters: dict[str, str] | None = None,
+    ) -> list[KnowledgeChunk]:
         terms = {term.lower() for term in query.split() if len(term) > 2}
+        candidates = self.chunks
+        if filters:
+            candidates = [
+                chunk for chunk in candidates
+                if all(chunk.metadata.get(key) == value for key, value in filters.items())
+            ]
         ranked = sorted(
-            self.chunks,
+            candidates,
             key=lambda chunk: len(terms & set(chunk.text.lower().split())),
             reverse=True,
         )
