@@ -18,6 +18,9 @@ dev = [
     "pytest>=9,<10",
 ]
 
+[project.scripts]
+educoach = "educoach.cli:main"
+
 [tool.setuptools.packages.find]
 where = ["app"]
 
