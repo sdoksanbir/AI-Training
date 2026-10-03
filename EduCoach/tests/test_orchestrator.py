@@ -165,7 +165,7 @@ def test_orchestrator_adds_retrieved_knowledge_context() -> None:
     memory = LearnerMemoryService(factory)
     memory.register_learner(learner, [context])
     retriever = InMemoryRetriever([
-        KnowledgeChunk("c1", "Aralıklı tekrar öğrenmeyi destekler.", "Tekrar", "internal_guide", {"program": "yks"})
+        KnowledgeChunk("c1", "Aralıklı tekrar öğrenmeyi destekler.", "Tekrar", "internal_guide", {"program": "school_11"})
     ])
     provider = FakeLLMProvider()
     CoachOrchestrator(memory, provider, retriever).respond(
