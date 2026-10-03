@@ -24,5 +24,13 @@ educoach = "educoach.cli:main"
 [tool.setuptools.packages.find]
 where = ["app"]
 
+[tool.setuptools.package-data]
+"educoach.specialties.profiles" = [
+    "ales.json",
+    "general_english.json",
+    "school_7.json",
+    "yks.json",
+]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]

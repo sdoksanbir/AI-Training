@@ -31,6 +31,8 @@ Genel çekirdek YKS'ye veya başka tek bir sınava bağlı değildir. Örnek Spe
 - Pydantic domain modelleri
 - SQLAlchemy/SQLite persistence ve repositories
 - transaction kontrollü Learner Memory servisleri
+- learner-scoped `LearnerMemorySnapshot` read modeli
+- versioned Specialty Profile registry, JSON loader ve dört builtin profile
 - model bağımsız LLM provider sözleşmesi
 - Ollama provider ve health kontrolü
 - JSONL tabanlı temel RAG

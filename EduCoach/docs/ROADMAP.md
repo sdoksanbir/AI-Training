@@ -36,11 +36,9 @@ Python paketi, domain modelleri, persistence, repositories, services, LLM, RAG, 
 
 ### FAZ 2 — Learner Memory Core
 
-**Durum: BÜYÜK ÖLÇÜDE TAMAMLANDI**
+**Durum: TAMAMLANDI**
 
-Mevcut: domain modelleri, SQLite persistence, repositories, ownership bütünlüğü, transaction servisleri, learner/context kaydı, assessment/result/evidence ve study plan/task/session akışları.
-
-Eksik ana iş: eksiksiz ve kontrollü `LearnerMemorySnapshot` read model.
+Domain modelleri, SQLite persistence, repositories, ownership bütünlüğü, transaction servisleri, learner/context kaydı, assessment/result/evidence ve study plan/task/session akışları ile learner-scoped `LearnerMemorySnapshot` read model mevcut.
 
 ### FAZ 3 — LLM Provider v0.1
 
@@ -50,9 +48,9 @@ Eksik ana iş: eksiksiz ve kontrollü `LearnerMemorySnapshot` read model.
 
 ### FAZ 4 — Specialty Profiles Runtime
 
-**Durum: BAŞLANMADI**
+**Durum: TAMAMLANDI**
 
-`docs/SPECIALTY_PROFILES.md` tasarımını çalışan registry/profile modeline dönüştürmek. Örnekler: `school_5`–`school_12`, `lgs`, `yks`, `kpss`, `ales`, `yds`, `yokdil`, `toefl`, `ielts`, `general_english`.
+`SpecialtyProfile` sözleşmesi, versioned registry, `LearningContext` çözümleme ve family doğrulama, JSON loader, package resources ile `school_7`, `yks`, `ales` ve `general_english` builtin profilleri mevcut.
 
 ### FAZ 5 — Backend Rules v0.1
 
@@ -124,8 +122,6 @@ Fine-tuning yalnız prompt + rules + memory + RAG ile çözülemeyen ölçülmü
 
 ## Aktif sıradaki iş
 
-**FAZ 2 — Learner Memory Core: `LearnerMemorySnapshot` read model**
+**FAZ 5 — Backend Rules v0.1**
 
-Learner Memory Core, eksiksiz ve kontrollü `LearnerMemorySnapshot` read model tamamlanarak kapatılacaktır.
-
-Sonraki faz: **FAZ 4 — Specialty Profiles Runtime**.
+Availability/time budget, plan süre doğrulama, bilinmeyen bilgi üretmeme ve profile/context kuralları için deterministik backend kontrolleri geliştirilecektir.

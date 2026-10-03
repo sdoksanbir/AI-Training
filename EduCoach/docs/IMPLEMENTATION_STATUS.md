@@ -9,6 +9,7 @@ EduCoach yalnız YKS uygulaması değildir. Genel çekirdek farklı eğitim alan
 ## Tamamlanan çekirdek parçalar
 
 - Learner Memory modelleri, SQLite persistence ve transaction servisleri.
+- Tüm mevcut memory kategorilerini learner scope içinde birleştiren `LearnerMemorySnapshot` read modeli.
 - Assessment, StudyPlan, StudyTask ve StudySession kayıt akışları.
 - Çalışma oturumu ile görev durumu senkronizasyonu.
 - Model bağımsız `LLMProvider` sözleşmesi ve `FakeLLMProvider`.
@@ -21,10 +22,12 @@ EduCoach yalnız YKS uygulaması değildir. Genel çekirdek farklı eğitim alan
 - Ollama provider sağlık kontrolü ve model yüklülük doğrulaması.
 - `educoach` terminal giriş komutu.
 - Deterministik core regression komutu.
+- `SpecialtyProfile` domain sözleşmesi, versioned registry ve context/family doğrulaması.
+- JSON loader ile paketlenen `school_7`, `yks`, `ales` ve `general_english` builtin profilleri.
 
 ## Doğrulama
 
-Son test paketi: 145 test başarılı.
+Son test paketi: 213 test başarılı.
 
 Ollama üzerinde `qwen3:14b` ile gerçek uçtan uca cevap üretimi doğrulandı.
 
@@ -32,9 +35,9 @@ Ollama üzerinde `qwen3:14b` ile gerçek uçtan uca cevap üretimi doğrulandı.
 
 - Mimari ve ürün kapsamı: tamamlandı.
 - Uygulama çekirdeği: tamamlandı.
-- Learner Memory Core: büyük ölçüde tamamlandı.
+- Learner Memory Core: tamamlandı.
 - LLM Provider v0.1: tamamlandı.
-- Specialty Profiles Runtime: başlanmadı.
+- Specialty Profiles Runtime: tamamlandı.
 - Backend Rules: başlangıç seviyesinde.
 - Response Validator: kısmi.
 - RAG: temel sürüm çalışıyor.
@@ -43,10 +46,8 @@ Ollama üzerinde `qwen3:14b` ile gerçek uçtan uca cevap üretimi doğrulandı.
 
 ## Sıradaki üretim işleri
 
-1. Eksiksiz kontrollü `LearnerMemorySnapshot` read model.
-2. Specialty Profiles runtime registry ve profile modeli.
-3. Backend Rules v0.1 ve gelişmiş Response Validator.
-4. Geniş regression ve development evaluation seti.
-5. Kaynaklı Knowledge Base ve retrieval evaluation.
+1. Backend Rules v0.1 ve gelişmiş Response Validator.
+2. Geniş regression ve development evaluation seti.
+3. Kaynaklı Knowledge Base ve retrieval evaluation.
 
 HTTP API ve authentication, core davranış sözleşmeleri olgunlaştıktan sonra ele alınacaktır.

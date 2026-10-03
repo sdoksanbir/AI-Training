@@ -27,7 +27,8 @@ LLM doğal dil ve muhakeme sağlar. Kesin kurallar, learner gerçekleri, ortak e
 - Domain modelleri: learner/context, goal, availability, assessment/result, evidence, study plan/task/session, preference ve coaching state.
 - Persistence: SQLAlchemy ve SQLite şeması.
 - Repositories: tüm mevcut Learner Memory ana modelleri.
-- Services: transaction kontrollü learner, assessment, study plan ve study session akışları; temel memory özeti.
+- Services: transaction kontrollü learner, assessment, study plan ve study session akışları; learner-scoped `LearnerMemorySnapshot` read modeli.
+- Specialty Profiles: versioned registry, context/family doğrulama, JSON loader ve dört builtin package resource.
 - LLM: ortak provider sözleşmesi, fake provider, Ollama provider, health/model kontrolü.
 - RAG: JSONL/katalog yükleme, in-memory retrieval, metadata filtreleri ve Türkçe token normalizasyonu.
 - Rules/Validator: boş ve aşırı uzun cevap ile doğrulanmamış dış link kontrolü.
@@ -37,9 +38,9 @@ LLM doğal dil ve muhakeme sağlar. Kesin kurallar, learner gerçekleri, ortak e
 ## Faz özeti
 
 - Faz 0 ve 1: **TAMAMLANDI**
-- Faz 2: **BÜYÜK ÖLÇÜDE TAMAMLANDI**
+- Faz 2: **TAMAMLANDI**
 - Faz 3: **TAMAMLANDI**
-- Faz 4: **BAŞLANMADI**
+- Faz 4: **TAMAMLANDI**
 - Faz 5: **BAŞLANGIÇ SEVİYESİNDE**
 - Faz 6 ve 9: **KISMİ**
 - Faz 7: **TEMEL SÜRÜM ÇALIŞIYOR**
@@ -61,8 +62,6 @@ Yeni fine-tuning çalışması dondurulmuştur. Fine-tuning ancak çalışan ür
 
 ## Bilinen ana eksikler
 
-- Kontrollü ve eksiksiz `LearnerMemorySnapshot` read model
-- Specialty Profile runtime ve registry
 - Deterministik backend rule engine
 - Gelişmiş response validator ve action flow
 - RAG gating ve retrieval evaluation
@@ -72,6 +71,4 @@ Yeni fine-tuning çalışması dondurulmuştur. Fine-tuning ancak çalışan ür
 
 ## Aktif sıradaki iş
 
-Learner Memory Core'u eksiksiz ve kontrollü `LearnerMemorySnapshot` read model ile tamamlamak.
-
-Specialty Profiles Runtime, snapshot tamamlandıktan sonra ele alınacaktır.
+FAZ 5 kapsamında availability/time budget, plan süre doğrulama ve profile/context kuralları için deterministik Backend Rules v0.1 geliştirmek.
