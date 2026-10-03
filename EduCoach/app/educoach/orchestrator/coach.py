@@ -26,8 +26,8 @@ class CoachOrchestrator:
         if self.retriever is not None:
             contexts = summary["contexts"]
             filters = None
-            if len(contexts) == 1:
-                filters = {"program": contexts[0].program_code}
+            if contexts:
+                filters = {"program": {context.program_code for context in contexts}}
             chunks = self.retriever.search(message, filters=filters)
             knowledge = "\n".join(
                 f"[{chunk.title} | {chunk.source}] {chunk.text}" for chunk in chunks

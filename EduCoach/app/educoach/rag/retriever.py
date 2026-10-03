@@ -36,14 +36,19 @@ class InMemoryRetriever:
         self,
         query: str,
         limit: int = 3,
-        filters: dict[str, str] | None = None,
+        filters: dict[str, str | set[str]] | None = None,
     ) -> list[KnowledgeChunk]:
         terms = self._terms(query)
         candidates = self.chunks
         if filters:
             candidates = [
                 chunk for chunk in candidates
-                if all(chunk.metadata.get(key) == value for key, value in filters.items())
+                if all(
+                    chunk.metadata.get(key) in value
+                    if isinstance(value, set)
+                    else chunk.metadata.get(key) == value
+                    for key, value in filters.items()
+                )
             ]
         ranked = sorted(
             candidates,

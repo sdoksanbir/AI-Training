@@ -207,6 +207,16 @@ def test_retriever_applies_metadata_filters() -> None:
     assert [item.chunk_id for item in results] == ["yks"]
 
 
+def test_retriever_accepts_multiple_program_filters() -> None:
+    retriever = InMemoryRetriever([
+        KnowledgeChunk("yks", "Matematik", "YKS", "guide", {"program": "yks"}),
+        KnowledgeChunk("lgs", "Matematik", "LGS", "guide", {"program": "lgs"}),
+        KnowledgeChunk("other", "Matematik", "Other", "guide", {"program": "other"}),
+    ])
+    results = retriever.search("matematik", filters={"program": {"yks", "lgs"}})
+    assert {item.chunk_id for item in results} == {"yks", "lgs"}
+
+
 def test_retriever_ignores_turkish_punctuation() -> None:
     retriever = InMemoryRetriever([
         KnowledgeChunk("c1", "Aktif hatırlama öğrenmeyi destekler.", "Aktif", "guide"),
