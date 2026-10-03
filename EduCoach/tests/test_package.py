@@ -33,3 +33,30 @@ def test_cli_stops_when_ollama_is_unhealthy(monkeypatch, capsys) -> None:
         assert "Ollama erişilemiyor" in str(error)
     else:
         raise AssertionError("CLI unhealthy provider ile devam etti")
+
+
+def test_cli_hides_provider_error(monkeypatch) -> None:
+    class FailingProvider:
+        def __init__(self, model): pass
+        def health(self): return True
+        def generate(self, request):
+            from educoach.llm import OllamaProviderError
+            raise OllamaProviderError("secret endpoint details")
+
+    class FailingCoach:
+        def __init__(self, memory, provider): pass
+        def respond(self, learner_id, message):
+            from educoach.llm import OllamaProviderError
+            raise OllamaProviderError("secret endpoint details")
+
+    monkeypatch.setattr(cli, "OllamaProvider", FailingProvider)
+    monkeypatch.setattr(cli, "CoachOrchestrator", FailingCoach)
+    try:
+        cli.main([
+            "--database", "memory.db",
+            "--learner-id", "00000000-0000-0000-0000-000000000001",
+            "Merhaba",
+        ])
+    except SystemExit as error:
+        assert "secret endpoint" not in str(error)
+        assert "Ollama cevap üretemedi" in str(error)

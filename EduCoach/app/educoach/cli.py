@@ -1,7 +1,7 @@
 import argparse
 from uuid import UUID
 
-from educoach.llm import OllamaProvider
+from educoach.llm import OllamaProvider, OllamaProviderError
 from educoach.orchestrator import CoachOrchestrator
 from educoach.persistence import create_session_factory, create_sqlite_engine
 from educoach.services import LearnerMemoryService
@@ -26,9 +26,14 @@ def main(argv: list[str] | None = None) -> int:
         raise SystemExit(
             f"Ollama erişilemiyor veya model yüklü değil: {args.model}"
         )
-    result = CoachOrchestrator(
-        LearnerMemoryService(factory), provider
-    ).respond(args.learner_id, args.message)
+    try:
+        result = CoachOrchestrator(
+            LearnerMemoryService(factory), provider
+        ).respond(args.learner_id, args.message)
+    except ValueError as error:
+        raise SystemExit(f"İstek işlenemedi: {error}") from None
+    except OllamaProviderError:
+        raise SystemExit("Ollama cevap üretemedi; model ve servis durumunu kontrol edin") from None
     print(result.text)
     engine.dispose()
     return 0
