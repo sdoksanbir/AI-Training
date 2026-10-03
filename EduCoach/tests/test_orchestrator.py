@@ -196,6 +196,13 @@ def test_retriever_applies_metadata_filters() -> None:
     assert [item.chunk_id for item in results] == ["yks"]
 
 
+def test_curated_knowledge_file_is_loadable() -> None:
+    retriever = InMemoryRetriever.from_jsonl("data/knowledge/learning_methods_v1.jsonl")
+    results = retriever.search("aktif hatırlama")
+    assert results
+    assert results[0].metadata["version"] == "1"
+
+
 def test_orchestrator_filters_knowledge_by_single_context_program() -> None:
     engine = create_sqlite_engine("sqlite+pysqlite:///:memory:")
     create_schema(engine)
