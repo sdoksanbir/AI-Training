@@ -13,17 +13,20 @@ Son güncelleme: 3 Ekim 2026
 - Boş, aşırı uzun ve doğrulanmamış dış bağlantı içeren cevap kontrolleri.
 - Öğrenci hafızası izolasyonu ve prompt injection regresyon testleri.
 - JSONL tabanlı knowledge yükleme, in-memory retrieval ve metadata filtreleri.
+- Türkçe token normalizasyonu ve program bazlı context retrieval.
+- Ollama provider sağlık kontrolü ve model yüklülük doğrulaması.
+- `educoach` terminal giriş komutu.
+- Deterministik core regression komutu.
 
 ## Doğrulama
 
-Son test paketi: 133 test başarılı.
+Son test paketi: 140 test başarılı.
 
 Ollama üzerinde `qwen3:14b` ile gerçek uçtan uca cevap üretimi doğrulandı.
 
 ## Sıradaki üretim işleri
 
-1. Knowledge dosyalarını kaynak ve program metadata’sıyla düzenlemek.
-2. Orchestrator’da program/context metadata’sını retriever filtrelerine bağlamak.
-3. Sayısal iddialar ve desteklenmeyen kişiselleştirme için daha güçlü response validation.
-4. Gerçek kullanım senaryoları için regression evaluation komutları.
-5. CLI veya API giriş katmanı.
+1. Sayısal iddialar ve desteklenmeyen kişiselleştirme için daha güçlü response validation.
+2. Gerçek kullanım senaryoları için Ollama regression değerlendirmeleri.
+3. HTTP API giriş katmanı ve kimlik doğrulama.
+4. Kalıcı knowledge index ve daha gelişmiş retrieval.
