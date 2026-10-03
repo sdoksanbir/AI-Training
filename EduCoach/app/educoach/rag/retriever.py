@@ -34,6 +34,14 @@ class InMemoryRetriever:
             chunks.append(KnowledgeChunk(**item))
         return cls(chunks)
 
+    @classmethod
+    def from_directory(cls, directory: str | Path) -> "InMemoryRetriever":
+        root = Path(directory)
+        chunks: list[KnowledgeChunk] = []
+        for path in sorted(root.glob("*.jsonl")):
+            chunks.extend(cls.from_jsonl(path).chunks)
+        return cls(chunks)
+
     def __init__(self, chunks: list[KnowledgeChunk] = ()) -> None:
         self.chunks = list(chunks)
 

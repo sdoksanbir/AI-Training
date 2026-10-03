@@ -244,6 +244,17 @@ def test_knowledge_loader_rejects_invalid_chunk(tmp_path) -> None:
         InMemoryRetriever.from_jsonl(path)
 
 
+def test_knowledge_catalog_loads_all_jsonl_files(tmp_path) -> None:
+    (tmp_path / "b.jsonl").write_text(
+        '{"chunk_id":"b","text":"B bilgi","title":"B","source":"test"}\n', encoding="utf-8"
+    )
+    (tmp_path / "a.jsonl").write_text(
+        '{"chunk_id":"a","text":"A bilgi","title":"A","source":"test"}\n', encoding="utf-8"
+    )
+    retriever = InMemoryRetriever.from_directory(tmp_path)
+    assert [item.chunk_id for item in retriever.chunks] == ["a", "b"]
+
+
 def test_orchestrator_filters_knowledge_by_single_context_program() -> None:
     engine = create_sqlite_engine("sqlite+pysqlite:///:memory:")
     create_schema(engine)
