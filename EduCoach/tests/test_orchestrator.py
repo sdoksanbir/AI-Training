@@ -34,6 +34,11 @@ def test_orchestrator_builds_memory_context_and_validates_response() -> None:
     engine.dispose()
 
 
+def test_orchestrator_exposes_provider_health() -> None:
+    provider = FakeLLMProvider()
+    assert CoachOrchestrator(None, provider).health() is True
+
+
 def test_orchestrator_rejects_empty_user_message() -> None:
     provider = FakeLLMProvider()
     with pytest.raises(ValueError, match="cannot be empty"):

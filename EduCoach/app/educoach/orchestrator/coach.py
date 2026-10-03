@@ -19,6 +19,9 @@ class CoachOrchestrator:
         self.provider = provider
         self.retriever = retriever
 
+    def health(self) -> bool:
+        return self.provider.health()
+
     def respond(self, learner_id: UUID, message: str) -> CoachResult:
         message = validate_user_message(message)
         summary = self.memory.get_learner_memory_summary(learner_id)
