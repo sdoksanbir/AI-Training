@@ -1,4 +1,6 @@
 from dataclasses import dataclass, field
+import json
+from pathlib import Path
 from typing import Protocol
 
 
@@ -16,6 +18,16 @@ class Retriever(Protocol):
 
 
 class InMemoryRetriever:
+    @classmethod
+    def from_jsonl(cls, path: str | Path) -> "InMemoryRetriever":
+        chunks: list[KnowledgeChunk] = []
+        for line in Path(path).read_text(encoding="utf-8").splitlines():
+            if not line.strip():
+                continue
+            item = json.loads(line)
+            chunks.append(KnowledgeChunk(**item))
+        return cls(chunks)
+
     def __init__(self, chunks: list[KnowledgeChunk] = ()) -> None:
         self.chunks = list(chunks)
 

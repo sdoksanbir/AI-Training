@@ -173,3 +173,15 @@ def test_orchestrator_adds_retrieved_knowledge_context() -> None:
     )
     assert "Aralıklı tekrar öğrenmeyi destekler" in provider.requests[-1].memory_context
     engine.dispose()
+
+
+def test_retriever_loads_versioned_jsonl_knowledge(tmp_path) -> None:
+    path = tmp_path / "knowledge.jsonl"
+    path.write_text(
+        '{"chunk_id":"v1-c1","text":"Aktif tekrar bilgisi.","title":"Öğrenme","source":"guide-v1","metadata":{"version":"1"}}\n',
+        encoding="utf-8",
+    )
+    retriever = InMemoryRetriever.from_jsonl(path)
+    results = retriever.search("aktif tekrar")
+    assert len(results) == 1
+    assert results[0].metadata["version"] == "1"
