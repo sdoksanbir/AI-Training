@@ -3,7 +3,7 @@ from uuid import UUID
 
 from educoach.llm import LLMProvider, LLMRequest
 from educoach.services import LearnerMemoryService
-from educoach.validators import validate_response
+from educoach.validators import validate_response, validate_user_message
 
 
 @dataclass(frozen=True)
@@ -18,6 +18,7 @@ class CoachOrchestrator:
         self.provider = provider
 
     def respond(self, learner_id: UUID, message: str) -> CoachResult:
+        message = validate_user_message(message)
         summary = self.memory.get_learner_memory_summary(learner_id)
         request = LLMRequest(
             system_prompt=(

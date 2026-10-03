@@ -12,3 +12,12 @@ def validate_response(text: str) -> str:
     if violations:
         raise ResponseValidationError(violations)
     return text.strip()
+
+
+def validate_user_message(message: str) -> str:
+    cleaned = message.strip()
+    if not cleaned:
+        raise ValueError("User message cannot be empty")
+    if len(cleaned) > 12000:
+        raise ValueError("User message is too long")
+    return cleaned
