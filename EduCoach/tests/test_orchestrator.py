@@ -1,6 +1,8 @@
 from sqlalchemy.orm import Session, sessionmaker
 
-from educoach.llm import FakeLLMProvider
+from educoach.llm import FakeLLMProvider, LLMRequest, OllamaProvider
+import educoach.llm.provider as provider_module
+import json
 from educoach.models import ContextType, Learner, LearningContext
 from educoach.orchestrator import CoachOrchestrator
 from educoach.persistence import create_schema, create_session_factory, create_sqlite_engine
@@ -54,3 +56,22 @@ def test_orchestrator_rejects_empty_model_response() -> None:
             LearnerMemoryService(factory), FakeLLMProvider(responder=lambda _: "")
         ).respond(learner.learner_id, "yardım et")
     engine.dispose()
+
+
+def test_ollama_provider_normalizes_chat_response(monkeypatch) -> None:
+    class FakeHTTPResponse:
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *args):
+            return False
+
+        def read(self):
+            return json.dumps({"message": {"content": "Hazırım."}}).encode()
+
+    monkeypatch.setattr(provider_module, "urlopen", lambda request, timeout: FakeHTTPResponse())
+    response = OllamaProvider("qwen3:4b").generate(
+        LLMRequest(system_prompt="system", user_message="merhaba")
+    )
+    assert response.text == "Hazırım."
+    assert response.model == "qwen3:4b"
