@@ -15,6 +15,7 @@ def test_cli_parser_accepts_learner_message() -> None:
     ])
     assert args.model == "qwen3:14b"
     assert args.message == "Bugün ne çalışmalıyım?"
+    assert args.create_schema is False
 
 
 def test_cli_stops_when_ollama_is_unhealthy(monkeypatch, capsys) -> None:

@@ -3,7 +3,7 @@ from uuid import UUID
 
 from educoach.llm import OllamaProvider, OllamaProviderError
 from educoach.orchestrator import CoachOrchestrator
-from educoach.persistence import create_session_factory, create_sqlite_engine
+from educoach.persistence import create_schema, create_session_factory, create_sqlite_engine
 from educoach.services import LearnerMemoryService
 
 
@@ -13,6 +13,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--learner-id", required=True, type=UUID)
     parser.add_argument("message")
     parser.add_argument("--model", default="qwen3:14b")
+    parser.add_argument("--create-schema", action="store_true")
     return parser
 
 
@@ -20,6 +21,8 @@ def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
     database_url = args.database if "://" in args.database else f"sqlite+pysqlite:///{args.database}"
     engine = create_sqlite_engine(database_url)
+    if args.create_schema:
+        create_schema(engine)
     factory = create_session_factory(engine)
     provider = OllamaProvider(args.model)
     if not provider.health():
