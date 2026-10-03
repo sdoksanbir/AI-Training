@@ -165,7 +165,7 @@ def test_orchestrator_adds_retrieved_knowledge_context() -> None:
     memory = LearnerMemoryService(factory)
     memory.register_learner(learner, [context])
     retriever = InMemoryRetriever([
-        KnowledgeChunk("c1", "Aralıklı tekrar öğrenmeyi destekler.", "Tekrar", "internal_guide")
+        KnowledgeChunk("c1", "Aralıklı tekrar öğrenmeyi destekler.", "Tekrar", "internal_guide", {"program": "yks"})
     ])
     provider = FakeLLMProvider()
     CoachOrchestrator(memory, provider, retriever).respond(
@@ -194,3 +194,26 @@ def test_retriever_applies_metadata_filters() -> None:
     ])
     results = retriever.search("matematik", filters={"program": "yks"})
     assert [item.chunk_id for item in results] == ["yks"]
+
+
+def test_orchestrator_filters_knowledge_by_single_context_program() -> None:
+    engine = create_sqlite_engine("sqlite+pysqlite:///:memory:")
+    create_schema(engine)
+    factory = create_session_factory(engine)
+    learner = Learner()
+    context = LearningContext(
+        learner_id=learner.learner_id,
+        context_type=ContextType.ENTRANCE_EXAM,
+        program_code="yks",
+    )
+    memory = LearnerMemoryService(factory)
+    memory.register_learner(learner, [context])
+    retriever = InMemoryRetriever([
+        KnowledgeChunk("y", "Sınav matematik bilgisi", "YKS", "guide", {"program": "yks"}),
+        KnowledgeChunk("l", "Sınav matematik bilgisi", "LGS", "guide", {"program": "lgs"}),
+    ])
+    provider = FakeLLMProvider()
+    CoachOrchestrator(memory, provider, retriever).respond(learner.learner_id, "Sınav matematik")
+    assert "YKS" in provider.requests[-1].memory_context
+    assert "LGS" not in provider.requests[-1].memory_context
+    engine.dispose()

@@ -24,7 +24,11 @@ class CoachOrchestrator:
         summary = self.memory.get_learner_memory_summary(learner_id)
         knowledge = ""
         if self.retriever is not None:
-            chunks = self.retriever.search(message)
+            contexts = summary["contexts"]
+            filters = None
+            if len(contexts) == 1:
+                filters = {"program": contexts[0].program_code}
+            chunks = self.retriever.search(message, filters=filters)
             knowledge = "\n".join(
                 f"[{chunk.title} | {chunk.source}] {chunk.text}" for chunk in chunks
             )
