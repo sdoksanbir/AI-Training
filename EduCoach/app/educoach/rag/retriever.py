@@ -15,7 +15,12 @@ class KnowledgeChunk:
 
 
 class Retriever(Protocol):
-    def search(self, query: str, limit: int = 3) -> list[KnowledgeChunk]: ...
+    def search(
+        self,
+        query: str,
+        limit: int = 3,
+        filters: dict[str, str | set[str]] | None = None,
+    ) -> list[KnowledgeChunk]: ...
 
 
 class InMemoryRetriever:
