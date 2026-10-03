@@ -2,6 +2,10 @@
 
 Son güncelleme: 3 Ekim 2026
 
+## Ürün kapsamı
+
+EduCoach yalnız YKS uygulaması değildir. Genel çekirdek farklı eğitim alanlarına Specialty Profiles ile uzmanlaşır ve `Learner` / `Learner Memory` terminolojisini kullanır.
+
 ## Tamamlanan çekirdek parçalar
 
 - Learner Memory modelleri, SQLite persistence ve transaction servisleri.
@@ -20,13 +24,29 @@ Son güncelleme: 3 Ekim 2026
 
 ## Doğrulama
 
-Son test paketi: 140 test başarılı.
+Son test paketi: 145 test başarılı.
 
 Ollama üzerinde `qwen3:14b` ile gerçek uçtan uca cevap üretimi doğrulandı.
 
+## Faz durumu
+
+- Mimari ve ürün kapsamı: tamamlandı.
+- Uygulama çekirdeği: tamamlandı.
+- Learner Memory Core: büyük ölçüde tamamlandı.
+- LLM Provider v0.1: tamamlandı.
+- Specialty Profiles Runtime: başlanmadı.
+- Backend Rules: başlangıç seviyesinde.
+- Response Validator: kısmi.
+- RAG: temel sürüm çalışıyor.
+- Knowledge Base ve Regression Evaluation: başlangıç seviyesinde.
+- Orchestrator v1: kısmi.
+
 ## Sıradaki üretim işleri
 
-1. Sayısal iddialar ve desteklenmeyen kişiselleştirme için daha güçlü response validation.
-2. Gerçek kullanım senaryoları için Ollama regression değerlendirmeleri.
-3. HTTP API giriş katmanı ve kimlik doğrulama.
-4. Kalıcı knowledge index ve daha gelişmiş retrieval.
+1. Eksiksiz kontrollü `LearnerMemorySnapshot` read model.
+2. Specialty Profiles runtime registry ve profile modeli.
+3. Backend Rules v0.1 ve gelişmiş Response Validator.
+4. Geniş regression ve development evaluation seti.
+5. Kaynaklı Knowledge Base ve retrieval evaluation.
+
+HTTP API ve authentication, core davranış sözleşmeleri olgunlaştıktan sonra ele alınacaktır.

@@ -1,464 +1,62 @@
 # EduCoach
 
-**EduCoach**, öğrencilerin çalışma süreçlerini kişiselleştiren, performanslarını analiz eden ve onlara sürdürülebilir çalışma alışkanlıkları kazandırmayı hedefleyen yerel bir yapay zekâ eğitim koçu projesidir.
+EduCoach, farklı eğitim ve sınav senaryolarına uzmanlaşabilen genel öğrenme ve eğitim koçluğu platformudur.
 
-Projenin amacı yalnızca soruları çözen veya ders anlatan başka bir yapay zekâ oluşturmak değildir. EduCoach'un temel görevi, öğrenciyi tanımak, doğru soruları sormak, ihtiyaçlarını belirlemek ve öğrencinin gelişimine göre çalışma sürecini yönetmektir.
+Amaç yalnızca soru çözen bir sohbet botu yapmak değildir. Sistem learner'ı tanır, doğrulanmış geçmişini kullanır, eğitim bağlamına uygun bilgi getirir, deterministik kuralları uygular ve model cevabını kullanıcıya göndermeden önce doğrular.
 
----
-
-## 🎯 Projenin Amacı
-
-EduCoach öğrencinin:
-
-* akademik hedeflerini belirlemesine,
-* mevcut durumunu analiz etmesine,
-* eksiklerini fark etmesine,
-* günlük ve haftalık çalışma programı oluşturmasına,
-* deneme sınavı sonuçlarını değerlendirmesine,
-* ders ve konu önceliklerini belirlemesine,
-* çalışma alışkanlıklarını geliştirmesine,
-* motivasyon ve erteleme problemlerini yönetmesine,
-* yaptığı hatalardan öğrenmesine,
-* çalışma planını performansına göre sürekli güncellemesine
-
-yardımcı olan kişisel bir eğitim koçu olarak tasarlanmaktadır.
-
-EduCoach'un hedefi öğrencinin yerine karar vermek değil, öğrencinin **daha doğru kararlar verebilmesini sağlayan bir rehber** olmaktır.
-
----
-
-# 🧠 Temel Mimari
-
-EduCoach üç ana katmandan oluşacaktır.
+## Aktif mimari
 
 ```text
-                    EduCoach
-                       │
-        ┌──────────────┼──────────────┐
-        │              │              │
-        ▼              ▼              ▼
-   COACH BRAIN      KNOWLEDGE     STUDENT MEMORY
-   Fine-Tuning         RAG           Database
-        │              │              │
-        │              │              │
- Koçluk davranışı   Ders bilgisi   Öğrenci profili
- Planlama           Müfredat       Deneme geçmişi
- Hata analizi       Kaynaklar      Çalışma geçmişi
- Motivasyon         Kazanımlar     Hedefler
+Learner Memory
++ Specialty Profiles
++ Backend Rules
++ RAG / Knowledge
++ LLM Provider
++ Response Validator
++ Orchestrator
 ```
 
-## 1. Coach Brain
+- **Learner Memory:** learner'a ait gerçek ve kaynaklı veriler.
+- **Specialty Profiles:** okul, sınav ve dil öğrenimi gibi bağlamlara özgü davranış ve terminoloji.
+- **Backend Rules:** süre, sayısal tutarlılık ve context gibi deterministik kurallar.
+- **RAG / Knowledge:** ortak ve kaynaklı eğitim bilgisi.
+- **LLM Provider:** yerel veya gelecekte bulut modellerine ortak sözleşme.
+- **Response Validator:** model çıktısındaki kritik ihlalleri denetler.
+- **Orchestrator:** bileşenleri kontrollü bir akışta birleştirir.
 
-Temel dil modeli **Qwen3-4B** olacaktır.
+Genel çekirdek YKS'ye veya başka tek bir sınava bağlı değildir. Örnek Specialty Profile'lar `school_5`–`school_12`, `lgs`, `yks`, `kpss`, `ales`, `yds`, `yokdil`, `toefl`, `ielts` ve `general_english` olabilir.
 
-Model QLoRA/Fine-Tuning yöntemiyle özellikle eğitim koçluğu davranışları konusunda geliştirilecektir.
+## Mevcut uygulama
 
-Fine-tuning'in amacı modele bütün dersleri yeniden öğretmek değildir.
+- Pydantic domain modelleri
+- SQLAlchemy/SQLite persistence ve repositories
+- transaction kontrollü Learner Memory servisleri
+- model bağımsız LLM provider sözleşmesi
+- Ollama provider ve health kontrolü
+- JSONL tabanlı temel RAG
+- temel rules ve response validation
+- Coach Orchestrator
+- CLI ve core regression komutu
 
-Model özellikle şunları öğrenmelidir:
+Güncel faz durumları için [ROADMAP.md](docs/ROADMAP.md), gerçek uygulama özeti için [IMPLEMENTATION_STATUS.md](docs/IMPLEMENTATION_STATUS.md) okunmalıdır.
 
-* doğru soruları sormak,
-* öğrencinin problemini teşhis etmek,
-* çalışma planı hazırlamak,
-* öncelik belirlemek,
-* öğrencinin yanlış çalışma alışkanlıklarını fark etmek,
-* gerektiğinde ipucu vermek,
-* öğrenciyi düşündürmek,
-* öğrencinin seviyesine göre iletişim kurmak,
-* gerçekçi hedefler oluşturmak,
-* geçmiş performansa göre önerilerini değiştirmek.
+## Fine-tuning geçmişi
 
----
+İlk araştırma yaklaşımında Qwen3-4B üzerinde QLoRA v0.1–v0.6 deneyleri yapıldı. Eğitimler teknik olarak çalışsa da tekrarlama döngüleri ve güvenilmez sayısal çıkarımlar üretim kalitesini sınırladı.
 
-## 2. Knowledge — RAG
+Bu çalışmalar silinmemiştir; `training/`, `evaluations/` ve `data/gold/` altında frozen research archive olarak korunur. Fine-tuning aktif mimarinin başlangıç noktası veya zorunlu bileşeni değildir. İleride yalnız ölçülmüş ve diğer katmanlarla çözülemeyen bir davranış problemi için opsiyonel optimizasyon olarak değerlendirilebilir.
 
-Ders ve müfredat bilgileri mümkün olduğunca modelin ağırlıklarına gömülmeyecektir.
+Deneylerin tarihsel özeti [FINE_TUNING_HISTORY.md](docs/FINE_TUNING_HISTORY.md) dosyasındadır.
 
-Bunun yerine ilerleyen aşamalarda RAG sistemi kullanılacaktır.
-
-Örnek bilgi kaynakları:
-
-* Matematik
-* Türkçe
-* Fen Bilimleri
-* Sosyal Bilgiler
-* İngilizce
-* LGS
-* TYT
-* AYT
-* MEB kazanımları
-* konu anlatımları
-* ders notları
-* formüller
-* soru bankaları
-
-Bu yaklaşım sayesinde bilgi kaynakları güncellendiğinde modeli yeniden eğitmek gerekmeyecektir.
-
----
-
-## 3. Student Memory
-
-EduCoach'un en önemli parçalarından biri kişiselleştirilmiş öğrenci hafızası olacaktır.
-
-Örneğin sistem bir öğrenci için şunları tutabilir:
+## Geliştirme ve doğrulama
 
 ```text
-Öğrenci: Ali
-
-Sınıf: 8
-Hedef: LGS 440+
-
-Son denemeler:
-Türkçe: 17 net
-Matematik: 12 net
-Fen: 16 net
-
-Zayıf alan:
-Matematik problemleri
-
-Son çalışma:
-Üslü ifadeler tamamlandı.
-
-Sonraki hedef:
-Problem çözme becerisi
+python -m pytest
+python scripts/run_core_regression.py
 ```
 
-Böylece öğrenci:
+CLI kullanımı için [CLI_USAGE.md](docs/CLI_USAGE.md) dosyasına bakılabilir.
 
-> Bugün ne çalışmalıyım?
+## Repository politikası
 
-diye sorduğunda model genel bir cevap vermek yerine öğrencinin geçmişine göre öneri oluşturabilir.
-
----
-
-# 🤖 Temel Model
-
-İlk geliştirme modeli:
-
-```text
-Qwen3-4B
-```
-
-İlk karşılaştırmalarda:
-
-```text
-Qwen3-4B
-Phi-4-mini
-```
-
-modelleri test edilmiştir.
-
-Türkçe anlatım, talimat takibi ve genel cevap kalitesi açısından proje için başlangıç modeli olarak **Qwen3-4B** seçilmiştir.
-
----
-
-# 🧪 Eğitim Yöntemi
-
-İlk eğitim yöntemi:
-
-```text
-QLoRA
-```
-
-olacaktır.
-
-Amaç düşük VRAM kullanımıyla temel modelin eğitim koçluğu davranışlarını geliştirmektir.
-
-Planlanan ilk sürüm:
-
-```text
-Qwen3-4B
-   +
-QLoRA
-   +
-EduCoach Training Dataset
-   =
-EduCoach v0.1
-```
-
----
-
-# 📚 Eğitim Verisi Stratejisi
-
-Doğrudan binlerce örnek üretmek yerine önce küçük fakat yüksek kaliteli bir **Gold Dataset** oluşturulacaktır.
-
-İlk hedef:
-
-```text
-20–30 Gold Example
-```
-
-Bu örnekler proje için davranış standardını belirleyecektir.
-
-Sonrasında kontrollü şekilde:
-
-```text
-30
- ↓
-100
- ↓
-300
- ↓
-500
- ↓
-1000+
-```
-
-örneğe çıkılması planlanmaktadır.
-
-Eğitim verisinin ana kategorileri:
-
-* öğrenci durumunu analiz etme,
-* hedef belirleme,
-* çalışma programı hazırlama,
-* ders bazlı çalışma stratejileri,
-* deneme analizi,
-* yanlış analiz etme,
-* eksik konu tespiti,
-* zaman yönetimi,
-* motivasyon,
-* erteleme problemi,
-* öğrenciyi düşündürme,
-* gerektiğinde ipucu verme,
-* öğrenci seviyesine göre konuşma,
-* gerçekçi olmayan hedefleri düzenleme,
-* çalışma programını performansa göre değiştirme.
-
----
-
-# ❌ EduCoach Ne Olmayacak?
-
-EduCoach yalnızca:
-
-```text
-"Soruyu gönder, cevabını vereyim."
-```
-
-şeklinde çalışan bir soru çözme botu olmayacaktır.
-
-Ayrıca bütün ders bilgilerini fine-tuning yoluyla modele ezberletmek hedeflenmemektedir.
-
-Örneğin öğrencinin:
-
-> Matematik netim 8. Nasıl yükseltebilirim?
-
-sorusunda amaç yalnızca matematik konusu anlatmak değildir.
-
-EduCoach önce öğrencinin:
-
-* hangi konularda hata yaptığını,
-* soru çözüp çözmediğini,
-* süre problemi olup olmadığını,
-* konu eksiği bulunup bulunmadığını,
-* deneme sonuçlarının nasıl değiştiğini
-
-anlamaya çalışmalıdır.
-
----
-
-# 📊 Değerlendirme
-
-Fine-tuning öncesinde temel Qwen modeli sabit bir benchmark setiyle test edilecektir.
-
-Aynı testler eğitim sonrasında EduCoach modeline uygulanacaktır.
-
-Karşılaştırılacak başlıca ölçütler:
-
-* Türkçe kalitesi
-* koçluk davranışı
-* öğrenci seviyesine uygunluk
-* doğru soru sorma
-* problemi teşhis etme
-* çalışma planı kalitesi
-* gereksiz uzunluk
-* talimata uyma
-* tutarlılık
-* kişiselleştirme
-
-Amaç yalnızca eğitim kaybının düşmesi değil, gerçek kullanıcı deneyiminde ölçülebilir iyileşme sağlamaktır.
-
----
-
-# 🔁 Geliştirme Döngüsü
-
-EduCoach sürekli aşağıdaki döngüyle geliştirilecektir:
-
-```text
-MODEL
-  ↓
-TEST
-  ↓
-HATA ANALİZİ
-  ↓
-YENİ / DÜZELTİLMİŞ VERİ
-  ↓
-EĞİTİM
-  ↓
-TEKRAR TEST
-```
-
-Başarısız cevaplar özellikle saklanacak ve sonraki eğitim sürümlerinde veri üretmek için kullanılacaktır.
-
----
-
-# 🗂️ Proje Yapısı
-
-```text
-AI-Training/
-│
-└── EduCoach/
-    │
-    ├── README.md
-    ├── CURRENT_STATUS.md
-    │
-    ├── configs/
-    │
-    ├── data/
-    │   ├── gold/
-    │   ├── train/
-    │   ├── validation/
-    │   └── test/
-    │
-    ├── docs/
-    │   ├── ROADMAP.md
-    │   └── BEHAVIOR_SPEC.md
-    │
-    ├── evaluations/
-    │
-    ├── notes/
-    │   └── DECISIONS.md
-    │
-    ├── prompts/
-    │
-    └── scripts/
-```
-
----
-
-# 💻 Geliştirme Ortamı
-
-Proje iki bilgisayar arasında Git/GitHub üzerinden geliştirilmektedir.
-
-### Laptop
-
-Temel olarak:
-
-* proje tasarımı,
-* veri hazırlama,
-* veri inceleme,
-* prompt geliştirme,
-* dokümantasyon,
-* benchmark hazırlama
-
-işleri için kullanılacaktır.
-
-### GPU Masaüstü
-
-Temel olarak:
-
-* QLoRA eğitimi,
-* GPU testleri,
-* model değerlendirme,
-* checkpoint üretme,
-* model dönüştürme,
-* Ollama entegrasyonu
-
-için kullanılacaktır.
-
----
-
-# 🔐 Repository
-
-Repository private olarak tutulmaktadır.
-
-Büyük model dosyaları, checkpointler ve geçici eğitim çıktıları Git repository içerisine eklenmeyecektir.
-
-Git temel olarak:
-
-* kaynak kod,
-* eğitim verisi,
-* config dosyaları,
-* değerlendirme sonuçları,
-* dokümantasyon,
-* proje kararları
-
-için kullanılacaktır.
-
----
-
-# 🗺️ Yol Haritası
-
-```text
-FAZ 0 — Proje altyapısı
-         ✅ Git repository
-         ✅ Klasör yapısı
-
-FAZ 1 — EduCoach davranış şartnamesi
-         ✅ Temel yön belirlendi
-
-FAZ 2 — Gold Dataset
-         ⏳ 20–30 kaliteli örnek
-
-FAZ 3 — Baseline Benchmark
-         ⏳ Qwen3-4B başlangıç ölçümü
-
-FAZ 4 — Dataset genişletme
-         ⏳ 100–1000+ örnek
-
-FAZ 5 — İlk QLoRA eğitimi
-         ⏳ EduCoach v0.1
-
-FAZ 6 — Eğitim sonrası benchmark
-
-FAZ 7 — Hata analizi
-
-FAZ 8 — EduCoach v0.2
-
-FAZ 9 — RAG
-
-FAZ 10 — Student Memory
-
-FAZ 11 — Uygulama entegrasyonu
-```
-
----
-
-# 🚧 Mevcut Durum
-
-Şu anda proje:
-
-```text
-FAZ 1 → FAZ 2 geçişinde
-```
-
-bulunmaktadır.
-
-Bir sonraki ana görev:
-
-> EduCoach'un koçluk davranışını temsil eden ilk 20–30 Gold Dataset örneğini oluşturmak.
-
-Güncel ilerleme için:
-
-```text
-CURRENT_STATUS.md
-```
-
-dosyasına bakılmalıdır.
-
-Önemli mimari kararlar için:
-
-```text
-notes/DECISIONS.md
-```
-
-dosyası kullanılmaktadır.
-
----
-
-## Vizyon
-
-EduCoach'un nihai hedefi öğrenciye yalnızca bilgi veren bir yapay zekâ olmak değildir.
-
-Amaç;
-
-**öğrenciyi tanıyan, gelişimini takip eden, ne zaman ne çalışması gerektiğini anlayan ve zaman içerisinde öğrenciyi daha bağımsız bir öğrenen haline getiren kişisel bir eğitim koçu oluşturmaktır.**
+Kaynak kod, kontrollü veri, config, evaluation ve dokümantasyon Git'te tutulur. Büyük model dosyaları, checkpoint'ler ve geçici eğitim çıktıları repository'ye eklenmez.

@@ -1,481 +1,131 @@
 # EduCoach — Product & Architecture Roadmap
 
-**Güncelleme:** 2 Ekim 2026
+**Güncelleme:** 3 Ekim 2026
 
-## Amaç
+## Ürün kapsamı
 
-EduCoach'un ilk üretim sürümünü aşağıdaki mimari üzerine kurmak:
+EduCoach, farklı eğitim ve sınav senaryolarına uzmanlaşabilen genel öğrenme ve eğitim koçluğu platformudur. Genel çekirdek sınava özgü alanları `Learner` modeline gömmez; farklı kullanım alanları Specialty Profile üzerinden eklenir.
 
-```text
-LLM
-+
-Student Memory
-+
-Backend Rules
-+
-RAG / Knowledge
-+
-Response Validator
-```
-
-Fine-tuning şu aşamada aktif geliştirme yolu değildir. Mevcut QLoRA deneyleri araştırma ve karşılaştırma amacıyla korunacaktır.
-
-\---
-
-# FAZ 0 — Mimariyi Kilitle
-
-**Durum:** Aktif
-
-Amaç:
-
-Kod yazmaya başlamadan önce sistem bileşenlerinin sorumluluklarını kesinleştirmek.
-
-Karar verilecek konular:
-
-\- uygulama klasör yapısı
-\- orchestrator sorumlulukları
-\- LLM provider arayüzü
-\- Student Memory veri modeli
-\- backend kuralları
-\- response validator
-\- RAG sınırları
-\- knowledge base formatı
-\- ilk veritabanı
-\- evaluation stratejisi
-
-Çıkış kriteri:
+Aktif mimari:
 
 ```text
-Her bileşenin ne yaptığı ve ne yapmadığı açıkça tanımlanmış olacak.
+Learner Memory
++ Specialty Profiles
++ Backend Rules
++ RAG / Knowledge
++ LLM Provider
++ Response Validator
++ Orchestrator
 ```
 
-\---
+Fine-tuning üretim mimarisinin zorunlu bileşeni değildir. QLoRA v0.1–v0.6 çalışmaları frozen research archive olarak korunur.
 
-# FAZ 1 — Uygulama İskeleti
+## Fazlar
 
-Amaç:
+### FAZ 0 — Mimari ve ürün kapsamı
 
-Fine-tuning kodundan bağımsız çalışan gerçek EduCoach uygulama katmanını oluşturmak.
+**Durum: TAMAMLANDI**
 
-Planlanan ana yapı:
+Genel çekirdek, Learner terminolojisi, Specialty Profile yaklaşımı ve bileşen sorumlulukları tasarım belgelerinde tanımlandı.
 
-```text
-app/
-├── orchestrator/
-├── llm/
-├── student\_memory/
-├── rules/
-├── validators/
-├── rag/
-└── models/
-```
+### FAZ 1 — Uygulama çekirdeği
 
-İlk aşamada:
+**Durum: TAMAMLANDI**
 
-\- web arayüzü yapılmayacak,
-\- mobil uygulama yapılmayacak,
-\- yalnız backend çekirdeği oluşturulacak.
+Python paketi, domain modelleri, persistence, repositories, services, LLM, RAG, rules, validators, orchestrator ve CLI modülleri mevcut.
 
-Çıkış kriteri:
+### FAZ 2 — Learner Memory Core
 
-Basit bir terminal komutuyla EduCoach çekirdeğine kullanıcı mesajı gönderilebilmeli ve cevap alınabilmeli.
+**Durum: BÜYÜK ÖLÇÜDE TAMAMLANDI**
 
-\---
+Mevcut: domain modelleri, SQLite persistence, repositories, ownership bütünlüğü, transaction servisleri, learner/context kaydı, assessment/result/evidence ve study plan/task/session akışları.
 
-# FAZ 2 — LLM Provider Katmanı
+Eksik ana iş: eksiksiz ve kontrollü `LearnerMemorySnapshot` read model.
 
-Amaç:
+### FAZ 3 — LLM Provider v0.1
 
-EduCoach'u tek modele bağımlı olmaktan çıkarmak.
+**Durum: TAMAMLANDI**
 
-Örnek provider yapısı:
+`LLMProvider`, `FakeLLMProvider`, `OllamaProvider`, health ve model kontrolü mevcut. OpenAI/Gemini gelecekte adapter olabilir; v0.1 için zorunlu değildir.
 
-```text
-LLMProvider
-├── LocalQwenProvider
-├── OpenAIProvider
-├── GeminiProvider
-└── FutureProvider
-```
+### FAZ 4 — Specialty Profiles Runtime
 
-İlk prototipte yalnız bir provider aktif olabilir.
+**Durum: BAŞLANMADI**
 
-Ancak orchestrator doğrudan belirli modele bağlı yazılmayacaktır.
+`docs/SPECIALTY_PROFILES.md` tasarımını çalışan registry/profile modeline dönüştürmek. Örnekler: `school_5`–`school_12`, `lgs`, `yks`, `kpss`, `ales`, `yds`, `yokdil`, `toefl`, `ielts`, `general_english`.
 
-Çıkış kriteri:
+### FAZ 5 — Backend Rules v0.1
 
-Provider değiştirmek için EduCoach'un diğer bileşenlerinin değiştirilmesine gerek kalmamalı.
+**Durum: BAŞLANGIÇ SEVİYESİNDE**
 
-\---
+Eksikler: availability/time budget, plan süre doğrulama, unknown bilgi uydurmama, net/score/grade ayrımı, profile/context kuralları ve deterministik sayısal kısıtlar.
 
-# FAZ 3 — Student Memory
+### FAZ 6 — Response Validator v0.1
 
-Amaç:
+**Durum: KISMİ**
 
-Öğrencinin gerçek durumunu modelin sohbet hafızasına bırakmamak.
+Mevcut: boş cevap, maksimum cevap uzunluğu ve doğrulanmamış dış link kontrolü.
 
-İlk öğrenci profili alanları:
+Eksikler: unsupported numerical claims, memory contradiction, unsupported personalization, plan structure, kritik varsayımlar ve rule engine entegrasyonu.
 
-```text
-student\_id
-grade\_status
-field
-target
-daily\_available\_minutes
-weekly\_schedule
-tyt\_current
-ayt\_current
-subject\_performance
-strong\_areas
-weak\_areas
-constraints
-preferences
-```
+### FAZ 7 — RAG v0.1
 
-Zamanla eklenecek veriler:
+**Durum: TEMEL SÜRÜM ÇALIŞIYOR**
 
-```text
-exam\_history
-study\_history
-assignments
-completed\_tasks
-study\_plans
-plan\_completion
-mistake\_patterns
-topic\_progress
-```
+Mevcut: JSONL yükleme, klasör kataloğu, in-memory retriever, metadata filtreleri, Türkçe token normalizasyonu, program/context filtreleme ve orchestrator entegrasyonu.
 
-İlk prototip için mümkün olduğunca basit bir veritabanı kullanılacaktır.
+Eksikler: retrieval evaluation, daha güçlü retrieval/index stratejisi ve ileride kalıcı index.
 
-Çıkış kriteri:
+### FAZ 8 — Knowledge Base v0.1
 
-Öğrencinin daha önce verdiği temel bilgiler yeni mesajlarda yeniden sorulmadan kullanılabilmeli.
+**Durum: BAŞLANGIÇ**
 
-\---
+Mevcut: `data/knowledge/learning_methods_v1.jsonl`.
 
-# FAZ 4 — Backend Rules
+Eksik: gerçek kaynaklara bağlı, sürümlü, kapsamlı ve metadata'lı bilgi tabanı.
 
-Amaç:
+### FAZ 9 — Orchestrator v1
 
-Kesin ve hesaplanabilir kuralları LLM'in insafına bırakmamak.
+**Durum: KISMİ**
 
-İlk kurallar:
+Mevcut: user validation → memory load → RAG → LLM call → response validation.
 
-### Süre doğrulama
+Eksikler: intent, active specialty resolution, rules, RAG gating, structured memory update proposals, validated write-back ve `PASS/AUTO_FIX/REGENERATE/BLOCK` benzeri action flow.
 
-```text
-Kullanıcı 5 saat diyorsa:
-plan toplamı <= 300 dakika
-```
+### FAZ 10 — Regression Evaluation
 
-### Net / puan ayrımı
+**Durum: BAŞLANGIÇ**
 
-```text
-TYT net != TYT puan
-AYT net != AYT puan
-```
+Mevcut: `scripts/run_core_regression.py`. Eksik: geçmiş fine-tuning problemlerini yeni mimaride kapsayan geniş regression suite.
 
-### Bilinmeyen veriyi uydurmama
+### FAZ 11 — Development Evaluation Set
 
-Model şu tür değerleri kendiliğinden üretememeli:
+**Durum: BAŞLANMADI**
 
-```text
-bilinmeyen ders neti
-bilinmeyen deneme sonucu
-bilinmeyen çalışma süresi
-bilinmeyen hedef net
-bilinmeyen konu eksikleri
-```
+### FAZ 12 — Gerçek Learner Senaryoları
 
-### Öğrenci profilini koruma
+**Durum: BAŞLANMADI**
 
-Örneğin:
+### FAZ 13 — HTTP API + Authentication
 
-```text
-eşit ağırlık öğrencisini sayısal öğrenci gibi planlama
-mezun öğrenciyi 12. sınıf gibi değerlendirme
-```
+**Durum: BEKLEMEDE**
 
-Çıkış kriteri:
+Core davranış sözleşmeleri oturmadan API/auth çalışmaları öne çekilmeyecek.
 
-Kritik yanlışlar LLM cevabından bağımsız şekilde tespit edilebilmeli.
+### FAZ 14 — Final Unseen Evaluation
 
-\---
+**Durum: BAŞLANMADI**
 
-# FAZ 5 — Response Validator
+### FAZ 15 — Fine-Tuning Karar Noktası
 
-Amaç:
+**Durum: BEKLEMEDE**
 
-LLM çıktısını doğrudan öğrenciye göndermeden önce kontrol etmek.
+Fine-tuning yalnız prompt + rules + memory + RAG ile çözülemeyen ölçülmüş bir davranış problemi kalırsa yeniden değerlendirilecek.
 
-İlk kontroller:
+## Aktif sıradaki iş
 
-\- süre toplamı
-\- tekrar döngüsü
-\- aşırı uzun cevap
-\- uydurma sayılar
-\- net / puan karışıklığı
-\- öğrenci profiliyle çelişki
-\- mevcut Student Memory ile çelişki
-\- kritik varsayımlar
-\- eksik veya bozuk plan yapısı
+**FAZ 2 — Learner Memory Core: `LearnerMemorySnapshot` read model**
 
-Validator mümkün olduğunca deterministik olacaktır.
+Learner Memory Core, eksiksiz ve kontrollü `LearnerMemorySnapshot` read model tamamlanarak kapatılacaktır.
 
-Her hatada yeniden LLM çağrısı yapmak zorunlu değildir.
-
-Bazı hatalar backend tarafından düzeltilebilir.
-
-Çıkış kriteri:
-
-Daha önce fine-tuning deneylerinde görülen temel hataların büyük bölümü otomatik yakalanabilmeli.
-
-\---
-
-# FAZ 6 — İlk RAG Altyapısı
-
-Amaç:
-
-Bilgi ile öğrenci hafızasını birbirinden ayırmak.
-
-RAG'in görevi:
-
-```text
-"Bu öğrenci kim?"
-```
-
-sorusunu cevaplamak değildir.
-
-Bu Student Memory'nin görevidir.
-
-RAG şu tür sorular için kullanılacaktır:
-
-```text
-YKS sistemi nedir?
-TYT / AYT yapısı nedir?
-Bir konunun ön koşulları nelerdir?
-Deneme analizi nasıl yapılır?
-Bir çalışma yöntemi hangi durumda kullanılmalıdır?
-```
-
-İlk RAG kapsamı küçük tutulacaktır.
-
-Çıkış kriteri:
-
-EduCoach gerektiğinde ilgili bilgi parçasını bulup LLM bağlamına ekleyebilmeli.
-
-\---
-
-# FAZ 7 — Knowledge Base v0.1
-
-İlk bilgi tabanı kontrollü ve küçük olacaktır.
-
-Önerilen ilk alanlar:
-
-```text
-YKS temel yapısı
-TYT / AYT ayrımı
-eşit ağırlık / sayısal / sözel
-ders ve konu hiyerarşileri
-çalışma planlama prensipleri
-deneme analizi
-yanlış analizi
-tekrar yöntemleri
-zaman yönetimi
-```
-
-Kaynak bilgileri daha sonra eklenebilir.
-
-Knowledge Base oluşturulurken:
-
-\- kaynak kaydı tutulmalı,
-\- belge sürümü tutulmalı,
-\- mümkün olduğunca küçük parçalara bölünmeli,
-\- metadata kullanılmalı.
-
-Çıkış kriteri:
-
-İlk gerçek RAG sorguları doğru parçaları getirmeli.
-
-\---
-
-# FAZ 8 — Orchestrator
-
-Amaç:
-
-Bütün bileşenleri tek akışta birleştirmek.
-
-Örnek akış:
-
-```text
-1\. Kullanıcı mesajını al
-2\. Öğrenci profilini yükle
-3\. Mesajdan yeni gerçekleri çıkar
-4\. Student Memory'yi güncelle
-5\. İstek türünü belirle
-6\. Gerekirse RAG çağır
-7\. Backend kurallarını hazırla
-8\. LLM context oluştur
-9\. LLM cevabını üret
-10\. Response Validator çalıştır
-11\. Gerekirse düzelt
-12\. Son cevabı kullanıcıya gönder
-13\. Gerekli sonucu hafızaya kaydet
-```
-
-Çıkış kriteri:
-
-Gerçek bir öğrenci konuşması uçtan uca çalışabilmeli.
-
-\---
-
-# FAZ 9 — Regression Evaluation
-
-Mevcut:
-
-```text
-evaluations/holdout/benchmark\_v0.2.jsonl
-```
-
-artık final unseen benchmark değildir.
-
-Yeni rolü:
-
-```text
-regression / diagnostic set
-```
-
-Bu set:
-
-\- geçmiş hataların geri gelip gelmediğini,
-\- loop davranışını,
-\- öğrenci bilgisinin kullanımını,
-\- net / puan hatalarını
-
-kontrol etmek için kullanılacaktır.
-
-Çıkış kriteri:
-
-Yeni mimaride geçmişte bulunan hatalar sistematik olarak tekrar test edilebilmeli.
-
-\---
-
-# FAZ 10 — Development Evaluation Set
-
-Yeni bir development benchmark hazırlanacaktır.
-
-Bu set:
-
-\- mimari geliştirme,
-\- prompt değiştirme,
-\- RAG ayarlama,
-\- validator geliştirme
-
-sırasında kullanılabilir.
-
-Development set, final değerlendirme için kullanılmayacaktır.
-
-\---
-
-# FAZ 11 — Gerçek Öğrenci Senaryoları
-
-Sistem şu senaryolarda test edilecektir:
-
-\- ilk kez gelen öğrenci
-\- sabırsız öğrenci
-\- eksik bilgi veren öğrenci
-\- geçmiş denemeleri olan öğrenci
-\- çalışma süresi değişen öğrenci
-\- hedef değiştiren öğrenci
-\- programını uygulamayan öğrenci
-\- düzenli ilerleyen öğrenci
-\- sınava kısa süre kalan öğrenci
-\- bir derste ciddi düşüş yaşayan öğrenci
-
-Amaç tek cevap kalitesi değil, zaman içinde koçluk kalitesidir.
-
-\---
-
-# FAZ 12 — Final Unseen Evaluation
-
-Bu aşama ancak:
-
-\- mimari büyük ölçüde dondurulduğunda,
-\- development kararları tamamlandığında,
-\- regression testleri geçtiğinde
-
-başlatılacaktır.
-
-Final benchmark:
-
-\- Gold Dataset'ten türetilmeyecek,
-\- development benchmark ile örtüşmeyecek,
-\- geliştirme sırasında sonuçları incelenmeyecek.
-
-Amaç gerçek genelleme performansını ölçmektir.
-
-\---
-
-# FAZ 13 — Fine-Tuning Karar Noktası
-
-Fine-tuning ancak sistem çalışır hale geldikten sonra yeniden değerlendirilecektir.
-
-Sorulacak soru:
-
-```text
-Mevcut sistemde kalan hangi problem,
-prompt + rules + memory + RAG ile çözülemiyor?
-```
-
-Eğer net bir davranış problemi kalırsa fine-tuning yeniden düşünülebilir.
-
-Yeni fine-tuning yapılacaksa:
-
-\- mevcut 120 örnek doğrudan yeterli kabul edilmeyecek,
-\- near-duplicate analizi yapılacak,
-\- daha çeşitli gerçek öğrenci konuşmaları kullanılacak,
-\- development ve final setler eğitimden ayrı tutulacak,
-\- küçük kontrollü deneylerle ilerlenilecek.
-
-Fine-tuning ürün mimarisinin zorunlu parçası olmayacaktır.
-
-\---
-
-# Geliştirme İlkesi
-
-Her faz için:
-
-```text
-Gerçek mevcut durumu incele
-→ küçük değişiklik yap
-→ test et
-→ kanıt topla
-→ commit et
-→ sonraki faza geç
-```
-
-Büyük değişiklikler tek seferde yapılmayacaktır.
-
-Basit işlemler terminal üzerinden yürütülecektir.
-
-Büyük repository incelemeleri veya çok dosyalı refactor gerektiğinde Codex ya da Cursor kullanılabilir.
-
-\---
-
-# Şu Anki Aktif İş
-
-```text
-FAZ 0 — Mimariyi Kilitle
-```
-
-Bir sonraki kararlar:
-
-1\. `app/` modül yapısı
-2\. Student Memory veri modeli
-3\. ilk veritabanı tercihi
-4\. LLM provider sözleşmesi
-5\. Backend Rules sınırı
-6\. Response Validator sınırı
-7\. RAG v0.1 kapsamı
-
-Bu kararlar verilmeden büyük kodlama başlamayacaktır.
+Sonraki faz: **FAZ 4 — Specialty Profiles Runtime**.
