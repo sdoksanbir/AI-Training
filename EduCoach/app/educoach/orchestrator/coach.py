@@ -7,6 +7,11 @@ from educoach.services import LearnerMemoryService
 from educoach.specialties import SpecialtyProfileRegistry
 from educoach.validators import validate_response, validate_user_message
 
+from .context_resolution import (
+    ActiveContextResolutionStatus,
+    resolve_active_context,
+)
+
 
 @dataclass(frozen=True)
 class CoachResult:
@@ -30,16 +35,32 @@ class CoachOrchestrator:
     def health(self) -> bool:
         return self.provider.health()
 
-    def respond(self, learner_id: UUID, message: str) -> CoachResult:
+    def respond(
+        self,
+        learner_id: UUID,
+        message: str,
+        *,
+        context_id: UUID | None = None,
+    ) -> CoachResult:
         message = validate_user_message(message)
         snapshot = self.memory.get_learner_memory_snapshot(learner_id)
+        active_context = resolve_active_context(
+            snapshot,
+            self.specialty_registry,
+            requested_context_id=context_id,
+        )
+        if (
+            context_id is not None
+            and active_context.status == ActiveContextResolutionStatus.UNAVAILABLE
+        ):
+            raise ValueError("requested context does not belong to the learner snapshot")
         knowledge = ""
         if self.retriever is not None:
-            contexts = snapshot.contexts
-            filters = None
-            if contexts:
-                programs = {context.program_code for context in contexts}
-                filters = {"program": programs | {"global"}}
+            programs = {"global"}
+            if active_context.status == ActiveContextResolutionStatus.RESOLVED:
+                assert active_context.context is not None
+                programs.add(active_context.context.program_code)
+            filters = {"program": programs}
             chunks = self.retriever.search(message, filters=filters)
             knowledge = "\n".join(
                 f"[{chunk.title} | {chunk.source}] {chunk.text}" for chunk in chunks

@@ -98,11 +98,11 @@ Doğrulama baseline'ı: Knowledge Base testleri 20/20, full pytest 463 başarıl
 
 **Durum: KISMİ**
 
-Mevcut: user validation → memory load → RAG → LLM call → response validation. FAZ 9.1 kapsamında `StudyPlanWriteProposal`, `VALID/REJECTED/INCONCLUSIVE` validation report'u, deterministic ownership/context/goal ve günlük budget kontrolleri ile yalnız `VALID` proposal'ları mevcut `LearnerMemoryService.save_study_plan()` transaction sınırına ileten validated write-back gateway'i tamamlandı.
+Mevcut: user validation → memory load → RAG → LLM call → response validation. FAZ 9.1 kapsamında `StudyPlanWriteProposal`, `VALID/REJECTED/INCONCLUSIVE` validation report'u, deterministic ownership/context/goal ve günlük budget kontrolleri ile yalnız `VALID` proposal'ları mevcut `LearnerMemoryService.save_study_plan()` transaction sınırına ileten validated write-back gateway'i tamamlandı. FAZ 9.2 kapsamında typed active context resolution, authoritative specialty resolution, keyword-only explicit context seçimi ve ambiguous durumda global-only RAG scope'u tamamlandı.
 
-Eksikler: intent, active specialty resolution, RAG gating, LLM structured proposal generation, validator action orchestration, controlled regeneration ve diğer memory write-back türleri.
+Eksikler: intent/context selection, tam RAG gating, LLM structured proposal generation, validator action orchestration, controlled regeneration ve diğer memory write-back türleri.
 
-Doğrulama baseline'ı: 484 test başarılı, core regression 3/3 PASS.
+Doğrulama baseline'ı: 501 test başarılı, core regression 3/3 PASS.
 
 ### FAZ 10 — Regression Evaluation
 
@@ -138,4 +138,4 @@ Fine-tuning yalnız prompt + rules + memory + RAG ile çözülemeyen ölçülmü
 
 **FAZ 9 — Orchestrator v1**
 
-StudyPlan validated write-back boundary tamamlandı. Mevcut akış üzerinde intent, active specialty, RAG gating, LLM structured proposal generation ve validator action orchestration geliştirilecektir.
+StudyPlan validated write-back boundary ile Active Context & Specialty Resolution v0.1 tamamlandı. Mevcut akış üzerinde intent/context selection, tam RAG gating, LLM structured proposal generation ve validator action orchestration geliştirilecektir.
