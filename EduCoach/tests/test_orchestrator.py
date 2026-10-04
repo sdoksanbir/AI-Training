@@ -7,6 +7,7 @@ from educoach.models import ContextType, Learner, LearningContext
 from educoach.orchestrator import CoachOrchestrator
 from educoach.persistence import create_schema, create_session_factory, create_sqlite_engine
 from educoach.services import LearnerMemoryService
+from educoach.specialties import SpecialtyProfile, SpecialtyProfileRegistry
 from educoach.rag import InMemoryRetriever, KnowledgeChunk
 import pytest
 
@@ -187,6 +188,39 @@ def test_orchestrator_validates_response_against_memory_snapshot() -> None:
             memory,
             FakeLLMProvider(responder=lambda _: "Sen 10. sınıftasın."),
         ).respond(learner.learner_id, "Sınıf düzeyimi değerlendir")
+
+    engine.dispose()
+
+
+def test_orchestrator_passes_specialty_registry_to_validator() -> None:
+    engine = create_sqlite_engine("sqlite+pysqlite:///:memory:")
+    create_schema(engine)
+    factory = create_session_factory(engine)
+    learner = Learner()
+    context = LearningContext(
+        learner_id=learner.learner_id,
+        context_type=ContextType.SCHOOL,
+        program_code="school_7",
+        grade_level=7,
+    )
+    memory = LearnerMemoryService(factory)
+    memory.register_learner(learner, [context])
+    registry = SpecialtyProfileRegistry()
+    registry.register(
+        SpecialtyProfile(
+            profile_code="school_7",
+            profile_family=ContextType.SCHOOL,
+            display_name="7. Sınıf",
+            profile_version=1,
+        )
+    )
+
+    with pytest.raises(ValueError, match="CORE_CONTEXT_MISMATCH"):
+        CoachOrchestrator(
+            memory,
+            FakeLLMProvider(responder=lambda _: "YKS'ye hazırlanıyorsun."),
+            specialty_registry=registry,
+        ).respond(learner.learner_id, "Bağlamımı değerlendir")
 
     engine.dispose()
 

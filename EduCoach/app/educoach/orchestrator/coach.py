@@ -4,6 +4,7 @@ from uuid import UUID
 from educoach.llm import LLMProvider, LLMRequest
 from educoach.rag import Retriever
 from educoach.services import LearnerMemoryService
+from educoach.specialties import SpecialtyProfileRegistry
 from educoach.validators import validate_response, validate_user_message
 
 
@@ -14,10 +15,17 @@ class CoachResult:
 
 
 class CoachOrchestrator:
-    def __init__(self, memory: LearnerMemoryService, provider: LLMProvider, retriever: Retriever | None = None) -> None:
+    def __init__(
+        self,
+        memory: LearnerMemoryService,
+        provider: LLMProvider,
+        retriever: Retriever | None = None,
+        specialty_registry: SpecialtyProfileRegistry | None = None,
+    ) -> None:
         self.memory = memory
         self.provider = provider
         self.retriever = retriever
+        self.specialty_registry = specialty_registry
 
     def health(self) -> bool:
         return self.provider.health()
@@ -45,6 +53,10 @@ class CoachOrchestrator:
         )
         response = self.provider.generate(request)
         return CoachResult(
-            validate_response(response.text, snapshot=snapshot),
+            validate_response(
+                response.text,
+                snapshot=snapshot,
+                specialty_registry=self.specialty_registry,
+            ),
             response.model,
         )

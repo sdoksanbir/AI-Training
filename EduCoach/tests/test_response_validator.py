@@ -1,4 +1,4 @@
-from dataclasses import FrozenInstanceError
+from dataclasses import FrozenInstanceError, replace
 from datetime import date
 
 import pytest
@@ -6,7 +6,10 @@ import pytest
 from educoach.models import (
     Assessment,
     AssessmentResult,
+    Availability,
+    AvailabilityType,
     ContextType,
+    DayOfWeek,
     EvidenceSource,
     EvidenceState,
     Learner,
@@ -15,6 +18,7 @@ from educoach.models import (
 )
 from educoach.rules.contracts import RuleSeverity, RuleViolation
 from educoach.services.snapshot import LearnerMemorySnapshot
+from educoach.specialties import SpecialtyProfile, SpecialtyProfileRegistry
 from educoach.validators import (
     ResponseValidationAction,
     ResponseValidationError,
@@ -27,6 +31,7 @@ def make_contextual_snapshot(
     *,
     grade_level: int = 11,
     program_code: str = "yks",
+    context_type: ContextType = ContextType.ENTRANCE_EXAM,
     evidence_code: str | None = None,
     evidence_state: EvidenceState = EvidenceState.WEAK,
     assessment_metrics: dict | None = None,
@@ -34,7 +39,7 @@ def make_contextual_snapshot(
     learner = Learner(display_name="Ali")
     context = LearningContext(
         learner_id=learner.learner_id,
-        context_type=ContextType.ENTRANCE_EXAM,
+        context_type=context_type,
         program_code=program_code,
         grade_level=grade_level,
     )
@@ -81,6 +86,38 @@ def make_contextual_snapshot(
         preferences=(),
         coaching_states=(),
     )
+
+
+def make_specialty_registry(
+    *profiles: tuple[str, ContextType],
+) -> SpecialtyProfileRegistry:
+    registry = SpecialtyProfileRegistry()
+    for code, family in profiles:
+        registry.register(
+            SpecialtyProfile(
+                profile_code=code,
+                profile_family=family,
+                display_name=code,
+                profile_version=1,
+            )
+        )
+    return registry
+
+
+def with_daily_availability(
+    snapshot: LearnerMemorySnapshot,
+    target_date: date,
+    minutes: int,
+) -> LearnerMemorySnapshot:
+    availability = Availability(
+        learner_id=snapshot.learner.learner_id,
+        day_of_week=DayOfWeek(target_date.weekday()),
+        availability_type=AvailabilityType.AVAILABLE,
+        available_minutes=minutes,
+        effective_from=target_date,
+        effective_until=target_date,
+    )
+    return replace(snapshot, availability=(availability,))
 
 
 def test_normal_response_produces_pass_report() -> None:
@@ -370,3 +407,225 @@ def test_validate_response_rejects_regenerate_report_compatibly() -> None:
     assert captured.value.violations == ["CORE_MEMORY_CONTRADICTION"]
     assert captured.value.report is not None
     assert captured.value.report.action is ResponseValidationAction.REGENERATE
+
+
+def test_matching_context_specialty_claim_passes() -> None:
+    snapshot = make_contextual_snapshot(program_code="yks")
+    registry = make_specialty_registry(("yks", ContextType.ENTRANCE_EXAM))
+
+    report = evaluate_response(
+        "YKS'ye hazırlanıyorsun.",
+        snapshot=snapshot,
+        specialty_registry=registry,
+    )
+
+    assert report.action is ResponseValidationAction.PASS
+
+
+def test_school_context_rejects_explicit_yks_claim() -> None:
+    snapshot = make_contextual_snapshot(
+        grade_level=7,
+        program_code="school_7",
+        context_type=ContextType.SCHOOL,
+    )
+    registry = make_specialty_registry(("school_7", ContextType.SCHOOL))
+
+    report = evaluate_response(
+        "YKS'ye hazırlanıyorsun.",
+        snapshot=snapshot,
+        specialty_registry=registry,
+    )
+
+    assert report.action is ResponseValidationAction.REGENERATE
+    assert report.violations[0].rule_id == "CORE_CONTEXT_MISMATCH"
+
+
+def test_multi_context_facts_are_not_combined_into_one_claim() -> None:
+    snapshot = make_contextual_snapshot(
+        grade_level=7,
+        program_code="school_7",
+        context_type=ContextType.SCHOOL,
+    )
+    yks_context = LearningContext(
+        learner_id=snapshot.learner.learner_id,
+        context_type=ContextType.ENTRANCE_EXAM,
+        program_code="yks",
+        grade_level=12,
+    )
+    snapshot = replace(
+        snapshot,
+        contexts=(snapshot.contexts[0], yks_context),
+    )
+    registry = make_specialty_registry(
+        ("school_7", ContextType.SCHOOL),
+        ("yks", ContextType.ENTRANCE_EXAM),
+    )
+
+    report = evaluate_response(
+        "Sen 7. sınıf YKS öğrencisisin.",
+        snapshot=snapshot,
+        specialty_registry=registry,
+    )
+
+    assert report.action is ResponseValidationAction.REGENERATE
+    assert report.violations[0].rule_id == "CORE_CONTEXT_MISMATCH"
+
+
+def test_ambiguous_context_language_does_not_create_false_positive() -> None:
+    snapshot = make_contextual_snapshot(
+        grade_level=7,
+        program_code="school_7",
+        context_type=ContextType.SCHOOL,
+    )
+    registry = make_specialty_registry(("school_7", ContextType.SCHOOL))
+
+    report = evaluate_response(
+        "Sınav seçeneklerini birlikte değerlendirebiliriz.",
+        snapshot=snapshot,
+        specialty_registry=registry,
+    )
+
+    assert report.action is ResponseValidationAction.PASS
+
+
+def test_explicit_plan_within_resolved_availability_passes() -> None:
+    target_date = date(2026, 10, 5)
+    snapshot = with_daily_availability(
+        make_contextual_snapshot(),
+        target_date,
+        120,
+    )
+
+    report = evaluate_response(
+        "2026-10-05 için:\n- Matematik: 60 dakika\n- Fizik: 45 dakika",
+        snapshot=snapshot,
+    )
+
+    assert report.action is ResponseValidationAction.PASS
+
+
+def test_explicit_plan_over_resolved_availability_regenerates() -> None:
+    target_date = date(2026, 10, 5)
+    snapshot = with_daily_availability(
+        make_contextual_snapshot(),
+        target_date,
+        90,
+    )
+
+    report = evaluate_response(
+        "2026-10-05 için:\n- Matematik: 60 dakika\n- Fizik: 45 dakika",
+        snapshot=snapshot,
+    )
+
+    assert report.action is ResponseValidationAction.REGENERATE
+    assert report.violations[0].rule_id == "PLAN_AVAILABLE_TIME_LIMIT"
+
+
+def test_unknown_availability_does_not_create_plan_violation() -> None:
+    report = evaluate_response(
+        "2026-10-05 için:\n- Matematik: 60 dakika\n- Fizik: 45 dakika",
+        snapshot=make_contextual_snapshot(),
+    )
+
+    assert report.action is ResponseValidationAction.PASS
+    assert report.violations == ()
+
+
+def test_recommendation_numbers_are_not_structured_plan_blocks() -> None:
+    target_date = date(2026, 10, 5)
+    snapshot = with_daily_availability(
+        make_contextual_snapshot(),
+        target_date,
+        30,
+    )
+
+    report = evaluate_response(
+        "2026-10-05 tarihinde 40 dakika çalışıp 20 soru çözebilirsin.",
+        snapshot=snapshot,
+    )
+
+    assert report.action is ResponseValidationAction.PASS
+
+
+def test_ambiguous_plan_date_is_not_inferred() -> None:
+    target_date = date(2026, 10, 5)
+    snapshot = with_daily_availability(
+        make_contextual_snapshot(),
+        target_date,
+        30,
+    )
+
+    report = evaluate_response(
+        "Yarın için:\n- Matematik: 60 dakika\n- Fizik: 45 dakika",
+        snapshot=snapshot,
+    )
+
+    assert report.action is ResponseValidationAction.PASS
+
+
+def test_clear_repetition_loop_regenerates() -> None:
+    report = evaluate_response(
+        "Yanlışlarını analiz et. Yanlışlarını analiz et. "
+        "Yanlışlarını analiz et."
+    )
+
+    assert report.action is ResponseValidationAction.REGENERATE
+    assert report.violations[0].rule_id == "OUTPUT_REPETITION_LOOP"
+
+
+def test_normal_pedagogical_repetition_passes() -> None:
+    report = evaluate_response(
+        "Matematikte kısa tekrar yap. Ardından yanlışlarını incele. "
+        "Haftanın sonunda bir tekrar daha yap."
+    )
+
+    assert report.action is ResponseValidationAction.PASS
+
+
+@pytest.mark.parametrize(
+    "text",
+    [
+        "Kesin kazanırsın.",
+        "Mutlaka 20 net artırırsın.",
+        "Bu programla kesin başarırsın.",
+    ],
+)
+def test_unsupported_guarantee_regenerates(text: str) -> None:
+    report = evaluate_response(text)
+
+    assert report.action is ResponseValidationAction.REGENERATE
+    assert report.violations[0].rule_id == "OUTPUT_UNSUPPORTED_GUARANTEE"
+
+
+@pytest.mark.parametrize(
+    "text",
+    [
+        "Başarı ihtimalini artırabilir.",
+        "Düzenli çalışırsan ilerleme sağlayabilirsin.",
+    ],
+)
+def test_conditional_encouragement_passes(text: str) -> None:
+    assert evaluate_response(text).action is ResponseValidationAction.PASS
+
+
+def test_block_has_precedence_over_regenerate() -> None:
+    report = evaluate_response("Kesin kazanırsın. https://example.com")
+
+    assert report.action is ResponseValidationAction.BLOCK
+    assert [violation.rule_id for violation in report.violations] == [
+        "external_link_not_verified",
+        "OUTPUT_UNSUPPORTED_GUARANTEE",
+    ]
+
+
+def test_output_violation_order_is_deterministic() -> None:
+    report = evaluate_response(
+        "Aynı cümleyi tekrarla. Aynı cümleyi tekrarla. "
+        "Aynı cümleyi tekrarla. Kesin başarırsın."
+    )
+
+    assert report.action is ResponseValidationAction.REGENERATE
+    assert [violation.rule_id for violation in report.violations] == [
+        "OUTPUT_REPETITION_LOOP",
+        "OUTPUT_UNSUPPORTED_GUARANTEE",
+    ]
