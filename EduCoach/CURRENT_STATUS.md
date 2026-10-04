@@ -1,6 +1,6 @@
 # EduCoach — Current Status
 
-**Son güncelleme:** 3 Ekim 2026
+**Son güncelleme:** 4 Ekim 2026
 
 ## Ürün ve kapsam
 
@@ -31,8 +31,9 @@ LLM doğal dil ve muhakeme sağlar. Kesin kurallar, learner gerçekleri, ortak e
 - Specialty Profiles: versioned registry, context/family doğrulama, JSON loader ve dört builtin package resource.
 - LLM: ortak provider sözleşmesi, fake provider, Ollama provider, health/model kontrolü.
 - RAG: JSONL/katalog yükleme, in-memory retrieval, metadata filtreleri ve Türkçe token normalizasyonu.
-- Rules/Validator: boş ve aşırı uzun cevap ile doğrulanmamış dış link kontrolü.
-- Orchestrator: user validation, memory load, context filtreli RAG, LLM çağrısı ve response validation.
+- Backend Rules: immutable rule contract'ları; learner, context, assessment ve plan fact projection'ları; availability çözümleme; günlük plan yükü ve `PLAN_AVAILABLE_TIME_LIMIT` evaluator'ı.
+- Response Validator: typed report/action contract'ı; legacy BLOCK kontrolleri; memory, personalization, assessment, context/specialty, plan-budget, repetition ve guarantee validation; deterministik action precedence.
+- Orchestrator: user validation, memory load, context filtreli RAG, LLM çağrısı, snapshot aktarımı, opsiyonel specialty registry ve response validation.
 - CLI ve deterministik core regression komutu.
 
 ## Faz özeti
@@ -41,8 +42,9 @@ LLM doğal dil ve muhakeme sağlar. Kesin kurallar, learner gerçekleri, ortak e
 - Faz 2: **TAMAMLANDI**
 - Faz 3: **TAMAMLANDI**
 - Faz 4: **TAMAMLANDI**
-- Faz 5: **BAŞLANGIÇ SEVİYESİNDE**
-- Faz 6 ve 9: **KISMİ**
+- Faz 5: **TAMAMLANDI**
+- Faz 6: **TAMAMLANDI**
+- Faz 9: **KISMİ**
 - Faz 7: **TEMEL SÜRÜM ÇALIŞIYOR**
 - Faz 8 ve 10: **BAŞLANGIÇ**
 - Faz 11, 12 ve 14: **BAŞLANMADI**
@@ -62,8 +64,7 @@ Yeni fine-tuning çalışması dondurulmuştur. Fine-tuning ancak çalışan ür
 
 ## Bilinen ana eksikler
 
-- Deterministik backend rule engine
-- Gelişmiş response validator ve action flow
+- Regeneration retry ve action orchestration akışı
 - RAG gating ve retrieval evaluation
 - Kaynaklı gerçek knowledge base
 - Geniş regression ve ayrı development evaluation seti
@@ -71,4 +72,9 @@ Yeni fine-tuning çalışması dondurulmuştur. Fine-tuning ancak çalışan ür
 
 ## Aktif sıradaki iş
 
-FAZ 5 kapsamında availability/time budget, plan süre doğrulama ve profile/context kuralları için deterministik Backend Rules v0.1 geliştirmek.
+FAZ 7 kapsamında retrieval evaluation ve daha güçlü retrieval/index stratejisi geliştirmek.
+
+## Doğrulama baseline'ı
+
+- Full pytest: **416 passed**
+- Core regression: **3/3 PASS**

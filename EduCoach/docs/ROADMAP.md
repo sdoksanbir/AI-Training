@@ -1,6 +1,6 @@
 # EduCoach — Product & Architecture Roadmap
 
-**Güncelleme:** 3 Ekim 2026
+**Güncelleme:** 4 Ekim 2026
 
 ## Ürün kapsamı
 
@@ -54,17 +54,23 @@ Domain modelleri, SQLite persistence, repositories, ownership bütünlüğü, tr
 
 ### FAZ 5 — Backend Rules v0.1
 
-**Durum: BAŞLANGIÇ SEVİYESİNDE**
+**Durum: TAMAMLANDI**
 
-Eksikler: availability/time budget, plan süre doğrulama, unknown bilgi uydurmama, net/score/grade ayrımı, profile/context kuralları ve deterministik sayısal kısıtlar.
+Immutable rule contract'ları, learner/context/assessment/planned-actual fact projection'ları, availability çözümleme, günlük plan yükü projection'ı, `PLAN_AVAILABLE_TIME_LIMIT` evaluator'ı ve backend rule registry mevcut.
 
 ### FAZ 6 — Response Validator v0.1
 
-**Durum: KISMİ**
+**Durum: TAMAMLANDI**
 
-Mevcut: boş cevap, maksimum cevap uzunluğu ve doğrulanmamış dış link kontrolü.
+Typed `ResponseValidationReport` ile `PASS`, `AUTO_FIX`, `REGENERATE` ve `BLOCK` action contract'ı mevcut. Action precedence `BLOCK > REGENERATE > AUTO_FIX > PASS` olarak deterministiktir.
 
-Eksikler: unsupported numerical claims, memory contradiction, unsupported personalization, plan structure, kritik varsayımlar ve rule engine entegrasyonu.
+Validator; boş cevap, maksimum uzunluk ve doğrulanmamış dış link kontrollerinin yanında açık learner-memory çelişkilerini, desteklenmeyen kişiselleştirmeyi, recorded assessment numeric claim'lerini, context/specialty tutarsızlığını, multi-context fact contamination'ı, açık plan bloklarında `PLAN_AVAILABLE_TIME_LIMIT` ihlalini, repetition loop'larını ve desteklenmeyen sonuç garantilerini denetler. `validate_response` ve `ResponseValidationError` backward-compatible kalmıştır; orchestrator snapshot ve opsiyonel `SpecialtyProfileRegistry` aktarır.
+
+Assessment metrikleri `correct`, `incorrect`, `blank`, `net`, `score`, `percentage`, `grade` ve `duration_minutes` olarak ayrı doğrulanır; aralarında dönüşüm yapılmaz.
+
+v0.1 semantic parser'ı bilinçli olarak dar ve deterministik Türkçe kalıplarla sınırlıdır. Assessment claim'leri belirli sınav/tarih disambiguation yapmaz; tanımlanmamış specialty alias'ları tahmin edilmez. Plan validation yalnız açık ISO tarihli, satır bazlı bloklarda ve gerekli bilgiler kesin çözülebildiğinde çalışır. UNKNOWN/AMBIGUOUS availability ihlal veya başarı kanıtı sayılmaz. `REGENERATE` retry döngüsü FAZ 9 kapsamındadır.
+
+Doğrulama baseline'ı: 416 test başarılı, core regression 3/3 PASS.
 
 ### FAZ 7 — RAG v0.1
 
@@ -122,6 +128,6 @@ Fine-tuning yalnız prompt + rules + memory + RAG ile çözülemeyen ölçülmü
 
 ## Aktif sıradaki iş
 
-**FAZ 5 — Backend Rules v0.1**
+**FAZ 7 — RAG v0.1**
 
-Availability/time budget, plan süre doğrulama, bilinmeyen bilgi üretmeme ve profile/context kuralları için deterministik backend kontrolleri geliştirilecektir.
+Mevcut temel sürüm üzerinde retrieval evaluation ve daha güçlü retrieval/index stratejisi geliştirilecektir.
