@@ -5,7 +5,12 @@ from uuid import UUID, uuid4
 import pytest
 
 from educoach.llm import FakeLLMProvider
-from educoach.models import ContextType, Learner, LearningContext
+from educoach.models import (
+    ContextStatus,
+    ContextType,
+    Learner,
+    LearningContext,
+)
 from educoach.orchestrator import (
     ActiveContextResolutionStatus,
     CoachOrchestrator,
@@ -27,11 +32,13 @@ def make_context(
     family: ContextType,
     *,
     context_id: UUID | None = None,
+    status: ContextStatus = ContextStatus.ACTIVE,
 ) -> LearningContext:
     values = {
         "learner_id": learner.learner_id,
         "context_type": family,
         "program_code": code,
+        "status": status,
     }
     if context_id is not None:
         values["context_id"] = context_id
@@ -101,6 +108,76 @@ def test_single_context_resolves_context_and_authoritative_specialty() -> None:
     assert result.specialty == profile
 
 
+@pytest.mark.parametrize(
+    "status",
+    [ContextStatus.INACTIVE, ContextStatus.COMPLETED],
+)
+def test_single_non_active_context_is_unavailable(
+    status: ContextStatus,
+) -> None:
+    learner = Learner()
+    context = make_context(
+        learner,
+        "yks",
+        ContextType.ENTRANCE_EXAM,
+        status=status,
+    )
+    registry = Mock(spec=SpecialtyProfileRegistry)
+
+    result = resolve_active_context(make_snapshot(learner, (context,)), registry)
+
+    assert result.status == ActiveContextResolutionStatus.UNAVAILABLE
+    assert result.context is None
+    assert result.specialty is None
+    registry.resolve_context.assert_not_called()
+
+
+@pytest.mark.parametrize(
+    "other_status",
+    [ContextStatus.INACTIVE, ContextStatus.COMPLETED],
+)
+def test_non_active_context_does_not_make_single_active_context_ambiguous(
+    other_status: ContextStatus,
+) -> None:
+    learner = Learner()
+    active = make_context(learner, "yks", ContextType.ENTRANCE_EXAM)
+    historical = make_context(
+        learner,
+        "school_11",
+        ContextType.SCHOOL,
+        status=other_status,
+    )
+    registry = SpecialtyProfileRegistry()
+    profile = register_profile(registry, "yks", ContextType.ENTRANCE_EXAM)
+
+    result = resolve_active_context(
+        make_snapshot(learner, (historical, active)), registry
+    )
+
+    assert result.status == ActiveContextResolutionStatus.RESOLVED
+    assert result.context == active
+    assert result.specialty == profile
+
+
+def test_two_active_contexts_remain_ambiguous_with_inactive_history() -> None:
+    learner = Learner()
+    first = make_context(learner, "school_11", ContextType.SCHOOL)
+    second = make_context(learner, "yks", ContextType.ENTRANCE_EXAM)
+    inactive = make_context(
+        learner,
+        "general_english",
+        ContextType.LANGUAGE_LEARNING,
+        status=ContextStatus.INACTIVE,
+    )
+
+    result = resolve_active_context(
+        make_snapshot(learner, (inactive, second, first)),
+        SpecialtyProfileRegistry(),
+    )
+
+    assert result.status == ActiveContextResolutionStatus.AMBIGUOUS
+
+
 def test_multiple_contexts_without_request_are_ambiguous_in_any_order() -> None:
     learner = Learner()
     school = make_context(
@@ -159,6 +236,76 @@ def test_missing_explicit_context_never_falls_back() -> None:
     assert result.status == ActiveContextResolutionStatus.UNAVAILABLE
     assert result.context is None
     assert result.specialty is None
+
+
+@pytest.mark.parametrize(
+    "status",
+    [ContextStatus.INACTIVE, ContextStatus.COMPLETED],
+)
+def test_explicit_non_active_context_is_unavailable_without_fallback(
+    status: ContextStatus,
+) -> None:
+    learner = Learner()
+    active = make_context(learner, "yks", ContextType.ENTRANCE_EXAM)
+    requested = make_context(
+        learner,
+        "school_11",
+        ContextType.SCHOOL,
+        status=status,
+    )
+    registry = Mock(spec=SpecialtyProfileRegistry)
+
+    result = resolve_active_context(
+        make_snapshot(learner, (active, requested)),
+        registry,
+        requested_context_id=requested.context_id,
+    )
+
+    assert result.status == ActiveContextResolutionStatus.UNAVAILABLE
+    assert result.context is None
+    assert result.specialty is None
+    registry.resolve_context.assert_not_called()
+
+
+def test_inactive_foreign_context_still_fails_ownership_validation() -> None:
+    learner = Learner()
+    foreign = make_context(
+        Learner(),
+        "yks",
+        ContextType.ENTRANCE_EXAM,
+        status=ContextStatus.INACTIVE,
+    )
+
+    with pytest.raises(ValueError, match="snapshot learner"):
+        resolve_active_context(
+            make_snapshot(learner, (foreign,)),
+            SpecialtyProfileRegistry(),
+        )
+
+
+def test_completed_duplicate_context_id_still_fails_integrity_validation() -> None:
+    learner = Learner()
+    context_id = uuid4()
+    first = make_context(
+        learner,
+        "school_11",
+        ContextType.SCHOOL,
+        context_id=context_id,
+        status=ContextStatus.COMPLETED,
+    )
+    second = make_context(
+        learner,
+        "yks",
+        ContextType.ENTRANCE_EXAM,
+        context_id=context_id,
+        status=ContextStatus.COMPLETED,
+    )
+
+    with pytest.raises(ValueError, match="duplicate context_id"):
+        resolve_active_context(
+            make_snapshot(learner, (first, second)),
+            SpecialtyProfileRegistry(),
+        )
 
 
 def test_foreign_learner_context_is_rejected() -> None:
@@ -283,6 +430,45 @@ def test_single_context_orchestrator_uses_active_program_and_global_only() -> No
     assert retriever.filters == [{"program": {"yks", "global"}}]
 
 
+def test_orchestrator_ignores_inactive_context_when_one_context_is_active() -> None:
+    learner = Learner()
+    active = make_context(learner, "yks", ContextType.ENTRANCE_EXAM)
+    inactive = make_context(
+        learner,
+        "school_11",
+        ContextType.SCHOOL,
+        status=ContextStatus.INACTIVE,
+    )
+
+    retriever, _ = run_orchestrator(
+        make_snapshot(learner, (inactive, active))
+    )
+
+    assert retriever.filters == [{"program": {"yks", "global"}}]
+
+
+def test_orchestrator_uses_global_only_when_no_context_is_active() -> None:
+    learner = Learner()
+    inactive = make_context(
+        learner,
+        "school_11",
+        ContextType.SCHOOL,
+        status=ContextStatus.INACTIVE,
+    )
+    completed = make_context(
+        learner,
+        "yks",
+        ContextType.ENTRANCE_EXAM,
+        status=ContextStatus.COMPLETED,
+    )
+
+    retriever, _ = run_orchestrator(
+        make_snapshot(learner, (inactive, completed))
+    )
+
+    assert retriever.filters == [{"program": {"global"}}]
+
+
 def test_ambiguous_orchestrator_uses_global_only() -> None:
     learner = Learner()
     school = make_context(learner, "school_11", ContextType.SCHOOL)
@@ -326,6 +512,37 @@ def test_missing_explicit_context_stops_before_rag_and_llm() -> None:
             learner.learner_id,
             "Çalışma önerisi",
             context_id=uuid4(),
+        )
+
+    assert retriever.filters == []
+    assert provider.requests == []
+
+
+@pytest.mark.parametrize(
+    "status",
+    [ContextStatus.INACTIVE, ContextStatus.COMPLETED],
+)
+def test_explicit_non_active_context_stops_before_rag_and_llm(
+    status: ContextStatus,
+) -> None:
+    learner = Learner()
+    context = make_context(
+        learner,
+        "yks",
+        ContextType.ENTRANCE_EXAM,
+        status=status,
+    )
+    snapshot = make_snapshot(learner, (context,))
+    memory = Mock(spec=LearnerMemoryService)
+    memory.get_learner_memory_snapshot.return_value = snapshot
+    retriever = RecordingRetriever()
+    provider = FakeLLMProvider()
+
+    with pytest.raises(ValueError, match="requested context"):
+        CoachOrchestrator(memory, provider, retriever).respond(
+            learner.learner_id,
+            "Çalışma önerisi",
+            context_id=context.context_id,
         )
 
     assert retriever.filters == []

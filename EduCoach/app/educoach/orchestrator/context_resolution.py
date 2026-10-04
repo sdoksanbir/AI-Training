@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from enum import StrEnum
 from uuid import UUID
 
-from educoach.models import LearningContext
+from educoach.models import ContextStatus, LearningContext
 from educoach.services.snapshot import LearnerMemorySnapshot
 from educoach.specialties import SpecialtyProfile, SpecialtyProfileRegistry
 
@@ -38,24 +38,30 @@ def resolve_active_context(
             raise ValueError("context must belong to the snapshot learner")
         contexts_by_id[context.context_id] = context
 
+    active_contexts = {
+        context_id: context
+        for context_id, context in contexts_by_id.items()
+        if context.status == ContextStatus.ACTIVE
+    }
+
     if requested_context_id is not None:
-        context = contexts_by_id.get(requested_context_id)
+        context = active_contexts.get(requested_context_id)
         if context is None:
             return ActiveContextResolution(
                 status=ActiveContextResolutionStatus.UNAVAILABLE
             )
         return _resolved(context, registry)
 
-    if not contexts_by_id:
+    if not active_contexts:
         return ActiveContextResolution(
             status=ActiveContextResolutionStatus.UNAVAILABLE
         )
-    if len(contexts_by_id) > 1:
+    if len(active_contexts) > 1:
         return ActiveContextResolution(
             status=ActiveContextResolutionStatus.AMBIGUOUS
         )
 
-    context = next(iter(contexts_by_id.values()))
+    context = next(iter(active_contexts.values()))
     return _resolved(context, registry)
 
 
