@@ -10,12 +10,14 @@ from .intent import (
     IntentType,
     resolve_intents,
 )
+from .intent_detection import detect_intents
 
 __all__ = [
     "ActiveContextResolution",
     "ActiveContextResolutionStatus",
     "CoachOrchestrator",
     "CoachResult",
+    "detect_intents",
     "IntentResolution",
     "IntentResolutionStatus",
     "IntentType",
