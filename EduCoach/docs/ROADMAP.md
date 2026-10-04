@@ -98,11 +98,11 @@ Doğrulama baseline'ı: Knowledge Base testleri 20/20, full pytest 463 başarıl
 
 **Durum: KISMİ**
 
-Mevcut: user validation → memory load → RAG → LLM call → response validation. FAZ 9.1 kapsamında `StudyPlanWriteProposal`, `VALID/REJECTED/INCONCLUSIVE` validation report'u, deterministic ownership/context/goal ve günlük budget kontrolleri ile yalnız `VALID` proposal'ları mevcut `LearnerMemoryService.save_study_plan()` transaction sınırına ileten validated write-back gateway'i tamamlandı. FAZ 9.2 kapsamında typed active context resolution, authoritative specialty resolution, keyword-only explicit context seçimi ve ambiguous durumda global-only RAG scope'u tamamlandı. FAZ 9.3a kapsamında dokümante edilmiş 11 intent için immutable, deterministik ve multi-intent destekli typed contract tamamlandı. FAZ 9.3b kapsamında planning, assessment analysis, study advice, goal setting, motivation support, knowledge question ve general conversation için conservative deterministic detector tamamlandı.
+Mevcut: user validation → memory load → RAG → LLM call → response validation. FAZ 9.1 kapsamında `StudyPlanWriteProposal`, `VALID/REJECTED/INCONCLUSIVE` validation report'u, deterministic ownership/context/goal ve günlük budget kontrolleri ile yalnız `VALID` proposal'ları mevcut `LearnerMemoryService.save_study_plan()` transaction sınırına ileten validated write-back gateway'i tamamlandı. FAZ 9.2 kapsamında typed active context resolution, authoritative specialty resolution, keyword-only explicit context seçimi ve ambiguous durumda global-only RAG scope'u tamamlandı. FAZ 9.3a kapsamında dokümante edilmiş 11 intent için immutable, deterministik ve multi-intent destekli typed contract tamamlandı. FAZ 9.3b kapsamında planning, assessment analysis, study advice, goal setting, motivation support, knowledge question ve general conversation için conservative deterministic detector tamamlandı. FAZ 9.3c kapsamında ACTIVE context-scoped goal ve planlardan final seçim yapmadan memory evidence üreten Context Selection Evidence v0.1 tamamlandı.
 
-Eksikler: intent detector runtime entegrasyonu, ayrı context selection, tam RAG gating, LLM structured proposal generation, validator action orchestration, controlled regeneration ve diğer memory write-back türleri.
+Eksikler: conservative message context routing, final context selection/runtime entegrasyonu, tam RAG gating, LLM structured proposal generation, validator action orchestration, controlled regeneration ve diğer memory write-back türleri.
 
-Doğrulama baseline'ı: 568 test başarılı, core regression 3/3 PASS.
+Doğrulama baseline'ı: 619 test başarılı, core regression 3/3 PASS.
 
 ### FAZ 10 — Regression Evaluation
 
@@ -138,4 +138,4 @@ Fine-tuning yalnız prompt + rules + memory + RAG ile çözülemeyen ölçülmü
 
 **FAZ 9 — Orchestrator v1**
 
-StudyPlan validated write-back boundary, Active Context & Specialty Resolution v0.1, Typed Multi-Intent Contract ve Conservative Intent Detection v0.1 tamamlandı. Mevcut akış üzerinde detector runtime entegrasyonu, ayrı context selection, tam RAG gating, LLM structured proposal generation ve validator action orchestration geliştirilecektir.
+StudyPlan validated write-back boundary, Active Context & Specialty Resolution v0.1, Typed Multi-Intent Contract, Conservative Intent Detection v0.1 ve Context Selection Evidence v0.1 tamamlandı. Mevcut akış üzerinde conservative message context routing, final context selection/runtime entegrasyonu, tam RAG gating, LLM structured proposal generation ve validator action orchestration geliştirilecektir.
