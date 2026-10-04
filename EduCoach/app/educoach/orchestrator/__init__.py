@@ -4,11 +4,21 @@ from .context_resolution import (
     ActiveContextResolutionStatus,
     resolve_active_context,
 )
+from .intent import (
+    IntentResolution,
+    IntentResolutionStatus,
+    IntentType,
+    resolve_intents,
+)
 
 __all__ = [
     "ActiveContextResolution",
     "ActiveContextResolutionStatus",
     "CoachOrchestrator",
     "CoachResult",
+    "IntentResolution",
+    "IntentResolutionStatus",
+    "IntentType",
     "resolve_active_context",
+    "resolve_intents",
 ]

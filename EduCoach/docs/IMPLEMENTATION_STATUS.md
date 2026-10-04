@@ -34,6 +34,7 @@ EduCoach yalnız YKS uygulaması değildir. Genel çekirdek farklı eğitim alan
 - Archived ve superseded kayıtları history'de koruyup normal retrieval'dan çıkaran active production catalog loader'ı.
 - StudyPlan için immutable write proposal/report contract'ı, ownership/context/goal ve günlük availability doğrulaması ile yalnız `VALID` proposal'ları mevcut transaction servisine ileten write-back gateway'i.
 - Typed active context resolution contract'ı, authoritative `SpecialtyProfileRegistry.resolve_context()` entegrasyonu, explicit context seçimi ve ambiguous durumda global-only RAG scope'u.
+- Dokümante edilmiş 11 intent'i taşıyan immutable typed multi-intent contract, açık `RESOLVED/UNRESOLVED` ayrımı ve deterministik canonical ordering.
 - Ollama provider sağlık kontrolü ve model yüklülük doğrulaması.
 - `educoach` terminal giriş komutu.
 - Deterministik core regression komutu.
@@ -42,7 +43,7 @@ EduCoach yalnız YKS uygulaması değildir. Genel çekirdek farklı eğitim alan
 
 ## Doğrulama
 
-Son test paketi: 501 test başarılı.
+Son test paketi: 528 test başarılı.
 
 Knowledge Base testleri: 20/20 PASS.
 
@@ -64,11 +65,11 @@ Ollama üzerinde `qwen3:14b` ile gerçek uçtan uca cevap üretimi doğrulandı.
 - RAG v0.1: tamamlandı.
 - Knowledge Base v0.1: tamamlandı.
 - Regression Evaluation: başlangıç seviyesinde.
-- Orchestrator v1: kısmi; StudyPlan validated write-back boundary ile Active Context & Specialty Resolution v0.1 tamamlandı.
+- Orchestrator v1: kısmi; StudyPlan validated write-back boundary, Active Context & Specialty Resolution v0.1 ve Typed Multi-Intent Contract tamamlandı.
 
 ## Sıradaki üretim işleri
 
-1. Orchestrator v1 kapsamında intent/context selection, tam RAG gating, LLM structured proposal generation ve regeneration retry/action orchestration.
+1. Orchestrator v1 kapsamında intent detection/context selection, tam RAG gating, LLM structured proposal generation ve regeneration retry/action orchestration.
 2. StudyPlan dışındaki kontrollü Learner Memory write-back türleri.
 3. Geniş regression ve ayrı development evaluation seti.
 4. Katalog ölçeği ve ölçümler gerektirdiğinde persistent index değerlendirmesi.
