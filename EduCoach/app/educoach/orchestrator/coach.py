@@ -44,4 +44,7 @@ class CoachOrchestrator:
             memory_context=repr(snapshot) + ("\nKnowledge:\n" + knowledge if knowledge else ""),
         )
         response = self.provider.generate(request)
-        return CoachResult(validate_response(response.text), response.model)
+        return CoachResult(
+            validate_response(response.text, snapshot=snapshot),
+            response.model,
+        )

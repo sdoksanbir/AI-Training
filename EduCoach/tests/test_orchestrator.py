@@ -168,6 +168,29 @@ def test_orchestrator_rejects_unverified_external_links() -> None:
     engine.dispose()
 
 
+def test_orchestrator_validates_response_against_memory_snapshot() -> None:
+    engine = create_sqlite_engine("sqlite+pysqlite:///:memory:")
+    create_schema(engine)
+    factory = create_session_factory(engine)
+    learner = Learner()
+    context = LearningContext(
+        learner_id=learner.learner_id,
+        context_type=ContextType.SCHOOL,
+        program_code="school_11",
+        grade_level=11,
+    )
+    memory = LearnerMemoryService(factory)
+    memory.register_learner(learner, [context])
+
+    with pytest.raises(ValueError, match="CORE_MEMORY_CONTRADICTION"):
+        CoachOrchestrator(
+            memory,
+            FakeLLMProvider(responder=lambda _: "Sen 10. sınıftasın."),
+        ).respond(learner.learner_id, "Sınıf düzeyimi değerlendir")
+
+    engine.dispose()
+
+
 def test_orchestrator_adds_retrieved_knowledge_context() -> None:
     engine = create_sqlite_engine("sqlite+pysqlite:///:memory:")
     create_schema(engine)
