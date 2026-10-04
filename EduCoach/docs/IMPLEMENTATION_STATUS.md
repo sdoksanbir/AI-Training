@@ -1,6 +1,6 @@
 # EduCoach Uygulama Durumu
 
-Son güncelleme: 4 Ekim 2026
+Son güncelleme: 5 Ekim 2026
 
 ## Ürün kapsamı
 
@@ -32,6 +32,7 @@ EduCoach yalnız YKS uygulaması değildir. Genel çekirdek farklı eğitim alan
 - `learning_method`, `study_planning`, `metacognition`, `exam_rule` kategorileri; `global` ve `yks` scope'ları.
 - Aktif pedagojik kaynaklardan ayrılan `archived` 2026-YKS lifecycle örneği.
 - Archived ve superseded kayıtları history'de koruyup normal retrieval'dan çıkaran active production catalog loader'ı.
+- StudyPlan için immutable write proposal/report contract'ı, ownership/context/goal ve günlük availability doğrulaması ile yalnız `VALID` proposal'ları mevcut transaction servisine ileten write-back gateway'i.
 - Ollama provider sağlık kontrolü ve model yüklülük doğrulaması.
 - `educoach` terminal giriş komutu.
 - Deterministik core regression komutu.
@@ -40,7 +41,7 @@ EduCoach yalnız YKS uygulaması değildir. Genel çekirdek farklı eğitim alan
 
 ## Doğrulama
 
-Son test paketi: 463 test başarılı.
+Son test paketi: 484 test başarılı.
 
 Knowledge Base testleri: 20/20 PASS.
 
@@ -62,13 +63,14 @@ Ollama üzerinde `qwen3:14b` ile gerçek uçtan uca cevap üretimi doğrulandı.
 - RAG v0.1: tamamlandı.
 - Knowledge Base v0.1: tamamlandı.
 - Regression Evaluation: başlangıç seviyesinde.
-- Orchestrator v1: kısmi.
+- Orchestrator v1: kısmi; StudyPlan validated write-back boundary tamamlandı.
 
 ## Sıradaki üretim işleri
 
-1. Orchestrator v1 kapsamında intent, active specialty resolution, RAG gating ve regeneration retry/action orchestration.
-2. Geniş regression ve ayrı development evaluation seti.
-3. Katalog ölçeği ve ölçümler gerektirdiğinde persistent index değerlendirmesi.
+1. Orchestrator v1 kapsamında intent, active specialty resolution, RAG gating, LLM structured proposal generation ve regeneration retry/action orchestration.
+2. StudyPlan dışındaki kontrollü Learner Memory write-back türleri.
+3. Geniş regression ve ayrı development evaluation seti.
+4. Katalog ölçeği ve ölçümler gerektirdiğinde persistent index değerlendirmesi.
 
 ## Response Validator v0.1 sınırları
 

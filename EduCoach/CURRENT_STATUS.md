@@ -1,6 +1,6 @@
 # EduCoach — Current Status
 
-**Son güncelleme:** 4 Ekim 2026
+**Son güncelleme:** 5 Ekim 2026
 
 ## Ürün ve kapsam
 
@@ -35,6 +35,7 @@ LLM doğal dil ve muhakeme sağlar. Kesin kurallar, learner gerçekleri, ortak e
 - Backend Rules: immutable rule contract'ları; learner, context, assessment ve plan fact projection'ları; availability çözümleme; günlük plan yükü ve `PLAN_AVAILABLE_TIME_LIMIT` evaluator'ı.
 - Response Validator: typed report/action contract'ı; legacy BLOCK kontrolleri; memory, personalization, assessment, context/specialty, plan-budget, repetition ve guarantee validation; deterministik action precedence.
 - Orchestrator: user validation, memory load, context filtreli RAG, LLM çağrısı, snapshot aktarımı, opsiyonel specialty registry ve response validation.
+- StudyPlan write-back: immutable proposal/report contract'ı, deterministic ownership/context/goal/budget pre-flight validation ve yalnız `VALID` proposal'ları mevcut transaction servisine ileten persistence gateway.
 - CLI ve deterministik core regression komutu.
 
 ## Faz özeti
@@ -66,18 +67,19 @@ Yeni fine-tuning çalışması dondurulmuştur. Fine-tuning ancak çalışan ür
 
 ## Bilinen ana eksikler
 
-- Regeneration retry ve action orchestration akışı
-- RAG gating ve ileride ihtiyaçla doğrulanacak persistent index
+- Intent, active specialty resolution, RAG gating ve regeneration/action orchestration akışı
+- LLM structured proposal generation ve StudyPlan dışındaki memory write-back türleri
+- İleride ihtiyaçla doğrulanacak persistent index
 - Geniş regression ve ayrı development evaluation seti
 - Gerçek learner senaryoları
 
 ## Aktif sıradaki iş
 
-FAZ 9 kapsamında intent, active specialty resolution, RAG gating ve validator action orchestration geliştirmek.
+FAZ 9 kapsamında intent, active specialty resolution, RAG gating, LLM structured proposal generation ve validator action orchestration geliştirmek.
 
 ## Doğrulama baseline'ı
 
-- Full pytest: **463 passed**
+- Full pytest: **484 passed**
 - Knowledge Base tests: **20/20 passed**
 - Core regression: **3/3 PASS**
 - RAG retrieval evaluation: **Recall@3 %100, Top-1 accuracy %100, forbidden violation 0**

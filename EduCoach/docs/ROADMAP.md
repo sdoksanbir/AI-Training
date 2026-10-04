@@ -1,6 +1,6 @@
 # EduCoach — Product & Architecture Roadmap
 
-**Güncelleme:** 4 Ekim 2026
+**Güncelleme:** 5 Ekim 2026
 
 ## Ürün kapsamı
 
@@ -98,9 +98,11 @@ Doğrulama baseline'ı: Knowledge Base testleri 20/20, full pytest 463 başarıl
 
 **Durum: KISMİ**
 
-Mevcut: user validation → memory load → RAG → LLM call → response validation.
+Mevcut: user validation → memory load → RAG → LLM call → response validation. FAZ 9.1 kapsamında `StudyPlanWriteProposal`, `VALID/REJECTED/INCONCLUSIVE` validation report'u, deterministic ownership/context/goal ve günlük budget kontrolleri ile yalnız `VALID` proposal'ları mevcut `LearnerMemoryService.save_study_plan()` transaction sınırına ileten validated write-back gateway'i tamamlandı.
 
-Eksikler: intent, active specialty resolution, rules, RAG gating, structured memory update proposals, validated write-back ve `PASS/AUTO_FIX/REGENERATE/BLOCK` benzeri action flow.
+Eksikler: intent, active specialty resolution, RAG gating, LLM structured proposal generation, validator action orchestration, controlled regeneration ve diğer memory write-back türleri.
+
+Doğrulama baseline'ı: 484 test başarılı, core regression 3/3 PASS.
 
 ### FAZ 10 — Regression Evaluation
 
@@ -136,4 +138,4 @@ Fine-tuning yalnız prompt + rules + memory + RAG ile çözülemeyen ölçülmü
 
 **FAZ 9 — Orchestrator v1**
 
-Mevcut user validation → memory → RAG → LLM → response validation akışı üzerinde intent, active specialty, RAG gating ve validator action orchestration geliştirilecektir.
+StudyPlan validated write-back boundary tamamlandı. Mevcut akış üzerinde intent, active specialty, RAG gating, LLM structured proposal generation ve validator action orchestration geliştirilecektir.
