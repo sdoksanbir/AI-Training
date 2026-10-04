@@ -86,11 +86,13 @@ Kalıcı index bilinçli olarak sonraya bırakılmıştır; v0.1 küçük ve yer
 
 ### FAZ 8 — Knowledge Base v0.1
 
-**Durum: BAŞLANGIÇ**
+**Durum: TAMAMLANDI**
 
-Mevcut: `data/knowledge/learning_methods_v1.jsonl`.
+Source → Document → Chunk provenance sözleşmesi, strict source/document manifest modelleri ve deterministik katalog doğrulaması mevcuttur. Duplicate kimlikler ve exact duplicate metin; orphan veya tutarsız provenance; eksik metadata; geçersiz status, kategori ve scope değerleri reddedilir.
 
-Eksik: gerçek kaynaklara bağlı, sürümlü, kapsamlı ve metadata'lı bilgi tabanı.
+Knowledge Base v0.1; 5 gerçek source, 6 document ve 14 kısa Türkçe paraphrase chunk içerir. `learning_method`, `study_planning`, `metacognition` ve `exam_rule` kategorileri ile `global` ve `yks` scope'ları temsil edilir. Akademik pedagojik kaynaklar aktif, 2026-YKS resmî kılavuzu tarihsel kullanım için `archived` durumundadır. Active production catalog yalnız `status=active` chunk'ları retrieval'a açar; archived ve superseded kayıtlar provenance/history için korunur.
+
+Doğrulama baseline'ı: Knowledge Base testleri 20/20, full pytest 463 başarılı, RAG evaluation Recall@3 %100 / Top-1 accuracy %100 / 0 forbidden violation ve core regression 3/3 PASS.
 
 ### FAZ 9 — Orchestrator v1
 
@@ -132,6 +134,6 @@ Fine-tuning yalnız prompt + rules + memory + RAG ile çözülemeyen ölçülmü
 
 ## Aktif sıradaki iş
 
-**FAZ 8 — Knowledge Base v0.1**
+**FAZ 9 — Orchestrator v1**
 
-Mevcut RAG sözleşmesi üzerinde gerçek kaynaklara bağlı, sürümlü ve metadata'lı knowledge paketleri geliştirilecektir.
+Mevcut user validation → memory → RAG → LLM → response validation akışı üzerinde intent, active specialty, RAG gating ve validator action orchestration geliştirilecektir.

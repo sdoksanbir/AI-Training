@@ -1,0 +1,56 @@
+[
+  {
+    "document_id": "doc-dunlosky-2013-techniques",
+    "source_id": "src-dunlosky-2013",
+    "version": "1",
+    "language": "en",
+    "program": "global",
+    "category": "learning_method",
+    "status": "active"
+  },
+  {
+    "document_id": "doc-karpicke-2008-retrieval",
+    "source_id": "src-karpicke-roediger-2008",
+    "version": "1",
+    "language": "en",
+    "program": "global",
+    "category": "learning_method",
+    "status": "active"
+  },
+  {
+    "document_id": "doc-cepeda-2006-spacing",
+    "source_id": "src-cepeda-2006",
+    "version": "1",
+    "language": "en",
+    "program": "global",
+    "category": "learning_method",
+    "status": "active"
+  },
+  {
+    "document_id": "doc-eef-2025-study-planning",
+    "source_id": "src-eef-metacognition-2025",
+    "version": "1",
+    "language": "en",
+    "program": "global",
+    "category": "study_planning",
+    "status": "active"
+  },
+  {
+    "document_id": "doc-eef-2025-metacognition",
+    "source_id": "src-eef-metacognition-2025",
+    "version": "1",
+    "language": "en",
+    "program": "global",
+    "category": "metacognition",
+    "status": "active"
+  },
+  {
+    "document_id": "doc-osym-yks-2026-guide",
+    "source_id": "src-osym-yks-2026",
+    "version": "2026",
+    "language": "tr",
+    "program": "yks",
+    "category": "exam_rule",
+    "status": "archived"
+  }
+]

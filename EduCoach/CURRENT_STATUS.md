@@ -31,6 +31,7 @@ LLM doğal dil ve muhakeme sağlar. Kesin kurallar, learner gerçekleri, ortak e
 - Specialty Profiles: versioned registry, context/family doğrulama, JSON loader ve dört builtin package resource.
 - LLM: ortak provider sözleşmesi, fake provider, Ollama provider, health/model kontrolü.
 - RAG: JSONL/katalog yükleme, deterministic in-memory lexical retrieval, title/IDF-aware ranking, Türkçe normalization, metadata filtreleri, global/program scope ve sürümlü retrieval evaluation.
+- Knowledge Base: source/document manifestleri, Source → Document → Chunk provenance validation, active-only production catalog ve 5 gerçek kaynağa bağlı 14 sürümlü Türkçe knowledge chunk.
 - Backend Rules: immutable rule contract'ları; learner, context, assessment ve plan fact projection'ları; availability çözümleme; günlük plan yükü ve `PLAN_AVAILABLE_TIME_LIMIT` evaluator'ı.
 - Response Validator: typed report/action contract'ı; legacy BLOCK kontrolleri; memory, personalization, assessment, context/specialty, plan-budget, repetition ve guarantee validation; deterministik action precedence.
 - Orchestrator: user validation, memory load, context filtreli RAG, LLM çağrısı, snapshot aktarımı, opsiyonel specialty registry ve response validation.
@@ -45,8 +46,9 @@ LLM doğal dil ve muhakeme sağlar. Kesin kurallar, learner gerçekleri, ortak e
 - Faz 5: **TAMAMLANDI**
 - Faz 6: **TAMAMLANDI**
 - Faz 7: **TAMAMLANDI**
+- Faz 8: **TAMAMLANDI**
 - Faz 9: **KISMİ**
-- Faz 8 ve 10: **BAŞLANGIÇ**
+- Faz 10: **BAŞLANGIÇ**
 - Faz 11, 12 ve 14: **BAŞLANMADI**
 - Faz 13 ve 15: **BEKLEMEDE**
 
@@ -66,16 +68,16 @@ Yeni fine-tuning çalışması dondurulmuştur. Fine-tuning ancak çalışan ür
 
 - Regeneration retry ve action orchestration akışı
 - RAG gating ve ileride ihtiyaçla doğrulanacak persistent index
-- Kaynaklı gerçek knowledge base
 - Geniş regression ve ayrı development evaluation seti
 - Gerçek learner senaryoları
 
 ## Aktif sıradaki iş
 
-FAZ 8 kapsamında gerçek kaynaklara bağlı, sürümlü ve metadata'lı Knowledge Base'i geliştirmek.
+FAZ 9 kapsamında intent, active specialty resolution, RAG gating ve validator action orchestration geliştirmek.
 
 ## Doğrulama baseline'ı
 
-- Full pytest: **443 passed**
+- Full pytest: **463 passed**
+- Knowledge Base tests: **20/20 passed**
 - Core regression: **3/3 PASS**
 - RAG retrieval evaluation: **Recall@3 %100, Top-1 accuracy %100, forbidden violation 0**

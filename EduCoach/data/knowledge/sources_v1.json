@@ -1,0 +1,70 @@
+[
+  {
+    "source_id": "src-dunlosky-2013",
+    "title": "Improving Students' Learning With Effective Learning Techniques: Promising Directions From Cognitive and Educational Psychology",
+    "publisher": "Association for Psychological Science",
+    "source_type": "peer_reviewed_review",
+    "canonical_url": "https://www.psychologicalscience.org/publications/journals/pspi/learning-techniques.html",
+    "citation": "Dunlosky et al. (2013)",
+    "doi": "10.1177/1529100612453266",
+    "published_date": "2013-01-07",
+    "retrieved_date": "2026-10-04",
+    "version": "1",
+    "language": "en",
+    "status": "active"
+  },
+  {
+    "source_id": "src-karpicke-roediger-2008",
+    "title": "The Critical Importance of Retrieval for Learning",
+    "publisher": "American Association for the Advancement of Science",
+    "source_type": "peer_reviewed_experimental_study",
+    "canonical_url": "https://doi.org/10.1126/science.1152408",
+    "citation": "Karpicke & Roediger (2008)",
+    "doi": "10.1126/science.1152408",
+    "published_date": "2008-02-15",
+    "retrieved_date": "2026-10-04",
+    "version": "1",
+    "language": "en",
+    "status": "active"
+  },
+  {
+    "source_id": "src-cepeda-2006",
+    "title": "Distributed practice in verbal recall tasks: A review and quantitative synthesis",
+    "publisher": "American Psychological Association",
+    "source_type": "peer_reviewed_meta_analysis",
+    "canonical_url": "https://doi.org/10.1037/0033-2909.132.3.354",
+    "citation": "Cepeda et al. (2006)",
+    "doi": "10.1037/0033-2909.132.3.354",
+    "published_date": "2006-05-01",
+    "retrieved_date": "2026-10-04",
+    "version": "1",
+    "language": "en",
+    "status": "active"
+  },
+  {
+    "source_id": "src-eef-metacognition-2025",
+    "title": "Metacognition and Self-Regulated Learning",
+    "publisher": "Education Endowment Foundation",
+    "source_type": "evidence_guidance",
+    "canonical_url": "https://educationendowmentfoundation.org.uk/education-evidence/guidance-reports/metacognition",
+    "citation": "Education Endowment Foundation (2025)",
+    "published_date": "2025-11-13",
+    "retrieved_date": "2026-10-04",
+    "version": "2",
+    "language": "en",
+    "status": "active"
+  },
+  {
+    "source_id": "src-osym-yks-2026",
+    "title": "2026-Yükseköğretim Kurumları Sınavı (YKS) Kılavuzu",
+    "publisher": "T.C. Ölçme, Seçme ve Yerleştirme Merkezi Başkanlığı",
+    "source_type": "official_exam_guide",
+    "canonical_url": "https://www.osym.gov.tr/2026yuksekogretim-kurumlari-sinavi-yks-kilavuzu",
+    "citation": "ÖSYM 2026-YKS Kılavuzu",
+    "published_date": "2026-02-05",
+    "retrieved_date": "2026-10-04",
+    "version": "2026",
+    "language": "tr",
+    "status": "archived"
+  }
+]
