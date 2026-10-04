@@ -23,8 +23,10 @@ EduCoach yalnız YKS uygulaması değildir. Genel çekirdek farklı eğitim alan
 - Backward-compatible `validate_response` / `ResponseValidationError` facade'ı.
 - Orchestrator snapshot ve opsiyonel `SpecialtyProfileRegistry` entegrasyonu.
 - Öğrenci hafızası izolasyonu ve prompt injection regresyon testleri.
-- JSONL tabanlı knowledge yükleme, in-memory retrieval ve metadata filtreleri.
-- Türkçe token normalizasyonu ve program bazlı context retrieval.
+- JSONL tabanlı knowledge yükleme ve deterministic in-memory lexical retrieval.
+- Term-frequency ve IDF-aware title/text ranking, Türkçe Unicode normalization ve `chunk_id` tie-break.
+- Metadata filtreleri, açık global/program knowledge sözleşmesi, duplicate ID ve limit doğrulaması.
+- Sürümlü retrieval evaluation seti ve Recall@3/Top-1 ölçüm scripti.
 - Ollama provider sağlık kontrolü ve model yüklülük doğrulaması.
 - `educoach` terminal giriş komutu.
 - Deterministik core regression komutu.
@@ -33,9 +35,11 @@ EduCoach yalnız YKS uygulaması değildir. Genel çekirdek farklı eğitim alan
 
 ## Doğrulama
 
-Son test paketi: 416 test başarılı.
+Son test paketi: 443 test başarılı.
 
 Core regression: 3/3 PASS.
+
+RAG retrieval evaluation: Recall@3 %100, Top-1 accuracy %100, forbidden violation 0.
 
 Ollama üzerinde `qwen3:14b` ile gerçek uçtan uca cevap üretimi doğrulandı.
 
@@ -48,15 +52,15 @@ Ollama üzerinde `qwen3:14b` ile gerçek uçtan uca cevap üretimi doğrulandı.
 - Specialty Profiles Runtime: tamamlandı.
 - Backend Rules v0.1: tamamlandı.
 - Response Validator v0.1: tamamlandı.
-- RAG: temel sürüm çalışıyor.
+- RAG v0.1: tamamlandı.
 - Knowledge Base ve Regression Evaluation: başlangıç seviyesinde.
 - Orchestrator v1: kısmi.
 
 ## Sıradaki üretim işleri
 
-1. RAG retrieval evaluation ve daha güçlü retrieval/index stratejisi.
-2. Kaynaklı Knowledge Base ve geniş development evaluation seti.
-3. Orchestrator v1 kapsamında regeneration retry/action orchestration.
+1. Kaynaklı Knowledge Base ve geniş development evaluation seti.
+2. Orchestrator v1 kapsamında RAG gating ve regeneration retry/action orchestration.
+3. Katalog ölçeği ve ölçümler gerektirdiğinde persistent index değerlendirmesi.
 
 ## Response Validator v0.1 sınırları
 

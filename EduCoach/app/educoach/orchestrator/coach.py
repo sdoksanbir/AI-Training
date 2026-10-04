@@ -38,7 +38,8 @@ class CoachOrchestrator:
             contexts = snapshot.contexts
             filters = None
             if contexts:
-                filters = {"program": {context.program_code for context in contexts}}
+                programs = {context.program_code for context in contexts}
+                filters = {"program": programs | {"global"}}
             chunks = self.retriever.search(message, filters=filters)
             knowledge = "\n".join(
                 f"[{chunk.title} | {chunk.source}] {chunk.text}" for chunk in chunks

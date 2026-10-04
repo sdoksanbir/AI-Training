@@ -74,11 +74,15 @@ Doğrulama baseline'ı: 416 test başarılı, core regression 3/3 PASS.
 
 ### FAZ 7 — RAG v0.1
 
-**Durum: TEMEL SÜRÜM ÇALIŞIYOR**
+**Durum: TAMAMLANDI**
 
-Mevcut: JSONL yükleme, klasör kataloğu, in-memory retriever, metadata filtreleri, Türkçe token normalizasyonu, program/context filtreleme ve orchestrator entegrasyonu.
+Deterministik lexical retriever; JSONL ve klasör kataloğu yükleme, ranking öncesi metadata filtreleme, Unicode ve Türkçe harf normalizasyonu, term-frequency ve IDF-aware title/text scoring ile açık `chunk_id` tie-break davranışını destekler.
 
-Eksikler: retrieval evaluation, daha güçlü retrieval/index stratejisi ve ileride kalıcı index.
+`metadata.program = "global"` genel bilgi sözleşmesidir. Orchestrator, learner programlarıyla birlikte global bilgiyi kabul eder ve diğer programlara özgü bilgiyi dışlar. Duplicate chunk ID reddi ile sıfır/negatif limit sözleşmeleri tanımlıdır.
+
+Sürümlü retrieval evaluation; title ağırlığı, nadir terim, Türkçe normalization ve global/program filtreleme senaryolarında Recall@3 %100, Top-1 accuracy %100 ve 0 forbidden violation sonucunu verir. Doğrulama baseline'ı: 443 test başarılı, core regression 3/3 PASS.
+
+Kalıcı index bilinçli olarak sonraya bırakılmıştır; v0.1 küçük ve yerel in-memory katalog için tasarlanmıştır.
 
 ### FAZ 8 — Knowledge Base v0.1
 
@@ -128,6 +132,6 @@ Fine-tuning yalnız prompt + rules + memory + RAG ile çözülemeyen ölçülmü
 
 ## Aktif sıradaki iş
 
-**FAZ 7 — RAG v0.1**
+**FAZ 8 — Knowledge Base v0.1**
 
-Mevcut temel sürüm üzerinde retrieval evaluation ve daha güçlü retrieval/index stratejisi geliştirilecektir.
+Mevcut RAG sözleşmesi üzerinde gerçek kaynaklara bağlı, sürümlü ve metadata'lı knowledge paketleri geliştirilecektir.
