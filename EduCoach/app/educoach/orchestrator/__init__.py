@@ -27,6 +27,12 @@ from .intent import (
     resolve_intents,
 )
 from .intent_detection import detect_intents
+from .rag_gating import (
+    RAGNeedDecision,
+    RAGNeedSource,
+    RAGNeedStatus,
+    decide_rag_need,
+)
 
 __all__ = [
     "ActiveContextResolution",
@@ -37,12 +43,16 @@ __all__ = [
     "ContextRoutingSource",
     "ContextSelectionEvidence",
     "ContextSelectionEvidenceStatus",
+    "decide_rag_need",
     "detect_intents",
     "IntentResolution",
     "IntentResolutionStatus",
     "IntentType",
     "MessageContextEvidence",
     "MessageContextEvidenceStatus",
+    "RAGNeedDecision",
+    "RAGNeedSource",
+    "RAGNeedStatus",
     "FinalContextResolution",
     "resolve_active_context",
     "resolve_request_context",

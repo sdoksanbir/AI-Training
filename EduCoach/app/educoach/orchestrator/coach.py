@@ -9,6 +9,8 @@ from educoach.validators import validate_response, validate_user_message
 
 from .context_resolution import ActiveContextResolutionStatus
 from .context_routing import resolve_request_context
+from .intent_detection import detect_intents
+from .rag_gating import RAGNeedStatus, decide_rag_need
 
 
 _AMBIGUOUS_CONTEXT_CLARIFICATION = (
@@ -65,8 +67,13 @@ class CoachOrchestrator:
                 text=_AMBIGUOUS_CONTEXT_CLARIFICATION,
                 model=_DETERMINISTIC_MODEL,
             )
+        intent_resolution = detect_intents(message)
+        rag_need = decide_rag_need(message, intent_resolution)
         knowledge = ""
-        if self.retriever is not None:
+        if (
+            self.retriever is not None
+            and rag_need.status != RAGNeedStatus.NOT_REQUIRED
+        ):
             programs = {"global"}
             if active_context.status == ActiveContextResolutionStatus.RESOLVED:
                 assert active_context.context is not None

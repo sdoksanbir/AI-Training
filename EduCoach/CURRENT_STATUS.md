@@ -34,7 +34,7 @@ LLM doğal dil ve muhakeme sağlar. Kesin kurallar, learner gerçekleri, ortak e
 - Knowledge Base: source/document manifestleri, Source → Document → Chunk provenance validation, active-only production catalog ve 5 gerçek kaynağa bağlı 14 sürümlü Türkçe knowledge chunk.
 - Backend Rules: immutable rule contract'ları; learner, context, assessment ve plan fact projection'ları; availability çözümleme; günlük plan yükü ve `PLAN_AVAILABLE_TIME_LIMIT` evaluator'ı.
 - Response Validator: typed report/action contract'ı; legacy BLOCK kontrolleri; memory, personalization, assessment, context/specialty, plan-budget, repetition ve guarantee validation; deterministik action precedence.
-- Orchestrator: user validation, memory load, context filtreli RAG, LLM çağrısı, snapshot aktarımı, opsiyonel specialty registry ve response validation.
+- Orchestrator: user validation, memory load, final context routing, intent detection, RAG need gating, context filtreli optional retrieval, LLM çağrısı, snapshot aktarımı, opsiyonel specialty registry ve response validation.
 - StudyPlan write-back: immutable proposal/report contract'ı, deterministic ownership/context/goal/budget pre-flight validation ve yalnız `VALID` proposal'ları mevcut transaction servisine ileten persistence gateway.
 - Active context/specialty resolution: explicit context seçimi veya tek-context çözümü ve authoritative specialty registry kullanımı.
 - Typed multi-intent contract: dokümante edilmiş 11 intent, `RESOLVED/UNRESOLVED` ayrımı, immutable çoklu intent sonucu ve deterministik canonical ordering.
@@ -42,6 +42,7 @@ LLM doğal dil ve muhakeme sağlar. Kesin kurallar, learner gerçekleri, ortak e
 - Context Selection Evidence v0.1: ACTIVE context'lere bağlı ACTIVE goal/plan kayıtlarından immutable, deterministic ve conflict-aware memory evidence projection'ı.
 - Context Routing Terminology + Message Evidence v0.1: authoritative Specialty Profile configuration'ından okunan typed terminoloji ile tek kelimeyi yeterli saymayan, deterministic ve conflict-aware message evidence projection'ı.
 - Final Context Selection Policy + Runtime Integration v0.1: explicit seçim → active context yapısı → current-message evidence → goal/plan memory evidence precedence'ı; authoritative specialty resolution, seçilen programa özel RAG scope'u ve unresolved multi-context durumda RAG/LLM/validator çağırmayan generic deterministic clarification.
+- Full RAG Need Gating v0.1: immutable `REQUIRED/NOT_REQUIRED/UNRESOLVED` contract'ı, required-intent precedence'ı ve sınırlı high-precision external-knowledge sinyalleri; runtime'da `REQUIRED → retrieve`, `NOT_REQUIRED → skip`, `UNRESOLVED → conservative retrieve` davranışı.
 - CLI ve deterministik core regression komutu.
 
 ## Faz özeti
@@ -73,18 +74,19 @@ Yeni fine-tuning çalışması dondurulmuştur. Fine-tuning ancak çalışan ür
 
 ## Bilinen ana eksikler
 
-- Tam RAG need gating, structured LLM proposal generation, validator action orchestration, controlled regeneration, conversation-history routing ve StudyPlan dışındaki memory write-back türleri
+- Structured LLM proposal generation, validator action orchestration, controlled regeneration, conversation-history routing ve StudyPlan dışındaki memory write-back türleri
+- Typed Specialty `rag_policy` schema ve policy entegrasyonu
 - İleride ihtiyaçla doğrulanacak persistent index
 - Geniş regression ve ayrı development evaluation seti
 - Gerçek learner senaryoları
 
 ## Aktif sıradaki iş
 
-FAZ 9 kapsamında tam RAG gating, LLM structured proposal generation, validator action orchestration ve controlled regeneration geliştirmek; conversation-history routing'i authoritative runtime contract oluşana kadar ertelemek.
+FAZ 9 kapsamında LLM structured proposal generation, validator action orchestration ve controlled regeneration geliştirmek; conversation-history routing'i authoritative runtime contract oluşana kadar ertelemek.
 
 ## Doğrulama baseline'ı
 
-- Full pytest: **707 passed**
+- Full pytest: **755 passed**
 - Knowledge Base tests: **20/20 passed**
 - Core regression: **3/3 PASS**
 - RAG retrieval evaluation: **Recall@3 %100, Top-1 accuracy %100, forbidden violation 0**

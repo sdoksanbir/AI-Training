@@ -6,7 +6,6 @@ from uuid import UUID, uuid4
 import pytest
 
 import educoach.orchestrator.coach as coach_module
-import educoach.orchestrator.intent_detection as intent_detection_module
 from educoach.llm import FakeLLMProvider
 from educoach.models import (
     ContextStatus,
@@ -610,14 +609,19 @@ def test_runtime_single_active_preserves_selected_scope() -> None:
     assert len(provider.requests) == 1
 
 
-def test_runtime_does_not_invoke_intent_detection(monkeypatch) -> None:
+def test_runtime_invokes_intent_detection_only_after_context_resolution(
+    monkeypatch,
+) -> None:
     learner = Learner()
     context = make_context(learner, "only", ContextType.OTHER)
     orchestrator, _, _ = make_runtime(make_snapshot(learner, (context,)), None)
+    detector = Mock(return_value=coach_module.detect_intents("general request"))
     monkeypatch.setattr(
-        intent_detection_module,
+        coach_module,
         "detect_intents",
-        lambda *_: pytest.fail("intent detection must not be called"),
+        detector,
     )
 
     orchestrator.respond(learner.learner_id, "general request")
+
+    detector.assert_called_once_with("general request")
