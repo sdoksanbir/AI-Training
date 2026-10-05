@@ -110,9 +110,11 @@ Doğrulama baseline'ı: 885 test başarılı, core regression 3/3 PASS.
 
 ### FAZ 10 — Regression Evaluation
 
-**Durum: BAŞLANGIÇ**
+**Durum: TAMAMLANDI**
 
-Mevcut: `scripts/run_core_regression.py`. Eksik: geçmiş fine-tuning problemlerini yeni mimaride kapsayan geniş regression suite.
+Deterministic core regression suite; learner context/isolation, program-scoped retrieval, historical repetition-loop protection, numeric-claim regeneration, bounded regeneration ve ambiguous-context fail-safe davranışlarını korur.
+
+Doğrulama baseline'ı: 886 test başarılı, core regression 8/8 PASS.
 
 ### FAZ 11 — Development Evaluation Set
 

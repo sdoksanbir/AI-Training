@@ -60,7 +60,7 @@ LLM doğal dil ve muhakeme sağlar. Kesin kurallar, learner gerçekleri, ortak e
 - Faz 7: **TAMAMLANDI**
 - Faz 8: **TAMAMLANDI**
 - Faz 9: **KISMİ**
-- Faz 10: **BAŞLANGIÇ**
+- Faz 10: **TAMAMLANDI**
 - Faz 11, 12 ve 14: **BAŞLANMADI**
 - Faz 13 ve 15: **BEKLEMEDE**
 
@@ -81,7 +81,7 @@ Yeni fine-tuning çalışması dondurulmuştur. Fine-tuning ancak çalışan ür
 - Plan-budget deterministic redistribution policy, conversation-history routing ve StudyPlan dışındaki structured proposal/write-back türleri
 - Typed Specialty `rag_policy` schema ve policy entegrasyonu
 - İleride ihtiyaçla doğrulanacak persistent index
-- Geniş regression ve ayrı development evaluation seti
+- Ayrı development evaluation seti
 - Gerçek learner senaryoları
 
 ## Aktif sıradaki iş
@@ -90,7 +90,7 @@ FAZ 9 kapsamında authoritative plan-budget deterministic redistribution policy'
 
 ## Doğrulama baseline'ı
 
-- Full pytest: **885 passed**
+- Full pytest: **886 passed**
 - Knowledge Base tests: **20/20 passed**
-- Core regression: **3/3 PASS**
+- Core regression: **8/8 PASS**
 - RAG retrieval evaluation: **Recall@3 %100, Top-1 accuracy %100, forbidden violation 0**

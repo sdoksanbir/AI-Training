@@ -52,11 +52,11 @@ EduCoach yalnız YKS uygulaması değildir. Genel çekirdek farklı eğitim alan
 
 ## Doğrulama
 
-Son test paketi: 885 test başarılı.
+Son test paketi: 886 test başarılı.
 
 Knowledge Base testleri: 20/20 PASS.
 
-Core regression: 3/3 PASS.
+Core regression: 8/8 PASS. Deterministic suite; learner context/isolation, program-scoped retrieval, historical repetition-loop auto-fix, numeric-claim regeneration, bounded regeneration ve ambiguous-context fail-safe davranışlarını korur.
 
 RAG retrieval evaluation: Recall@3 %100, Top-1 accuracy %100, forbidden violation 0.
 
@@ -73,14 +73,14 @@ Ollama üzerinde `qwen3:14b` ile gerçek uçtan uca cevap üretimi doğrulandı.
 - Response Validator v0.1: tamamlandı.
 - RAG v0.1: tamamlandı.
 - Knowledge Base v0.1: tamamlandı.
-- Regression Evaluation: başlangıç seviyesinde.
+- Regression Evaluation: tamamlandı.
 - Orchestrator v1: kısmi; StudyPlan validated write-back boundary, Active Context & Specialty Resolution v0.1, Typed Multi-Intent Contract, Conservative Intent Detection v0.1, Context Selection Evidence v0.1, Context Routing Terminology + Message Evidence v0.1, Final Context Selection Policy + Runtime Integration v0.1, Full RAG Need Gating v0.1, Structured StudyPlan Proposal Generation v0.1, Validator Action Orchestration v0.1, Controlled Regeneration v0.1 ve Deterministic Auto-Fix v0.1 tamamlandı.
 
 ## Sıradaki üretim işleri
 
 1. Orchestrator v1 kapsamında authoritative plan-budget deterministic redistribution policy değerlendirmesi.
 2. StudyPlan dışındaki kontrollü structured proposal ve Learner Memory write-back türleri ile ileride authoritative contract üzerinden conversation-history routing.
-3. Geniş regression ve ayrı development evaluation seti.
+3. Ayrı development evaluation seti.
 4. Katalog ölçeği ve ölçümler gerektirdiğinde persistent index değerlendirmesi.
 
 Specialty Profile `rag_policy` alanı için typed authoritative schema henüz yoktur; v0.1 generic gate bu açık `JsonValue` alanını kullanmaz.
