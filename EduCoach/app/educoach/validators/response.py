@@ -2,7 +2,6 @@ from datetime import date
 from decimal import Decimal
 import re
 from typing import TYPE_CHECKING
-import unicodedata
 
 from educoach.models import (
     ContextStatus,
@@ -20,6 +19,7 @@ from educoach.rules.context_specialty import project_context_specialty_facts
 from educoach.rules.plan_budget import evaluate_plan_available_time_limit
 
 from .contracts import ResponseValidationAction, ResponseValidationReport
+from .repetition import normalize_response_text, repetition_duplicate_segment_indexes
 
 if TYPE_CHECKING:
     from educoach.services.snapshot import LearnerMemorySnapshot
@@ -226,9 +226,7 @@ def evaluate_response(
             ResponseValidationAction.BLOCK
             if legacy_violations
             else ResponseValidationAction.PASS,
-            ResponseValidationAction.REGENERATE
-            if semantic_violations
-            else ResponseValidationAction.PASS,
+            _semantic_validation_action(semantic_violations),
         ),
         violations=legacy_violations + semantic_violations,
     )
@@ -350,7 +348,7 @@ def _evaluate_semantic_violations(
 def _evaluate_output_violations(text: str) -> tuple[RuleViolation, ...]:
     normalized = _normalize_text(text)
     violations: list[RuleViolation] = []
-    if _has_repetition_loop(normalized):
+    if _has_repetition_loop(text):
         _append_violation(
             violations,
             "OUTPUT_REPETITION_LOOP",
@@ -556,16 +554,8 @@ def _extract_explicit_daily_plan(
     return target_date, blocks
 
 
-def _has_repetition_loop(normalized: str) -> bool:
-    segments = [
-        re.sub(r"\s+", " ", segment).strip()
-        for segment in re.split(r"[.!?\n]+", normalized)
-    ]
-    meaningful = [segment for segment in segments if len(segment) >= 12]
-    return any(
-        meaningful[index] == meaningful[index + 1] == meaningful[index + 2]
-        for index in range(len(meaningful) - 2)
-    )
+def _has_repetition_loop(text: str) -> bool:
+    return bool(repetition_duplicate_segment_indexes(text))
 
 
 def _has_unsupported_guarantee(normalized: str) -> bool:
@@ -608,6 +598,20 @@ def _highest_action(
     return max(actions, key=_ACTION_PRECEDENCE.__getitem__)
 
 
+def _semantic_validation_action(
+    violations: tuple[RuleViolation, ...],
+) -> ResponseValidationAction:
+    return _highest_action(
+        *(
+            ResponseValidationAction.AUTO_FIX
+            if violation.rule_id == "OUTPUT_REPETITION_LOOP"
+            else ResponseValidationAction.REGENERATE
+            for violation in violations
+        ),
+        ResponseValidationAction.PASS,
+    )
+
+
 def _unique_values(values) -> list:
     unique: list = []
     for value in values:
@@ -617,12 +621,7 @@ def _unique_values(values) -> list:
 
 
 def _normalize_text(text: str) -> str:
-    decomposed = unicodedata.normalize("NFKD", text.casefold())
-    return "".join(
-        character
-        for character in decomposed
-        if not unicodedata.combining(character)
-    ).replace("ı", "i")
+    return normalize_response_text(text)
 
 
 def _normalize_area(value: str) -> str:

@@ -563,13 +563,13 @@ def test_ambiguous_plan_date_is_not_inferred() -> None:
     assert report.action is ResponseValidationAction.PASS
 
 
-def test_clear_repetition_loop_regenerates() -> None:
+def test_clear_repetition_loop_requests_auto_fix() -> None:
     report = evaluate_response(
         "Yanlışlarını analiz et. Yanlışlarını analiz et. "
         "Yanlışlarını analiz et."
     )
 
-    assert report.action is ResponseValidationAction.REGENERATE
+    assert report.action is ResponseValidationAction.AUTO_FIX
     assert report.violations[0].rule_id == "OUTPUT_REPETITION_LOOP"
 
 

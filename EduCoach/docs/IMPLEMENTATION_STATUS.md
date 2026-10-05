@@ -42,7 +42,8 @@ EduCoach yalnız YKS uygulaması değildir. Genel çekirdek farklı eğitim alan
 - Full RAG Need Gating v0.1: immutable ve açıklanabilir `REQUIRED/NOT_REQUIRED/UNRESOLVED` kararı; knowledge question/study advice için retrieval, local memory/rule intent'leri için skip ve detector coverage dışındaki isteklerde conservative retrieval. Intent detection context routing sonrasında ve request başına bir kez çalışır; ambiguous context intent aşamasına ulaşmaz.
 - Structured StudyPlan Proposal Generation v0.1: planning + resolved context isteklerinde tek provider çağrısından strict JSON envelope parse edilir; kullanıcıya yalnız `response_text` gider. LLM yalnız semantic plan/task alanlarını üretir; learner/context/plan/task ID'leri ile status değerleri sistem tarafından materialize edilir. Candidate write proposal otomatik validate edilmez veya persist edilmez.
 - Validator Action Orchestration v0.1: `PASS → accepted`, `BLOCK → fail closed`, `REGENERATE → ResponseRegenerationRequired` ve `AUTO_FIX → ResponseAutoFixRequired` runtime sınırları uygulanır.
-- Controlled Regeneration v0.1: `REGENERATE` yalnız bir kez retry edilir; retry aynı user message, snapshot ve memory+RAG context'i kullanır. Authoritative violation ID/message feedback'i system prompt'a eklenir; ikinci `REGENERATE`, `ResponseRegenerationExhausted` üretir. Maksimum provider çağrısı ikidir; generic deterministic fallback ve AUTO_FIX fixer henüz yoktur.
+- Controlled Regeneration v0.1: `REGENERATE` yalnız bir kez retry edilir; retry aynı user message, snapshot ve memory+RAG context'i kullanır. Authoritative violation ID/message feedback'i system prompt'a eklenir; ikinci `REGENERATE`, `ResponseRegenerationExhausted` üretir. Maksimum provider çağrısı ikidir; generic deterministic fallback henüz yoktur.
+- Deterministic Auto-Fix v0.1: yalnız `OUTPUT_REPETITION_LOOP`, `AUTO_FIX` producer'ıdır. Üç veya daha fazla ardışık normalized-equivalent segment tek kopyaya indirilir, yalnız user-facing `response_text` değişir ve fixed response zorunlu olarak yeniden validate edilir. AUTO_FIX provider retry değildir. `PLAN_AVAILABLE_TIME_LIMIT` `REGENERATE` kalır; plan-duration redistribution policy henüz authoritative değildir.
 - Ollama provider sağlık kontrolü ve model yüklülük doğrulaması.
 - `educoach` terminal giriş komutu.
 - Deterministik core regression komutu.
@@ -51,7 +52,7 @@ EduCoach yalnız YKS uygulaması değildir. Genel çekirdek farklı eğitim alan
 
 ## Doğrulama
 
-Son test paketi: 860 test başarılı.
+Son test paketi: 885 test başarılı.
 
 Knowledge Base testleri: 20/20 PASS.
 
@@ -73,11 +74,11 @@ Ollama üzerinde `qwen3:14b` ile gerçek uçtan uca cevap üretimi doğrulandı.
 - RAG v0.1: tamamlandı.
 - Knowledge Base v0.1: tamamlandı.
 - Regression Evaluation: başlangıç seviyesinde.
-- Orchestrator v1: kısmi; StudyPlan validated write-back boundary, Active Context & Specialty Resolution v0.1, Typed Multi-Intent Contract, Conservative Intent Detection v0.1, Context Selection Evidence v0.1, Context Routing Terminology + Message Evidence v0.1, Final Context Selection Policy + Runtime Integration v0.1, Full RAG Need Gating v0.1, Structured StudyPlan Proposal Generation v0.1, Validator Action Orchestration v0.1 ve Controlled Regeneration v0.1 tamamlandı.
+- Orchestrator v1: kısmi; StudyPlan validated write-back boundary, Active Context & Specialty Resolution v0.1, Typed Multi-Intent Contract, Conservative Intent Detection v0.1, Context Selection Evidence v0.1, Context Routing Terminology + Message Evidence v0.1, Final Context Selection Policy + Runtime Integration v0.1, Full RAG Need Gating v0.1, Structured StudyPlan Proposal Generation v0.1, Validator Action Orchestration v0.1, Controlled Regeneration v0.1 ve Deterministic Auto-Fix v0.1 tamamlandı.
 
 ## Sıradaki üretim işleri
 
-1. Orchestrator v1 kapsamında deterministic auto-fix policies.
+1. Orchestrator v1 kapsamında authoritative plan-budget deterministic redistribution policy değerlendirmesi.
 2. StudyPlan dışındaki kontrollü structured proposal ve Learner Memory write-back türleri ile ileride authoritative contract üzerinden conversation-history routing.
 3. Geniş regression ve ayrı development evaluation seti.
 4. Katalog ölçeği ve ölçümler gerektirdiğinde persistent index değerlendirmesi.
@@ -94,6 +95,7 @@ Provider-level structured-output capability negotiation uygulanmamıştır; stru
 - Plan parser yalnız açık ISO tarihli, satır bazlı plan bloklarını işler ve gerekli bilgiler kesin çözülebildiğinde backend evaluator'ı çağırır.
 - UNKNOWN/AMBIGUOUS availability ihlal veya başarı kanıtı sayılmaz.
 - `REGENERATE` en fazla bir controlled retry tetikler; ikinci `REGENERATE` typed exhausted boundary üzerinden taşınır.
-- `AUTO_FIX` typed auto-fix-required boundary üzerinden taşınır; deterministic fixer henüz yoktur.
+- `AUTO_FIX`, yalnız repetition-loop için bir kez deterministic fix uygular ve sonucu yeniden validate eder; unsupported veya tekrarlanan AUTO_FIX typed required boundary üzerinden taşınır.
+- `PLAN_AVAILABLE_TIME_LIMIT` hâlâ `REGENERATE` olur; task sürelerini değiştiren authoritative redistribution policy yoktur.
 
 HTTP API ve authentication, core davranış sözleşmeleri olgunlaştıktan sonra ele alınacaktır.

@@ -501,8 +501,10 @@ LLM'den kontrollü yeniden üretim istenir.
 ### BLOCK
 Güvenilir cevap üretilemedi.
 ---
-# 33. Auto-Fix Örneği
-LLM planı:
+# 33. Auto-Fix
+Deterministic Auto-Fix v0.1 yalnız `OUTPUT_REPETITION_LOOP` için aktiftir. Üç veya daha fazla ardışık normalized-equivalent meaningful segment tek segmente indirilir. Fix yalnız duplicate kopyaları kaldırır; kelime, sayı, plan task'ı veya structured proposal değiştirmez. Fixed `response_text` kullanıcıya gitmeden önce yeniden validator'dan geçirilir ve bir provider response için en fazla bir fix attempt yapılır.
+
+Aşağıdaki plan-budget örneği yalnız gelecekte authoritative bir plan-duration redistribution policy tanımlanırsa değerlendirilebilecek bir policy örneğidir; v0.1 bunu AUTO_FIX etmez:
 ```text
 60 + 60 + 75 = 195 dakika
 ```
@@ -510,15 +512,14 @@ LLM planı:
 ```text
 180 dakika
 ```
-Backend mümkünse süreleri belirlenmiş politika ile yeniden dağıtabilir.
-Ancak pedagojik anlamı değiştirecek büyük düzenleme gerekiyorsa yeniden üretim daha doğru olabilir.
+Mevcut runtime'da `PLAN_AVAILABLE_TIME_LIMIT`, `REGENERATE` kalır. Proportional scaling, priority-based reduction veya task trimming uygulanmaz.
 ---
 # 34. Regeneration Sonsuz Döngüye Girmeyecek
 Controlled Regeneration v0.1 authoritative runtime policy'si:
 ```text
 max_regeneration_attempts = 1
 ```
-İlk generation ve en fazla bir regeneration ile request başına maksimum iki provider çağrısı yapılır. Yalnız `REGENERATE` action'ı retry tetikler; `BLOCK`, `AUTO_FIX`, structured parse hatası ve provider hatası retry edilmez. Retry aynı user message, snapshot ve memory+RAG context'i kullanır; validator violation ID/message feedback'i yalnız system prompt'a eklenir. İkinci `REGENERATE`, üçüncü çağrı yapmadan `ResponseRegenerationExhausted` üretir.
+İlk generation ve en fazla bir regeneration ile request başına maksimum iki provider çağrısı yapılır. Yalnız `REGENERATE` action'ı retry tetikler; `BLOCK`, structured parse hatası ve provider hatası retry edilmez. `AUTO_FIX` önce local deterministic fix ve revalidation yapar; revalidation `REGENERATE` üretirse mevcut tek regeneration budget'ı kullanılabilir. Retry aynı user message, snapshot ve memory+RAG context'i kullanır; validator violation ID/message feedback'i yalnız system prompt'a eklenir. İkinci `REGENERATE`, üçüncü çağrı yapmadan `ResponseRegenerationExhausted` üretir.
 ---
 # 35. Fallback
 Generic deterministic user-facing fallback henüz uygulanmamıştır. Güvenilir cevap tek controlled regeneration sonrasında da üretilemezse runtime fail-closed `ResponseRegenerationExhausted` boundary'sini kullanır. Fallback tasarımı ilgili intent'e özgü authoritative contract belirlendikten sonra ele alınacaktır.

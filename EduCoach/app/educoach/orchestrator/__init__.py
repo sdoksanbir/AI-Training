@@ -1,3 +1,4 @@
+from .auto_fix import SUPPORTED_AUTO_FIX_RULE_IDS, apply_response_auto_fix
 from .coach import CoachOrchestrator, CoachResult
 from .context_resolution import (
     ActiveContextResolution,
@@ -75,6 +76,7 @@ __all__ = [
     "ResponseAutoFixRequired",
     "ResponseRegenerationExhausted",
     "ResponseRegenerationRequired",
+    "SUPPORTED_AUTO_FIX_RULE_IDS",
     "StructuredCoachOutput",
     "StructuredLLMOutputError",
     "StudyPlanProposal",
@@ -84,6 +86,7 @@ __all__ = [
     "resolve_request_context",
     "resolve_intents",
     "build_regeneration_request",
+    "apply_response_auto_fix",
     "handle_response_validation_action",
     "materialize_study_plan_write_proposal",
     "parse_structured_coach_output",

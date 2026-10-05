@@ -14,6 +14,7 @@ from educoach.validators import (
 )
 from educoach.writeback import StudyPlanWriteProposal
 
+from .auto_fix import apply_response_auto_fix
 from .context_resolution import ActiveContextResolutionStatus
 from .context_routing import resolve_request_context
 from .intent_detection import detect_intents
@@ -139,6 +140,11 @@ class CoachOrchestrator:
             )
             if (
                 attempt.validation_report.action
+                is ResponseValidationAction.AUTO_FIX
+            ):
+                attempt = self._apply_auto_fix_once(attempt, snapshot)
+            if (
+                attempt.validation_report.action
                 is ResponseValidationAction.REGENERATE
             ):
                 if regeneration_attempt == MAX_REGENERATION_ATTEMPTS:
@@ -160,6 +166,27 @@ class CoachOrchestrator:
                 attempt.study_plan_proposal,
             )
         raise RuntimeError("controlled regeneration loop terminated unexpectedly")
+
+    def _apply_auto_fix_once(
+        self,
+        attempt: _GenerationAttempt,
+        snapshot: LearnerMemorySnapshot,
+    ) -> _GenerationAttempt:
+        fixed_text = apply_response_auto_fix(
+            attempt.response_text,
+            attempt.validation_report,
+        )
+        final_report = evaluate_response(
+            fixed_text,
+            snapshot=snapshot,
+            specialty_registry=self.specialty_registry,
+        )
+        return _GenerationAttempt(
+            response_text=fixed_text,
+            model=attempt.model,
+            study_plan_proposal=attempt.study_plan_proposal,
+            validation_report=final_report,
+        )
 
     def _generate_attempt(
         self,
