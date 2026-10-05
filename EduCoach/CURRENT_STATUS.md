@@ -36,11 +36,12 @@ LLM doğal dil ve muhakeme sağlar. Kesin kurallar, learner gerçekleri, ortak e
 - Response Validator: typed report/action contract'ı; legacy BLOCK kontrolleri; memory, personalization, assessment, context/specialty, plan-budget, repetition ve guarantee validation; deterministik action precedence.
 - Orchestrator: user validation, memory load, context filtreli RAG, LLM çağrısı, snapshot aktarımı, opsiyonel specialty registry ve response validation.
 - StudyPlan write-back: immutable proposal/report contract'ı, deterministic ownership/context/goal/budget pre-flight validation ve yalnız `VALID` proposal'ları mevcut transaction servisine ileten persistence gateway.
-- Active context/specialty resolution: explicit context seçimi veya tek-context çözümü, authoritative specialty registry kullanımı ve ambiguous durumda global-only RAG scope'u.
+- Active context/specialty resolution: explicit context seçimi veya tek-context çözümü ve authoritative specialty registry kullanımı.
 - Typed multi-intent contract: dokümante edilmiş 11 intent, `RESOLVED/UNRESOLVED` ayrımı, immutable çoklu intent sonucu ve deterministik canonical ordering.
 - Conservative intent detection v0.1: yedi açık intent için deterministic Türkçe kalıplar, multi-intent üretimi ve güvenli `UNRESOLVED` fallback'i.
 - Context Selection Evidence v0.1: ACTIVE context'lere bağlı ACTIVE goal/plan kayıtlarından immutable, deterministic ve conflict-aware memory evidence projection'ı.
 - Context Routing Terminology + Message Evidence v0.1: authoritative Specialty Profile configuration'ından okunan typed terminoloji ile tek kelimeyi yeterli saymayan, deterministic ve conflict-aware message evidence projection'ı.
+- Final Context Selection Policy + Runtime Integration v0.1: explicit seçim → active context yapısı → current-message evidence → goal/plan memory evidence precedence'ı; authoritative specialty resolution, seçilen programa özel RAG scope'u ve unresolved multi-context durumda RAG/LLM/validator çağırmayan generic deterministic clarification.
 - CLI ve deterministik core regression komutu.
 
 ## Faz özeti
@@ -72,19 +73,18 @@ Yeni fine-tuning çalışması dondurulmuştur. Fine-tuning ancak çalışan ür
 
 ## Bilinen ana eksikler
 
-- Final context selection policy, memory ve message evidence reconciliation, runtime entegrasyonu, clarification davranışı, tam RAG gating ve regeneration/action orchestration akışı
-- LLM structured proposal generation ve StudyPlan dışındaki memory write-back türleri
+- Tam RAG need gating, structured LLM proposal generation, validator action orchestration, controlled regeneration, conversation-history routing ve StudyPlan dışındaki memory write-back türleri
 - İleride ihtiyaçla doğrulanacak persistent index
 - Geniş regression ve ayrı development evaluation seti
 - Gerçek learner senaryoları
 
 ## Aktif sıradaki iş
 
-FAZ 9 kapsamında final context selection policy, memory ve message evidence reconciliation, runtime entegrasyonu, clarification davranışı, tam RAG gating, LLM structured proposal generation ve validator action orchestration geliştirmek.
+FAZ 9 kapsamında tam RAG gating, LLM structured proposal generation, validator action orchestration ve controlled regeneration geliştirmek; conversation-history routing'i authoritative runtime contract oluşana kadar ertelemek.
 
 ## Doğrulama baseline'ı
 
-- Full pytest: **668 passed**
+- Full pytest: **707 passed**
 - Knowledge Base tests: **20/20 passed**
 - Core regression: **3/3 PASS**
 - RAG retrieval evaluation: **Recall@3 %100, Top-1 accuracy %100, forbidden violation 0**

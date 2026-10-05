@@ -7,10 +7,15 @@ from educoach.services import LearnerMemoryService
 from educoach.specialties import SpecialtyProfileRegistry
 from educoach.validators import validate_response, validate_user_message
 
-from .context_resolution import (
-    ActiveContextResolutionStatus,
-    resolve_active_context,
+from .context_resolution import ActiveContextResolutionStatus
+from .context_routing import resolve_request_context
+
+
+_AMBIGUOUS_CONTEXT_CLARIFICATION = (
+    "Birden fazla aktif çalışma bağlamın var. "
+    "Hangi bağlamı kastettiğini belirtir misin?"
 )
+_DETERMINISTIC_MODEL = "deterministic"
 
 
 @dataclass(frozen=True)
@@ -44,8 +49,9 @@ class CoachOrchestrator:
     ) -> CoachResult:
         message = validate_user_message(message)
         snapshot = self.memory.get_learner_memory_snapshot(learner_id)
-        active_context = resolve_active_context(
+        active_context = resolve_request_context(
             snapshot,
+            message,
             self.specialty_registry,
             requested_context_id=context_id,
         )
@@ -54,6 +60,11 @@ class CoachOrchestrator:
             and active_context.status == ActiveContextResolutionStatus.UNAVAILABLE
         ):
             raise ValueError("requested context does not belong to the learner snapshot")
+        if active_context.status == ActiveContextResolutionStatus.AMBIGUOUS:
+            return CoachResult(
+                text=_AMBIGUOUS_CONTEXT_CLARIFICATION,
+                model=_DETERMINISTIC_MODEL,
+            )
         knowledge = ""
         if self.retriever is not None:
             programs = {"global"}

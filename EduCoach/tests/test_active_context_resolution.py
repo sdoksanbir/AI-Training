@@ -469,16 +469,17 @@ def test_orchestrator_uses_global_only_when_no_context_is_active() -> None:
     assert retriever.filters == [{"program": {"global"}}]
 
 
-def test_ambiguous_orchestrator_uses_global_only() -> None:
+def test_ambiguous_orchestrator_returns_clarification_without_rag_or_llm() -> None:
     learner = Learner()
     school = make_context(learner, "school_11", ContextType.SCHOOL)
     exam = make_context(learner, "yks", ContextType.ENTRANCE_EXAM)
 
-    retriever, _ = run_orchestrator(
+    retriever, provider = run_orchestrator(
         make_snapshot(learner, (school, exam))
     )
 
-    assert retriever.filters == [{"program": {"global"}}]
+    assert retriever.filters == []
+    assert provider.requests == []
 
 
 def test_explicit_context_is_connected_to_orchestrator_filter() -> None:
