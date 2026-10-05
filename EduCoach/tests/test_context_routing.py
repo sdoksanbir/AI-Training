@@ -535,7 +535,7 @@ def test_ambiguous_runtime_returns_clarification_without_downstream_calls(
     )
     monkeypatch.setattr(
         coach_module,
-        "validate_response",
+        "evaluate_response",
         lambda *args, **kwargs: pytest.fail("validator must not be called"),
     )
 

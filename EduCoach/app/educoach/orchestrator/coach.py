@@ -5,7 +5,7 @@ from educoach.llm import LLMProvider, LLMRequest
 from educoach.rag import Retriever
 from educoach.services import LearnerMemoryService
 from educoach.specialties import SpecialtyProfileRegistry
-from educoach.validators import validate_response, validate_user_message
+from educoach.validators import evaluate_response, validate_user_message
 from educoach.writeback import StudyPlanWriteProposal
 
 from .context_resolution import ActiveContextResolutionStatus
@@ -13,6 +13,7 @@ from .context_routing import resolve_request_context
 from .intent_detection import detect_intents
 from .intent import IntentType
 from .rag_gating import RAGNeedStatus, decide_rag_need
+from .response_actions import handle_response_validation_action
 from .structured_proposal import (
     _build_structured_study_plan_prompt,
     materialize_study_plan_write_proposal,
@@ -122,12 +123,17 @@ class CoachOrchestrator:
                     snapshot,
                     active_context.context,
                 )
+        validation_report = evaluate_response(
+            response_text,
+            snapshot=snapshot,
+            specialty_registry=self.specialty_registry,
+        )
+        validated_text = handle_response_validation_action(
+            response_text,
+            validation_report,
+        )
         return CoachResult(
-            validate_response(
-                response_text,
-                snapshot=snapshot,
-                specialty_registry=self.specialty_registry,
-            ),
+            validated_text,
             response.model,
             study_plan_proposal,
         )

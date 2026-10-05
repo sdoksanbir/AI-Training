@@ -27,6 +27,7 @@ from educoach.orchestrator import (
 )
 from educoach.services import LearnerMemoryService, LearnerMemorySnapshot
 from educoach.specialties import SpecialtyProfile, SpecialtyProfileRegistry
+from educoach.validators import ResponseValidationAction, ResponseValidationReport
 
 
 @pytest.mark.parametrize(
@@ -447,8 +448,10 @@ def test_runtime_zero_active_required_request_uses_global_only_scope() -> None:
 def test_not_required_request_still_calls_validator(monkeypatch) -> None:
     learner = Learner()
     context = make_context(learner, "program", ContextType.OTHER)
-    validator = Mock(side_effect=lambda text, **_: text)
-    monkeypatch.setattr(coach_module, "validate_response", validator)
+    validator = Mock(
+        return_value=ResponseValidationReport(ResponseValidationAction.PASS)
+    )
+    monkeypatch.setattr(coach_module, "evaluate_response", validator)
     retriever = RecordingRetriever()
     orchestrator, _, provider = make_runtime(
         make_snapshot(learner, (context,)), retriever=retriever
@@ -481,7 +484,7 @@ def test_ambiguous_context_stops_before_intent_rag_llm_and_validator(
     )
     monkeypatch.setattr(
         coach_module,
-        "validate_response",
+        "evaluate_response",
         lambda *_args, **_kwargs: pytest.fail("validator must not be called"),
     )
 

@@ -33,6 +33,11 @@ from .rag_gating import (
     RAGNeedStatus,
     decide_rag_need,
 )
+from .response_actions import (
+    ResponseAutoFixRequired,
+    ResponseRegenerationRequired,
+    handle_response_validation_action,
+)
 from .structured_proposal import (
     StructuredCoachOutput,
     StructuredLLMOutputError,
@@ -61,6 +66,8 @@ __all__ = [
     "RAGNeedDecision",
     "RAGNeedSource",
     "RAGNeedStatus",
+    "ResponseAutoFixRequired",
+    "ResponseRegenerationRequired",
     "StructuredCoachOutput",
     "StructuredLLMOutputError",
     "StudyPlanProposal",
@@ -69,6 +76,7 @@ __all__ = [
     "resolve_active_context",
     "resolve_request_context",
     "resolve_intents",
+    "handle_response_validation_action",
     "materialize_study_plan_write_proposal",
     "parse_structured_coach_output",
     "project_context_selection_evidence",

@@ -30,6 +30,7 @@ from educoach.orchestrator import (
     parse_structured_coach_output,
 )
 from educoach.services import LearnerMemoryService, LearnerMemorySnapshot
+from educoach.validators import ResponseValidationAction, ResponseValidationReport
 from educoach.writeback import WriteValidationStatus, validate_study_plan_write
 
 
@@ -455,8 +456,10 @@ def test_response_validator_receives_response_text_not_raw_json(monkeypatch) -> 
     context = make_context(learner)
     raw = structured_text(response_text="Gösterilecek cevap.")
     orchestrator, _, _ = make_runtime(make_snapshot(learner, (context,)), raw)
-    validator = Mock(side_effect=lambda text, **_: text)
-    monkeypatch.setattr(coach_module, "validate_response", validator)
+    validator = Mock(
+        return_value=ResponseValidationReport(ResponseValidationAction.PASS)
+    )
+    monkeypatch.setattr(coach_module, "evaluate_response", validator)
 
     result = orchestrator.respond(learner.learner_id, "Bana haftalık plan yap.")
 
