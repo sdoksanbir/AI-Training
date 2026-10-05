@@ -1,6 +1,6 @@
 # EduCoach Uygulama Durumu
 
-Son güncelleme: 5 Ekim 2026
+Son güncelleme: 6 Ekim 2026
 
 ## Ürün kapsamı
 
@@ -49,10 +49,11 @@ EduCoach yalnız YKS uygulaması değildir. Genel çekirdek farklı eğitim alan
 - Deterministik core regression komutu.
 - `SpecialtyProfile` domain sözleşmesi, versioned registry ve context/family doğrulaması.
 - JSON loader ile paketlenen `school_7`, `yks`, `ales` ve `general_english` builtin profilleri.
+- Public `/health` ve authentication-required `/v1/coach/respond` endpoint'lerini sunan HTTP boundary; request body yerine authenticated principal'dan alınan authoritative `learner_id`, optional `context_id`, fail-closed ownership davranışı, sanitize edilmiş hata cevapları ve otomatik write-back yapmayan StudyPlan proposal serialization.
 
 ## Doğrulama
 
-Son test paketi: 886 test başarılı.
+Son test paketi: 894 test başarılı.
 
 Knowledge Base testleri: 20/20 PASS.
 
@@ -75,6 +76,9 @@ Ollama üzerinde `qwen3:14b` ile gerçek uçtan uca cevap üretimi doğrulandı.
 - Knowledge Base v0.1: tamamlandı.
 - Regression Evaluation: tamamlandı.
 - Orchestrator v1: kısmi; StudyPlan validated write-back boundary, Active Context & Specialty Resolution v0.1, Typed Multi-Intent Contract, Conservative Intent Detection v0.1, Context Selection Evidence v0.1, Context Routing Terminology + Message Evidence v0.1, Final Context Selection Policy + Runtime Integration v0.1, Full RAG Need Gating v0.1, Structured StudyPlan Proposal Generation v0.1, Validator Action Orchestration v0.1, Controlled Regeneration v0.1 ve Deterministic Auto-Fix v0.1 tamamlandı.
+- HTTP API + Authentication: kısmi.
+
+HTTP boundary + authenticated principal ownership tamamlandı. Concrete credential/login/token persistence henüz yok.
 
 ## Sıradaki üretim işleri
 
@@ -98,4 +102,4 @@ Provider-level structured-output capability negotiation uygulanmamıştır; stru
 - `AUTO_FIX`, yalnız repetition-loop için bir kez deterministic fix uygular ve sonucu yeniden validate eder; unsupported veya tekrarlanan AUTO_FIX typed required boundary üzerinden taşınır.
 - `PLAN_AVAILABLE_TIME_LIMIT` hâlâ `REGENERATE` olur; task sürelerini değiştiren authoritative redistribution policy yoktur.
 
-HTTP API ve authentication, core davranış sözleşmeleri olgunlaştıktan sonra ele alınacaktır.
+HTTP adapter mevcut authentication resolver contract'ını kullanır; JWT/login/password/role sistemi sağlamaz ve credential/token persistence içermez.

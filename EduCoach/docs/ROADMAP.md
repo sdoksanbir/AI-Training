@@ -1,6 +1,6 @@
 # EduCoach — Product & Architecture Roadmap
 
-**Güncelleme:** 5 Ekim 2026
+**Güncelleme:** 6 Ekim 2026
 
 ## Ürün kapsamı
 
@@ -126,9 +126,13 @@ Doğrulama baseline'ı: 886 test başarılı, core regression 8/8 PASS.
 
 ### FAZ 13 — HTTP API + Authentication
 
-**Durum: BEKLEMEDE**
+**Durum: KISMİ**
 
-Core davranış sözleşmeleri oturmadan API/auth çalışmaları öne çekilmeyecek.
+HTTP boundary + authenticated principal ownership tamamlandı. Concrete credential/login/token persistence henüz yok.
+
+Public `/health` ve authentication-required `/v1/coach/respond` endpoint'leri mevcuttur. Coach request body `learner_id` kabul etmez; authoritative learner kimliği external credential'ı çözen authentication resolver'ın ürettiği principal'dan gelir. Optional context aktarılır, foreign context fail closed kalır, internal hata ayrıntıları sanitize edilir ve StudyPlan proposal response'a serialize edilirken otomatik persist edilmez.
+
+Doğrulama baseline'ı: HTTP API 8/8 PASS, full pytest 894 başarılı, core regression 8/8 PASS ve RAG evaluation Recall@3 %100 / Top-1 accuracy %100 / 0 forbidden violation.
 
 ### FAZ 14 — Final Unseen Evaluation
 

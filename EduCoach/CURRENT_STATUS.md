@@ -1,6 +1,6 @@
 # EduCoach — Current Status
 
-**Son güncelleme:** 5 Ekim 2026
+**Son güncelleme:** 6 Ekim 2026
 
 ## Ürün ve kapsam
 
@@ -47,6 +47,7 @@ LLM doğal dil ve muhakeme sağlar. Kesin kurallar, learner gerçekleri, ortak e
 - Validator Action Orchestration v0.1: `PASS` cevapları kabul edilir, `BLOCK` fail closed kalır, `REGENERATE` typed regeneration-required boundary ve `AUTO_FIX` typed auto-fix-required boundary üzerinden taşınır.
 - Controlled Regeneration v0.1: yalnız `REGENERATE` action'ı aynı user message, snapshot ve memory+RAG context ile bir kez retry edilir; violation feedback system-owned prompt'a eklenir. İkinci `REGENERATE`, `ResponseRegenerationExhausted` üretir. Generic deterministic fallback henüz yoktur.
 - Deterministic Auto-Fix v0.1: yalnız `OUTPUT_REPETITION_LOOP`, `AUTO_FIX` üretir; üç veya daha fazla ardışık eşdeğer segment tek kopyaya indirilir ve sonuç yeniden validate edilir. AUTO_FIX provider retry değildir. `PLAN_AVAILABLE_TIME_LIMIT` hâlâ `REGENERATE` olur; authoritative plan-duration redistribution policy henüz yoktur.
+- HTTP API boundary: public `/health`, authentication-required `/v1/coach/respond`, authenticated principal'dan authoritative learner ownership, optional context aktarımı, fail-closed foreign-context davranışı, sanitize edilmiş hata cevapları ve persist edilmeyen StudyPlan proposal serialization.
 - CLI ve deterministik core regression komutu.
 
 ## Faz özeti
@@ -62,7 +63,10 @@ LLM doğal dil ve muhakeme sağlar. Kesin kurallar, learner gerçekleri, ortak e
 - Faz 9: **KISMİ**
 - Faz 10: **TAMAMLANDI**
 - Faz 11, 12 ve 14: **BAŞLANMADI**
-- Faz 13 ve 15: **BEKLEMEDE**
+- Faz 13: **KISMİ**
+- Faz 15: **BEKLEMEDE**
+
+HTTP boundary + authenticated principal ownership tamamlandı. Concrete credential/login/token persistence henüz yok.
 
 ## Fine-tuning araştırma geçmişi
 
@@ -83,6 +87,7 @@ Yeni fine-tuning çalışması dondurulmuştur. Fine-tuning ancak çalışan ür
 - İleride ihtiyaçla doğrulanacak persistent index
 - Ayrı development evaluation seti
 - Gerçek learner senaryoları
+- Concrete credential/login/token persistence
 
 ## Aktif sıradaki iş
 
@@ -90,7 +95,7 @@ FAZ 9 kapsamında authoritative plan-budget deterministic redistribution policy'
 
 ## Doğrulama baseline'ı
 
-- Full pytest: **886 passed**
+- Full pytest: **894 passed**
 - Knowledge Base tests: **20/20 passed**
 - Core regression: **8/8 PASS**
 - RAG retrieval evaluation: **Recall@3 %100, Top-1 accuracy %100, forbidden violation 0**
