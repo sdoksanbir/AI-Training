@@ -306,7 +306,13 @@ def make_runtime(
 ) -> tuple[CoachOrchestrator, RecordingRetriever | None, FakeLLMProvider]:
     memory = Mock(spec=LearnerMemoryService)
     memory.get_learner_memory_snapshot.return_value = snapshot
-    provider = FakeLLMProvider(responder=lambda _: "Birlikte inceleyelim.")
+    provider = FakeLLMProvider(
+        responder=lambda request: (
+            '{"response_text":"Birlikte inceleyelim.","proposal":null}'
+            if "ONLY valid JSON object" in request.system_prompt
+            else "Birlikte inceleyelim."
+        )
+    )
     orchestrator = CoachOrchestrator(
         memory,
         provider,

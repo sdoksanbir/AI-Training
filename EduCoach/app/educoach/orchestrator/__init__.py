@@ -33,6 +33,14 @@ from .rag_gating import (
     RAGNeedStatus,
     decide_rag_need,
 )
+from .structured_proposal import (
+    StructuredCoachOutput,
+    StructuredLLMOutputError,
+    StudyPlanProposal,
+    StudyPlanTaskProposal,
+    materialize_study_plan_write_proposal,
+    parse_structured_coach_output,
+)
 
 __all__ = [
     "ActiveContextResolution",
@@ -53,10 +61,16 @@ __all__ = [
     "RAGNeedDecision",
     "RAGNeedSource",
     "RAGNeedStatus",
+    "StructuredCoachOutput",
+    "StructuredLLMOutputError",
+    "StudyPlanProposal",
+    "StudyPlanTaskProposal",
     "FinalContextResolution",
     "resolve_active_context",
     "resolve_request_context",
     "resolve_intents",
+    "materialize_study_plan_write_proposal",
+    "parse_structured_coach_output",
     "project_context_selection_evidence",
     "project_message_context_evidence",
 ]

@@ -40,6 +40,7 @@ EduCoach yalnız YKS uygulaması değildir. Genel çekirdek farklı eğitim alan
 - Specialty Profile configuration'ından typed routing terminology okuyan; tek açık terimi yeterli saymadan `NONE/CONSISTENT/CONFLICTING` Message Context Evidence v0.1 üreten deterministic projection.
 - Final Context Selection Policy + Runtime Integration v0.1: explicit seçimin en yüksek precedence'a sahip olduğu, yalnız multi-active durumda message evidence'ın memory evidence'dan önce değerlendirildiği deterministic final routing; authoritative specialty ve seçilmiş program RAG scope entegrasyonu; ambiguous sonuçta retriever, LLM ve validator çağırmayan generic deterministic clarification.
 - Full RAG Need Gating v0.1: immutable ve açıklanabilir `REQUIRED/NOT_REQUIRED/UNRESOLVED` kararı; knowledge question/study advice için retrieval, local memory/rule intent'leri için skip ve detector coverage dışındaki isteklerde conservative retrieval. Intent detection context routing sonrasında ve request başına bir kez çalışır; ambiguous context intent aşamasına ulaşmaz.
+- Structured StudyPlan Proposal Generation v0.1: planning + resolved context isteklerinde tek provider çağrısından strict JSON envelope parse edilir; kullanıcıya yalnız `response_text` gider. LLM yalnız semantic plan/task alanlarını üretir; learner/context/plan/task ID'leri ile status değerleri sistem tarafından materialize edilir. Candidate write proposal otomatik validate edilmez veya persist edilmez.
 - Ollama provider sağlık kontrolü ve model yüklülük doğrulaması.
 - `educoach` terminal giriş komutu.
 - Deterministik core regression komutu.
@@ -48,7 +49,7 @@ EduCoach yalnız YKS uygulaması değildir. Genel çekirdek farklı eğitim alan
 
 ## Doğrulama
 
-Son test paketi: 755 test başarılı.
+Son test paketi: 808 test başarılı.
 
 Knowledge Base testleri: 20/20 PASS.
 
@@ -70,16 +71,18 @@ Ollama üzerinde `qwen3:14b` ile gerçek uçtan uca cevap üretimi doğrulandı.
 - RAG v0.1: tamamlandı.
 - Knowledge Base v0.1: tamamlandı.
 - Regression Evaluation: başlangıç seviyesinde.
-- Orchestrator v1: kısmi; StudyPlan validated write-back boundary, Active Context & Specialty Resolution v0.1, Typed Multi-Intent Contract, Conservative Intent Detection v0.1, Context Selection Evidence v0.1, Context Routing Terminology + Message Evidence v0.1, Final Context Selection Policy + Runtime Integration v0.1 ve Full RAG Need Gating v0.1 tamamlandı.
+- Orchestrator v1: kısmi; StudyPlan validated write-back boundary, Active Context & Specialty Resolution v0.1, Typed Multi-Intent Contract, Conservative Intent Detection v0.1, Context Selection Evidence v0.1, Context Routing Terminology + Message Evidence v0.1, Final Context Selection Policy + Runtime Integration v0.1, Full RAG Need Gating v0.1 ve Structured StudyPlan Proposal Generation v0.1 tamamlandı.
 
 ## Sıradaki üretim işleri
 
-1. Orchestrator v1 kapsamında LLM structured proposal generation ve regeneration retry/validator action orchestration.
-2. StudyPlan dışındaki kontrollü Learner Memory write-back türleri ve ileride authoritative contract ile conversation-history routing.
+1. Orchestrator v1 kapsamında regeneration retry/validator action orchestration.
+2. StudyPlan dışındaki kontrollü structured proposal ve Learner Memory write-back türleri ile ileride authoritative contract üzerinden conversation-history routing.
 3. Geniş regression ve ayrı development evaluation seti.
 4. Katalog ölçeği ve ölçümler gerektirdiğinde persistent index değerlendirmesi.
 
 Specialty Profile `rag_policy` alanı için typed authoritative schema henüz yoktur; v0.1 generic gate bu açık `JsonValue` alanını kullanmaz.
+
+Provider-level structured-output capability negotiation uygulanmamıştır; structured envelope mevcut text-only `LLMProvider` contract'ı üzerinde orchestrator tarafından yönetilir.
 
 ## Response Validator v0.1 sınırları
 
