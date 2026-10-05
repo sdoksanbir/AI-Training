@@ -47,3 +47,6 @@ huggingface/
 .env.*
 .venv-training/
 .venv-app/
+
+# Local-only real learner evaluation intake (never commit raw/review-pending data)
+EduCoach/evaluations/real_learner/private/

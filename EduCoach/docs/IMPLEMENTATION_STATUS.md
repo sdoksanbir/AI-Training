@@ -51,10 +51,11 @@ EduCoach yalnız YKS uygulaması değildir. Genel çekirdek farklı eğitim alan
 - JSON loader ile paketlenen `school_7`, `yks`, `ales` ve `general_english` builtin profilleri.
 - Public `/health` ve authentication-required `/v1/coach/respond` endpoint'lerini sunan HTTP boundary; request body yerine authenticated principal'dan alınan authoritative `learner_id`, optional `context_id`, fail-closed ownership davranışı, sanitize edilmiş hata cevapları ve otomatik write-back yapmayan StudyPlan proposal serialization.
 - Learner Memory'den ayrı `auth_accounts` ve `auth_sessions` persistence'ı; learner başına tek account, canonical unique login identifier, Argon2id password storage, dummy-hash timing mitigation, 12 saat TTL'li hash-only opaque bearer token, expiry/revocation, login/logout endpoint'leri ve injectable 5 deneme/15 dakika lockout policy'si.
+- Evaluation-only real learner intake contract'ı; flat primitive fact modeli, zorunlu manual privacy/usage assertions, conservative identifier scanner, safe JSONL validation CLI'ı, source-group-safe versioned deterministic dev/final split ve content taşımayan hash manifesti.
 
 ## Doğrulama
 
-Son test paketi: 926 test başarılı.
+Son test paketi: 944 test başarılı.
 
 Knowledge Base testleri: 20/20 PASS.
 
@@ -78,14 +79,17 @@ Ollama üzerinde `qwen3:14b` ile gerçek uçtan uca cevap üretimi doğrulandı.
 - Regression Evaluation: tamamlandı.
 - Orchestrator v1: kısmi; StudyPlan validated write-back boundary, Active Context & Specialty Resolution v0.1, Typed Multi-Intent Contract, Conservative Intent Detection v0.1, Context Selection Evidence v0.1, Context Routing Terminology + Message Evidence v0.1, Final Context Selection Policy + Runtime Integration v0.1, Full RAG Need Gating v0.1, Structured StudyPlan Proposal Generation v0.1, Validator Action Orchestration v0.1, Controlled Regeneration v0.1 ve Deterministic Auto-Fix v0.1 tamamlandı.
 - HTTP API + Authentication: tamamlandı.
+- Development Evaluation Set: kısmi.
 
 HTTP boundary, persistent learner login, opaque session authentication ve authenticated principal ownership tamamlandı.
+
+Real learner evaluation intake contract, privacy validation ve deterministic dev/final split tooling hazır; development evaluation dataset henüz gerçek case'lerle doldurulmadı. Gerçek anonymized learner scenario eklenmedi.
 
 ## Sıradaki üretim işleri
 
 1. Orchestrator v1 kapsamında authoritative plan-budget deterministic redistribution policy değerlendirmesi.
 2. StudyPlan dışındaki kontrollü structured proposal ve Learner Memory write-back türleri ile ileride authoritative contract üzerinden conversation-history routing.
-3. Ayrı development evaluation seti.
+3. Privacy review ve usage authorization sürecinden geçen gerçek case'lerle development evaluation setini doldurmak.
 4. Katalog ölçeği ve ölçümler gerektirdiğinde persistent index değerlendirmesi.
 
 Specialty Profile `rag_policy` alanı için typed authoritative schema henüz yoktur; v0.1 generic gate bu açık `JsonValue` alanını kullanmaz.

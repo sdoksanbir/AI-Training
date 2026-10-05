@@ -49,6 +49,7 @@ LLM doğal dil ve muhakeme sağlar. Kesin kurallar, learner gerçekleri, ortak e
 - Deterministic Auto-Fix v0.1: yalnız `OUTPUT_REPETITION_LOOP`, `AUTO_FIX` üretir; üç veya daha fazla ardışık eşdeğer segment tek kopyaya indirilir ve sonuç yeniden validate edilir. AUTO_FIX provider retry değildir. `PLAN_AVAILABLE_TIME_LIMIT` hâlâ `REGENERATE` olur; authoritative plan-duration redistribution policy henüz yoktur.
 - HTTP API boundary: public `/health`, authentication-required `/v1/coach/respond`, authenticated principal'dan authoritative learner ownership, optional context aktarımı, fail-closed foreign-context davranışı, sanitize edilmiş hata cevapları ve persist edilmeyen StudyPlan proposal serialization.
 - Persistent learner authentication: Learner Memory'den ayrı 1:1 auth account, Argon2id password hash, normalize edilmiş unique login identifier, 12 saat TTL'li server-side opaque session, hash-only token persistence, expiry, logout/revocation ve 5 deneme/15 dakika account lockout policy'si.
+- Real learner evaluation intake: production'dan bağımsız strict case/fact contract'ı, privacy/authorization guard, conservative identifier scanner, local-only private intake sınırı ve source-group-safe deterministic development/final split tooling.
 - CLI ve deterministik core regression komutu.
 
 ## Faz özeti
@@ -63,11 +64,14 @@ LLM doğal dil ve muhakeme sağlar. Kesin kurallar, learner gerçekleri, ortak e
 - Faz 8: **TAMAMLANDI**
 - Faz 9: **KISMİ**
 - Faz 10: **TAMAMLANDI**
-- Faz 11, 12 ve 14: **BAŞLANMADI**
+- Faz 11: **KISMİ**
+- Faz 12 ve 14: **BAŞLANMADI**
 - Faz 13: **TAMAMLANDI**
 - Faz 15: **BEKLEMEDE**
 
 HTTP boundary, persistent learner login, opaque session authentication ve authenticated principal ownership tamamlandı.
+
+Real learner evaluation intake contract, privacy validation ve deterministic dev/final split tooling hazır; development evaluation dataset henüz gerçek case'lerle doldurulmadı.
 
 ## Fine-tuning araştırma geçmişi
 
@@ -86,7 +90,7 @@ Yeni fine-tuning çalışması dondurulmuştur. Fine-tuning ancak çalışan ür
 - Plan-budget deterministic redistribution policy, conversation-history routing ve StudyPlan dışındaki structured proposal/write-back türleri
 - Typed Specialty `rag_policy` schema ve policy entegrasyonu
 - İleride ihtiyaçla doğrulanacak persistent index
-- Ayrı development evaluation seti
+- Privacy-reviewed gerçek case'lerle doldurulmuş development evaluation dataset
 - Gerçek learner senaryoları
 
 ## Aktif sıradaki iş
@@ -95,7 +99,7 @@ FAZ 9 kapsamında authoritative plan-budget deterministic redistribution policy'
 
 ## Doğrulama baseline'ı
 
-- Full pytest: **926 passed**
+- Full pytest: **944 passed**
 - Knowledge Base tests: **20/20 passed**
 - Core regression: **8/8 PASS**
 - RAG retrieval evaluation: **Recall@3 %100, Top-1 accuracy %100, forbidden violation 0**

@@ -118,7 +118,13 @@ Doğrulama baseline'ı: 886 test başarılı, core regression 8/8 PASS.
 
 ### FAZ 11 — Development Evaluation Set
 
-**Durum: BAŞLANMADI**
+**Durum: KISMİ**
+
+Real learner evaluation intake contract, privacy validation ve deterministic dev/final split tooling hazır; development evaluation dataset henüz gerçek case'lerle doldurulmadı.
+
+Evaluation-only contract; gerçek kimliklerden türetilmeyen case/source-group ID'leri, flat primitive facts, zorunlu manual privacy review ve project-level usage authorization assertion'ı kullanır. Conservative scanner yalnız bariz email, phone-like number, UUID, bearer/token text ve social handle sızıntılarını reddeder; anonymizer değildir. Versioned SHA-256 source-group split aynı gerçek kaynaktan gelen case'leri development ve final unseen arasında ayırmaz, input sırasından bağımsız canonical output ve content-free manifest üretir. Mevcut final output overwrite edilmez.
+
+Doğrulama baseline'ı: focused evaluation contract 18/18 PASS, full pytest 944 başarılı, core regression 8/8 PASS ve RAG evaluation Recall@3 %100 / Top-1 accuracy %100 / 0 forbidden violation.
 
 ### FAZ 12 — Gerçek Learner Senaryoları
 
