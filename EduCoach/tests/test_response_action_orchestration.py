@@ -11,6 +11,7 @@ from educoach.models import ContextType, Learner, LearningContext
 from educoach.orchestrator import (
     CoachOrchestrator,
     ResponseAutoFixRequired,
+    ResponseRegenerationExhausted,
     ResponseRegenerationRequired,
     handle_response_validation_action,
 )
@@ -242,15 +243,15 @@ def test_runtime_pass_returns_stripped_result_with_one_provider_call() -> None:
     assert len(provider.requests) == 1
 
 
-def test_runtime_regenerate_raises_typed_boundary_without_retry() -> None:
+def test_runtime_regenerate_exhausts_after_one_retry() -> None:
     orchestrator, _, provider, learner = make_runtime("Sen 10. sınıftasın.")
 
-    with pytest.raises(ResponseRegenerationRequired) as captured:
+    with pytest.raises(ResponseRegenerationExhausted) as captured:
         orchestrator.respond(learner.learner_id, "Sınıfımı değerlendir")
 
     assert captured.value.report.action is ResponseValidationAction.REGENERATE
     assert captured.value.violations == ["CORE_MEMORY_CONTRADICTION"]
-    assert len(provider.requests) == 1
+    assert len(provider.requests) == 2
 
 
 def test_runtime_block_is_not_converted_to_regeneration() -> None:
@@ -277,15 +278,15 @@ def test_structured_planning_pass_returns_proposal() -> None:
     memory.save_study_plan.assert_not_called()
 
 
-def test_structured_planning_regenerate_returns_no_result_or_persistence() -> None:
+def test_structured_planning_regenerate_exhausts_without_persistence() -> None:
     orchestrator, memory, provider, learner = make_runtime(
         structured_response("Sen 10. sınıftasın.")
     )
 
-    with pytest.raises(ResponseRegenerationRequired):
+    with pytest.raises(ResponseRegenerationExhausted):
         orchestrator.respond(learner.learner_id, "Bana haftalık plan yap")
 
-    assert len(provider.requests) == 1
+    assert len(provider.requests) == 2
     memory.save_study_plan.assert_not_called()
 
 

@@ -33,6 +33,11 @@ from .rag_gating import (
     RAGNeedStatus,
     decide_rag_need,
 )
+from .regeneration import (
+    MAX_REGENERATION_ATTEMPTS,
+    ResponseRegenerationExhausted,
+    build_regeneration_request,
+)
 from .response_actions import (
     ResponseAutoFixRequired,
     ResponseRegenerationRequired,
@@ -63,10 +68,12 @@ __all__ = [
     "IntentType",
     "MessageContextEvidence",
     "MessageContextEvidenceStatus",
+    "MAX_REGENERATION_ATTEMPTS",
     "RAGNeedDecision",
     "RAGNeedSource",
     "RAGNeedStatus",
     "ResponseAutoFixRequired",
+    "ResponseRegenerationExhausted",
     "ResponseRegenerationRequired",
     "StructuredCoachOutput",
     "StructuredLLMOutputError",
@@ -76,6 +83,7 @@ __all__ = [
     "resolve_active_context",
     "resolve_request_context",
     "resolve_intents",
+    "build_regeneration_request",
     "handle_response_validation_action",
     "materialize_study_plan_write_proposal",
     "parse_structured_coach_output",

@@ -514,23 +514,14 @@ Backend mümkünse süreleri belirlenmiş politika ile yeniden dağıtabilir.
 Ancak pedagojik anlamı değiştirecek büyük düzenleme gerekiyorsa yeniden üretim daha doğru olabilir.
 ---
 # 34. Regeneration Sonsuz Döngüye Girmeyecek
-Bir cevabın validator'dan geçmemesi durumunda sınırsız LLM çağrısı yapılmayacaktır.
-Örneğin:
+Controlled Regeneration v0.1 authoritative runtime policy'si:
 ```text
-max_regeneration_attempts = 1 veya 2
+max_regeneration_attempts = 1
 ```
-gibi sınır olacaktır.
-Sonrasında güvenli fallback uygulanır.
+İlk generation ve en fazla bir regeneration ile request başına maksimum iki provider çağrısı yapılır. Yalnız `REGENERATE` action'ı retry tetikler; `BLOCK`, `AUTO_FIX`, structured parse hatası ve provider hatası retry edilmez. Retry aynı user message, snapshot ve memory+RAG context'i kullanır; validator violation ID/message feedback'i yalnız system prompt'a eklenir. İkinci `REGENERATE`, üçüncü çağrı yapmadan `ResponseRegenerationExhausted` üretir.
 ---
 # 35. Fallback
-LLM güvenilir cevap üretemezse sistem tamamen bozulmamalıdır.
-Örneğin:
-```text
-Bugünkü ayrıntılı planı güvenilir biçimde oluşturamadım.
-Elimizdeki kesin bilgilere göre önce şu iki işi yapabilirsin...
-```
-gibi kontrollü alternatifler olabilir.
-Fallback tasarımı ilgili intent'e göre belirlenecektir.
+Generic deterministic user-facing fallback henüz uygulanmamıştır. Güvenilir cevap tek controlled regeneration sonrasında da üretilemezse runtime fail-closed `ResponseRegenerationExhausted` boundary'sini kullanır. Fallback tasarımı ilgili intent'e özgü authoritative contract belirlendikten sonra ele alınacaktır.
 ---
 # 36. Conversation Context
 Learner Memory ile konuşma geçmişi aynı şey değildir.

@@ -44,7 +44,8 @@ LLM doğal dil ve muhakeme sağlar. Kesin kurallar, learner gerçekleri, ortak e
 - Final Context Selection Policy + Runtime Integration v0.1: explicit seçim → active context yapısı → current-message evidence → goal/plan memory evidence precedence'ı; authoritative specialty resolution, seçilen programa özel RAG scope'u ve unresolved multi-context durumda RAG/LLM/validator çağırmayan generic deterministic clarification.
 - Full RAG Need Gating v0.1: immutable `REQUIRED/NOT_REQUIRED/UNRESOLVED` contract'ı, required-intent precedence'ı ve sınırlı high-precision external-knowledge sinyalleri; runtime'da `REQUIRED → retrieve`, `NOT_REQUIRED → skip`, `UNRESOLVED → conservative retrieve` davranışı.
 - Structured StudyPlan Proposal Generation v0.1: planning + resolved context için provider-independent tek JSON-envelope çağrısı, strict semantic schema ve system-owned learner/context/ID/status materialization'ı. Candidate `StudyPlanWriteProposal` otomatik validate veya persist edilmez.
-- Validator Action Orchestration v0.1: `PASS` cevapları kabul edilir, `BLOCK` fail closed kalır, `REGENERATE` typed regeneration-required boundary ve `AUTO_FIX` typed auto-fix-required boundary üzerinden taşınır. Bu fazda retry/regeneration loop veya deterministic auto-fixer yoktur.
+- Validator Action Orchestration v0.1: `PASS` cevapları kabul edilir, `BLOCK` fail closed kalır, `REGENERATE` typed regeneration-required boundary ve `AUTO_FIX` typed auto-fix-required boundary üzerinden taşınır.
+- Controlled Regeneration v0.1: yalnız `REGENERATE` action'ı aynı user message, snapshot ve memory+RAG context ile bir kez retry edilir; violation feedback system-owned prompt'a eklenir. İkinci `REGENERATE`, `ResponseRegenerationExhausted` üretir. Generic deterministic fallback ve AUTO_FIX fixer henüz yoktur.
 - CLI ve deterministik core regression komutu.
 
 ## Faz özeti
@@ -76,7 +77,7 @@ Yeni fine-tuning çalışması dondurulmuştur. Fine-tuning ancak çalışan ür
 
 ## Bilinen ana eksikler
 
-- Controlled regeneration, deterministic auto-fix policies, conversation-history routing ve StudyPlan dışındaki structured proposal/write-back türleri
+- Deterministic auto-fix policies, conversation-history routing ve StudyPlan dışındaki structured proposal/write-back türleri
 - Typed Specialty `rag_policy` schema ve policy entegrasyonu
 - İleride ihtiyaçla doğrulanacak persistent index
 - Geniş regression ve ayrı development evaluation seti
@@ -84,11 +85,11 @@ Yeni fine-tuning çalışması dondurulmuştur. Fine-tuning ancak çalışan ür
 
 ## Aktif sıradaki iş
 
-FAZ 9 kapsamında controlled regeneration ve deterministic auto-fix policies geliştirmek; diğer proposal/write-back türleri ile conversation-history routing'i ilgili authoritative contract'lar oluşana kadar ertelemek.
+FAZ 9 kapsamında deterministic auto-fix policies geliştirmek; diğer proposal/write-back türleri ile conversation-history routing'i ilgili authoritative contract'lar oluşana kadar ertelemek.
 
 ## Doğrulama baseline'ı
 
-- Full pytest: **835 passed**
+- Full pytest: **860 passed**
 - Knowledge Base tests: **20/20 passed**
 - Core regression: **3/3 PASS**
 - RAG retrieval evaluation: **Recall@3 %100, Top-1 accuracy %100, forbidden violation 0**
