@@ -40,6 +40,7 @@ LLM doğal dil ve muhakeme sağlar. Kesin kurallar, learner gerçekleri, ortak e
 - Typed multi-intent contract: dokümante edilmiş 11 intent, `RESOLVED/UNRESOLVED` ayrımı, immutable çoklu intent sonucu ve deterministik canonical ordering.
 - Conservative intent detection v0.1: yedi açık intent için deterministic Türkçe kalıplar, multi-intent üretimi ve güvenli `UNRESOLVED` fallback'i.
 - Context Selection Evidence v0.1: ACTIVE context'lere bağlı ACTIVE goal/plan kayıtlarından immutable, deterministic ve conflict-aware memory evidence projection'ı.
+- Context Routing Terminology + Message Evidence v0.1: authoritative Specialty Profile configuration'ından okunan typed terminoloji ile tek kelimeyi yeterli saymayan, deterministic ve conflict-aware message evidence projection'ı.
 - CLI ve deterministik core regression komutu.
 
 ## Faz özeti
@@ -71,7 +72,7 @@ Yeni fine-tuning çalışması dondurulmuştur. Fine-tuning ancak çalışan ür
 
 ## Bilinen ana eksikler
 
-- Conservative message context routing, final context selection/runtime entegrasyonu, tam RAG gating ve regeneration/action orchestration akışı
+- Final context selection policy, memory ve message evidence reconciliation, runtime entegrasyonu, clarification davranışı, tam RAG gating ve regeneration/action orchestration akışı
 - LLM structured proposal generation ve StudyPlan dışındaki memory write-back türleri
 - İleride ihtiyaçla doğrulanacak persistent index
 - Geniş regression ve ayrı development evaluation seti
@@ -79,11 +80,11 @@ Yeni fine-tuning çalışması dondurulmuştur. Fine-tuning ancak çalışan ür
 
 ## Aktif sıradaki iş
 
-FAZ 9 kapsamında conservative message context routing, final context selection/runtime entegrasyonu, tam RAG gating, LLM structured proposal generation ve validator action orchestration geliştirmek.
+FAZ 9 kapsamında final context selection policy, memory ve message evidence reconciliation, runtime entegrasyonu, clarification davranışı, tam RAG gating, LLM structured proposal generation ve validator action orchestration geliştirmek.
 
 ## Doğrulama baseline'ı
 
-- Full pytest: **619 passed**
+- Full pytest: **668 passed**
 - Knowledge Base tests: **20/20 passed**
 - Core regression: **3/3 PASS**
 - RAG retrieval evaluation: **Recall@3 %100, Top-1 accuracy %100, forbidden violation 0**

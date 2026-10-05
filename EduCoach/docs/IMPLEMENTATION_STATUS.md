@@ -37,6 +37,7 @@ EduCoach yalnız YKS uygulaması değildir. Genel çekirdek farklı eğitim alan
 - Dokümante edilmiş 11 intent'i taşıyan immutable typed multi-intent contract, açık `RESOLVED/UNRESOLVED` ayrımı ve deterministik canonical ordering.
 - Yedi yüksek kesinlikli intent için saf, deterministic ve multi-intent destekli Conservative Intent Detection v0.1; belirsiz mesajlarda `UNRESOLVED` sonucu.
 - ACTIVE context-scoped goal ve planlardan deterministic `NONE/CONSISTENT/CONFLICTING` Context Selection Evidence v0.1 projection'ı.
+- Specialty Profile configuration'ından typed routing terminology okuyan; tek açık terimi yeterli saymadan `NONE/CONSISTENT/CONFLICTING` Message Context Evidence v0.1 üreten deterministic projection.
 - Ollama provider sağlık kontrolü ve model yüklülük doğrulaması.
 - `educoach` terminal giriş komutu.
 - Deterministik core regression komutu.
@@ -45,7 +46,7 @@ EduCoach yalnız YKS uygulaması değildir. Genel çekirdek farklı eğitim alan
 
 ## Doğrulama
 
-Son test paketi: 619 test başarılı.
+Son test paketi: 668 test başarılı.
 
 Knowledge Base testleri: 20/20 PASS.
 
@@ -67,11 +68,11 @@ Ollama üzerinde `qwen3:14b` ile gerçek uçtan uca cevap üretimi doğrulandı.
 - RAG v0.1: tamamlandı.
 - Knowledge Base v0.1: tamamlandı.
 - Regression Evaluation: başlangıç seviyesinde.
-- Orchestrator v1: kısmi; StudyPlan validated write-back boundary, Active Context & Specialty Resolution v0.1, Typed Multi-Intent Contract, Conservative Intent Detection v0.1 ve Context Selection Evidence v0.1 tamamlandı.
+- Orchestrator v1: kısmi; StudyPlan validated write-back boundary, Active Context & Specialty Resolution v0.1, Typed Multi-Intent Contract, Conservative Intent Detection v0.1, Context Selection Evidence v0.1 ve Context Routing Terminology + Message Evidence v0.1 tamamlandı.
 
 ## Sıradaki üretim işleri
 
-1. Orchestrator v1 kapsamında conservative message context routing, final context selection/runtime entegrasyonu, tam RAG gating, LLM structured proposal generation ve regeneration retry/action orchestration.
+1. Orchestrator v1 kapsamında final context selection policy, memory ve message evidence reconciliation, runtime entegrasyonu, clarification davranışı, tam RAG gating, LLM structured proposal generation ve regeneration retry/action orchestration.
 2. StudyPlan dışındaki kontrollü Learner Memory write-back türleri.
 3. Geniş regression ve ayrı development evaluation seti.
 4. Katalog ölçeği ve ölçümler gerektirdiğinde persistent index değerlendirmesi.

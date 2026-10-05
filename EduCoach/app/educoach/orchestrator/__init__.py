@@ -9,6 +9,12 @@ from .context_selection import (
     ContextSelectionEvidenceStatus,
     project_context_selection_evidence,
 )
+from .context_message_evidence import (
+    ContextMessageMatch,
+    MessageContextEvidence,
+    MessageContextEvidenceStatus,
+    project_message_context_evidence,
+)
 from .intent import (
     IntentResolution,
     IntentResolutionStatus,
@@ -22,13 +28,17 @@ __all__ = [
     "ActiveContextResolutionStatus",
     "CoachOrchestrator",
     "CoachResult",
+    "ContextMessageMatch",
     "ContextSelectionEvidence",
     "ContextSelectionEvidenceStatus",
     "detect_intents",
     "IntentResolution",
     "IntentResolutionStatus",
     "IntentType",
+    "MessageContextEvidence",
+    "MessageContextEvidenceStatus",
     "resolve_active_context",
     "resolve_intents",
     "project_context_selection_evidence",
+    "project_message_context_evidence",
 ]

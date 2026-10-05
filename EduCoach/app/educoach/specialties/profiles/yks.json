@@ -3,5 +3,12 @@
   "profile_family": "entrance_exam",
   "display_name": "YKS",
   "profile_version": 1,
-  "status": "active"
+  "status": "active",
+  "terminology": {
+    "context_routing": {
+      "explicit_terms": ["YKS", "TYT", "AYT"],
+      "support_terms": ["net", "deneme", "süre"],
+      "explicit_phrases": ["TYT denemesi", "AYT denemesi"]
+    }
+  }
 }
