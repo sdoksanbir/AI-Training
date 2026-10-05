@@ -48,6 +48,7 @@ LLM doğal dil ve muhakeme sağlar. Kesin kurallar, learner gerçekleri, ortak e
 - Controlled Regeneration v0.1: yalnız `REGENERATE` action'ı aynı user message, snapshot ve memory+RAG context ile bir kez retry edilir; violation feedback system-owned prompt'a eklenir. İkinci `REGENERATE`, `ResponseRegenerationExhausted` üretir. Generic deterministic fallback henüz yoktur.
 - Deterministic Auto-Fix v0.1: yalnız `OUTPUT_REPETITION_LOOP`, `AUTO_FIX` üretir; üç veya daha fazla ardışık eşdeğer segment tek kopyaya indirilir ve sonuç yeniden validate edilir. AUTO_FIX provider retry değildir. `PLAN_AVAILABLE_TIME_LIMIT` hâlâ `REGENERATE` olur; authoritative plan-duration redistribution policy henüz yoktur.
 - HTTP API boundary: public `/health`, authentication-required `/v1/coach/respond`, authenticated principal'dan authoritative learner ownership, optional context aktarımı, fail-closed foreign-context davranışı, sanitize edilmiş hata cevapları ve persist edilmeyen StudyPlan proposal serialization.
+- Persistent learner authentication: Learner Memory'den ayrı 1:1 auth account, Argon2id password hash, normalize edilmiş unique login identifier, 12 saat TTL'li server-side opaque session, hash-only token persistence, expiry, logout/revocation ve 5 deneme/15 dakika account lockout policy'si.
 - CLI ve deterministik core regression komutu.
 
 ## Faz özeti
@@ -63,10 +64,10 @@ LLM doğal dil ve muhakeme sağlar. Kesin kurallar, learner gerçekleri, ortak e
 - Faz 9: **KISMİ**
 - Faz 10: **TAMAMLANDI**
 - Faz 11, 12 ve 14: **BAŞLANMADI**
-- Faz 13: **KISMİ**
+- Faz 13: **TAMAMLANDI**
 - Faz 15: **BEKLEMEDE**
 
-HTTP boundary + authenticated principal ownership tamamlandı. Concrete credential/login/token persistence henüz yok.
+HTTP boundary, persistent learner login, opaque session authentication ve authenticated principal ownership tamamlandı.
 
 ## Fine-tuning araştırma geçmişi
 
@@ -87,7 +88,6 @@ Yeni fine-tuning çalışması dondurulmuştur. Fine-tuning ancak çalışan ür
 - İleride ihtiyaçla doğrulanacak persistent index
 - Ayrı development evaluation seti
 - Gerçek learner senaryoları
-- Concrete credential/login/token persistence
 
 ## Aktif sıradaki iş
 
@@ -95,7 +95,7 @@ FAZ 9 kapsamında authoritative plan-budget deterministic redistribution policy'
 
 ## Doğrulama baseline'ı
 
-- Full pytest: **894 passed**
+- Full pytest: **926 passed**
 - Knowledge Base tests: **20/20 passed**
 - Core regression: **8/8 PASS**
 - RAG retrieval evaluation: **Recall@3 %100, Top-1 accuracy %100, forbidden violation 0**

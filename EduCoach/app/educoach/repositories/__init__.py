@@ -1,6 +1,7 @@
 """EduCoach repository interfaces and implementations."""
 
 from .assessment import AssessmentRepository
+from .auth import AuthRepository
 from .coaching import CoachingStateRepository
 from .availability import AvailabilityRepository
 from .goal import GoalRepository
@@ -11,6 +12,7 @@ from .study import StudyRepository
 
 __all__ = [
     "AssessmentRepository",
+    "AuthRepository",
     "CoachingStateRepository",
     "AvailabilityRepository",
     "GoalRepository",

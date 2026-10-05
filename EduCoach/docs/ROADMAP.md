@@ -126,13 +126,15 @@ Doğrulama baseline'ı: 886 test başarılı, core regression 8/8 PASS.
 
 ### FAZ 13 — HTTP API + Authentication
 
-**Durum: KISMİ**
+**Durum: TAMAMLANDI**
 
-HTTP boundary + authenticated principal ownership tamamlandı. Concrete credential/login/token persistence henüz yok.
+HTTP boundary, persistent learner login, opaque session authentication ve authenticated principal ownership tamamlandı.
 
 Public `/health` ve authentication-required `/v1/coach/respond` endpoint'leri mevcuttur. Coach request body `learner_id` kabul etmez; authoritative learner kimliği external credential'ı çözen authentication resolver'ın ürettiği principal'dan gelir. Optional context aktarılır, foreign context fail closed kalır, internal hata ayrıntıları sanitize edilir ve StudyPlan proposal response'a serialize edilirken otomatik persist edilmez.
 
-Doğrulama baseline'ı: HTTP API 8/8 PASS, full pytest 894 başarılı, core regression 8/8 PASS ve RAG evaluation Recall@3 %100 / Top-1 accuracy %100 / 0 forbidden violation.
+Learner eğitim modeli auth verisi taşımaz. Ayrı `auth_accounts` tablosu learner'a 1:1 foreign key ile bağlıdır; login identifier canonical ve unique, password yalnız pwdlib Argon2id hash olarak saklanır. Ayrı `auth_sessions` tablosu yalnız SHA-256 token verifier'ı, zorunlu expiry ve optional revocation timestamp'i saklar; raw token yalnız login response'unda bir kez döner. `/v1/auth/login` persistent opaque bearer session üretir, `/v1/auth/logout` mevcut session'ı server-side revoke eder. Unknown identifier dummy Argon2 verification'dan geçer; wrong/unknown/inactive/locked login aynı generic failure contract'ını kullanır. Default policy 12 saat session TTL ve 5 başarısız deneme sonrası 15 dakika lockout'tur ve injectable'dır. JWT, refresh token, public registration ve role/RBAC kapsam dışıdır.
+
+Doğrulama baseline'ı: focused auth/API 40/40 PASS, full pytest 926 başarılı, core regression 8/8 PASS ve RAG evaluation Recall@3 %100 / Top-1 accuracy %100 / 0 forbidden violation.
 
 ### FAZ 14 — Final Unseen Evaluation
 

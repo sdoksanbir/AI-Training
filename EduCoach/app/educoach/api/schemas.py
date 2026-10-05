@@ -1,5 +1,6 @@
 """Public HTTP request and response contracts."""
 
+from datetime import datetime
 from typing import Literal
 from uuid import UUID
 
@@ -12,6 +13,21 @@ class HealthResponse(BaseModel):
     model_config = ConfigDict(extra="forbid", frozen=True)
 
     status: Literal["ok"] = "ok"
+
+
+class LoginRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid", frozen=True)
+
+    login_identifier: str
+    password: str
+
+
+class LoginResponse(BaseModel):
+    model_config = ConfigDict(extra="forbid", frozen=True)
+
+    access_token: str
+    token_type: Literal["bearer"] = "bearer"
+    expires_at: datetime
 
 
 class CoachRequest(BaseModel):

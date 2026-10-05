@@ -6,6 +6,9 @@ from .auth import (
     AuthenticationError,
     AuthenticationRequired,
     AuthResolver,
+    InvalidCredentials,
+    IssuedCredential,
+    LoginSessionService,
 )
 
 __all__ = [
@@ -13,5 +16,8 @@ __all__ = [
     "AuthenticationError",
     "AuthenticationRequired",
     "AuthResolver",
+    "InvalidCredentials",
+    "IssuedCredential",
+    "LoginSessionService",
     "create_app",
 ]

@@ -3,7 +3,7 @@
 from typing import Annotated
 
 from fastapi import Depends, FastAPI, Header, HTTPException, status
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, Response
 
 from educoach.llm import OllamaProviderError
 from educoach.orchestrator import (
@@ -16,22 +16,28 @@ from .auth import (
     AuthenticatedPrincipal,
     AuthenticationError,
     AuthResolver,
+    LoginSessionService,
 )
 from .schemas import (
     CoachRequest,
     CoachResponse,
     HealthResponse,
+    LoginRequest,
+    LoginResponse,
     StudyPlanProposalResponse,
 )
 
 
 _INTERNAL_ERROR_DETAIL = "internal server error"
 _SERVICE_UNAVAILABLE_DETAIL = "coach service unavailable"
+_AUTHENTICATION_REQUIRED_DETAIL = "authentication required"
+_INVALID_CREDENTIALS_DETAIL = "invalid credentials"
 
 
 def create_app(
     orchestrator: CoachOrchestrator,
     auth_resolver: AuthResolver,
+    login_session_service: LoginSessionService | None = None,
 ) -> FastAPI:
     """Create an API instance with explicit runtime dependencies."""
 
@@ -48,13 +54,13 @@ def create_app(
         except AuthenticationError:
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="authentication required",
+                detail=_AUTHENTICATION_REQUIRED_DETAIL,
                 headers={"WWW-Authenticate": "Bearer"},
             ) from None
         if not isinstance(principal, AuthenticatedPrincipal):
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="authentication required",
+                detail=_AUTHENTICATION_REQUIRED_DETAIL,
                 headers={"WWW-Authenticate": "Bearer"},
             )
         return principal
@@ -82,6 +88,65 @@ def create_app(
                 detail="service unavailable",
             )
         return HealthResponse()
+
+    @app.post("/v1/auth/login", response_model=LoginResponse)
+    def login(request: LoginRequest) -> LoginResponse:
+        if login_session_service is None:
+            raise HTTPException(
+                status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+                detail="authentication service unavailable",
+            )
+        try:
+            issued = login_session_service.authenticate(
+                request.login_identifier,
+                request.password,
+            )
+        except AuthenticationError:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail=_INVALID_CREDENTIALS_DETAIL,
+            ) from None
+        except Exception:
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail=_INTERNAL_ERROR_DETAIL,
+            ) from None
+        return LoginResponse(
+            access_token=issued.access_token,
+            expires_at=issued.expires_at,
+        )
+
+    @app.post("/v1/auth/logout", status_code=status.HTTP_204_NO_CONTENT)
+    def logout(
+        principal: Annotated[
+            AuthenticatedPrincipal,
+            Depends(resolve_principal),
+        ],
+        authorization: Annotated[
+            str | None,
+            Header(alias="Authorization"),
+        ] = None,
+    ) -> Response:
+        del principal
+        if login_session_service is None:
+            raise HTTPException(
+                status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+                detail="authentication service unavailable",
+            )
+        try:
+            login_session_service.revoke(authorization)
+        except AuthenticationError:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail=_AUTHENTICATION_REQUIRED_DETAIL,
+                headers={"WWW-Authenticate": "Bearer"},
+            ) from None
+        except Exception:
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail=_INTERNAL_ERROR_DETAIL,
+            ) from None
+        return Response(status_code=status.HTTP_204_NO_CONTENT)
 
     @app.post("/v1/coach/respond", response_model=CoachResponse)
     def respond(
