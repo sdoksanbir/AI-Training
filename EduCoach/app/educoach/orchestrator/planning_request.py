@@ -3,10 +3,11 @@
 from collections import defaultdict
 from dataclasses import dataclass
 from datetime import date, time
+from decimal import Decimal, InvalidOperation
 from enum import StrEnum
 import re
 
-from educoach.models import AvailabilityType, TaskType
+from educoach.models import AvailabilityType, StudyTask, TaskType
 from educoach.rules import RuleSeverity, RuleViolation
 from educoach.services import LearnerMemorySnapshot
 from educoach.validators.repetition import normalize_response_text
@@ -122,6 +123,49 @@ class DailyWorkloadClaim:
             raise ValueError("daily workload range is invalid")
 
 
+class PlanningClaimKind(StrEnum):
+    EXACT_CLOCK_ASSIGNMENT = "exact_clock_assignment"
+    DAILY_WORKLOAD_ASSIGNMENT = "daily_workload_assignment"
+
+
+class PlanningClaimModality(StrEnum):
+    ASSERTED = "asserted"
+    CONDITIONAL = "conditional"
+    ILLUSTRATIVE = "illustrative"
+    REPORTED = "reported"
+
+
+@dataclass(frozen=True)
+class PlanningClaim:
+    kind: PlanningClaimKind
+    modality: PlanningClaimModality
+    start_time: time | None = None
+    end_time: time | None = None
+    min_minutes_per_day: int | None = None
+    max_minutes_per_day: int | None = None
+    is_capacity_prescription: bool = False
+
+    def __post_init__(self) -> None:
+        if self.kind is PlanningClaimKind.EXACT_CLOCK_ASSIGNMENT:
+            if self.start_time is None or self.end_time is None:
+                raise ValueError("exact clock assignment requires start and end times")
+            if (
+                self.min_minutes_per_day is not None
+                or self.max_minutes_per_day is not None
+            ):
+                raise ValueError("exact clock assignment cannot contain workload")
+            return
+        if self.start_time is not None or self.end_time is not None:
+            raise ValueError("daily workload assignment cannot contain clock times")
+        if (
+            self.min_minutes_per_day is None
+            or self.max_minutes_per_day is None
+            or self.min_minutes_per_day < 1
+            or self.max_minutes_per_day < self.min_minutes_per_day
+        ):
+            raise ValueError("daily workload assignment requires a valid range")
+
+
 _SUBJECT_LIMIT_PATTERNS = (
     re.compile(
         r"\bmatematige\s+gunde\s+en\s+fazla\s+"
@@ -163,78 +207,52 @@ _HOME_ARRIVAL_PATTERNS = (
         r"(?:['’]?te|\s+te)\s+eve\s+geliyorum\b"
     ),
 )
-_DAILY_WORKLOAD_PATTERNS = (
-    re.compile(
-        r"\b(?:her\s+gun|gunde)\s+(?:yaklasik\s+)?"
-        r"(?P<minimum>\d{1,3})"
-        r"(?:\s*[-–—]\s*(?P<maximum>\d{1,3}))?\s*"
-        r"(?P<unit>saat|dakika)\s+calis(?:\.|!|$)"
-    ),
-    re.compile(
-        r"\b(?:her\s+gun|gunde)\s+"
-        r"(?P<minimum>\d{1,3})"
-        r"(?:\s*[-–—]\s*(?P<maximum>\d{1,3}))?\s*"
-        r"(?P<unit>saat|dakika)lik\s+toplam\s+calisma\s+suresi\s+"
-        r"(?:planlanmistir|onerilmistir|planliyorum|oneriyorum)\b"
-    ),
-    re.compile(
-        r"\b(?:her\s+gun|gunde)\s+"
-        r"(?P<minimum>\d{1,3})"
-        r"(?:\s*[-–—]\s*(?P<maximum>\d{1,3}))?\s*"
-        r"(?P<unit>saat|dakika)lik\s+bir\s+calisma\s+plani\s+"
-        r"(?:planliyorum|oneriyorum)\b"
-    ),
-    re.compile(
-        r"\b(?:her\s+gun|gunde)\s+"
-        r"(?P<minimum>\d{1,3})"
-        r"(?:\s*[-–—]\s*(?P<maximum>\d{1,3}))?\s*"
-        r"(?P<unit>saat|dakika)\s+calisarak\s+ilerleyebilirsin\b"
-    ),
-    re.compile(
-        r"\b(?:her\s+gun|gunde|gunluk)\s+(?:toplam\s+)?"
-        r"(?P<minimum>\d{1,3})"
-        r"(?:\s*[-–—]\s*(?P<maximum>\d{1,3}))?\s*"
-        r"(?P<unit>saat|dakika)\s+"
-        r"(?:calismalisin|calismalisiniz|calisman\s+gerekir|"
-        r"calismaniz\s+gerekir)\b"
-    ),
-    re.compile(
-        r"\bgunluk\s+program\s*\(\s*"
-        r"(?P<minimum>\d{1,3})"
-        r"(?:\s*[-–—]\s*(?P<maximum>\d{1,3}))?\s*"
-        r"(?P<unit>saat|dakika)\s*\)\s*"
-        r"(?:(?:\*\*|__)\s*:|:\s*(?:\*\*|__)|(?:\*\*|__)|:)?"
-        r"(?=\s*(?:$|[\r\n]))"
-    ),
-    re.compile(
-        r"\bgunluk\s+calisma(?:\s+suresi)?\s*:\s*"
-        r"(?P<minimum>\d{1,3})"
-        r"(?:\s*[-–—]\s*(?P<maximum>\d{1,3}))?\s*"
-        r"(?P<unit>saat|dakika)\b"
-    ),
+_NUMERIC_DURATION_PATTERN = re.compile(
+    r"(?<![\d:])(?P<minimum>\d{1,3}(?:[.,]\d+)?)"
+    r"(?:\s*[-–—]\s*(?P<maximum>\d{1,3}(?:[.,]\d+)?))?\s*"
+    r"(?P<unit>saat|dakika)(?:lik|dir|tir)?\b"
 )
-_TOTAL_WORKLOAD_PATTERN = re.compile(
-    r"\btoplam\s+(?P<minimum>\d{1,3})"
-    r"(?:\s*[-–—]\s*(?P<maximum>\d{1,3}))?\s*"
-    r"(?P<unit>saat|dakika)\s+"
-    r"(?:calismalisin|calismalisiniz|calisman\s+gerekir|"
-    r"calismaniz\s+gerekir)\b"
+_DAILY_SCOPE_PATTERN = re.compile(r"\b(?:gunluk|gunde|her\s+gun)\b")
+_TOTAL_WORKLOAD_CONTEXT_PATTERN = re.compile(r"\btoplam\b")
+_CAPACITY_PRESCRIPTION_PATTERN = re.compile(
+    r"\b(?:zorunlu(?:dur)?|sart(?:tir)?|calismali(?:sin|siniz)|"
+    r"calisma(?:n|niz)\s+gerekir)\b"
+)
+_BREAK_BEFORE_DURATION_PATTERN = re.compile(
+    r"\b(?:mola|ara|dinlenme)\w*\s*(?:icin\s*)?$"
+)
+_BREAK_AFTER_DURATION_PATTERN = re.compile(
+    r"^\s*(?:lik\s+)?(?:mola|ara|dinlenme)\w*\b"
 )
 _CLOCK_RANGE_PATTERN = re.compile(
-    r"(?<!\d)(?:[01]?\d|2[0-3])[:.]?[0-5]\d\s*[-–—]\s*"
-    r"(?:[01]?\d|2[0-3])[:.]?[0-5]\d(?!\d)"
+    r"(?<!\d)(?P<start_hour>[01]?\d|2[0-3])[:.]?"
+    r"(?P<start_minute>[0-5]\d)\s*[-–—]\s*"
+    r"(?P<end_hour>[01]?\d|2[0-3])[:.]?"
+    r"(?P<end_minute>[0-5]\d)(?!\d)"
 )
 _STUDY_ACTIVITY_PATTERN = re.compile(
-    r"\b(?:calis|ders|odev|tyt|ayt|matematik|fizik|kimya|biyoloji|"
-    r"turkce|sosyal|ingilizce|konu|soru|test|tekrar|pratik|okuma)\w*\b"
+    r"\b(?:calis|ders|odev|tyt|ayt|yks|hazirlik|matematik|fizik|kimya|"
+    r"biyoloji|turkce|sosyal|ingilizce|konu|soru|test|tekrar|pratik|"
+    r"okuma)\w*\b"
 )
 _STUDY_ACTION_PATTERN = re.compile(
     r"\b(?:calis|coz|yap|tamamla|tekrar\s+et|oku|incele)\w*\b"
 )
-_NON_ASSIGNING_SCHEDULE_PATTERN = re.compile(
-    r"\b(?:eger|ornegin|mesela|musait|uygunsa|vaktin\s+varsa|"
-    r"vaktiniz\s+varsa|bilmiyorum|bilmeden|netlestir|belirleyemem)\w*\b"
+_CONDITIONAL_CLAIM_PATTERN = re.compile(
+    r"\b(?:eger|musait|uygunsa|vaktin\s+varsa|vaktiniz\s+varsa|"
+    r"ayirabilirsen|netlesirse|netlestiginde|olursa)\w*\b"
 )
+_ILLUSTRATIVE_CLAIM_PATTERN = re.compile(
+    r"\b(?:ornegin|mesela|bazi\s+ogrenciler|bir\s+ogrencinin|"
+    r"dusunulebilir)\b"
+)
+_REPORTED_CLAIM_PATTERN = re.compile(
+    r"\b(?:su\s+anda|gecen\s+yil|dun|soyledin|soyledigin|"
+    r"calistigini|calisiyordun|calisiyordunuz)\b"
+)
+_CONSTRAINED_AREA_DESCRIPTION_PATTERNS = {
+    ("subject", "mathematics"): re.compile(r"\bmatematik\w*\b"),
+}
 _CONTENT_BEARING_TASK_TYPES = frozenset(
     {
         TaskType.STUDY,
@@ -337,7 +355,14 @@ def evaluate_request_subject_limits(
     violations: list[RuleViolation] = []
     if context.daily_subject_limits and any(
         task.task_type in _CONTENT_BEARING_TASK_TYPES
-        and (task.area_type is None or task.area_code is None)
+        and (
+            task.area_type is None
+            or task.area_code is None
+            or any(
+                _task_description_contradicts_limit(task, limit)
+                for limit in context.daily_subject_limits
+            )
+        )
         for task in proposal.tasks
     ):
         violations.append(
@@ -378,22 +403,33 @@ def evaluate_request_subject_limits(
 
 
 def extract_daily_workload_claim(text: str) -> DailyWorkloadClaim | None:
-    """Parse one explicit, unconditional numeric daily workload statement."""
+    """Return the first asserted daily workload for compatibility callers."""
+
+    claims = tuple(
+        claim
+        for claim in extract_response_planning_claims(text)
+        if claim.kind is PlanningClaimKind.DAILY_WORKLOAD_ASSIGNMENT
+        and claim.modality is PlanningClaimModality.ASSERTED
+    )
+    if not claims:
+        return None
+    claim = claims[0]
+    assert claim.min_minutes_per_day is not None
+    assert claim.max_minutes_per_day is not None
+    return DailyWorkloadClaim(
+        min_minutes_per_day=claim.min_minutes_per_day,
+        max_minutes_per_day=claim.max_minutes_per_day,
+    )
+
+
+def extract_response_planning_claims(text: str) -> tuple[PlanningClaim, ...]:
+    """Extract deterministic planning claims from composable lexical primitives."""
 
     normalized = normalize_response_text(text)
-    matches = _find_matches(_DAILY_WORKLOAD_PATTERNS, normalized)
-    if not matches and _has_high_confidence_daily_schedule_context(normalized):
-        total_match = _TOTAL_WORKLOAD_PATTERN.search(normalized)
-        matches = (total_match,) if total_match is not None else ()
-    if len(matches) != 1:
-        return None
-    match = matches[0]
-    minimum = int(match.group("minimum"))
-    maximum = int(match.group("maximum") or minimum)
-    unit = match.group("unit")
-    return DailyWorkloadClaim(
-        min_minutes_per_day=_to_minutes(minimum, unit),
-        max_minutes_per_day=_to_minutes(maximum, unit),
+    segments = _logical_segments(normalized)
+    return (
+        _extract_exact_clock_claims(segments)
+        + _extract_daily_workload_claims(normalized, segments)
     )
 
 
@@ -416,13 +452,24 @@ def evaluate_response_schedule_grounding(
         and anchor.availability_implication == AvailabilityImplication.NONE
         for anchor in planning_request.schedule_anchors
     )
+    claims = extract_response_planning_claims(response_text)
     unsupported_clock_schedule = (
         has_unresolved_home_arrival
-        and _has_unconditional_study_clock_assignment(response_text)
+        and any(
+            claim.kind is PlanningClaimKind.EXACT_CLOCK_ASSIGNMENT
+            and claim.modality is PlanningClaimModality.ASSERTED
+            for claim in claims
+        )
     )
-    unsupported_daily_workload = (
+    asserted_workloads = tuple(
+        claim
+        for claim in claims
+        if claim.kind is PlanningClaimKind.DAILY_WORKLOAD_ASSIGNMENT
+        and claim.modality is PlanningClaimModality.ASSERTED
+    )
+    unsupported_daily_workload = bool(asserted_workloads) and (
         proposal is None
-        and extract_daily_workload_claim(response_text) is not None
+        or any(claim.is_capacity_prescription for claim in asserted_workloads)
     )
     if not (unsupported_clock_schedule or unsupported_daily_workload):
         return ()
@@ -444,16 +491,26 @@ def evaluate_response_proposal_workload(
 ) -> tuple[RuleViolation, ...]:
     """Compare an explicit prose daily workload with proposal task totals."""
 
-    claim = extract_daily_workload_claim(response_text)
-    if claim is None:
+    claims = tuple(
+        claim
+        for claim in extract_response_planning_claims(response_text)
+        if claim.kind is PlanningClaimKind.DAILY_WORKLOAD_ASSIGNMENT
+        and claim.modality is PlanningClaimModality.ASSERTED
+    )
+    if not claims:
         return ()
 
     totals: defaultdict[date, int] = defaultdict(int)
     for task in proposal.tasks:
         totals[task.task_date] += task.planned_minutes
     if not totals or all(
-        claim.min_minutes_per_day <= total <= claim.max_minutes_per_day
-        for total in totals.values()
+        claim.min_minutes_per_day is not None
+        and claim.max_minutes_per_day is not None
+        and all(
+            claim.min_minutes_per_day <= total <= claim.max_minutes_per_day
+            for total in totals.values()
+        )
+        for claim in claims
     ):
         return ()
     return (
@@ -468,41 +525,95 @@ def evaluate_response_proposal_workload(
     )
 
 
-def _has_unconditional_study_clock_assignment(text: str) -> bool:
-    normalized = normalize_response_text(text)
-    segments = tuple(
-        segment
-        for segment in re.split(r"(?<=[.!?])\s+|[\r\n]+", normalized)
-        if re.search(r"\w", segment)
-    )
+def _extract_exact_clock_claims(
+    segments: tuple[str, ...],
+) -> tuple[PlanningClaim, ...]:
+    claims: list[PlanningClaim] = []
     for index, segment in enumerate(segments):
-        clock_range = _CLOCK_RANGE_PATTERN.search(segment)
-        if clock_range is None:
-            continue
-        if _NON_ASSIGNING_SCHEDULE_PATTERN.search(segment) is not None:
-            continue
-        tail = segment[clock_range.end():]
-        has_schedule_separator = tail.lstrip().startswith(":")
-        has_same_line_activity = (
-            _STUDY_ACTIVITY_PATTERN.search(segment) is not None
-        )
-        if has_same_line_activity and (
-            has_schedule_separator or _STUDY_ACTION_PATTERN.search(segment)
-        ):
-            return True
-        if not _is_clock_only_segment(segment, clock_range):
-            continue
-        if index + 1 >= len(segments):
-            continue
-        assignment = segments[index + 1]
-        if _NON_ASSIGNING_SCHEDULE_PATTERN.search(assignment) is not None:
-            continue
-        if (
-            _STUDY_ACTIVITY_PATTERN.search(assignment) is not None
-            and _STUDY_ACTION_PATTERN.search(assignment) is not None
-        ):
-            return True
-    return False
+        for clock_range in _CLOCK_RANGE_PATTERN.finditer(segment):
+            context_parts = [segment]
+            has_assignment = _STUDY_ACTIVITY_PATTERN.search(segment) is not None
+            if _is_clock_only_segment(segment, clock_range):
+                if index + 1 >= len(segments):
+                    continue
+                assignment = segments[index + 1]
+                if (
+                    _STUDY_ACTIVITY_PATTERN.search(assignment) is None
+                    or _STUDY_ACTION_PATTERN.search(assignment) is None
+                ):
+                    continue
+                context_parts.append(assignment)
+                has_assignment = True
+            if not has_assignment:
+                continue
+            if index > 0 and segments[index - 1].rstrip().endswith(":"):
+                previous_modality = _planning_claim_modality(segments[index - 1])
+                if previous_modality is not PlanningClaimModality.ASSERTED:
+                    context_parts.insert(0, segments[index - 1])
+            context = " ".join(context_parts)
+            modality = _planning_claim_modality(context)
+            if modality is None:
+                continue
+            claims.append(
+                PlanningClaim(
+                    kind=PlanningClaimKind.EXACT_CLOCK_ASSIGNMENT,
+                    modality=modality,
+                    start_time=time(
+                        int(clock_range.group("start_hour")),
+                        int(clock_range.group("start_minute")),
+                    ),
+                    end_time=time(
+                        int(clock_range.group("end_hour")),
+                        int(clock_range.group("end_minute")),
+                    ),
+                )
+            )
+    return tuple(claims)
+
+
+def _extract_daily_workload_claims(
+    normalized: str,
+    segments: tuple[str, ...],
+) -> tuple[PlanningClaim, ...]:
+    claims: list[PlanningClaim] = []
+    has_schedule_context = len(_CLOCK_RANGE_PATTERN.findall(normalized)) >= 2
+    for segment in segments:
+        for clause in _workload_clauses(segment):
+            has_daily_scope = _DAILY_SCOPE_PATTERN.search(clause) is not None
+            has_total_schedule_scope = (
+                has_schedule_context
+                and _TOTAL_WORKLOAD_CONTEXT_PATTERN.search(clause) is not None
+            )
+            if not (has_daily_scope or has_total_schedule_scope):
+                continue
+            modality = _planning_claim_modality(clause)
+            if modality is None:
+                continue
+            for duration in _NUMERIC_DURATION_PATTERN.finditer(clause):
+                if _is_break_duration(clause, duration):
+                    continue
+                minimum = _duration_to_minutes(
+                    duration.group("minimum"), duration.group("unit")
+                )
+                maximum = _duration_to_minutes(
+                    duration.group("maximum") or duration.group("minimum"),
+                    duration.group("unit"),
+                )
+                if minimum is None or maximum is None:
+                    continue
+                claims.append(
+                    PlanningClaim(
+                        kind=PlanningClaimKind.DAILY_WORKLOAD_ASSIGNMENT,
+                        modality=modality,
+                        min_minutes_per_day=minimum,
+                        max_minutes_per_day=maximum,
+                        is_capacity_prescription=(
+                            _CAPACITY_PRESCRIPTION_PATTERN.search(clause)
+                            is not None
+                        ),
+                    )
+                )
+    return tuple(claims)
 
 
 def _is_clock_only_segment(segment: str, clock_range: re.Match[str]) -> bool:
@@ -510,10 +621,69 @@ def _is_clock_only_segment(segment: str, clock_range: re.Match[str]) -> bool:
     return re.fullmatch(r"[\s:*_`#>\-]*", remainder) is not None
 
 
-def _has_high_confidence_daily_schedule_context(normalized: str) -> bool:
-    if re.search(r"\b(?:gunluk|her\s+gun|gunde)\b", normalized):
-        return True
-    return len(_CLOCK_RANGE_PATTERN.findall(normalized)) >= 2
+def _logical_segments(normalized: str) -> tuple[str, ...]:
+    return tuple(
+        segment.strip()
+        for segment in re.split(r"(?<=[.!?])\s+|[\r\n]+", normalized)
+        if re.search(r"\w", segment)
+    )
+
+
+def _workload_clauses(segment: str) -> tuple[str, ...]:
+    return tuple(
+        clause.strip()
+        for clause in re.split(r"(?<!\d),(?!\d)|;", segment)
+        if re.search(r"\w", clause)
+    )
+
+
+def _is_break_duration(segment: str, duration: re.Match[str]) -> bool:
+    before = segment[max(0, duration.start() - 24):duration.start()]
+    after = segment[duration.end():duration.end() + 24]
+    return (
+        _BREAK_BEFORE_DURATION_PATTERN.search(before) is not None
+        or _BREAK_AFTER_DURATION_PATTERN.search(after) is not None
+    )
+
+
+def _planning_claim_modality(
+    segment: str,
+) -> PlanningClaimModality | None:
+    if "?" in segment:
+        return None
+    if _CONDITIONAL_CLAIM_PATTERN.search(segment) is not None:
+        return PlanningClaimModality.CONDITIONAL
+    if _ILLUSTRATIVE_CLAIM_PATTERN.search(segment) is not None:
+        return PlanningClaimModality.ILLUSTRATIVE
+    if _REPORTED_CLAIM_PATTERN.search(segment) is not None:
+        return PlanningClaimModality.REPORTED
+    return PlanningClaimModality.ASSERTED
+
+
+def _duration_to_minutes(value: str, unit: str) -> int | None:
+    try:
+        amount = Decimal(value.replace(",", "."))
+    except InvalidOperation:
+        return None
+    minutes = amount * (60 if unit == "saat" else 1)
+    if minutes != minutes.to_integral_value() or minutes < 1:
+        return None
+    return int(minutes)
+
+
+def _task_description_contradicts_limit(
+    task: StudyTask,
+    limit: DailySubjectLimit,
+) -> bool:
+    if task.area_type == limit.area_type and task.area_code == limit.area_code:
+        return False
+    pattern = _CONSTRAINED_AREA_DESCRIPTION_PATTERNS.get(
+        (limit.area_type, limit.area_code)
+    )
+    return (
+        pattern is not None
+        and pattern.search(normalize_response_text(task.description)) is not None
+    )
 
 
 def _to_minutes(value: int, unit: str) -> int:

@@ -30,6 +30,11 @@ from educoach.orchestrator import (
     extract_daily_workload_claim,
     extract_planning_request_context,
 )
+from educoach.orchestrator.planning_request import (
+    PlanningClaimKind,
+    PlanningClaimModality,
+    extract_response_planning_claims,
+)
 from educoach.persistence import (
     create_schema,
     create_session_factory,
@@ -305,6 +310,95 @@ def test_hard_subject_limit_requires_area_only_for_content_tasks(
     )
 
 
+@pytest.mark.parametrize(
+    ("area_code", "description"),
+    [
+        (
+            "turkish",
+            "Matematik: TYT soru çözümü (90 dk) + Türkçe okuma (30 dk)",
+        ),
+        (
+            "social_studies",
+            "Matematik: TYT konuları (90 dk) + Sosyal bilgiler (30 dk)",
+        ),
+    ],
+)
+def test_hard_math_limit_rejects_explicit_metadata_description_contradiction(
+    area_code: str,
+    description: str,
+) -> None:
+    learner = Learner()
+    learning_context = LearningContext(
+        learner_id=learner.learner_id,
+        context_type=ContextType.SCHOOL,
+        program_code="school_11",
+    )
+    request_context = extract_planning_request_context(
+        "Matematiğe günde en fazla 2 saat ayırabilirim."
+    )
+    proposal = make_write_proposal(
+        learner,
+        learning_context,
+        ((MONDAY, 120, "subject", area_code),),
+    )
+    proposal.tasks[0].description = description
+
+    violations = evaluate_request_subject_limits(request_context, proposal)
+
+    assert [item.rule_id for item in violations] == [
+        "PLAN_REQUEST_SUBJECT_LIMIT_UNVERIFIABLE"
+    ]
+
+
+def test_separate_atomic_subject_tasks_keep_hard_math_limit_verifiable() -> None:
+    learner = Learner()
+    learning_context = LearningContext(
+        learner_id=learner.learner_id,
+        context_type=ContextType.SCHOOL,
+        program_code="school_11",
+    )
+    request_context = extract_planning_request_context(
+        "Matematiğe günde en fazla 2 saat ayırabilirim."
+    )
+    proposal = make_write_proposal(
+        learner,
+        learning_context,
+        (
+            (MONDAY, 90, "subject", "mathematics"),
+            (MONDAY, 30, "subject", "turkish"),
+        ),
+    )
+    proposal.tasks[0].description = "Matematik soru çözümü"
+    proposal.tasks[1].description = "Türkçe okuma"
+
+    assert evaluate_request_subject_limits(request_context, proposal) == ()
+
+
+@pytest.mark.parametrize(
+    "task_type",
+    [TaskType.EXAM, TaskType.ANALYSIS, TaskType.OTHER],
+)
+def test_non_content_task_keeps_atomicity_exemption(task_type: TaskType) -> None:
+    learner = Learner()
+    learning_context = LearningContext(
+        learner_id=learner.learner_id,
+        context_type=ContextType.SCHOOL,
+        program_code="school_11",
+    )
+    request_context = extract_planning_request_context(
+        "Matematiğe günde en fazla 2 saat ayırabilirim."
+    )
+    proposal = make_write_proposal(
+        learner,
+        learning_context,
+        ((MONDAY, 120, "operational", "general"),),
+    )
+    proposal.tasks[0].task_type = task_type
+    proposal.tasks[0].description = "Matematik deneme analizi"
+
+    assert evaluate_request_subject_limits(request_context, proposal) == ()
+
+
 def test_repeated_subject_limit_violation_exhausts_after_two_calls() -> None:
     raw = structured_response(
         "Planı iki saat sınırına göre düzenledim.",
@@ -315,6 +409,47 @@ def test_repeated_subject_limit_violation_exhausts_after_two_calls() -> None:
     with pytest.raises(
         ResponseRegenerationExhausted,
         match="PLAN_REQUEST_SUBJECT_DAILY_LIMIT",
+    ):
+        orchestrator.respond(
+            learner.learner_id,
+            "Matematiğe günde en fazla 2 saat ayırabilirim. Bana plan yap.",
+        )
+
+    assert len(provider.requests) == 2
+    memory.save_study_plan.assert_not_called()
+
+
+def test_repeated_atomicity_contradiction_exhausts_after_two_calls() -> None:
+    raw = json.dumps(
+        {
+            "response_text": "Planı iki saat sınırına göre düzenledim.",
+            "proposal": {
+                "title": "Sentetik plan",
+                "plan_type": "weekly",
+                "start_date": "2026-10-05",
+                "end_date": "2026-10-05",
+                "tasks": [
+                    {
+                        "task_date": "2026-10-05",
+                        "task_type": "study",
+                        "description": (
+                            "Matematik soru çözümü (90 dk) + "
+                            "Türkçe okuma (30 dk)"
+                        ),
+                        "planned_minutes": 120,
+                        "area_type": "subject",
+                        "area_code": "turkish",
+                    }
+                ],
+            },
+        },
+        ensure_ascii=False,
+    )
+    orchestrator, memory, provider, learner = make_mock_runtime(raw)
+
+    with pytest.raises(
+        ResponseRegenerationExhausted,
+        match="PLAN_REQUEST_SUBJECT_LIMIT_UNVERIFIABLE",
     ):
         orchestrator.respond(
             learner.learner_id,
@@ -479,6 +614,146 @@ def test_multiline_clock_schedule_exhausts_regeneration() -> None:
 @pytest.mark.parametrize(
     "response_text",
     [
+        "### Ödevler (18:00-20:00)",
+        "**TYT Hazırlık (20:00-22:00)**",
+        "YKS Hazırlık (22:00-23:00)",
+    ],
+)
+def test_schedule_heading_is_typed_asserted_exact_clock_claim(
+    response_text: str,
+) -> None:
+    claims = extract_response_planning_claims(response_text)
+
+    assert len(claims) == 1
+    assert claims[0].kind is PlanningClaimKind.EXACT_CLOCK_ASSIGNMENT
+    assert claims[0].modality is PlanningClaimModality.ASSERTED
+
+
+@pytest.mark.parametrize(
+    ("response_text", "expected_modality"),
+    [
+        (
+            "Müsaitliğin netleşirse Ödevler (18:00-20:00)",
+            PlanningClaimModality.CONDITIONAL,
+        ),
+        (
+            "Örneğin Ödevler (18:00-20:00)",
+            PlanningClaimModality.ILLUSTRATIVE,
+        ),
+        (
+            "Dün 18:00-20:00 çalıştığını söyledin.",
+            PlanningClaimModality.REPORTED,
+        ),
+    ],
+)
+def test_non_asserted_exact_clock_modality_is_preserved(
+    response_text: str,
+    expected_modality: PlanningClaimModality,
+) -> None:
+    claims = extract_response_planning_claims(response_text)
+
+    assert len(claims) == 1
+    assert claims[0].kind is PlanningClaimKind.EXACT_CLOCK_ASSIGNMENT
+    assert claims[0].modality is expected_modality
+
+
+def test_exact_clock_question_is_not_a_planning_assignment() -> None:
+    assert extract_response_planning_claims(
+        "18:00-20:00 uygun olur mu?"
+    ) == ()
+
+
+@pytest.mark.parametrize(
+    "response_text",
+    [
+        "Müsaitliğin netleşirse Ödevler (18:00-20:00)",
+        "Örneğin TYT Hazırlık (20:00-22:00)",
+        "18:00-20:00 uygun olur mu?",
+        "Dün 18:00-20:00 çalıştığını söyledin.",
+    ],
+)
+def test_non_asserted_clock_heading_passes_grounding_boundary(
+    response_text: str,
+) -> None:
+    learner = Learner()
+    context = LearningContext(
+        learner_id=learner.learner_id,
+        context_type=ContextType.SCHOOL,
+        program_code="school_11",
+    )
+
+    assert evaluate_response_schedule_grounding(
+        response_text,
+        extract_planning_request_context(
+            "Akşam saat 5 te eve geliyorum. Bana program yap."
+        ),
+        make_snapshot(learner, context),
+        None,
+    ) == ()
+
+
+@pytest.mark.parametrize(
+    "response_text",
+    [
+        "Ödevler (18:00-20:00)",
+        "TYT Hazırlık (20:00-22:00)",
+    ],
+)
+def test_schedule_heading_without_availability_is_rejected(
+    response_text: str,
+) -> None:
+    learner = Learner()
+    context = LearningContext(
+        learner_id=learner.learner_id,
+        context_type=ContextType.SCHOOL,
+        program_code="school_11",
+    )
+    planning_request = extract_planning_request_context(
+        "Akşam saat 5 te eve geliyorum. Bana program yap."
+    )
+
+    violations = evaluate_response_schedule_grounding(
+        response_text,
+        planning_request,
+        make_snapshot(learner, context),
+        None,
+    )
+
+    assert [item.rule_id for item in violations] == [
+        "PLAN_RESPONSE_UNSUPPORTED_AVAILABILITY"
+    ]
+
+
+def test_proposal_does_not_support_exact_clock_without_availability() -> None:
+    learner = Learner()
+    context = LearningContext(
+        learner_id=learner.learner_id,
+        context_type=ContextType.SCHOOL,
+        program_code="school_11",
+    )
+    proposal = make_write_proposal(
+        learner,
+        context,
+        ((MONDAY, 120, "subject", "mathematics"),),
+    )
+
+    violations = evaluate_response_schedule_grounding(
+        "Ödevler (18:00-20:00)",
+        extract_planning_request_context(
+            "Akşam saat 5 te eve geliyorum. Bana program yap."
+        ),
+        make_snapshot(learner, context),
+        proposal,
+    )
+
+    assert [item.rule_id for item in violations] == [
+        "PLAN_RESPONSE_UNSUPPORTED_AVAILABILITY"
+    ]
+
+
+@pytest.mark.parametrize(
+    "response_text",
+    [
         (
             "17:00'de eve geldiğini biliyorum ancak sonrasında ne kadar "
             "müsait olduğunu bilmiyorum."
@@ -625,6 +900,135 @@ def test_explicit_daily_workload_variants_are_parsed(
 @pytest.mark.parametrize(
     "text",
     [
+        "Günlük Program Önerisi (Toplam 7.5-8.5 saat)",
+        "Günlük Program Önerisi (Toplam 7,5-8,5 saat)",
+    ],
+)
+def test_decimal_daily_workload_is_typed_in_minutes(text: str) -> None:
+    claims = extract_response_planning_claims(text)
+
+    assert len(claims) == 1
+    claim = claims[0]
+    assert claim.kind is PlanningClaimKind.DAILY_WORKLOAD_ASSIGNMENT
+    assert claim.modality is PlanningClaimModality.ASSERTED
+    assert claim.min_minutes_per_day == 450
+    assert claim.max_minutes_per_day == 510
+
+
+def test_mandatory_daily_workload_is_typed_capacity_prescription() -> None:
+    claims = extract_response_planning_claims(
+        "Günlük 8 saat çalışmak zorunludur."
+    )
+
+    assert len(claims) == 1
+    assert claims[0].modality is PlanningClaimModality.ASSERTED
+    assert claims[0].is_capacity_prescription is True
+
+
+@pytest.mark.parametrize(
+    ("text", "expected_modality"),
+    [
+        (
+            "Şu anda günde 8 saat çalıştığını söyledin.",
+            PlanningClaimModality.REPORTED,
+        ),
+        (
+            "Geçen yıl günlük 8 saat çalışıyordun.",
+            PlanningClaimModality.REPORTED,
+        ),
+        (
+            "Bazı öğrenciler günde 8 saat çalışabiliyor.",
+            PlanningClaimModality.ILLUSTRATIVE,
+        ),
+        (
+            "Müsaitsen günde 3 saat ayırabilirsin.",
+            PlanningClaimModality.CONDITIONAL,
+        ),
+        (
+            "Örneğin günlük 2 saatlik bir plan düşünülebilir.",
+            PlanningClaimModality.ILLUSTRATIVE,
+        ),
+    ],
+)
+def test_non_asserted_daily_workload_modality_is_preserved(
+    text: str,
+    expected_modality: PlanningClaimModality,
+) -> None:
+    claims = extract_response_planning_claims(text)
+
+    assert len(claims) == 1
+    assert claims[0].kind is PlanningClaimKind.DAILY_WORKLOAD_ASSIGNMENT
+    assert claims[0].modality is expected_modality
+
+
+def test_multiple_daily_workloads_are_all_extracted() -> None:
+    claims = tuple(
+        claim
+        for claim in extract_response_planning_claims(
+            "Günde 2 saat çalışmalısın. Her gün 3 saat çalışmalısın."
+        )
+        if claim.kind is PlanningClaimKind.DAILY_WORKLOAD_ASSIGNMENT
+    )
+
+    assert [claim.min_minutes_per_day for claim in claims] == [120, 180]
+    assert all(
+        claim.modality is PlanningClaimModality.ASSERTED for claim in claims
+    )
+
+
+@pytest.mark.parametrize(
+    "text",
+    [
+        "Günde 2 saat çalış, 15 dakika mola ver.",
+        "Günde toplam 2 saat çalış. Her 50 dakikada 10 dakika mola ver.",
+    ],
+)
+def test_daily_scope_does_not_promote_break_durations(text: str) -> None:
+    claims = tuple(
+        claim
+        for claim in extract_response_planning_claims(text)
+        if claim.kind is PlanningClaimKind.DAILY_WORKLOAD_ASSIGNMENT
+    )
+
+    assert len(claims) == 1
+    assert claims[0].modality is PlanningClaimModality.ASSERTED
+    assert claims[0].min_minutes_per_day == 120
+    assert claims[0].max_minutes_per_day == 120
+
+
+def test_clock_schedule_does_not_promote_session_or_break_durations() -> None:
+    claims = extract_response_planning_claims(
+        "18:00-19:00 matematik çalış. 19:00-20:00 TYT çalış. "
+        "30 dakika çalışma. 15 dakika mola."
+    )
+
+    assert not any(
+        claim.kind is PlanningClaimKind.DAILY_WORKLOAD_ASSIGNMENT
+        for claim in claims
+    )
+
+
+@pytest.mark.parametrize(
+    "text",
+    [
+        "Günlük 8 saat çalışmak şart.",
+        "Günlük 8 saat çalışmak şarttır.",
+    ],
+)
+def test_requirement_daily_workload_is_capacity_prescription(text: str) -> None:
+    claims = extract_response_planning_claims(text)
+
+    assert len(claims) == 1
+    assert claims[0].kind is PlanningClaimKind.DAILY_WORKLOAD_ASSIGNMENT
+    assert claims[0].modality is PlanningClaimModality.ASSERTED
+    assert claims[0].min_minutes_per_day == 480
+    assert claims[0].max_minutes_per_day == 480
+    assert claims[0].is_capacity_prescription is True
+
+
+@pytest.mark.parametrize(
+    "text",
+    [
         "Günde birkaç saat ayırabilirsen iyi olur.",
         "Günde 3-4 saat vaktin varsa çalışabilirsin.",
         "Günde 3 saat ayırabilirsen çalışabilirsin.",
@@ -656,6 +1060,9 @@ def test_conditional_or_non_numeric_workload_is_not_claim(text: str) -> None:
         "Günlük Program (8-10 saat)",
         "#### **Günlük Program (8–10 saat):**",
         "Günlük çalışma süresi: 6 saat",
+        "Günlük Program Önerisi (Toplam 7.5-8.5 saat)",
+        "Günlük Program Önerisi (Toplam 7,5-8,5 saat)",
+        "Günlük 8 saat çalışmak zorunludur.",
     ],
 )
 def test_response_only_prescriptive_workload_without_availability_regenerates(
@@ -677,6 +1084,119 @@ def test_response_only_prescriptive_workload_without_availability_regenerates(
 
     assert [item.rule_id for item in violations] == [
         "PLAN_RESPONSE_UNSUPPORTED_AVAILABILITY"
+    ]
+
+
+def test_proposal_does_not_support_independent_capacity_prescription() -> None:
+    learner = Learner()
+    context = LearningContext(
+        learner_id=learner.learner_id,
+        context_type=ContextType.SCHOOL,
+        program_code="school_11",
+    )
+    proposal = make_write_proposal(
+        learner,
+        context,
+        ((MONDAY, 480, "subject", "mathematics"),),
+    )
+
+    violations = evaluate_response_schedule_grounding(
+        "Günlük 8 saat çalışmak zorunludur.",
+        extract_planning_request_context("Nasıl çalışmalıyım?"),
+        make_snapshot(learner, context),
+        proposal,
+    )
+
+    assert [item.rule_id for item in violations] == [
+        "PLAN_RESPONSE_UNSUPPORTED_AVAILABILITY"
+    ]
+
+
+def test_aligned_neutral_proposal_total_passes_without_availability() -> None:
+    learner = Learner()
+    context = LearningContext(
+        learner_id=learner.learner_id,
+        context_type=ContextType.SCHOOL,
+        program_code="school_11",
+    )
+    proposal = make_write_proposal(
+        learner,
+        context,
+        ((MONDAY, 90, "subject", "mathematics"),),
+    )
+    response_text = "Planın günlük toplamı 90 dakikadır."
+
+    assert evaluate_response_schedule_grounding(
+        response_text,
+        extract_planning_request_context("Nasıl çalışmalıyım?"),
+        make_snapshot(learner, context),
+        proposal,
+    ) == ()
+    assert evaluate_response_proposal_workload(response_text, proposal) == ()
+
+
+def test_neutral_proposal_total_mismatch_keeps_existing_rule() -> None:
+    learner = Learner()
+    context = LearningContext(
+        learner_id=learner.learner_id,
+        context_type=ContextType.SCHOOL,
+        program_code="school_11",
+    )
+    proposal = make_write_proposal(
+        learner,
+        context,
+        ((MONDAY, 90, "subject", "mathematics"),),
+    )
+
+    violations = evaluate_response_proposal_workload(
+        "Planın günlük toplamı 120 dakikadır.", proposal
+    )
+
+    assert [item.rule_id for item in violations] == [
+        "PLAN_RESPONSE_PROPOSAL_WORKLOAD_MISMATCH"
+    ]
+
+
+def test_break_duration_does_not_create_proposal_workload_mismatch() -> None:
+    learner = Learner()
+    context = LearningContext(
+        learner_id=learner.learner_id,
+        context_type=ContextType.SCHOOL,
+        program_code="school_11",
+    )
+    proposal = make_write_proposal(
+        learner,
+        context,
+        ((MONDAY, 120, "subject", "mathematics"),),
+    )
+    response_text = (
+        "Günde 2 saatlik plan toplamı var, ayrıca 15 dakika mola ver."
+    )
+
+    assert evaluate_response_proposal_workload(response_text, proposal) == ()
+
+
+def test_second_of_multiple_workloads_cannot_fail_open_mismatch() -> None:
+    learner = Learner()
+    context = LearningContext(
+        learner_id=learner.learner_id,
+        context_type=ContextType.SCHOOL,
+        program_code="school_11",
+    )
+    proposal = make_write_proposal(
+        learner,
+        context,
+        ((MONDAY, 120, "subject", "mathematics"),),
+    )
+
+    violations = evaluate_response_proposal_workload(
+        "Planın günlük toplamı 120 dakikadır. "
+        "Günlük çalışma süresi 180 dakikadır.",
+        proposal,
+    )
+
+    assert [item.rule_id for item in violations] == [
+        "PLAN_RESPONSE_PROPOSAL_WORKLOAD_MISMATCH"
     ]
 
 

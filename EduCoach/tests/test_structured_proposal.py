@@ -424,6 +424,15 @@ def test_planning_resolved_uses_structured_prompt_and_single_provider_call() -> 
     assert "canonical area_type" in request.system_prompt
     assert '"area_type": "subject"' in request.system_prompt
     assert '"area_code": "mathematics"' in request.system_prompt
+    assert "Her task tam olarak bir canonical academic area" in (
+        request.system_prompt
+    )
+    assert "Farklı subject allocation'larını mutlaka ayrı task'lar" in (
+        request.system_prompt
+    )
+    assert "planned_minutes değerinin tamamı o area'ya ait" in (
+        request.system_prompt
+    )
     assert all(item.value in request.system_prompt for item in PlanType)
     assert all(item.value in request.system_prompt for item in TaskType)
     assert all(item.value in request.system_prompt for item in TaskPriority)
