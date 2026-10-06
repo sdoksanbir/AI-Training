@@ -4,6 +4,7 @@ from uuid import UUID
 from educoach.llm import LLMProvider, LLMRequest
 from educoach.models import LearningContext
 from educoach.rag import Retriever
+from educoach.rules import RuleViolation
 from educoach.services import LearnerMemoryService, LearnerMemorySnapshot
 from educoach.specialties import SpecialtyProfileRegistry
 from educoach.validators import (
@@ -24,6 +25,13 @@ from .context_resolution import ActiveContextResolutionStatus
 from .context_routing import resolve_request_context
 from .intent_detection import detect_intents
 from .intent import IntentType
+from .planning_request import (
+    PlanningRequestContext,
+    evaluate_request_subject_limits,
+    evaluate_response_proposal_workload,
+    extract_planning_request_context,
+    render_planning_request_context,
+)
 from .rag_gating import RAGNeedStatus, decide_rag_need
 from .regeneration import (
     MAX_REGENERATION_ATTEMPTS,
@@ -97,6 +105,7 @@ class CoachOrchestrator:
         context_id: UUID | None = None,
     ) -> CoachResult:
         message = validate_user_message(message)
+        planning_request = extract_planning_request_context(message)
         snapshot = self.memory.get_learner_memory_snapshot(learner_id)
         active_context = resolve_request_context(
             snapshot,
@@ -139,10 +148,16 @@ class CoachOrchestrator:
             if structured_planning
             else _BASE_SYSTEM_PROMPT
         )
+        request_context = render_planning_request_context(planning_request)
+        memory_context_parts = [repr(snapshot)]
+        if request_context:
+            memory_context_parts.append(request_context)
+        if knowledge:
+            memory_context_parts.append("Knowledge:\n" + knowledge)
         request = LLMRequest(
             system_prompt=system_prompt,
             user_message=message,
-            memory_context=repr(snapshot) + ("\nKnowledge:\n" + knowledge if knowledge else ""),
+            memory_context="\n".join(memory_context_parts),
         )
         current_request = request
         for regeneration_attempt in range(MAX_REGENERATION_ATTEMPTS + 1):
@@ -151,6 +166,7 @@ class CoachOrchestrator:
                 structured_planning=structured_planning,
                 snapshot=snapshot,
                 context=active_context.context,
+                planning_request=planning_request,
             )
             if (
                 attempt.validation_report.action
@@ -209,6 +225,7 @@ class CoachOrchestrator:
         structured_planning: bool,
         snapshot: LearnerMemorySnapshot,
         context: LearningContext | None,
+        planning_request: PlanningRequestContext,
     ) -> _GenerationAttempt:
         response = self.provider.generate(request)
         response_text = response.text
@@ -236,6 +253,17 @@ class CoachOrchestrator:
             validation_report = _apply_study_plan_safety_boundary(
                 validation_report,
                 proposal_report,
+            )
+            request_violations = evaluate_request_subject_limits(
+                planning_request,
+                study_plan_proposal,
+            ) + evaluate_response_proposal_workload(
+                response_text,
+                study_plan_proposal,
+            )
+            validation_report = _apply_rule_violations_boundary(
+                validation_report,
+                request_violations,
             )
         return _GenerationAttempt(
             response_text=response_text,
@@ -268,3 +296,25 @@ def _apply_study_plan_safety_boundary(
         else ResponseValidationAction.REGENERATE
     )
     return ResponseValidationReport(action=action, violations=violations)
+
+
+def _apply_rule_violations_boundary(
+    response_report: ResponseValidationReport,
+    violations: tuple[RuleViolation, ...],
+) -> ResponseValidationReport:
+    if not violations:
+        return response_report
+    combined = response_report.violations + tuple(
+        violation
+        for violation in violations
+        if all(
+            existing.rule_id != violation.rule_id
+            for existing in response_report.violations
+        )
+    )
+    action = (
+        ResponseValidationAction.BLOCK
+        if response_report.action is ResponseValidationAction.BLOCK
+        else ResponseValidationAction.REGENERATE
+    )
+    return ResponseValidationReport(action=action, violations=combined)
