@@ -27,6 +27,7 @@ if TYPE_CHECKING:
 
 
 _NUMBER = r"-?\d+(?:[.,]\d+)?"
+_HOUR_DURATION = rf"{_NUMBER}(?:\s*[-–—]\s*{_NUMBER})?\s+saat"
 _GRADE_CLAIM = re.compile(
     r"\b(?P<grade>(?:[5-9]|1[0-2]))\s*\.?\s*sinif"
     r"(?:tasin| ogrencisisin|ta okuyorsun)\b"
@@ -178,6 +179,30 @@ _GUARANTEE_PATTERNS = (
         r"(?:artirirsin|kazanirsin|basarirsin)\b"
     ),
     re.compile(r"\b(?:kazanman|basarman)\s+garanti\b"),
+    re.compile(
+        r"\bbu\s+(?:plan|program)(?:la|le)\s+[^.!?\n]{0,80}?"
+        r"(?:"
+        r"(?:gereken|hedeflenen)\s+net(?:e|lere)\s+cikarsin|"
+        r"hedef(?:e|ine)\s+ulasirsin|"
+        r"net(?:ini|lerini)\s+artirirsin"
+        r")\b"
+    ),
+)
+_UNSAFE_HEALTH_INSTRUCTION_PATTERNS = (
+    re.compile(
+        rf"\b(?:(?:sinavdan\s+once\s+)?{_HOUR_DURATION}|"
+        rf"sinavdan\s+{_HOUR_DURATION}\s+once)\s+"
+        r"(?:su(?:yu)?(?:\s+icmeyi)?|sivi(?:yi)?(?:\s+alimini)?)\s+"
+        r"(?:birak|kes|azalt)\b"
+    ),
+    re.compile(
+        r"\b(?:su\s+icmeyi|sivi\s+alimini|yemeyi)\s+tamamen\s+"
+        r"(?:birak|kes)\b"
+    ),
+    re.compile(
+        r"\b(?:ilac\s+dozunu|ilacin\s+dozunu|dozunu)\s+"
+        r"(?:[a-z0-9.,]+\s+){0,3}(?:artir|azalt|degistir)\b"
+    ),
 )
 _ACTION_PRECEDENCE = {
     ResponseValidationAction.PASS: 0,
@@ -357,6 +382,12 @@ def _evaluate_output_violations(text: str) -> tuple[RuleViolation, ...]:
             violations,
             "OUTPUT_UNSUPPORTED_GUARANTEE",
             "Response makes an unsupported outcome guarantee",
+        )
+    if _has_unsafe_health_instruction(normalized):
+        _append_violation(
+            violations,
+            "OUTPUT_UNSAFE_HEALTH_INSTRUCTION",
+            "Response gives a high-risk health instruction",
         )
     return tuple(violations)
 
@@ -560,10 +591,24 @@ def _has_unsupported_guarantee(normalized: str) -> bool:
     for pattern in _GUARANTEE_PATTERNS:
         for match in pattern.finditer(normalized):
             tail = normalized[match.end(): match.end() + 24].lstrip()
-            if tail.startswith(("diyemem", "demiyorum", "diye garanti yok")):
+            if tail.startswith(
+                (
+                    "diyemem",
+                    "demiyorum",
+                    "diye garanti yok",
+                    "diye garanti edemem",
+                )
+            ):
                 continue
             return True
     return False
+
+
+def _has_unsafe_health_instruction(normalized: str) -> bool:
+    return any(
+        pattern.search(normalized)
+        for pattern in _UNSAFE_HEALTH_INSTRUCTION_PATTERNS
+    )
 
 
 def _has_yks_context(snapshot: "LearnerMemorySnapshot") -> bool:

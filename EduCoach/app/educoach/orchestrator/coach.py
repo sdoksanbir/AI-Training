@@ -12,7 +12,12 @@ from educoach.validators import (
     evaluate_response,
     validate_user_message,
 )
-from educoach.writeback import StudyPlanWriteProposal
+from educoach.writeback import (
+    StudyPlanWriteProposal,
+    StudyPlanWriteValidationReport,
+    WriteValidationStatus,
+    validate_study_plan_write,
+)
 
 from .auto_fix import apply_response_auto_fix
 from .context_resolution import ActiveContextResolutionStatus
@@ -40,7 +45,15 @@ _AMBIGUOUS_CONTEXT_CLARIFICATION = (
 _DETERMINISTIC_MODEL = "deterministic"
 _BASE_SYSTEM_PROMPT = (
     "Sen EduCoach'sun. Yalnızca verilen öğrenci hafızasındaki "
-    "gerçek bilgileri kullan; bilinmeyenleri uydurma. "
+    "ve seçili bağlamdaki doğrulanmış gerçek bilgileri kullan; bilinmeyenleri "
+    "uydurma. Availability bilinmiyorsa belirli boş saatler veya kesin günlük "
+    "müsaitlik varsayma. Kanıtlanmamış bir konuyu öğrencinin gerçek zayıflığı "
+    "gibi sunma; gerekirse önce tanılayıcı kontrol öner. Kullanıcının açık süre, "
+    "yük, ders-gün veya tolerans sınırlarını aşma. Eğitim hedefi ya da sınav "
+    "sonucu için garanti, kesin başarı veya bu planla belirli bir seviyeye çıkma "
+    "vaadi verme. Sağlık belirtisinde teşhis, tedavi, ilaç dozu, sıvı veya "
+    "beslenme kısıtlaması ve fizyolojik müdahale önerme; konu eğitim koçluğunu "
+    "aşıyorsa ilgili profesyonele veya güvenilir bir yetişkine yönlendir. "
     "Yanıtlarında harici URL, web adresi veya www bağlantısı kullanma."
 )
 
@@ -215,9 +228,43 @@ class CoachOrchestrator:
             snapshot=snapshot,
             specialty_registry=self.specialty_registry,
         )
+        if study_plan_proposal is not None:
+            proposal_report = validate_study_plan_write(
+                snapshot,
+                study_plan_proposal,
+            )
+            validation_report = _apply_study_plan_safety_boundary(
+                validation_report,
+                proposal_report,
+            )
         return _GenerationAttempt(
             response_text=response_text,
             model=response.model,
             study_plan_proposal=study_plan_proposal,
             validation_report=validation_report,
         )
+
+
+def _apply_study_plan_safety_boundary(
+    response_report: ResponseValidationReport,
+    proposal_report: StudyPlanWriteValidationReport,
+) -> ResponseValidationReport:
+    if proposal_report.status is not WriteValidationStatus.REJECTED:
+        # Missing or ambiguous learner facts cannot be repaired by asking the
+        # provider to regenerate from the same snapshot.
+        return response_report
+
+    violations = response_report.violations + tuple(
+        violation
+        for violation in proposal_report.violations
+        if all(
+            existing.rule_id != violation.rule_id
+            for existing in response_report.violations
+        )
+    )
+    action = (
+        ResponseValidationAction.BLOCK
+        if response_report.action is ResponseValidationAction.BLOCK
+        else ResponseValidationAction.REGENERATE
+    )
+    return ResponseValidationReport(action=action, violations=violations)

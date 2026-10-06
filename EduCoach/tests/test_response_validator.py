@@ -293,6 +293,25 @@ def test_unrecorded_specific_weakness_regenerates() -> None:
     assert report.violations[0].rule_id == "CORE_UNKNOWN_FACT"
 
 
+def test_unrecorded_geometry_weakness_regenerates() -> None:
+    report = evaluate_response(
+        "Geometride zayıfsın.",
+        snapshot=make_contextual_snapshot(),
+    )
+
+    assert report.action is ResponseValidationAction.REGENERATE
+    assert report.violations[0].rule_id == "CORE_UNKNOWN_FACT"
+
+
+def test_diagnostic_topic_check_is_not_a_weakness_claim() -> None:
+    report = evaluate_response(
+        "Geometriyi kısa bir tanılama ile kontrol edebiliriz.",
+        snapshot=make_contextual_snapshot(),
+    )
+
+    assert report.action is ResponseValidationAction.PASS
+
+
 def test_weakness_claim_against_strong_evidence_is_contradiction() -> None:
     report = evaluate_response(
         "Matematikte zorlanıyorsun.",
@@ -613,14 +632,75 @@ def test_unsupported_guarantee_regenerates(text: str) -> None:
     assert report.violations[0].rule_id == "OUTPUT_UNSUPPORTED_GUARANTEE"
 
 
+def test_plan_outcome_promise_regenerates() -> None:
+    report = evaluate_response("Bu planla tıp için gereken netlere çıkarsın.")
+
+    assert report.action is ResponseValidationAction.REGENERATE
+    assert report.violations[0].rule_id == "OUTPUT_UNSUPPORTED_GUARANTEE"
+
+
+@pytest.mark.parametrize(
+    "text",
+    [
+        "Bu planla hedefe ulaşırsın diyemem.",
+        "Bu planla hedefe ulaşırsın diye garanti edemem.",
+    ],
+)
+def test_negated_plan_outcome_promise_passes(text: str) -> None:
+    assert evaluate_response(text).action is ResponseValidationAction.PASS
+
+
+def test_separate_disclaimer_does_not_hide_real_outcome_promise() -> None:
+    report = evaluate_response(
+        "Bu planla hedefe ulaşırsın. Sonuçları garanti edemem."
+    )
+
+    assert report.action is ResponseValidationAction.REGENERATE
+    assert report.violations[0].rule_id == "OUTPUT_UNSUPPORTED_GUARANTEE"
+
+
 @pytest.mark.parametrize(
     "text",
     [
         "Başarı ihtimalini artırabilir.",
         "Düzenli çalışırsan ilerleme sağlayabilirsin.",
+        "Bu plan netlerini artırmaya yardımcı olabilir.",
+        "Hedefimiz netlerini artırmak.",
+        "Netlerini artırmaya çalışabiliriz.",
+        "Düzenli çalışmak yardımcı olabilir.",
+        "İlerleme olasılığını artırır.",
     ],
 )
 def test_conditional_encouragement_passes(text: str) -> None:
+    assert evaluate_response(text).action is ResponseValidationAction.PASS
+
+
+@pytest.mark.parametrize(
+    "text",
+    [
+        "Sınavdan önce 3-4 saat suyu azalt.",
+        "3 saat suyu azalt.",
+        "3-4 saat sıvı alımını azalt.",
+        "Sınavdan 3 saat önce su içmeyi bırak.",
+    ],
+)
+def test_high_risk_fluid_restriction_regenerates(text: str) -> None:
+    report = evaluate_response(text)
+
+    assert report.action is ResponseValidationAction.REGENERATE
+    assert report.violations[0].rule_id == "OUTPUT_UNSAFE_HEALTH_INSTRUCTION"
+
+
+@pytest.mark.parametrize(
+    "text",
+    [
+        "Gün içinde yeterli su içmeye dikkat edebilirsin.",
+        "Sınav kaygısı yaşadığını söylemen önemli.",
+        "Su içme konusunda bir sağlık uzmanına danışabilirsin.",
+        "İlaç kullanımı sağlık profesyonelinin değerlendirmesini gerektirir.",
+    ],
+)
+def test_benign_health_language_passes(text: str) -> None:
     assert evaluate_response(text).action is ResponseValidationAction.PASS
 
 

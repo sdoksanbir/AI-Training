@@ -149,6 +149,35 @@ def test_user_instruction_cannot_replace_system_prompt() -> None:
     engine.dispose()
 
 
+def test_system_prompt_contains_safety_aligned_response_boundaries() -> None:
+    engine = create_sqlite_engine("sqlite+pysqlite:///:memory:")
+    create_schema(engine)
+    factory = create_session_factory(engine)
+    learner = Learner()
+    context = LearningContext(
+        learner_id=learner.learner_id,
+        context_type=ContextType.SCHOOL,
+        program_code="school_11",
+    )
+    memory = LearnerMemoryService(factory)
+    memory.register_learner(learner, [context])
+    provider = FakeLLMProvider(responder=lambda _: "Birlikte değerlendirebiliriz.")
+
+    CoachOrchestrator(memory, provider).respond(
+        learner.learner_id,
+        "Nasıl çalışmalıyım?",
+    )
+
+    prompt = provider.requests[-1].system_prompt
+    assert "Availability bilinmiyorsa" in prompt
+    assert "önce tanılayıcı kontrol öner" in prompt
+    assert "tolerans sınırlarını aşma" in prompt
+    assert "belirli bir seviyeye çıkma vaadi verme" in prompt
+    assert "sıvı veya beslenme kısıtlaması" in prompt
+    assert "harici URL" in prompt
+    engine.dispose()
+
+
 def test_orchestrator_exhausts_when_unverified_external_link_repeats() -> None:
     engine = create_sqlite_engine("sqlite+pysqlite:///:memory:")
     create_schema(engine)

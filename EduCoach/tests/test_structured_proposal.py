@@ -380,11 +380,18 @@ class RecordingRetriever:
         return []
 
 
-def structured_text(*, response_text: str = "Planın hazır.", proposal=True) -> str:
+def structured_text(
+    *,
+    response_text: str = "Planın hazır.",
+    proposal=True,
+    planned_minutes: int = 60,
+) -> str:
     payload = valid_payload()
     payload["response_text"] = response_text
     if not proposal:
         payload["proposal"] = None
+    else:
+        payload["proposal"]["tasks"][0]["planned_minutes"] = planned_minutes
     return encoded(payload)
 
 
@@ -435,6 +442,67 @@ def test_structured_null_proposal_returns_text_without_candidate() -> None:
 
     assert result.text == "Uygun süreni bilmeliyim."
     assert result.study_plan_proposal is None
+    memory.save_study_plan.assert_not_called()
+
+
+def test_resolved_budget_violation_exhausts_without_returning_proposal() -> None:
+    learner = Learner()
+    context = make_context(learner)
+    availability = Availability(
+        learner_id=learner.learner_id,
+        day_of_week=DayOfWeek.MONDAY,
+        availability_type=AvailabilityType.AVAILABLE,
+        available_minutes=60,
+    )
+    orchestrator, memory, provider = make_runtime(
+        make_snapshot(learner, (context,), availability=(availability,)),
+        structured_text(planned_minutes=61),
+    )
+
+    with pytest.raises(
+        ResponseRegenerationExhausted,
+        match="PLAN_AVAILABLE_TIME_LIMIT",
+    ):
+        orchestrator.respond(learner.learner_id, "Bana günlük plan yap.")
+
+    assert len(provider.requests) == 2
+    memory.save_study_plan.assert_not_called()
+
+
+def test_structured_proposal_at_resolved_budget_passes_unchanged() -> None:
+    learner = Learner()
+    context = make_context(learner)
+    availability = Availability(
+        learner_id=learner.learner_id,
+        day_of_week=DayOfWeek.MONDAY,
+        availability_type=AvailabilityType.AVAILABLE,
+        available_minutes=60,
+    )
+    orchestrator, memory, provider = make_runtime(
+        make_snapshot(learner, (context,), availability=(availability,)),
+        structured_text(planned_minutes=60),
+    )
+
+    result = orchestrator.respond(learner.learner_id, "Bana günlük plan yap.")
+
+    assert len(provider.requests) == 1
+    assert result.study_plan_proposal is not None
+    assert result.study_plan_proposal.tasks[0].planned_minutes == 60
+    memory.save_study_plan.assert_not_called()
+
+
+def test_inconclusive_proposal_budget_does_not_trigger_provider_retry() -> None:
+    learner = Learner()
+    context = make_context(learner)
+    orchestrator, memory, provider = make_runtime(
+        make_snapshot(learner, (context,)),
+        structured_text(planned_minutes=60),
+    )
+
+    result = orchestrator.respond(learner.learner_id, "Bana günlük plan yap.")
+
+    assert len(provider.requests) == 1
+    assert result.study_plan_proposal is not None
     memory.save_study_plan.assert_not_called()
 
 
