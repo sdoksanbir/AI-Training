@@ -126,11 +126,13 @@ Evaluation-only contract; gerçek kimliklerden türetilmeyen case/source-group I
 
 Development runner, production `CoachOrchestrator` davranışını değiştirmeden mevcut provider injection'ını ve geçici in-memory SQLite Learner Memory store'unu kullanır. Aynı `source_group_id` tek evaluation learner state'ini paylaşır; exact builtin Specialty Profile karşılığı olmayan programlar tahmin edilmez. Yalnız authoritative `education_status`, `grade_level` ve `study_track` fact'leri materialize edilir; diğer fact kind'ler private result metadata'sında unsupported olarak raporlanır. Model cevabı, unscored human-review şablonu ve aggregate summary yalnız Git-ignored private alana yazılır; automatic LLM judge ve proposal write-back yoktur.
 
+Structured planning human review sırasında proposal içeriğinin görünmediği evaluation evidence açığı tespit edildi. Private `human_review.jsonl` için plan ve task semantic alanlarını explicit allowlist ile taşıyan identifier-free proposal projection'ı eklendi. `results.jsonl` değişmedi, summary aggregate-only kaldı, proposal persist edilmez ve final human review henüz tamamlanmadı.
+
 Development evaluation, `external_link_not_verified` generation/validation mismatch'ini görünür hale getirdi. Base system prompt dış URL, web adresi ve www bağlantısı üretmemesi için hizalandı. Validator rule'u ve regex'i fail-closed bariyer olarak korunur; yalnız bu legacy violation mevcut tek-retry controlled regeneration yoluna alınır. `empty_response`, `response_too_long` veya external link ile birlikte başka legacy blocker mevcutsa `BLOCK` davranışı değişmez.
 
 Private `dev-pilot-v0.3` sonucu 6 completed, 4 not-run, 0 failed ve 2 proposal'dır. RL0002 fresh-runtime stability probe'u 5/5 successful, external-link failure 0/5 ve other failure 0/5 sonuçlandı. Bu execution sonuçları henüz human review ile puanlanmadı ve final unseen set mevcut değildir.
 
-Doğrulama baseline'ı: focused external-link ve ilişkili orchestration testleri 208/208 PASS, focused development runner 27/27 PASS, focused evaluation contract 18/18 PASS, full pytest 977 başarılı, core regression 8/8 PASS ve RAG evaluation Recall@3 %100 / Top-1 accuracy %100 / 0 forbidden violation.
+Doğrulama baseline'ı: focused development runner 28/28 PASS, focused evaluation contract 18/18 PASS, full pytest 978 başarılı, core regression 8/8 PASS ve RAG evaluation Recall@3 %100 / Top-1 accuracy %100 / 0 forbidden violation.
 
 ### FAZ 12 — Gerçek Learner Senaryoları
 

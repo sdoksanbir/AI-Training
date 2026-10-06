@@ -338,6 +338,7 @@ def test_human_review_starts_unscored_and_has_no_automatic_judge(
     assert review.expected_review is None
     assert review.forbidden_review is None
     assert review.notes is None
+    assert review.proposal_review is None
     payload = review.model_dump(mode="json")
     assert "judge" not in payload
     assert "score" not in payload
@@ -415,6 +416,149 @@ def test_study_plan_proposal_is_detected_but_never_persisted(
 
     assert run.results[0].proposal_present is True
     assert run.summary.proposal_count == 1
+    review = run.human_review[0]
+    assert review.proposal_review is not None
+    assert review.proposal_review.title == "Haftalık çalışma planı"
+    assert review.proposal_review.plan_type.value == "weekly"
+    assert review.proposal_review.start_date.isoformat() == "2026-10-05"
+    assert review.proposal_review.end_date.isoformat() == "2026-10-05"
+    assert len(review.proposal_review.tasks) == 1
+    task = review.proposal_review.tasks[0]
+    assert task.task_date.isoformat() == "2026-10-05"
+    assert task.area_type == "subject"
+    assert task.area_code == "mathematics"
+    assert task.task_type.value == "study"
+    assert task.description == "Matematik çalışma"
+    assert task.planned_minutes == 60
+    assert task.priority.value == "high"
+    assert review.expected_review is None
+    assert review.forbidden_review is None
+    assert review.notes is None
+
+    review_text = (run.output_directory / "human_review.jsonl").read_text(
+        encoding="utf-8"
+    )
+    review_payload = json.loads(review_text)
+    forbidden_fields = {
+        "learner_id",
+        "context_id",
+        "plan_id",
+        "task_id",
+        "goal_id",
+        "status",
+        "created_at",
+        "updated_at",
+        "completed_at",
+    }
+
+    def field_names(value: object) -> set[str]:
+        if isinstance(value, dict):
+            return set(value) | {
+                name
+                for item in value.values()
+                for name in field_names(item)
+            }
+        if isinstance(value, list):
+            return {
+                name
+                for item in value
+                for name in field_names(item)
+            }
+        return set()
+
+    assert forbidden_fields.isdisjoint(field_names(review_payload))
+    assert re.search(
+        r"[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-"
+        r"[89ab][0-9a-f]{3}-[0-9a-f]{12}",
+        review_text,
+        re.IGNORECASE,
+    ) is None
+
+    results_payload = json.loads(
+        (run.output_directory / "results.jsonl").read_text(encoding="utf-8")
+    )
+    assert set(results_payload) == {
+        "case_id",
+        "execution_status",
+        "proposal_present",
+        "reason_code",
+        "response_text",
+        "runtime_metadata",
+        "source_group_id",
+        "unsupported_fact_kinds",
+    }
+    assert "proposal_review" not in results_payload
+    summary_text = (run.output_directory / "summary.json").read_text(
+        encoding="utf-8"
+    )
+    assert "Haftalık çalışma planı" not in summary_text
+    assert "Matematik çalışma" not in summary_text
+
+
+def test_cli_never_prints_raw_proposal_content(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    raw_title = "PRIVATE-PROPOSAL-TITLE"
+    proposal = {
+        "response_text": "Plan hazır.",
+        "proposal": {
+            "title": raw_title,
+            "plan_type": "daily",
+            "start_date": "2026-10-05",
+            "end_date": "2026-10-05",
+            "tasks": [
+                {
+                    "task_date": "2026-10-05",
+                    "task_type": "study",
+                    "description": "PRIVATE-TASK-CONTENT",
+                    "planned_minutes": 30,
+                }
+            ],
+        },
+    }
+    private_root = tmp_path / "private"
+    input_path = private_root / "input.jsonl"
+    input_path.parent.mkdir(parents=True)
+    input_path.write_text(
+        json.dumps(case_payload(message="Bana günlük plan yap.")) + "\n",
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(runner_cli, "require_private_path", lambda path: path)
+    monkeypatch.setattr(
+        runner_cli,
+        "load_validated_cases",
+        lambda path: (make_case(message="Bana günlük plan yap."),),
+    )
+    monkeypatch.setattr(
+        runner_cli,
+        "OllamaProvider",
+        lambda model: FakeLLMProvider(
+            responder=lambda _: json.dumps(proposal, ensure_ascii=False)
+        ),
+    )
+    monkeypatch.setattr(
+        runner_cli,
+        "run_development_evaluation",
+        lambda cases, provider, run_id: run_development_evaluation(
+            cases,
+            provider,
+            run_id=run_id,
+            private_root=private_root,
+        ),
+    )
+
+    exit_code = runner_cli.main(
+        [str(input_path), "--run-id", "dev-cli-proposal", "--model", "fake"]
+    )
+
+    captured = capsys.readouterr()
+    assert exit_code == 0
+    assert "RL0001: completed" in captured.out
+    assert "proposals=1" in captured.out
+    assert raw_title not in captured.out
+    assert "PRIVATE-TASK-CONTENT" not in captured.out
 
 
 class UnhealthyProvider(LLMProvider):

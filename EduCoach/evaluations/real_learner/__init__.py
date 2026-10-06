@@ -25,6 +25,8 @@ from .runner import (
     PrivatePathError,
     ProviderUnavailableError,
     RuntimeMetadata,
+    StudyPlanReviewProjection,
+    StudyTaskReviewProjection,
     require_private_path,
     run_development_evaluation,
     validate_run_id,
@@ -53,5 +55,7 @@ __all__ = [
     "split_cases",
     "write_split",
     "RuntimeMetadata",
+    "StudyPlanReviewProjection",
+    "StudyTaskReviewProjection",
     "validate_run_id",
 ]

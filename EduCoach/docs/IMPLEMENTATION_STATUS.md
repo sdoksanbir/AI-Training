@@ -52,11 +52,11 @@ EduCoach yalnız YKS uygulaması değildir. Genel çekirdek farklı eğitim alan
 - Public `/health` ve authentication-required `/v1/coach/respond` endpoint'lerini sunan HTTP boundary; request body yerine authenticated principal'dan alınan authoritative `learner_id`, optional `context_id`, fail-closed ownership davranışı, sanitize edilmiş hata cevapları ve otomatik write-back yapmayan StudyPlan proposal serialization.
 - Learner Memory'den ayrı `auth_accounts` ve `auth_sessions` persistence'ı; learner başına tek account, canonical unique login identifier, Argon2id password storage, dummy-hash timing mitigation, 12 saat TTL'li hash-only opaque bearer token, expiry/revocation, login/logout endpoint'leri ve injectable 5 deneme/15 dakika lockout policy'si.
 - Evaluation-only real learner intake contract'ı; flat primitive fact modeli, zorunlu manual privacy/usage assertions, conservative identifier scanner, safe JSONL validation CLI'ı, source-group-safe versioned deterministic dev/final split ve content taşımayan hash manifesti.
-- Development evaluation runner; private-path enforcement, source group başına izole in-memory learner state, exact builtin Specialty Profile materialization, yalnız authoritative fact mapping, unsupported fact metadata, gerçek production `CoachOrchestrator` çağrısı, persist edilmeyen proposal göstergesi, unscored human-review JSONL ve yalnız aggregate summary üretimi.
+- Development evaluation runner; private-path enforcement, source group başına izole in-memory learner state, exact builtin Specialty Profile materialization, yalnız authoritative fact mapping, unsupported fact metadata, gerçek production `CoachOrchestrator` çağrısı, persist edilmeyen proposal göstergesi, identifier-free semantic proposal review projection'ı, unscored human-review JSONL ve yalnız aggregate summary üretimi.
 
 ## Doğrulama
 
-Son test paketi: 977 test başarılı.
+Son test paketi: 978 test başarılı.
 
 Knowledge Base testleri: 20/20 PASS.
 
@@ -89,6 +89,8 @@ Real learner intake contract ve development evaluation runner hazır; 10-case ge
 Real learner development evaluation, `external_link_not_verified` generation/validation mismatch'ini ortaya çıkardı. Base prompt dış URL üretmemesi için hizalandı ve yalnız bu violation bounded controlled regeneration ile düzeltilebilir hale getirildi. Validator fail-closed güvenlik bariyeri olarak korunur.
 
 Private `dev-pilot-v0.3` sonucu 6 completed, 4 not-run, 0 failed ve 2 proposal'dır. RL0002 beş bağımsız fresh runtime çağrısında 5/5 başarılı oldu; external-link ve diğer failure sayıları 0/5 kaldı. Development cevapları henüz human review ile puanlanmadı.
+
+Structured planning case'lerinde proposal içeriğinin reviewer tarafından görülemediği evaluation evidence açığı kapatıldı. `human_review.jsonl`, yalnız plan başlığı/türü/tarih aralığı ile task tarihi/alanı/türü/açıklaması/dakikası/önceliğini taşır; runtime identifier'lar dışlanır. Final human review henüz tamamlanmadı.
 
 ## Sıradaki üretim işleri
 

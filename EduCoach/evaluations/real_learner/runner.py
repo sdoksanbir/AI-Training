@@ -3,6 +3,7 @@
 from collections import defaultdict
 from collections.abc import Iterable
 from dataclasses import dataclass
+from datetime import date
 from enum import StrEnum
 import json
 from pathlib import Path
@@ -12,7 +13,14 @@ from typing import Literal
 from pydantic import BaseModel, ConfigDict, StrictInt, StrictStr
 
 from educoach.llm import LLMProvider
-from educoach.models import EducationStatus, Learner, LearningContext
+from educoach.models import (
+    EducationStatus,
+    Learner,
+    LearningContext,
+    PlanType,
+    TaskPriority,
+    TaskType,
+)
 from educoach.orchestrator import CoachOrchestrator
 from educoach.persistence import (
     create_schema,
@@ -24,6 +32,7 @@ from educoach.specialties import (
     SpecialtyProfileRegistry,
     create_builtin_specialty_registry,
 )
+from educoach.writeback import StudyPlanWriteProposal
 
 from .contracts import RealLearnerEvaluationCase
 
@@ -86,6 +95,32 @@ ExpectedReview = Literal["met", "not_met", "unclear"]
 ForbiddenReview = Literal["absent", "present", "unclear"]
 
 
+class StudyTaskReviewProjection(BaseModel):
+    """Identifier-free semantic task evidence for private human review."""
+
+    model_config = ConfigDict(extra="forbid", frozen=True)
+
+    task_date: date
+    area_type: StrictStr | None = None
+    area_code: StrictStr | None = None
+    task_type: TaskType
+    description: StrictStr
+    planned_minutes: StrictInt
+    priority: TaskPriority
+
+
+class StudyPlanReviewProjection(BaseModel):
+    """Explicit allowlist projection of a runtime StudyPlan proposal."""
+
+    model_config = ConfigDict(extra="forbid", frozen=True)
+
+    title: StrictStr
+    plan_type: PlanType
+    start_date: date
+    end_date: date
+    tasks: tuple[StudyTaskReviewProjection, ...]
+
+
 class HumanReviewRecord(BaseModel):
     model_config = ConfigDict(extra="forbid", frozen=True)
 
@@ -93,6 +128,7 @@ class HumanReviewRecord(BaseModel):
     expected_behavior_tags: tuple[StrictStr, ...]
     forbidden_behavior_tags: tuple[StrictStr, ...]
     response_text: StrictStr | None
+    proposal_review: StudyPlanReviewProjection | None = None
     expected_review: ExpectedReview | None = None
     forbidden_review: ForbiddenReview | None = None
     notes: StrictStr | None = None
@@ -124,6 +160,12 @@ class _PreparedCase:
     context: LearningContext | None
     unsupported_fact_kinds: tuple[str, ...]
     reason_code: str | None = None
+
+
+@dataclass(frozen=True)
+class _CaseExecution:
+    result: DevelopmentCaseResult
+    proposal_review: StudyPlanReviewProjection | None = None
 
 
 def require_private_path(path: Path, *, private_root: Path = PRIVATE_ROOT) -> Path:
@@ -194,7 +236,7 @@ def run_development_evaluation(
             registry,
             memory,
         )
-        results = tuple(
+        executions = tuple(
             _execute_case(
                 prepared_by_case[case.case_id],
                 learners_by_group.get(case.source_group_id),
@@ -202,6 +244,7 @@ def run_development_evaluation(
             )
             for case in ordered_cases
         )
+        results = tuple(execution.result for execution in executions)
     finally:
         engine.dispose()
 
@@ -210,9 +253,10 @@ def run_development_evaluation(
             case_id=case.case_id,
             expected_behavior_tags=case.expected_behavior_tags,
             forbidden_behavior_tags=case.forbidden_behavior_tags,
-            response_text=result.response_text,
+            response_text=execution.result.response_text,
+            proposal_review=execution.proposal_review,
         )
-        for case, result in zip(ordered_cases, results, strict=True)
+        for case, execution in zip(ordered_cases, executions, strict=True)
     )
     summary = _build_summary(normalized_run_id, results)
     _write_private_artifacts(target, results, human_review, summary)
@@ -364,15 +408,17 @@ def _execute_case(
     prepared: _PreparedCase,
     learner: Learner | None,
     orchestrator: CoachOrchestrator,
-) -> DevelopmentCaseResult:
+) -> _CaseExecution:
     case = prepared.case
     if prepared.reason_code is not None or prepared.context is None or learner is None:
-        return DevelopmentCaseResult(
-            case_id=case.case_id,
-            source_group_id=case.source_group_id,
-            execution_status=ExecutionStatus.NOT_RUN,
-            unsupported_fact_kinds=prepared.unsupported_fact_kinds,
-            reason_code=prepared.reason_code or "context_unavailable",
+        return _CaseExecution(
+            DevelopmentCaseResult(
+                case_id=case.case_id,
+                source_group_id=case.source_group_id,
+                execution_status=ExecutionStatus.NOT_RUN,
+                unsupported_fact_kinds=prepared.unsupported_fact_kinds,
+                reason_code=prepared.reason_code or "context_unavailable",
+            )
         )
 
     context = prepared.context
@@ -387,23 +433,35 @@ def _execute_case(
             context_id=context.context_id,
         )
     except Exception:
-        return DevelopmentCaseResult(
-            case_id=case.case_id,
-            source_group_id=case.source_group_id,
-            execution_status=ExecutionStatus.FAILED,
-            unsupported_fact_kinds=prepared.unsupported_fact_kinds,
-            reason_code="orchestrator_error",
-            runtime_metadata=metadata,
+        return _CaseExecution(
+            DevelopmentCaseResult(
+                case_id=case.case_id,
+                source_group_id=case.source_group_id,
+                execution_status=ExecutionStatus.FAILED,
+                unsupported_fact_kinds=prepared.unsupported_fact_kinds,
+                reason_code="orchestrator_error",
+                runtime_metadata=metadata,
+            )
         )
 
-    if UUID_PATTERN.search(result.text):
-        return DevelopmentCaseResult(
-            case_id=case.case_id,
-            source_group_id=case.source_group_id,
-            execution_status=ExecutionStatus.FAILED,
-            unsupported_fact_kinds=prepared.unsupported_fact_kinds,
-            reason_code="runtime_identifier_leak",
-            runtime_metadata=metadata,
+    proposal_review = (
+        _project_proposal_for_review(result.study_plan_proposal)
+        if result.study_plan_proposal is not None
+        else None
+    )
+    review_json = (
+        proposal_review.model_dump_json() if proposal_review is not None else ""
+    )
+    if UUID_PATTERN.search(result.text) or UUID_PATTERN.search(review_json):
+        return _CaseExecution(
+            DevelopmentCaseResult(
+                case_id=case.case_id,
+                source_group_id=case.source_group_id,
+                execution_status=ExecutionStatus.FAILED,
+                unsupported_fact_kinds=prepared.unsupported_fact_kinds,
+                reason_code="runtime_identifier_leak",
+                runtime_metadata=metadata,
+            )
         )
 
     safe_model = (
@@ -411,17 +469,46 @@ def _execute_case(
         if isinstance(result.model, str) and SAFE_MODEL_PATTERN.fullmatch(result.model)
         else None
     )
-    return DevelopmentCaseResult(
-        case_id=case.case_id,
-        source_group_id=case.source_group_id,
-        execution_status=ExecutionStatus.COMPLETED,
-        response_text=result.text,
-        unsupported_fact_kinds=prepared.unsupported_fact_kinds,
-        proposal_present=result.study_plan_proposal is not None,
-        runtime_metadata=RuntimeMetadata(
-            model=safe_model,
-            program_code=context.program_code,
-            context_type=context.context_type.value,
+    return _CaseExecution(
+        DevelopmentCaseResult(
+            case_id=case.case_id,
+            source_group_id=case.source_group_id,
+            execution_status=ExecutionStatus.COMPLETED,
+            response_text=result.text,
+            unsupported_fact_kinds=prepared.unsupported_fact_kinds,
+            proposal_present=result.study_plan_proposal is not None,
+            runtime_metadata=RuntimeMetadata(
+                model=safe_model,
+                program_code=context.program_code,
+                context_type=context.context_type.value,
+            ),
+        ),
+        proposal_review=proposal_review,
+    )
+
+
+def _project_proposal_for_review(
+    proposal: StudyPlanWriteProposal,
+) -> StudyPlanReviewProjection:
+    """Project only reviewer-relevant semantics; never copy runtime IDs."""
+
+    plan = proposal.plan
+    return StudyPlanReviewProjection(
+        title=plan.title,
+        plan_type=plan.plan_type,
+        start_date=plan.start_date,
+        end_date=plan.end_date,
+        tasks=tuple(
+            StudyTaskReviewProjection(
+                task_date=task.task_date,
+                area_type=task.area_type,
+                area_code=task.area_code,
+                task_type=task.task_type,
+                description=task.description,
+                planned_minutes=task.planned_minutes,
+                priority=task.priority,
+            )
+            for task in proposal.tasks
         ),
     )
 

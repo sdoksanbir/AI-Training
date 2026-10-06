@@ -80,4 +80,6 @@ python scripts/run_real_learner_development_evaluation.py `
 
 The runner writes `results.jsonl`, `human_review.jsonl`, and `summary.json` only below `evaluations/real_learner/private/runs/<run-id>/` and refuses overwrite. Responses and review artifacts remain private and Git-ignored. Human review fields begin as `null`; no automatic judge is used.
 
+When the production orchestrator returns a structured StudyPlan proposal, `human_review.jsonl` includes an explicit identifier-free semantic projection. It contains plan title/type/date range and each task's date, optional area, task type, description, planned minutes, and priority. Runtime learner/context/plan/task/goal IDs, status/timestamps, raw model JSON, and generic model dumps are excluded. `results.jsonl` remains unchanged, while `summary.json` remains aggregate-only.
+
 Program contexts are created only from exact packaged Specialty Profiles. Fact materialization is deliberately limited to authoritative `education_status`, `grade_level`, and `study_track` fields. Other fact kinds are not inserted into a generic store; they are listed as unsupported metadata when the case can still run.
