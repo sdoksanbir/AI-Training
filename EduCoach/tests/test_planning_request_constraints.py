@@ -22,7 +22,6 @@ from educoach.orchestrator import (
     CoachOrchestrator,
     ConstraintStrength,
     RecurringDayScope,
-    ResponseRegenerationExhausted,
     ScheduleAnchorType,
     evaluate_request_subject_limits,
     evaluate_response_proposal_workload,
@@ -31,8 +30,10 @@ from educoach.orchestrator import (
     extract_planning_request_context,
 )
 from educoach.orchestrator.planning_request import (
+    PlanningClaimAnchor,
     PlanningClaimKind,
     PlanningClaimModality,
+    PlanningClaimTemporalRelation,
     extract_response_planning_claims,
 )
 from educoach.persistence import (
@@ -47,6 +48,16 @@ from educoach.writeback import StudyPlanWriteProposal
 
 MONDAY = date(2026, 10, 5)
 TUESDAY = date(2026, 10, 6)
+AVAILABILITY_FALLBACK = (
+    "Müsait olduğun süreyi bilmeden kesin çalışma süresi veya saatleri "
+    "belirlemem doğru olmaz. Gün içinde gerçekten ayırabildiğin süreyi "
+    "söylersen planı buna göre oluşturabilirim."
+)
+PLANNING_CONSTRAINT_FALLBACK = (
+    "Verdiğin çalışma sınırlarına güvenilir biçimde uyan bir plan "
+    "oluşturamadım. Planı yanlış sürelerle sunmak yerine burada duruyorum; "
+    "istersen daha sade bir planla yeniden deneyebiliriz."
+)
 
 
 def make_snapshot(
@@ -399,27 +410,26 @@ def test_non_content_task_keeps_atomicity_exemption(task_type: TaskType) -> None
     assert evaluate_request_subject_limits(request_context, proposal) == ()
 
 
-def test_repeated_subject_limit_violation_exhausts_after_two_calls() -> None:
+def test_repeated_subject_limit_violation_returns_safe_fallback() -> None:
     raw = structured_response(
         "Planı iki saat sınırına göre düzenledim.",
         (("2026-10-05", 121, "subject", "mathematics"),),
     )
     orchestrator, memory, provider, learner = make_mock_runtime(raw)
 
-    with pytest.raises(
-        ResponseRegenerationExhausted,
-        match="PLAN_REQUEST_SUBJECT_DAILY_LIMIT",
-    ):
-        orchestrator.respond(
-            learner.learner_id,
-            "Matematiğe günde en fazla 2 saat ayırabilirim. Bana plan yap.",
-        )
+    result = orchestrator.respond(
+        learner.learner_id,
+        "Matematiğe günde en fazla 2 saat ayırabilirim. Bana plan yap.",
+    )
 
+    assert result.text == PLANNING_CONSTRAINT_FALLBACK
+    assert result.model == "deterministic"
+    assert result.study_plan_proposal is None
     assert len(provider.requests) == 2
     memory.save_study_plan.assert_not_called()
 
 
-def test_repeated_atomicity_contradiction_exhausts_after_two_calls() -> None:
+def test_repeated_atomicity_contradiction_returns_safe_fallback() -> None:
     raw = json.dumps(
         {
             "response_text": "Planı iki saat sınırına göre düzenledim.",
@@ -447,15 +457,14 @@ def test_repeated_atomicity_contradiction_exhausts_after_two_calls() -> None:
     )
     orchestrator, memory, provider, learner = make_mock_runtime(raw)
 
-    with pytest.raises(
-        ResponseRegenerationExhausted,
-        match="PLAN_REQUEST_SUBJECT_LIMIT_UNVERIFIABLE",
-    ):
-        orchestrator.respond(
-            learner.learner_id,
-            "Matematiğe günde en fazla 2 saat ayırabilirim. Bana plan yap.",
-        )
+    result = orchestrator.respond(
+        learner.learner_id,
+        "Matematiğe günde en fazla 2 saat ayırabilirim. Bana plan yap.",
+    )
 
+    assert result.text == PLANNING_CONSTRAINT_FALLBACK
+    assert result.model == "deterministic"
+    assert result.study_plan_proposal is None
     assert len(provider.requests) == 2
     memory.save_study_plan.assert_not_called()
 
@@ -570,26 +579,25 @@ def test_evening_home_arrival_without_time_is_not_an_anchor() -> None:
     assert context.schedule_anchors == ()
 
 
-def test_unknown_availability_exact_clock_schedule_exhausts_regeneration() -> None:
+def test_unknown_availability_exact_clock_schedule_returns_safe_fallback() -> None:
     raw = structured_text_without_proposal(
         "17:00-19:00 matematik çalış. 19:00-20:00 TYT çalış."
     )
     orchestrator, memory, provider, learner = make_mock_runtime(raw)
 
-    with pytest.raises(
-        ResponseRegenerationExhausted,
-        match="PLAN_RESPONSE_UNSUPPORTED_AVAILABILITY",
-    ):
-        orchestrator.respond(
-            learner.learner_id,
-            "Akşam saat 5 te eve geliyorum. Bana program yap.",
-        )
+    result = orchestrator.respond(
+        learner.learner_id,
+        "Akşam saat 5 te eve geliyorum. Bana program yap.",
+    )
 
+    assert result.text == AVAILABILITY_FALLBACK
+    assert result.model == "deterministic"
+    assert result.study_plan_proposal is None
     assert len(provider.requests) == 2
     memory.save_study_plan.assert_not_called()
 
 
-def test_multiline_clock_schedule_exhausts_regeneration() -> None:
+def test_multiline_clock_schedule_returns_safe_fallback() -> None:
     raw = structured_text_without_proposal(
         "5:00 - 6:00\n"
         "- Ödevlerinizi tamamlayın.\n\n"
@@ -598,15 +606,14 @@ def test_multiline_clock_schedule_exhausts_regeneration() -> None:
     )
     orchestrator, memory, provider, learner = make_mock_runtime(raw)
 
-    with pytest.raises(
-        ResponseRegenerationExhausted,
-        match="PLAN_RESPONSE_UNSUPPORTED_AVAILABILITY",
-    ):
-        orchestrator.respond(
-            learner.learner_id,
-            "Akşam saat 5 te eve geliyorum. Bana program yap.",
-        )
+    result = orchestrator.respond(
+        learner.learner_id,
+        "Akşam saat 5 te eve geliyorum. Bana program yap.",
+    )
 
+    assert result.text == AVAILABILITY_FALLBACK
+    assert result.model == "deterministic"
+    assert result.study_plan_proposal is None
     assert len(provider.requests) == 2
     memory.save_study_plan.assert_not_called()
 
@@ -661,6 +668,222 @@ def test_exact_clock_question_is_not_a_planning_assignment() -> None:
     assert extract_response_planning_claims(
         "18:00-20:00 uygun olur mu?"
     ) == ()
+
+
+@pytest.mark.parametrize(
+    ("response_text", "expected_minimum", "expected_maximum", "anchor"),
+    [
+        (
+            "Akşam saat 5'ten sonra 2-3 saat çalış.",
+            120,
+            180,
+            PlanningClaimAnchor.CLOCK_POINT,
+        ),
+        (
+            "17:00'den sonra 2 saat ders çalış.",
+            120,
+            120,
+            PlanningClaimAnchor.CLOCK_POINT,
+        ),
+        (
+            "Eve geldikten sonra 3 saatlik çalışma bloğu oluştur.",
+            180,
+            180,
+            PlanningClaimAnchor.HOME_ARRIVAL,
+        ),
+        (
+            "Eve geldikten sonra 90 dakika TYT çalış.",
+            90,
+            90,
+            PlanningClaimAnchor.HOME_ARRIVAL,
+        ),
+        (
+            "Okuldan sonra 2 saat ders çalış.",
+            120,
+            120,
+            PlanningClaimAnchor.SCHOOL_END,
+        ),
+    ],
+)
+def test_asserted_anchored_duration_is_typed(
+    response_text: str,
+    expected_minimum: int,
+    expected_maximum: int,
+    anchor: PlanningClaimAnchor,
+) -> None:
+    claims = extract_response_planning_claims(response_text)
+
+    assert len(claims) == 1
+    claim = claims[0]
+    assert claim.kind is PlanningClaimKind.ANCHORED_DURATION_ASSIGNMENT
+    assert claim.modality is PlanningClaimModality.ASSERTED
+    assert claim.min_minutes == expected_minimum
+    assert claim.max_minutes == expected_maximum
+    assert claim.temporal_anchor is anchor
+    assert claim.temporal_relation is PlanningClaimTemporalRelation.AFTER
+
+
+@pytest.mark.parametrize(
+    ("response_text", "expected_modality"),
+    [
+        (
+            "Müsaitsen eve geldikten sonra 1 saat çalışabilirsin.",
+            PlanningClaimModality.CONDITIONAL,
+        ),
+        (
+            "Örneğin eve geldikten sonra 1 saat çalışılabilir.",
+            PlanningClaimModality.ILLUSTRATIVE,
+        ),
+        (
+            "17:00'den sonra 2 saat müsait olduğunu söyledin.",
+            PlanningClaimModality.REPORTED,
+        ),
+    ],
+)
+def test_non_asserted_anchored_duration_modality_is_preserved(
+    response_text: str,
+    expected_modality: PlanningClaimModality,
+) -> None:
+    claims = extract_response_planning_claims(response_text)
+
+    assert len(claims) == 1
+    assert claims[0].kind is PlanningClaimKind.ANCHORED_DURATION_ASSIGNMENT
+    assert claims[0].modality is expected_modality
+
+
+@pytest.mark.parametrize(
+    "response_text",
+    [
+        "17:00'de eve geldiğini söyledin.",
+        "17:00'den sonra ne kadar vaktin olduğunu bilmiyorum.",
+        "Eve geldikten sonra uygun olduğun süreyi netleştirelim.",
+    ],
+)
+def test_anchor_language_without_numeric_assignment_is_not_claim(
+    response_text: str,
+) -> None:
+    assert extract_response_planning_claims(response_text) == ()
+
+
+@pytest.mark.parametrize(
+    "response_text",
+    [
+        "17:00'den sonra 2 saat ders çalış.",
+        "Akşam saat 5'ten sonra 2-3 saatlik çalışma bloğu oluştur.",
+        "Eve geldikten sonra 90 dakika TYT çalış.",
+    ],
+)
+def test_asserted_anchored_duration_without_availability_is_rejected(
+    response_text: str,
+) -> None:
+    learner = Learner()
+    context = LearningContext(
+        learner_id=learner.learner_id,
+        context_type=ContextType.SCHOOL,
+        program_code="school_11",
+    )
+
+    violations = evaluate_response_schedule_grounding(
+        response_text,
+        extract_planning_request_context(
+            "Akşam saat 5 te eve geliyorum. Bana program yap."
+        ),
+        make_snapshot(learner, context),
+        None,
+    )
+
+    assert [item.rule_id for item in violations] == [
+        "PLAN_RESPONSE_UNSUPPORTED_AVAILABILITY"
+    ]
+
+
+@pytest.mark.parametrize(
+    "response_text",
+    [
+        "Müsaitsen eve geldikten sonra 1 saat çalışabilirsin.",
+        "Örneğin eve geldikten sonra 1 saat çalışılabilir.",
+        "17:00'den sonra 2 saat müsait olduğunu söyledin.",
+    ],
+)
+def test_non_asserted_anchored_duration_passes_grounding(
+    response_text: str,
+) -> None:
+    learner = Learner()
+    context = LearningContext(
+        learner_id=learner.learner_id,
+        context_type=ContextType.SCHOOL,
+        program_code="school_11",
+    )
+
+    assert evaluate_response_schedule_grounding(
+        response_text,
+        extract_planning_request_context(
+            "Akşam saat 5 te eve geliyorum. Bana program yap."
+        ),
+        make_snapshot(learner, context),
+        None,
+    ) == ()
+
+
+def test_proposal_does_not_support_anchored_duration_without_availability() -> None:
+    learner = Learner()
+    context = LearningContext(
+        learner_id=learner.learner_id,
+        context_type=ContextType.SCHOOL,
+        program_code="school_11",
+    )
+    proposal = make_write_proposal(
+        learner,
+        context,
+        ((MONDAY, 120, "subject", "mathematics"),),
+    )
+
+    violations = evaluate_response_schedule_grounding(
+        "17:00'den sonra 2 saat ders çalış.",
+        extract_planning_request_context(
+            "Akşam saat 5 te eve geliyorum. Bana program yap."
+        ),
+        make_snapshot(learner, context),
+        proposal,
+    )
+
+    assert [item.rule_id for item in violations] == [
+        "PLAN_RESPONSE_UNSUPPORTED_AVAILABILITY"
+    ]
+
+
+def test_anchored_duration_without_home_arrival_anchor_passes_p0_guard() -> None:
+    learner = Learner()
+    context = LearningContext(
+        learner_id=learner.learner_id,
+        context_type=ContextType.SCHOOL,
+        program_code="school_11",
+    )
+
+    assert evaluate_response_schedule_grounding(
+        "17:00'den sonra 2 saat ders çalış.",
+        extract_planning_request_context("Bana program yap."),
+        make_snapshot(learner, context),
+        None,
+    ) == ()
+
+
+def test_repeated_anchored_duration_rejection_returns_safe_fallback() -> None:
+    raw = structured_text_without_proposal(
+        "17:00'den sonra 2 saat ders çalış."
+    )
+    orchestrator, memory, provider, learner = make_mock_runtime(raw)
+
+    result = orchestrator.respond(
+        learner.learner_id,
+        "Akşam saat 5 te eve geliyorum. Bana program yap.",
+    )
+
+    assert result.text == AVAILABILITY_FALLBACK
+    assert result.model == "deterministic"
+    assert result.study_plan_proposal is None
+    assert len(provider.requests) == 2
+    memory.save_study_plan.assert_not_called()
 
 
 @pytest.mark.parametrize(
@@ -1200,19 +1423,20 @@ def test_second_of_multiple_workloads_cannot_fail_open_mismatch() -> None:
     ]
 
 
-def test_repeated_workload_drift_exhausts_after_two_calls() -> None:
+def test_repeated_workload_drift_returns_safe_fallback() -> None:
     raw = structured_response(
         "Her gün 3-4 saat çalış.",
         (("2026-10-05", 90, "subject", "mathematics"),),
     )
     orchestrator, memory, provider, learner = make_mock_runtime(raw)
 
-    with pytest.raises(
-        ResponseRegenerationExhausted,
-        match="PLAN_RESPONSE_PROPOSAL_WORKLOAD_MISMATCH",
-    ):
-        orchestrator.respond(learner.learner_id, "Bana günlük plan yap.")
+    result = orchestrator.respond(
+        learner.learner_id, "Bana günlük plan yap."
+    )
 
+    assert result.text == PLANNING_CONSTRAINT_FALLBACK
+    assert result.model == "deterministic"
+    assert result.study_plan_proposal is None
     assert len(provider.requests) == 2
     memory.save_study_plan.assert_not_called()
 

@@ -366,6 +366,85 @@ def test_second_regenerate_exhausts_without_third_call(monkeypatch) -> None:
     assert evaluator.call_count == 2
 
 
+def test_repeated_planning_availability_returns_deterministic_fallback(
+    monkeypatch,
+) -> None:
+    availability_report = validation_report(
+        ResponseValidationAction.REGENERATE,
+        violation("PLAN_RESPONSE_UNSUPPORTED_AVAILABILITY"),
+    )
+    evaluator = Mock(side_effect=[availability_report, availability_report])
+    monkeypatch.setattr(coach_module, "evaluate_response", evaluator)
+    orchestrator, memory, provider, learner = make_runtime(
+        [response("first rejected"), response("second rejected")]
+    )
+
+    result = orchestrator.respond(learner.learner_id, "Merhaba")
+
+    assert result.text == (
+        "Müsait olduğun süreyi bilmeden kesin çalışma süresi veya saatleri "
+        "belirlemem doğru olmaz. Gün içinde gerçekten ayırabildiğin süreyi "
+        "söylersen planı buna göre oluşturabilirim."
+    )
+    assert result.model == "deterministic"
+    assert result.study_plan_proposal is None
+    assert len(provider.requests) == 2
+    assert not any(character.isdigit() for character in result.text)
+    assert "http://" not in result.text
+    assert "https://" not in result.text
+    assert "www." not in result.text
+    memory.save_study_plan.assert_not_called()
+
+
+def test_planning_regeneration_success_does_not_use_fallback(monkeypatch) -> None:
+    evaluator = Mock(
+        side_effect=[
+            validation_report(
+                ResponseValidationAction.REGENERATE,
+                violation("PLAN_RESPONSE_UNSUPPORTED_AVAILABILITY"),
+            ),
+            validation_report(ResponseValidationAction.PASS),
+        ]
+    )
+    monkeypatch.setattr(coach_module, "evaluate_response", evaluator)
+    orchestrator, _, provider, learner = make_runtime(
+        [response("first rejected"), response("second valid", "valid-model")]
+    )
+
+    result = orchestrator.respond(learner.learner_id, "Merhaba")
+
+    assert result.text == "second valid"
+    assert result.model == "valid-model"
+    assert len(provider.requests) == 2
+
+
+def test_mixed_non_planning_exhaustion_does_not_use_fallback(monkeypatch) -> None:
+    evaluator = Mock(
+        side_effect=[
+            validation_report(
+                ResponseValidationAction.REGENERATE,
+                violation("external_link_not_verified"),
+            ),
+            validation_report(
+                ResponseValidationAction.REGENERATE,
+                violation("PLAN_RESPONSE_UNSUPPORTED_AVAILABILITY"),
+            ),
+        ]
+    )
+    monkeypatch.setattr(coach_module, "evaluate_response", evaluator)
+    orchestrator, _, provider, learner = make_runtime(
+        [response("first rejected"), response("second rejected")]
+    )
+
+    with pytest.raises(ResponseRegenerationExhausted) as captured:
+        orchestrator.respond(learner.learner_id, "Merhaba")
+
+    assert captured.value.violations == [
+        "PLAN_RESPONSE_UNSUPPORTED_AVAILABILITY"
+    ]
+    assert len(provider.requests) == 2
+
+
 def test_second_block_remains_normal_block_error() -> None:
     orchestrator, _, provider, learner = make_runtime(
         [

@@ -126,6 +126,7 @@ class DailyWorkloadClaim:
 class PlanningClaimKind(StrEnum):
     EXACT_CLOCK_ASSIGNMENT = "exact_clock_assignment"
     DAILY_WORKLOAD_ASSIGNMENT = "daily_workload_assignment"
+    ANCHORED_DURATION_ASSIGNMENT = "anchored_duration_assignment"
 
 
 class PlanningClaimModality(StrEnum):
@@ -133,6 +134,16 @@ class PlanningClaimModality(StrEnum):
     CONDITIONAL = "conditional"
     ILLUSTRATIVE = "illustrative"
     REPORTED = "reported"
+
+
+class PlanningClaimAnchor(StrEnum):
+    CLOCK_POINT = "clock_point"
+    HOME_ARRIVAL = "home_arrival"
+    SCHOOL_END = "school_end"
+
+
+class PlanningClaimTemporalRelation(StrEnum):
+    AFTER = "after"
 
 
 @dataclass(frozen=True)
@@ -144,6 +155,11 @@ class PlanningClaim:
     min_minutes_per_day: int | None = None
     max_minutes_per_day: int | None = None
     is_capacity_prescription: bool = False
+    min_minutes: int | None = None
+    max_minutes: int | None = None
+    temporal_anchor: PlanningClaimAnchor | None = None
+    temporal_relation: PlanningClaimTemporalRelation | None = None
+    anchor_time: time | None = None
 
     def __post_init__(self) -> None:
         if self.kind is PlanningClaimKind.EXACT_CLOCK_ASSIGNMENT:
@@ -154,16 +170,67 @@ class PlanningClaim:
                 or self.max_minutes_per_day is not None
             ):
                 raise ValueError("exact clock assignment cannot contain workload")
+            if any(
+                value is not None
+                for value in (
+                    self.min_minutes,
+                    self.max_minutes,
+                    self.temporal_anchor,
+                    self.temporal_relation,
+                    self.anchor_time,
+                )
+            ):
+                raise ValueError("exact clock assignment cannot contain an anchor")
+            return
+        if self.kind is PlanningClaimKind.DAILY_WORKLOAD_ASSIGNMENT:
+            if self.start_time is not None or self.end_time is not None:
+                raise ValueError("daily workload assignment cannot contain clock times")
+            if any(
+                value is not None
+                for value in (
+                    self.min_minutes,
+                    self.max_minutes,
+                    self.temporal_anchor,
+                    self.temporal_relation,
+                    self.anchor_time,
+                )
+            ):
+                raise ValueError("daily workload assignment cannot contain an anchor")
+            if (
+                self.min_minutes_per_day is None
+                or self.max_minutes_per_day is None
+                or self.min_minutes_per_day < 1
+                or self.max_minutes_per_day < self.min_minutes_per_day
+            ):
+                raise ValueError("daily workload assignment requires a valid range")
             return
         if self.start_time is not None or self.end_time is not None:
-            raise ValueError("daily workload assignment cannot contain clock times")
+            raise ValueError("anchored duration cannot contain a clock range")
         if (
-            self.min_minutes_per_day is None
-            or self.max_minutes_per_day is None
-            or self.min_minutes_per_day < 1
-            or self.max_minutes_per_day < self.min_minutes_per_day
+            self.min_minutes_per_day is not None
+            or self.max_minutes_per_day is not None
+            or self.is_capacity_prescription
         ):
-            raise ValueError("daily workload assignment requires a valid range")
+            raise ValueError("anchored duration cannot contain daily workload fields")
+        if (
+            self.min_minutes is None
+            or self.max_minutes is None
+            or self.min_minutes < 1
+            or self.max_minutes < self.min_minutes
+            or self.temporal_anchor is None
+            or self.temporal_relation is None
+        ):
+            raise ValueError("anchored duration assignment requires a valid anchor")
+        if (
+            self.temporal_anchor is PlanningClaimAnchor.CLOCK_POINT
+            and self.anchor_time is None
+        ):
+            raise ValueError("clock-point anchored duration requires an anchor time")
+        if (
+            self.temporal_anchor is not PlanningClaimAnchor.CLOCK_POINT
+            and self.anchor_time is not None
+        ):
+            raise ValueError("relative anchored duration cannot contain an anchor time")
 
 
 _SUBJECT_LIMIT_PATTERNS = (
@@ -230,6 +297,16 @@ _CLOCK_RANGE_PATTERN = re.compile(
     r"(?P<end_hour>[01]?\d|2[0-3])[:.]?"
     r"(?P<end_minute>[0-5]\d)(?!\d)"
 )
+_CLOCK_POINT_AFTER_PATTERN = re.compile(
+    r"(?<!\d)(?P<hour>[01]?\d|2[0-3]):(?P<minute>[0-5]\d)\s*"
+    r"['’]?\s*(?:den|dan|ten|tan)\s+sonra\b"
+)
+_EVENING_CLOCK_POINT_AFTER_PATTERN = re.compile(
+    r"\baksam\s+saat\s+(?P<hour>0?[1-9]|1[01])\s*"
+    r"['’]?\s*(?:den|dan|ten|tan)\s+sonra\b"
+)
+_HOME_ARRIVAL_AFTER_PATTERN = re.compile(r"\beve\s+geldikten\s+sonra\b")
+_SCHOOL_END_AFTER_PATTERN = re.compile(r"\bokuldan\s+sonra\b")
 _STUDY_ACTIVITY_PATTERN = re.compile(
     r"\b(?:calis|ders|odev|tyt|ayt|yks|hazirlik|matematik|fizik|kimya|"
     r"biyoloji|turkce|sosyal|ingilizce|konu|soru|test|tekrar|pratik|"
@@ -238,8 +315,13 @@ _STUDY_ACTIVITY_PATTERN = re.compile(
 _STUDY_ACTION_PATTERN = re.compile(
     r"\b(?:calis|coz|yap|tamamla|tekrar\s+et|oku|incele)\w*\b"
 )
+_ANCHORED_DURATION_ACTION_PATTERN = re.compile(
+    r"\b(?:calis|olustur|ayir)\w*\b"
+)
+_AVAILABILITY_ACTIVITY_PATTERN = re.compile(r"\b(?:musait|vakit|bos)\w*\b")
 _CONDITIONAL_CLAIM_PATTERN = re.compile(
-    r"\b(?:eger|musait|uygunsa|vaktin\s+varsa|vaktiniz\s+varsa|"
+    r"\b(?:eger|musait(?:sen(?:iz)?|se|sa)|uygunsa|"
+    r"vaktin\s+varsa|vaktiniz\s+varsa|"
     r"ayirabilirsen|netlesirse|netlestiginde|olursa)\w*\b"
 )
 _ILLUSTRATIVE_CLAIM_PATTERN = re.compile(
@@ -430,6 +512,7 @@ def extract_response_planning_claims(text: str) -> tuple[PlanningClaim, ...]:
     return (
         _extract_exact_clock_claims(segments)
         + _extract_daily_workload_claims(normalized, segments)
+        + _extract_anchored_duration_claims(segments)
     )
 
 
@@ -461,6 +544,14 @@ def evaluate_response_schedule_grounding(
             for claim in claims
         )
     )
+    unsupported_anchored_duration = (
+        has_unresolved_home_arrival
+        and any(
+            claim.kind is PlanningClaimKind.ANCHORED_DURATION_ASSIGNMENT
+            and claim.modality is PlanningClaimModality.ASSERTED
+            for claim in claims
+        )
+    )
     asserted_workloads = tuple(
         claim
         for claim in claims
@@ -471,7 +562,11 @@ def evaluate_response_schedule_grounding(
         proposal is None
         or any(claim.is_capacity_prescription for claim in asserted_workloads)
     )
-    if not (unsupported_clock_schedule or unsupported_daily_workload):
+    if not (
+        unsupported_clock_schedule
+        or unsupported_anchored_duration
+        or unsupported_daily_workload
+    ):
         return ()
     return (
         RuleViolation(
@@ -614,6 +709,77 @@ def _extract_daily_workload_claims(
                     )
                 )
     return tuple(claims)
+
+
+def _extract_anchored_duration_claims(
+    segments: tuple[str, ...],
+) -> tuple[PlanningClaim, ...]:
+    claims: list[PlanningClaim] = []
+    for segment in segments:
+        anchor = _anchored_after_context(segment)
+        if anchor is None:
+            continue
+        modality = _planning_claim_modality(segment)
+        if modality is None:
+            continue
+        has_study_assignment = (
+            _STUDY_ACTIVITY_PATTERN.search(segment) is not None
+            and _ANCHORED_DURATION_ACTION_PATTERN.search(segment) is not None
+        )
+        has_reported_availability = (
+            modality is PlanningClaimModality.REPORTED
+            and _AVAILABILITY_ACTIVITY_PATTERN.search(segment) is not None
+        )
+        if not (has_study_assignment or has_reported_availability):
+            continue
+        temporal_anchor, anchor_time = anchor
+        for duration in _NUMERIC_DURATION_PATTERN.finditer(segment):
+            minimum = _duration_to_minutes(
+                duration.group("minimum"), duration.group("unit")
+            )
+            maximum = _duration_to_minutes(
+                duration.group("maximum") or duration.group("minimum"),
+                duration.group("unit"),
+            )
+            if minimum is None or maximum is None:
+                continue
+            claims.append(
+                PlanningClaim(
+                    kind=PlanningClaimKind.ANCHORED_DURATION_ASSIGNMENT,
+                    modality=modality,
+                    min_minutes=minimum,
+                    max_minutes=maximum,
+                    temporal_anchor=temporal_anchor,
+                    temporal_relation=PlanningClaimTemporalRelation.AFTER,
+                    anchor_time=anchor_time,
+                )
+            )
+    return tuple(claims)
+
+
+def _anchored_after_context(
+    segment: str,
+) -> tuple[PlanningClaimAnchor, time | None] | None:
+    clock_point = _CLOCK_POINT_AFTER_PATTERN.search(segment)
+    if clock_point is not None:
+        return (
+            PlanningClaimAnchor.CLOCK_POINT,
+            time(
+                int(clock_point.group("hour")),
+                int(clock_point.group("minute")),
+            ),
+        )
+    evening_clock = _EVENING_CLOCK_POINT_AFTER_PATTERN.search(segment)
+    if evening_clock is not None:
+        return (
+            PlanningClaimAnchor.CLOCK_POINT,
+            time(int(evening_clock.group("hour")) + 12, 0),
+        )
+    if _HOME_ARRIVAL_AFTER_PATTERN.search(segment) is not None:
+        return PlanningClaimAnchor.HOME_ARRIVAL, None
+    if _SCHOOL_END_AFTER_PATTERN.search(segment) is not None:
+        return PlanningClaimAnchor.SCHOOL_END, None
+    return None
 
 
 def _is_clock_only_segment(segment: str, clock_range: re.Match[str]) -> bool:

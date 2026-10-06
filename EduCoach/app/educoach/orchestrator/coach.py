@@ -52,6 +52,24 @@ _AMBIGUOUS_CONTEXT_CLARIFICATION = (
     "Hangi bağlamı kastettiğini belirtir misin?"
 )
 _DETERMINISTIC_MODEL = "deterministic"
+_AVAILABILITY_GROUNDING_FALLBACK = (
+    "Müsait olduğun süreyi bilmeden kesin çalışma süresi veya saatleri "
+    "belirlemem doğru olmaz. Gün içinde gerçekten ayırabildiğin süreyi "
+    "söylersen planı buna göre oluşturabilirim."
+)
+_PLANNING_CONSTRAINT_FALLBACK = (
+    "Verdiğin çalışma sınırlarına güvenilir biçimde uyan bir plan "
+    "oluşturamadım. Planı yanlış sürelerle sunmak yerine burada duruyorum; "
+    "istersen daha sade bir planla yeniden deneyebiliriz."
+)
+_PLANNING_FALLBACK_RULE_IDS = frozenset(
+    {
+        "PLAN_RESPONSE_UNSUPPORTED_AVAILABILITY",
+        "PLAN_REQUEST_SUBJECT_LIMIT_UNVERIFIABLE",
+        "PLAN_REQUEST_SUBJECT_DAILY_LIMIT",
+        "PLAN_RESPONSE_PROPOSAL_WORKLOAD_MISMATCH",
+    }
+)
 _BASE_SYSTEM_PROMPT = (
     "Sen EduCoach'sun. Yalnızca verilen öğrenci hafızasındaki "
     "ve seçili bağlamdaki doğrulanmış gerçek bilgileri kullan; bilinmeyenleri "
@@ -161,6 +179,7 @@ class CoachOrchestrator:
             memory_context="\n".join(memory_context_parts),
         )
         current_request = request
+        first_regeneration_report: ResponseValidationReport | None = None
         for regeneration_attempt in range(MAX_REGENERATION_ATTEMPTS + 1):
             attempt = self._generate_attempt(
                 current_request,
@@ -179,9 +198,20 @@ class CoachOrchestrator:
                 is ResponseValidationAction.REGENERATE
             ):
                 if regeneration_attempt == MAX_REGENERATION_ATTEMPTS:
+                    fallback = _planning_exhaustion_fallback(
+                        first_regeneration_report,
+                        attempt.validation_report,
+                    )
+                    if fallback is not None:
+                        return CoachResult(
+                            text=fallback,
+                            model=_DETERMINISTIC_MODEL,
+                            study_plan_proposal=None,
+                        )
                     raise ResponseRegenerationExhausted(
                         attempt.validation_report
                     )
+                first_regeneration_report = attempt.validation_report
                 current_request = build_regeneration_request(
                     request,
                     attempt.validation_report,
@@ -326,3 +356,27 @@ def _apply_rule_violations_boundary(
         else ResponseValidationAction.REGENERATE
     )
     return ResponseValidationReport(action=action, violations=combined)
+
+
+def _planning_exhaustion_fallback(
+    first_report: ResponseValidationReport | None,
+    final_report: ResponseValidationReport,
+) -> str | None:
+    if first_report is None:
+        return None
+    first_rule_ids = frozenset(
+        violation.rule_id for violation in first_report.violations
+    )
+    final_rule_ids = frozenset(
+        violation.rule_id for violation in final_report.violations
+    )
+    if (
+        not first_rule_ids
+        or not final_rule_ids
+        or not first_rule_ids.issubset(_PLANNING_FALLBACK_RULE_IDS)
+        or not final_rule_ids.issubset(_PLANNING_FALLBACK_RULE_IDS)
+    ):
+        return None
+    if "PLAN_RESPONSE_UNSUPPORTED_AVAILABILITY" in final_rule_ids:
+        return _AVAILABILITY_GROUNDING_FALLBACK
+    return _PLANNING_CONSTRAINT_FALLBACK
