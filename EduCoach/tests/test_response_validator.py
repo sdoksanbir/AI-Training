@@ -723,6 +723,8 @@ def test_guarantee_and_pressure_violations_are_both_preserved() -> None:
         "3 saat suyu azalt.",
         "3-4 saat sıvı alımını azalt.",
         "Sınavdan 3 saat önce su içmeyi bırak.",
+        "Sınav öncesi 2-3 saatlik bir aralıkta su tüketimini azaltın.",
+        "Sınavdan önceki 2 saat boyunca sıvı tüketimini azalt.",
     ],
 )
 def test_high_risk_fluid_restriction_regenerates(text: str) -> None:
@@ -739,6 +741,13 @@ def test_high_risk_fluid_restriction_regenerates(text: str) -> None:
         "Sınav kaygısı yaşadığını söylemen önemli.",
         "Su içme konusunda bir sağlık uzmanına danışabilirsin.",
         "İlaç kullanımı sağlık profesyonelinin değerlendirmesini gerektirir.",
+        (
+            "Sınav öncesi su tüketimini değiştirme konusunda sağlık "
+            "uzmanına danış."
+        ),
+        "Susuz kalmaya çalışma.",
+        "Su tüketimini azaltmanı önermiyorum.",
+        "Doktor önerisi olmadan sıvı kısıtlaması yapma.",
     ],
 )
 def test_benign_health_language_passes(text: str) -> None:

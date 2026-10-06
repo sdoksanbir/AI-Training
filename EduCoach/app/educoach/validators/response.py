@@ -203,6 +203,18 @@ _UNSAFE_HEALTH_INSTRUCTION_PATTERNS = (
         r"\b(?:ilac\s+dozunu|ilacin\s+dozunu|dozunu)\s+"
         r"(?:[a-z0-9.,]+\s+){0,3}(?:artir|azalt|degistir)\b"
     ),
+    re.compile(
+        r"\bsinav\s+oncesi\s+\d{1,3}"
+        r"(?:\s*[-–—]\s*\d{1,3})?\s+saatlik\s+bir\s+aralikta\s+"
+        r"(?:su|sivi)\s+tuketimini\s+"
+        r"(?:azalt(?:in|iniz)?|kes(?:in|iniz)?|birak(?:in|iniz)?)\b"
+    ),
+    re.compile(
+        r"\bsinavdan\s+onceki\s+\d{1,3}"
+        r"(?:\s*[-–—]\s*\d{1,3})?\s+saat\s+boyunca\s+"
+        r"(?:su|sivi)\s+tuketimini\s+"
+        r"(?:azalt(?:in|iniz)?|kes(?:in|iniz)?|birak(?:in|iniz)?)\b"
+    ),
 )
 _PRESSURE_REINFORCEMENT_PATTERNS = (
     re.compile(r"\bkazanmak\s+zorundasin(?:iz)?\b"),

@@ -198,6 +198,20 @@ _DAILY_WORKLOAD_PATTERNS = (
         r"(?:calismalisin|calismalisiniz|calisman\s+gerekir|"
         r"calismaniz\s+gerekir)\b"
     ),
+    re.compile(
+        r"\bgunluk\s+program\s*\(\s*"
+        r"(?P<minimum>\d{1,3})"
+        r"(?:\s*[-–—]\s*(?P<maximum>\d{1,3}))?\s*"
+        r"(?P<unit>saat|dakika)\s*\)\s*"
+        r"(?:(?:\*\*|__)\s*:|:\s*(?:\*\*|__)|(?:\*\*|__)|:)?"
+        r"(?=\s*(?:$|[\r\n]))"
+    ),
+    re.compile(
+        r"\bgunluk\s+calisma(?:\s+suresi)?\s*:\s*"
+        r"(?P<minimum>\d{1,3})"
+        r"(?:\s*[-–—]\s*(?P<maximum>\d{1,3}))?\s*"
+        r"(?P<unit>saat|dakika)\b"
+    ),
 )
 _TOTAL_WORKLOAD_PATTERN = re.compile(
     r"\btoplam\s+(?P<minimum>\d{1,3})"
@@ -456,20 +470,44 @@ def evaluate_response_proposal_workload(
 
 def _has_unconditional_study_clock_assignment(text: str) -> bool:
     normalized = normalize_response_text(text)
-    segments = re.split(r"(?<=[.!?])\s+|[\r\n]+", normalized)
-    for segment in segments:
+    segments = tuple(
+        segment
+        for segment in re.split(r"(?<=[.!?])\s+|[\r\n]+", normalized)
+        if re.search(r"\w", segment)
+    )
+    for index, segment in enumerate(segments):
         clock_range = _CLOCK_RANGE_PATTERN.search(segment)
         if clock_range is None:
             continue
         if _NON_ASSIGNING_SCHEDULE_PATTERN.search(segment) is not None:
             continue
-        if _STUDY_ACTIVITY_PATTERN.search(segment) is None:
-            continue
         tail = segment[clock_range.end():]
         has_schedule_separator = tail.lstrip().startswith(":")
-        if has_schedule_separator or _STUDY_ACTION_PATTERN.search(segment):
+        has_same_line_activity = (
+            _STUDY_ACTIVITY_PATTERN.search(segment) is not None
+        )
+        if has_same_line_activity and (
+            has_schedule_separator or _STUDY_ACTION_PATTERN.search(segment)
+        ):
+            return True
+        if not _is_clock_only_segment(segment, clock_range):
+            continue
+        if index + 1 >= len(segments):
+            continue
+        assignment = segments[index + 1]
+        if _NON_ASSIGNING_SCHEDULE_PATTERN.search(assignment) is not None:
+            continue
+        if (
+            _STUDY_ACTIVITY_PATTERN.search(assignment) is not None
+            and _STUDY_ACTION_PATTERN.search(assignment) is not None
+        ):
             return True
     return False
+
+
+def _is_clock_only_segment(segment: str, clock_range: re.Match[str]) -> bool:
+    remainder = segment[:clock_range.start()] + segment[clock_range.end():]
+    return re.fullmatch(r"[\s:*_`#>\-]*", remainder) is not None
 
 
 def _has_high_confidence_daily_schedule_context(normalized: str) -> bool:

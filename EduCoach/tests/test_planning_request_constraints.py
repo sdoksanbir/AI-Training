@@ -454,6 +454,28 @@ def test_unknown_availability_exact_clock_schedule_exhausts_regeneration() -> No
     memory.save_study_plan.assert_not_called()
 
 
+def test_multiline_clock_schedule_exhausts_regeneration() -> None:
+    raw = structured_text_without_proposal(
+        "5:00 - 6:00\n"
+        "- Ödevlerinizi tamamlayın.\n\n"
+        "6:00 - 7:30\n"
+        "- TYT çalışın."
+    )
+    orchestrator, memory, provider, learner = make_mock_runtime(raw)
+
+    with pytest.raises(
+        ResponseRegenerationExhausted,
+        match="PLAN_RESPONSE_UNSUPPORTED_AVAILABILITY",
+    ):
+        orchestrator.respond(
+            learner.learner_id,
+            "Akşam saat 5 te eve geliyorum. Bana program yap.",
+        )
+
+    assert len(provider.requests) == 2
+    memory.save_study_plan.assert_not_called()
+
+
 @pytest.mark.parametrize(
     "response_text",
     [
@@ -466,6 +488,17 @@ def test_unknown_availability_exact_clock_schedule_exhausts_regeneration() -> No
         (
             "17:00'den sonra ne kadar vaktin olduğunu netleştirirsek "
             "programı saatlendirebiliriz."
+        ),
+        "17:00 - 18:00\n- Müsaitsen matematik çalışabilirsin.",
+        "17:00 - 18:00\n- Örneğin bu saati kullanabilirsin.",
+        (
+            "17:00 - 18:00\n"
+            "- Sonrasında ne kadar müsait olduğunu bilmiyorum."
+        ),
+        (
+            "17:00 - 18:00\n"
+            "- Kısa bir ara ver.\n"
+            "- Sonra matematik çalış."
         ),
     ],
 )
@@ -561,6 +594,14 @@ def test_aligned_daily_workload_passes() -> None:
         ("Günde yaklaşık 90 dakika çalış.", 90, 90),
         ("Günde 8-10 saat çalışmanız gerekir.", 480, 600),
         ("Her gün 6 saat çalışmalısın.", 360, 360),
+        ("Günlük Program (8-10 saat):", 480, 600),
+        ("Günlük Program (8-10 saat)", 480, 600),
+        ("#### **Günlük Program (8–10 saat):**", 480, 600),
+        ("**Günlük Program (8-10 saat):**", 480, 600),
+        ("**Günlük Program (8-10 saat)**:", 480, 600),
+        ("### Günlük Program (8-10 saat):", 480, 600),
+        ("Günlük çalışma: 8-10 saat", 480, 600),
+        ("Günlük çalışma süresi: 6 saat", 360, 360),
         (
             "Toplam 8-10 saat çalışmanız gerekir. "
             "08:00-09:00 matematik çalış. 09:00-10:00 TYT çalış.",
@@ -595,6 +636,11 @@ def test_explicit_daily_workload_variants_are_parsed(
         "Bazı öğrenciler günde 8 saat çalışabiliyor.",
         "Müsaitlik bilgini bilmeden günlük süre belirleyemem.",
         "Toplam 8-10 saat çalışmanız gerekir.",
+        "Geçen yıl günlük programım 8 saat sürüyordu.",
+        "Geçen yıl **günlük programım 8 saat** sürüyordu.",
+        "Bir öğrencinin günlük programı 8 saat olabilir.",
+        "8 saatlik program örneği.",
+        "Program örneği: **8-10 saat**",
     ],
 )
 def test_conditional_or_non_numeric_workload_is_not_claim(text: str) -> None:
@@ -606,6 +652,10 @@ def test_conditional_or_non_numeric_workload_is_not_claim(text: str) -> None:
     [
         "Günde 8-10 saat çalışmanız gerekir.",
         "Her gün 6 saat çalışmalısın.",
+        "Günlük Program (8-10 saat):",
+        "Günlük Program (8-10 saat)",
+        "#### **Günlük Program (8–10 saat):**",
+        "Günlük çalışma süresi: 6 saat",
     ],
 )
 def test_response_only_prescriptive_workload_without_availability_regenerates(
