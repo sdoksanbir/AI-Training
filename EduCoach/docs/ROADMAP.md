@@ -120,11 +120,13 @@ Doğrulama baseline'ı: 886 test başarılı, core regression 8/8 PASS.
 
 **Durum: KISMİ**
 
-Real learner evaluation intake contract, privacy validation ve deterministic dev/final split tooling hazır; development evaluation dataset henüz gerçek case'lerle doldurulmadı.
+Real learner intake contract ve development evaluation runner hazır; 10-case gerçek-anonim pilot intake doğrulandı ancak development sonuçları henüz human review ile puanlanmadı ve final unseen set oluşturulmadı.
 
 Evaluation-only contract; gerçek kimliklerden türetilmeyen case/source-group ID'leri, flat primitive facts, zorunlu manual privacy review ve project-level usage authorization assertion'ı kullanır. Conservative scanner yalnız bariz email, phone-like number, UUID, bearer/token text ve social handle sızıntılarını reddeder; anonymizer değildir. Versioned SHA-256 source-group split aynı gerçek kaynaktan gelen case'leri development ve final unseen arasında ayırmaz, input sırasından bağımsız canonical output ve content-free manifest üretir. Mevcut final output overwrite edilmez.
 
-Doğrulama baseline'ı: focused evaluation contract 18/18 PASS, full pytest 944 başarılı, core regression 8/8 PASS ve RAG evaluation Recall@3 %100 / Top-1 accuracy %100 / 0 forbidden violation.
+Development runner, production `CoachOrchestrator` davranışını değiştirmeden mevcut provider injection'ını ve geçici in-memory SQLite Learner Memory store'unu kullanır. Aynı `source_group_id` tek evaluation learner state'ini paylaşır; exact builtin Specialty Profile karşılığı olmayan programlar tahmin edilmez. Yalnız authoritative `education_status`, `grade_level` ve `study_track` fact'leri materialize edilir; diğer fact kind'ler private result metadata'sında unsupported olarak raporlanır. Model cevabı, unscored human-review şablonu ve aggregate summary yalnız Git-ignored private alana yazılır; automatic LLM judge ve proposal write-back yoktur.
+
+Doğrulama baseline'ı: focused development runner 27/27 PASS, focused evaluation contract 18/18 PASS, full pytest 971 başarılı, core regression 8/8 PASS ve RAG evaluation Recall@3 %100 / Top-1 accuracy %100 / 0 forbidden violation.
 
 ### FAZ 12 — Gerçek Learner Senaryoları
 

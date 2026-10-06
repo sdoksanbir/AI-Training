@@ -66,3 +66,18 @@ The split uses a versioned SHA-256 assignment over `source_group_id`, not learne
 Final unseen set prompt, rule, validator, RAG, fine-tuning veya model seçimi sırasında incelenmez ve kullanılmaz.
 
 If a final unseen result causes a development decision, that set is no longer final unseen. A new independently collected and versioned final set is required. The frozen `evaluations/holdout/benchmark_v0.2.jsonl` archive is regression/diagnostic material and does not replace this final unseen process.
+
+## Private development runner
+
+Validated development cases can be executed through the production `CoachOrchestrator` with an isolated in-memory Learner Memory store. Configure the existing Ollama provider model explicitly or with `EDUCOACH_OLLAMA_MODEL`, then choose a new controlled run ID:
+
+```powershell
+python scripts/run_real_learner_development_evaluation.py `
+    evaluations/real_learner/private/real_learner_pilot_v0.1.jsonl `
+    --run-id dev-pilot-v0.1 `
+    --model <installed-model>
+```
+
+The runner writes `results.jsonl`, `human_review.jsonl`, and `summary.json` only below `evaluations/real_learner/private/runs/<run-id>/` and refuses overwrite. Responses and review artifacts remain private and Git-ignored. Human review fields begin as `null`; no automatic judge is used.
+
+Program contexts are created only from exact packaged Specialty Profiles. Fact materialization is deliberately limited to authoritative `education_status`, `grade_level`, and `study_track` fields. Other fact kinds are not inserted into a generic store; they are listed as unsupported metadata when the case can still run.
