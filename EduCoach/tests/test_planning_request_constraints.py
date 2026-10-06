@@ -724,6 +724,47 @@ def test_asserted_anchored_duration_is_typed(
 
 
 @pytest.mark.parametrize(
+    ("response_text", "anchor"),
+    [
+        (
+            "Akşam saat 5'ten sonra çalışmayı planlayın.",
+            PlanningClaimAnchor.CLOCK_POINT,
+        ),
+        (
+            "17:00'den sonra ders çalış.",
+            PlanningClaimAnchor.CLOCK_POINT,
+        ),
+        (
+            "Eve geldikten sonra TYT çalış.",
+            PlanningClaimAnchor.HOME_ARRIVAL,
+        ),
+        (
+            "Eve geldikten sonra ödevlerini bitirip TYT'ye geç.",
+            PlanningClaimAnchor.HOME_ARRIVAL,
+        ),
+        (
+            "Okuldan sonra ders çalış.",
+            PlanningClaimAnchor.SCHOOL_END,
+        ),
+    ],
+)
+def test_asserted_anchored_start_is_typed(
+    response_text: str,
+    anchor: PlanningClaimAnchor,
+) -> None:
+    claims = extract_response_planning_claims(response_text)
+
+    assert len(claims) == 1
+    claim = claims[0]
+    assert claim.kind is PlanningClaimKind.ANCHORED_START_ASSIGNMENT
+    assert claim.modality is PlanningClaimModality.ASSERTED
+    assert claim.min_minutes is None
+    assert claim.max_minutes is None
+    assert claim.temporal_anchor is anchor
+    assert claim.temporal_relation is PlanningClaimTemporalRelation.AFTER
+
+
+@pytest.mark.parametrize(
     ("response_text", "expected_modality"),
     [
         (
@@ -752,11 +793,41 @@ def test_non_asserted_anchored_duration_modality_is_preserved(
 
 
 @pytest.mark.parametrize(
+    ("response_text", "expected_modality"),
+    [
+        (
+            "Müsaitsen 17:00'den sonra çalışabilirsin.",
+            PlanningClaimModality.CONDITIONAL,
+        ),
+        (
+            "Örneğin eve geldikten sonra çalışılabilir.",
+            PlanningClaimModality.ILLUSTRATIVE,
+        ),
+        (
+            "17:00'den sonra müsait olduğunu söyledin.",
+            PlanningClaimModality.REPORTED,
+        ),
+    ],
+)
+def test_non_asserted_anchored_start_modality_is_preserved(
+    response_text: str,
+    expected_modality: PlanningClaimModality,
+) -> None:
+    claims = extract_response_planning_claims(response_text)
+
+    assert len(claims) == 1
+    assert claims[0].kind is PlanningClaimKind.ANCHORED_START_ASSIGNMENT
+    assert claims[0].modality is expected_modality
+
+
+@pytest.mark.parametrize(
     "response_text",
     [
         "17:00'de eve geldiğini söyledin.",
         "17:00'den sonra ne kadar vaktin olduğunu bilmiyorum.",
+        "17:00'den sonra müsait olup olmadığını bilmiyorum.",
         "Eve geldikten sonra uygun olduğun süreyi netleştirelim.",
+        "Eve geldikten sonra uygun olduğun zamanı netleştirelim.",
     ],
 )
 def test_anchor_language_without_numeric_assignment_is_not_claim(
@@ -800,12 +871,72 @@ def test_asserted_anchored_duration_without_availability_is_rejected(
 @pytest.mark.parametrize(
     "response_text",
     [
+        "Akşam saat 5'ten sonra çalışmayı planlayın.",
+        "17:00'den sonra ders çalış.",
+        "Eve geldikten sonra TYT çalış.",
+    ],
+)
+def test_asserted_anchored_start_without_availability_is_rejected(
+    response_text: str,
+) -> None:
+    learner = Learner()
+    context = LearningContext(
+        learner_id=learner.learner_id,
+        context_type=ContextType.SCHOOL,
+        program_code="school_11",
+    )
+
+    violations = evaluate_response_schedule_grounding(
+        response_text,
+        extract_planning_request_context(
+            "Akşam saat 5 te eve geliyorum. Bana program yap."
+        ),
+        make_snapshot(learner, context),
+        None,
+    )
+
+    assert [item.rule_id for item in violations] == [
+        "PLAN_RESPONSE_UNSUPPORTED_AVAILABILITY"
+    ]
+
+
+@pytest.mark.parametrize(
+    "response_text",
+    [
         "Müsaitsen eve geldikten sonra 1 saat çalışabilirsin.",
         "Örneğin eve geldikten sonra 1 saat çalışılabilir.",
         "17:00'den sonra 2 saat müsait olduğunu söyledin.",
     ],
 )
 def test_non_asserted_anchored_duration_passes_grounding(
+    response_text: str,
+) -> None:
+    learner = Learner()
+    context = LearningContext(
+        learner_id=learner.learner_id,
+        context_type=ContextType.SCHOOL,
+        program_code="school_11",
+    )
+
+    assert evaluate_response_schedule_grounding(
+        response_text,
+        extract_planning_request_context(
+            "Akşam saat 5 te eve geliyorum. Bana program yap."
+        ),
+        make_snapshot(learner, context),
+        None,
+    ) == ()
+
+
+@pytest.mark.parametrize(
+    "response_text",
+    [
+        "Müsaitsen 17:00'den sonra çalışabilirsin.",
+        "Örneğin eve geldikten sonra çalışılabilir.",
+        "17:00'den sonra müsait olduğunu söyledin.",
+    ],
+)
+def test_non_asserted_anchored_start_passes_grounding(
     response_text: str,
 ) -> None:
     learner = Learner()
@@ -868,9 +999,43 @@ def test_anchored_duration_without_home_arrival_anchor_passes_p0_guard() -> None
     ) == ()
 
 
+def test_anchored_start_without_home_arrival_anchor_passes_p0_guard() -> None:
+    learner = Learner()
+    context = LearningContext(
+        learner_id=learner.learner_id,
+        context_type=ContextType.SCHOOL,
+        program_code="school_11",
+    )
+
+    assert evaluate_response_schedule_grounding(
+        "17:00'den sonra ders çalış.",
+        extract_planning_request_context("Bana program yap."),
+        make_snapshot(learner, context),
+        None,
+    ) == ()
+
+
 def test_repeated_anchored_duration_rejection_returns_safe_fallback() -> None:
     raw = structured_text_without_proposal(
         "17:00'den sonra 2 saat ders çalış."
+    )
+    orchestrator, memory, provider, learner = make_mock_runtime(raw)
+
+    result = orchestrator.respond(
+        learner.learner_id,
+        "Akşam saat 5 te eve geliyorum. Bana program yap.",
+    )
+
+    assert result.text == AVAILABILITY_FALLBACK
+    assert result.model == "deterministic"
+    assert result.study_plan_proposal is None
+    assert len(provider.requests) == 2
+    memory.save_study_plan.assert_not_called()
+
+
+def test_repeated_anchored_start_rejection_returns_safe_fallback() -> None:
+    raw = structured_text_without_proposal(
+        "Akşam saat 5'ten sonra çalışmayı planlayın."
     )
     orchestrator, memory, provider, learner = make_mock_runtime(raw)
 

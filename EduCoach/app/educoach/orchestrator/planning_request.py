@@ -126,6 +126,7 @@ class DailyWorkloadClaim:
 class PlanningClaimKind(StrEnum):
     EXACT_CLOCK_ASSIGNMENT = "exact_clock_assignment"
     DAILY_WORKLOAD_ASSIGNMENT = "daily_workload_assignment"
+    ANCHORED_START_ASSIGNMENT = "anchored_start_assignment"
     ANCHORED_DURATION_ASSIGNMENT = "anchored_duration_assignment"
 
 
@@ -205,22 +206,30 @@ class PlanningClaim:
                 raise ValueError("daily workload assignment requires a valid range")
             return
         if self.start_time is not None or self.end_time is not None:
-            raise ValueError("anchored duration cannot contain a clock range")
+            raise ValueError("anchored assignment cannot contain a clock range")
         if (
             self.min_minutes_per_day is not None
             or self.max_minutes_per_day is not None
             or self.is_capacity_prescription
         ):
-            raise ValueError("anchored duration cannot contain daily workload fields")
+            raise ValueError("anchored assignment cannot contain daily workload fields")
         if (
-            self.min_minutes is None
-            or self.max_minutes is None
-            or self.min_minutes < 1
-            or self.max_minutes < self.min_minutes
-            or self.temporal_anchor is None
+            self.temporal_anchor is None
             or self.temporal_relation is None
         ):
-            raise ValueError("anchored duration assignment requires a valid anchor")
+            raise ValueError("anchored assignment requires a valid anchor")
+        if self.kind is PlanningClaimKind.ANCHORED_DURATION_ASSIGNMENT:
+            if (
+                self.min_minutes is None
+                or self.max_minutes is None
+                or self.min_minutes < 1
+                or self.max_minutes < self.min_minutes
+            ):
+                raise ValueError(
+                    "anchored duration assignment requires a valid duration"
+                )
+        elif self.min_minutes is not None or self.max_minutes is not None:
+            raise ValueError("anchored start assignment cannot contain a duration")
         if (
             self.temporal_anchor is PlanningClaimAnchor.CLOCK_POINT
             and self.anchor_time is None
@@ -315,8 +324,8 @@ _STUDY_ACTIVITY_PATTERN = re.compile(
 _STUDY_ACTION_PATTERN = re.compile(
     r"\b(?:calis|coz|yap|tamamla|tekrar\s+et|oku|incele)\w*\b"
 )
-_ANCHORED_DURATION_ACTION_PATTERN = re.compile(
-    r"\b(?:calis|olustur|ayir)\w*\b"
+_ANCHORED_ASSIGNMENT_ACTION_PATTERN = re.compile(
+    r"\b(?:calis|olustur|ayir|planla|bitir|gec)\w*\b"
 )
 _AVAILABILITY_ACTIVITY_PATTERN = re.compile(r"\b(?:musait|vakit|bos)\w*\b")
 _CONDITIONAL_CLAIM_PATTERN = re.compile(
@@ -512,7 +521,7 @@ def extract_response_planning_claims(text: str) -> tuple[PlanningClaim, ...]:
     return (
         _extract_exact_clock_claims(segments)
         + _extract_daily_workload_claims(normalized, segments)
-        + _extract_anchored_duration_claims(segments)
+        + _extract_anchored_claims(segments)
     )
 
 
@@ -544,10 +553,14 @@ def evaluate_response_schedule_grounding(
             for claim in claims
         )
     )
-    unsupported_anchored_duration = (
+    unsupported_anchored_assignment = (
         has_unresolved_home_arrival
         and any(
-            claim.kind is PlanningClaimKind.ANCHORED_DURATION_ASSIGNMENT
+            claim.kind
+            in {
+                PlanningClaimKind.ANCHORED_START_ASSIGNMENT,
+                PlanningClaimKind.ANCHORED_DURATION_ASSIGNMENT,
+            }
             and claim.modality is PlanningClaimModality.ASSERTED
             for claim in claims
         )
@@ -564,7 +577,7 @@ def evaluate_response_schedule_grounding(
     )
     if not (
         unsupported_clock_schedule
-        or unsupported_anchored_duration
+        or unsupported_anchored_assignment
         or unsupported_daily_workload
     ):
         return ()
@@ -711,7 +724,7 @@ def _extract_daily_workload_claims(
     return tuple(claims)
 
 
-def _extract_anchored_duration_claims(
+def _extract_anchored_claims(
     segments: tuple[str, ...],
 ) -> tuple[PlanningClaim, ...]:
     claims: list[PlanningClaim] = []
@@ -724,7 +737,7 @@ def _extract_anchored_duration_claims(
             continue
         has_study_assignment = (
             _STUDY_ACTIVITY_PATTERN.search(segment) is not None
-            and _ANCHORED_DURATION_ACTION_PATTERN.search(segment) is not None
+            and _ANCHORED_ASSIGNMENT_ACTION_PATTERN.search(segment) is not None
         )
         has_reported_availability = (
             modality is PlanningClaimModality.REPORTED
@@ -733,7 +746,19 @@ def _extract_anchored_duration_claims(
         if not (has_study_assignment or has_reported_availability):
             continue
         temporal_anchor, anchor_time = anchor
-        for duration in _NUMERIC_DURATION_PATTERN.finditer(segment):
+        durations = tuple(_NUMERIC_DURATION_PATTERN.finditer(segment))
+        if not durations:
+            claims.append(
+                PlanningClaim(
+                    kind=PlanningClaimKind.ANCHORED_START_ASSIGNMENT,
+                    modality=modality,
+                    temporal_anchor=temporal_anchor,
+                    temporal_relation=PlanningClaimTemporalRelation.AFTER,
+                    anchor_time=anchor_time,
+                )
+            )
+            continue
+        for duration in durations:
             minimum = _duration_to_minutes(
                 duration.group("minimum"), duration.group("unit")
             )
