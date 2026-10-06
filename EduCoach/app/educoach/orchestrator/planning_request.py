@@ -120,26 +120,74 @@ class DailyWorkloadClaim:
             raise ValueError("daily workload range is invalid")
 
 
-_SUBJECT_LIMIT = re.compile(
-    r"\bmatematige\s+gunde\s+en\s+fazla\s+"
-    r"(?P<value>\d{1,3})\s*(?P<unit>saat|dakika)\s+ayirabilirim\b"
+_SUBJECT_LIMIT_PATTERNS = (
+    re.compile(
+        r"\bmatematige\s+gunde\s+en\s+fazla\s+"
+        r"(?P<value>\d{1,3})\s*(?P<unit>saat|dakika)\s+ayirabilirim\b"
+    ),
+    re.compile(
+        r"\ben\s+fazla\s+gunde\s+"
+        r"(?P<value>\d{1,3})\s*(?P<unit>saat|dakika)\s+"
+        r"matematik\s+calisabilirim\b"
+    ),
 )
-_SESSION_TOLERANCE = re.compile(
-    r"\b(?P<value>\d{1,3})\s*(?P<unit>saat|dakika)\s+"
-    r"sonra\s+sikiliyorum\b"
+_SESSION_TOLERANCE_PATTERNS = (
+    re.compile(
+        r"\b(?P<value>\d{1,3})\s*(?P<unit>saat|dakika)\s+"
+        r"sonra\s+sikiliyorum\b"
+    ),
+    re.compile(
+        r"\b(?P<value>\d{1,3})\s*(?P<unit>saat|dakika)\s+"
+        r"calisinca\s+sikiliyorum\b"
+    ),
 )
-_RECURRING_COMMITMENT = re.compile(
-    r"\bhaftada\s+(?P<count>\d{1,2}|uc)\s+hafta\s+ici\s+gunu\s+"
-    r"ingilizce\s+kursum\s+var\b"
+_RECURRING_COMMITMENT_PATTERNS = (
+    re.compile(
+        r"\bhaftada\s+(?P<count>\d{1,2}|uc)\s+"
+        r"hafta\s+i{1,2}ci\s+gunu\s+ingilizce\s+kursum\s+var\b"
+    ),
+    re.compile(
+        r"\bhafta\s+i{1,2}ci\s+(?P<count>\d{1,2}|uc)\s+gun\s+"
+        r"ingilizce\s+kursum\s+var\b"
+    ),
 )
-_HOME_ARRIVAL = re.compile(
-    r"\beve\s+(?P<hour>[01]?\d|2[0-3]):(?P<minute>[0-5]\d)"
-    r"(?:['’]?de)?\s+geliyorum\b"
+_HOME_ARRIVAL_PATTERNS = (
+    re.compile(
+        r"\beve\s+(?P<hour>[01]?\d|2[0-3]):(?P<minute>[0-5]\d)"
+        r"(?:['’]?de)?\s+geliyorum\b"
+    ),
+    re.compile(
+        r"\baksam\s+saat\s+(?P<hour>0?[1-9]|1[01])"
+        r"(?:['’]?te|\s+te)\s+eve\s+geliyorum\b"
+    ),
 )
-_DAILY_WORKLOAD = re.compile(
-    r"\b(?:her\s+gun|gunde)\s+(?:yaklasik\s+)?"
-    r"(?P<minimum>\d{1,3})(?:\s*[-–—]\s*(?P<maximum>\d{1,3}))?\s*"
-    r"(?P<unit>saat|dakika)\s+calis(?:\.|!|$)"
+_DAILY_WORKLOAD_PATTERNS = (
+    re.compile(
+        r"\b(?:her\s+gun|gunde)\s+(?:yaklasik\s+)?"
+        r"(?P<minimum>\d{1,3})"
+        r"(?:\s*[-–—]\s*(?P<maximum>\d{1,3}))?\s*"
+        r"(?P<unit>saat|dakika)\s+calis(?:\.|!|$)"
+    ),
+    re.compile(
+        r"\b(?:her\s+gun|gunde)\s+"
+        r"(?P<minimum>\d{1,3})"
+        r"(?:\s*[-–—]\s*(?P<maximum>\d{1,3}))?\s*"
+        r"(?P<unit>saat|dakika)lik\s+toplam\s+calisma\s+suresi\s+"
+        r"(?:planlanmistir|onerilmistir|planliyorum|oneriyorum)\b"
+    ),
+    re.compile(
+        r"\b(?:her\s+gun|gunde)\s+"
+        r"(?P<minimum>\d{1,3})"
+        r"(?:\s*[-–—]\s*(?P<maximum>\d{1,3}))?\s*"
+        r"(?P<unit>saat|dakika)lik\s+bir\s+calisma\s+plani\s+"
+        r"(?:planliyorum|oneriyorum)\b"
+    ),
+    re.compile(
+        r"\b(?:her\s+gun|gunde)\s+"
+        r"(?P<minimum>\d{1,3})"
+        r"(?:\s*[-–—]\s*(?P<maximum>\d{1,3}))?\s*"
+        r"(?P<unit>saat|dakika)\s+calisarak\s+ilerleyebilirsin\b"
+    ),
 )
 
 
@@ -156,7 +204,7 @@ def extract_planning_request_context(message: str) -> PlanningRequestContext:
                 int(match.group("value")), match.group("unit")
             ),
         )
-        for match in _SUBJECT_LIMIT.finditer(normalized)
+        for match in _find_matches(_SUBJECT_LIMIT_PATTERNS, normalized)
     )
     tolerances = tuple(
         SessionTolerance(
@@ -164,7 +212,7 @@ def extract_planning_request_context(message: str) -> PlanningRequestContext:
                 int(match.group("value")), match.group("unit")
             )
         )
-        for match in _SESSION_TOLERANCE.finditer(normalized)
+        for match in _find_matches(_SESSION_TOLERANCE_PATTERNS, normalized)
     )
     commitments = tuple(
         RecurringCommitmentSummary(
@@ -174,16 +222,14 @@ def extract_planning_request_context(message: str) -> PlanningRequestContext:
             ),
             day_scope=RecurringDayScope.WEEKDAY,
         )
-        for match in _RECURRING_COMMITMENT.finditer(normalized)
+        for match in _find_matches(_RECURRING_COMMITMENT_PATTERNS, normalized)
     )
     anchors = tuple(
         ScheduleAnchor(
             anchor_type=ScheduleAnchorType.HOME_ARRIVAL,
-            anchor_time=time(
-                int(match.group("hour")), int(match.group("minute"))
-            ),
+            anchor_time=_home_arrival_time(match),
         )
-        for match in _HOME_ARRIVAL.finditer(normalized)
+        for match in _find_matches(_HOME_ARRIVAL_PATTERNS, normalized)
     )
     return PlanningRequestContext(
         daily_subject_limits=subject_limits,
@@ -264,7 +310,7 @@ def extract_daily_workload_claim(text: str) -> DailyWorkloadClaim | None:
     """Parse one explicit, unconditional numeric daily workload statement."""
 
     normalized = normalize_response_text(text)
-    matches = tuple(_DAILY_WORKLOAD.finditer(normalized))
+    matches = _find_matches(_DAILY_WORKLOAD_PATTERNS, normalized)
     if len(matches) != 1:
         return None
     match = matches[0]
@@ -309,3 +355,27 @@ def evaluate_response_proposal_workload(
 
 def _to_minutes(value: int, unit: str) -> int:
     return value * 60 if unit == "saat" else value
+
+
+def _find_matches(
+    patterns: tuple[re.Pattern[str], ...],
+    text: str,
+) -> tuple[re.Match[str], ...]:
+    return tuple(
+        sorted(
+            (
+                match
+                for pattern in patterns
+                for match in pattern.finditer(text)
+            ),
+            key=lambda match: match.start(),
+        )
+    )
+
+
+def _home_arrival_time(match: re.Match[str]) -> time:
+    hour = int(match.group("hour"))
+    minute_group = match.groupdict().get("minute")
+    if minute_group is None:
+        return time(hour + 12, 0)
+    return time(hour, int(minute_group))

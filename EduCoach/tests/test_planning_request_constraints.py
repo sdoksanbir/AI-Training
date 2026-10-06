@@ -148,6 +148,33 @@ def test_explicit_subject_limit_is_extracted_as_hard_minutes() -> None:
 
 
 @pytest.mark.parametrize(
+    ("message", "expected_minutes"),
+    [
+        ("En fazla günde 2 saat matematik çalışabilirim.", 120),
+        ("En fazla günde 45 dakika matematik çalışabilirim.", 45),
+    ],
+)
+def test_subject_limit_word_order_variant_is_extracted(
+    message: str,
+    expected_minutes: int,
+) -> None:
+    context = extract_planning_request_context(message)
+
+    limit = context.daily_subject_limits[0]
+    assert limit.area_code == "mathematics"
+    assert limit.max_minutes_per_day == expected_minutes
+    assert limit.strength is ConstraintStrength.HARD
+
+
+def test_daily_math_statement_without_maximum_is_not_a_limit() -> None:
+    context = extract_planning_request_context(
+        "Günde 2 saat matematik çalışıyorum."
+    )
+
+    assert context.daily_subject_limits == ()
+
+
+@pytest.mark.parametrize(
     ("tasks", "has_violation"),
     [
         (((MONDAY, 120, "subject", "mathematics"),), False),
@@ -244,6 +271,24 @@ def test_session_tolerance_is_soft_and_not_a_daily_total_rejection() -> None:
     assert evaluate_request_subject_limits(request_context, proposal) == ()
 
 
+@pytest.mark.parametrize(
+    ("message", "expected_minutes"),
+    [
+        ("1 saat çalışınca sıkılıyorum.", 60),
+        ("45 dakika çalışınca sıkılıyorum.", 45),
+    ],
+)
+def test_session_tolerance_working_variant_is_soft(
+    message: str,
+    expected_minutes: int,
+) -> None:
+    context = extract_planning_request_context(message)
+
+    tolerance = context.session_tolerances[0]
+    assert tolerance.preferred_max_continuous_minutes == expected_minutes
+    assert tolerance.strength is ConstraintStrength.SOFT
+
+
 def test_partial_commitment_keeps_exact_weekdays_unknown() -> None:
     context = extract_planning_request_context(
         "Haftada 3 hafta içi günü İngilizce kursum var."
@@ -251,6 +296,26 @@ def test_partial_commitment_keeps_exact_weekdays_unknown() -> None:
 
     commitment = context.recurring_commitments[0]
     assert commitment.occurrence_count == 3
+    assert commitment.day_scope is RecurringDayScope.WEEKDAY
+    assert commitment.exact_days == ()
+
+
+@pytest.mark.parametrize(
+    ("message", "expected_count"),
+    [
+        ("Hafta içi 3 gün İngilizce kursum var.", 3),
+        ("Hafta iici 2 gun Ingilizce kursum var.", 2),
+        ("Hafta iiçi 2 gün İngilizce kursum var.", 2),
+    ],
+)
+def test_recurring_commitment_word_order_and_narrow_typo_variants(
+    message: str,
+    expected_count: int,
+) -> None:
+    context = extract_planning_request_context(message)
+
+    commitment = context.recurring_commitments[0]
+    assert commitment.occurrence_count == expected_count
     assert commitment.day_scope is RecurringDayScope.WEEKDAY
     assert commitment.exact_days == ()
 
@@ -265,6 +330,29 @@ def test_home_arrival_anchor_has_no_availability_implication() -> None:
     assert resolve_daily_time_budget((), MONDAY).status is (
         TimeBudgetResolutionStatus.UNKNOWN
     )
+
+
+@pytest.mark.parametrize(
+    "message",
+    [
+        "Akşam saat 5'te eve geliyorum.",
+        "Akşam saat 5 te eve geliyorum.",
+    ],
+)
+def test_evening_home_arrival_is_converted_to_pm_without_availability(
+    message: str,
+) -> None:
+    context = extract_planning_request_context(message)
+
+    anchor = context.schedule_anchors[0]
+    assert anchor.anchor_time.isoformat(timespec="minutes") == "17:00"
+    assert anchor.availability_implication is AvailabilityImplication.NONE
+
+
+def test_evening_home_arrival_without_time_is_not_an_anchor() -> None:
+    context = extract_planning_request_context("Akşam eve geliyorum.")
+
+    assert context.schedule_anchors == ()
 
 
 def test_explicit_daily_workload_mismatch_is_detected() -> None:
@@ -308,12 +396,36 @@ def test_aligned_daily_workload_passes() -> None:
 
 
 @pytest.mark.parametrize(
+    ("text", "minimum", "maximum"),
+    [
+        ("Her gün 3-4 saatlik toplam çalışma süresi planlanmıştır.", 180, 240),
+        ("Günde 8-10 saatlik bir çalışma planı öneriyorum.", 480, 600),
+        ("Günde 8-10 saat çalışarak ilerleyebilirsin.", 480, 600),
+        ("Günde yaklaşık 90 dakika çalış.", 90, 90),
+    ],
+)
+def test_explicit_daily_workload_variants_are_parsed(
+    text: str,
+    minimum: int,
+    maximum: int,
+) -> None:
+    claim = extract_daily_workload_claim(text)
+
+    assert claim is not None
+    assert claim.min_minutes_per_day == minimum
+    assert claim.max_minutes_per_day == maximum
+
+
+@pytest.mark.parametrize(
     "text",
     [
         "Günde birkaç saat ayırabilirsen iyi olur.",
+        "Günde 3-4 saat vaktin varsa çalışabilirsin.",
+        "Günde 3 saat ayırabilirsen çalışabilirsin.",
         "Zamanın oldukça çalış.",
         "Daha düzenli çalışmalısın.",
         "3-4 saatlik vaktin varsa çalışabilirsin.",
+        "Zamanın varsa 2 saat çalışabilirsin.",
     ],
 )
 def test_conditional_or_non_numeric_workload_is_not_claim(text: str) -> None:
@@ -382,6 +494,44 @@ def test_request_context_is_canonical_and_nothing_is_persisted() -> None:
     assert after.study_plans == ()
     assert after.study_tasks == ()
     engine.dispose()
+
+
+def test_pilot_word_order_variants_reach_canonical_llm_context() -> None:
+    raw = structured_response(
+        "Her gün yaklaşık 90 dakika çalış.",
+        (("2026-10-05", 90, "subject", "mathematics"),),
+    )
+    orchestrator, memory, provider, learner = make_mock_runtime(raw)
+
+    orchestrator.respond(
+        learner.learner_id,
+        "En fazla günde 2 saat matematik çalışabilirim. "
+        "Hafta içi 3 gün İngilizce kursum var. Bana plan yap.",
+    )
+
+    request_context = provider.requests[0].memory_context
+    assert "subject/mathematics max 120 min/day [HARD" in request_context
+    assert "3 WEEKDAY occurrences/week; exact days UNKNOWN" in request_context
+    assert memory.get_learner_memory_snapshot.return_value.availability == ()
+    memory.save_study_plan.assert_not_called()
+
+
+def test_evening_home_arrival_reaches_context_without_availability() -> None:
+    raw = structured_response(
+        "Her gün yaklaşık 90 dakika çalış.",
+        (("2026-10-05", 90, "subject", "mathematics"),),
+    )
+    orchestrator, memory, provider, learner = make_mock_runtime(raw)
+
+    orchestrator.respond(
+        learner.learner_id,
+        "Akşam saat 5 te eve geliyorum. Bana plan yap.",
+    )
+
+    request_context = provider.requests[0].memory_context
+    assert "home arrival: 17:00; availability implication NONE" in request_context
+    assert memory.get_learner_memory_snapshot.return_value.availability == ()
+    memory.save_study_plan.assert_not_called()
 
 
 @pytest.mark.parametrize(
