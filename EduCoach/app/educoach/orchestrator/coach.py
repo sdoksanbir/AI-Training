@@ -40,7 +40,8 @@ _AMBIGUOUS_CONTEXT_CLARIFICATION = (
 _DETERMINISTIC_MODEL = "deterministic"
 _BASE_SYSTEM_PROMPT = (
     "Sen EduCoach'sun. Yalnızca verilen öğrenci hafızasındaki "
-    "gerçek bilgileri kullan; bilinmeyenleri uydurma."
+    "gerçek bilgileri kullan; bilinmeyenleri uydurma. "
+    "Yanıtlarında harici URL, web adresi veya www bağlantısı kullanma."
 )
 
 

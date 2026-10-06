@@ -223,9 +223,7 @@ def evaluate_response(
     )
     return ResponseValidationReport(
         action=_highest_action(
-            ResponseValidationAction.BLOCK
-            if legacy_violations
-            else ResponseValidationAction.PASS,
+            _legacy_validation_action(legacy_violations),
             _semantic_validation_action(semantic_violations),
         ),
         violations=legacy_violations + semantic_violations,
@@ -610,6 +608,19 @@ def _semantic_validation_action(
         ),
         ResponseValidationAction.PASS,
     )
+
+
+def _legacy_validation_action(
+    violations: tuple[RuleViolation, ...],
+) -> ResponseValidationAction:
+    if not violations:
+        return ResponseValidationAction.PASS
+    if (
+        len(violations) == 1
+        and violations[0].rule_id == "external_link_not_verified"
+    ):
+        return ResponseValidationAction.REGENERATE
+    return ResponseValidationAction.BLOCK
 
 
 def _unique_values(values) -> list:

@@ -185,12 +185,12 @@ def test_repetition_and_guarantee_are_classified_as_regenerate() -> None:
     ]
 
 
-def test_repetition_and_legacy_violation_are_classified_as_block() -> None:
+def test_repetition_and_external_link_are_classified_as_regenerate() -> None:
     validation = evaluate_response(
         repeated_text(suffix="Kaynak: https://example.com")
     )
 
-    assert validation.action is ResponseValidationAction.BLOCK
+    assert validation.action is ResponseValidationAction.REGENERATE
     assert [item.rule_id for item in validation.violations] == [
         "external_link_not_verified",
         "OUTPUT_REPETITION_LOOP",

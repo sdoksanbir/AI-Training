@@ -24,6 +24,7 @@ from educoach.models import (
 )
 from educoach.orchestrator import (
     CoachOrchestrator,
+    ResponseRegenerationExhausted,
     StructuredLLMOutputError,
     StudyPlanProposal,
     materialize_study_plan_write_proposal,
@@ -468,17 +469,21 @@ def test_response_validator_receives_response_text_not_raw_json(monkeypatch) -> 
     assert validator.call_args.args[0] != raw
 
 
-def test_unsafe_structured_response_text_is_rejected_by_existing_validator() -> None:
+def test_repeated_unsafe_structured_response_exhausts_regeneration() -> None:
     learner = Learner()
     context = make_context(learner)
-    orchestrator, memory, _ = make_runtime(
+    orchestrator, memory, provider = make_runtime(
         make_snapshot(learner, (context,)),
         structured_text(response_text="Kaynak: https://example.com"),
     )
 
-    with pytest.raises(ValueError, match="external_link_not_verified"):
+    with pytest.raises(
+        ResponseRegenerationExhausted,
+        match="external_link_not_verified",
+    ):
         orchestrator.respond(learner.learner_id, "Bana haftalık plan yap.")
 
+    assert len(provider.requests) == 2
     memory.save_study_plan.assert_not_called()
 
 

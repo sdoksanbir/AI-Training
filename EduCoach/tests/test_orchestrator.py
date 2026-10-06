@@ -4,7 +4,7 @@ from educoach.llm import FakeLLMProvider, LLMRequest, OllamaProvider
 import educoach.llm.provider as provider_module
 import json
 from educoach.models import ContextType, Learner, LearningContext
-from educoach.orchestrator import CoachOrchestrator
+from educoach.orchestrator import CoachOrchestrator, ResponseRegenerationExhausted
 from educoach.persistence import create_schema, create_session_factory, create_sqlite_engine
 from educoach.services import LearnerMemoryService
 from educoach.specialties import SpecialtyProfile, SpecialtyProfileRegistry
@@ -149,7 +149,7 @@ def test_user_instruction_cannot_replace_system_prompt() -> None:
     engine.dispose()
 
 
-def test_orchestrator_rejects_unverified_external_links() -> None:
+def test_orchestrator_exhausts_when_unverified_external_link_repeats() -> None:
     engine = create_sqlite_engine("sqlite+pysqlite:///:memory:")
     create_schema(engine)
     factory = create_session_factory(engine)
@@ -161,11 +161,16 @@ def test_orchestrator_rejects_unverified_external_links() -> None:
     )
     memory = LearnerMemoryService(factory)
     memory.register_learner(learner, [context])
-    with pytest.raises(ValueError, match="external_link_not_verified"):
-        CoachOrchestrator(
-            memory,
-            FakeLLMProvider(responder=lambda _: "Kaynak: https://example.com"),
-        ).respond(learner.learner_id, "Kaynak ver")
+    provider = FakeLLMProvider(responder=lambda _: "Kaynak: https://example.com")
+    with pytest.raises(
+        ResponseRegenerationExhausted,
+        match="external_link_not_verified",
+    ):
+        CoachOrchestrator(memory, provider).respond(
+            learner.learner_id,
+            "Kaynak ver",
+        )
+    assert len(provider.requests) == 2
     engine.dispose()
 
 

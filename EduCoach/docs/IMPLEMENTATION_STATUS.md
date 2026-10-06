@@ -42,7 +42,7 @@ EduCoach yalnız YKS uygulaması değildir. Genel çekirdek farklı eğitim alan
 - Full RAG Need Gating v0.1: immutable ve açıklanabilir `REQUIRED/NOT_REQUIRED/UNRESOLVED` kararı; knowledge question/study advice için retrieval, local memory/rule intent'leri için skip ve detector coverage dışındaki isteklerde conservative retrieval. Intent detection context routing sonrasında ve request başına bir kez çalışır; ambiguous context intent aşamasına ulaşmaz.
 - Structured StudyPlan Proposal Generation v0.1: planning + resolved context isteklerinde tek provider çağrısından strict JSON envelope parse edilir; kullanıcıya yalnız `response_text` gider. LLM yalnız semantic plan/task alanlarını üretir; learner/context/plan/task ID'leri ile status değerleri sistem tarafından materialize edilir. Candidate write proposal otomatik validate edilmez veya persist edilmez.
 - Validator Action Orchestration v0.1: `PASS → accepted`, `BLOCK → fail closed`, `REGENERATE → ResponseRegenerationRequired` ve `AUTO_FIX → ResponseAutoFixRequired` runtime sınırları uygulanır.
-- Controlled Regeneration v0.1: `REGENERATE` yalnız bir kez retry edilir; retry aynı user message, snapshot ve memory+RAG context'i kullanır. Authoritative violation ID/message feedback'i system prompt'a eklenir; ikinci `REGENERATE`, `ResponseRegenerationExhausted` üretir. Maksimum provider çağrısı ikidir; generic deterministic fallback henüz yoktur.
+- Controlled Regeneration v0.1: `REGENERATE` yalnız bir kez retry edilir; retry aynı user message, snapshot ve memory+RAG context'i kullanır. Authoritative violation ID/message feedback'i system prompt'a eklenir; ikinci `REGENERATE`, `ResponseRegenerationExhausted` üretir. Base prompt dış URL/www üretmemesi için validator ile hizalıdır; yalnız `external_link_not_verified` ihlali retry alır, diğer legacy blocker'lar `BLOCK` kalır. Maksimum provider çağrısı ikidir; generic deterministic fallback henüz yoktur.
 - Deterministic Auto-Fix v0.1: yalnız `OUTPUT_REPETITION_LOOP`, `AUTO_FIX` producer'ıdır. Üç veya daha fazla ardışık normalized-equivalent segment tek kopyaya indirilir, yalnız user-facing `response_text` değişir ve fixed response zorunlu olarak yeniden validate edilir. AUTO_FIX provider retry değildir. `PLAN_AVAILABLE_TIME_LIMIT` `REGENERATE` kalır; plan-duration redistribution policy henüz authoritative değildir.
 - Ollama provider sağlık kontrolü ve model yüklülük doğrulaması.
 - `educoach` terminal giriş komutu.
@@ -56,7 +56,7 @@ EduCoach yalnız YKS uygulaması değildir. Genel çekirdek farklı eğitim alan
 
 ## Doğrulama
 
-Son test paketi: 971 test başarılı.
+Son test paketi: 977 test başarılı.
 
 Knowledge Base testleri: 20/20 PASS.
 
@@ -86,11 +86,15 @@ HTTP boundary, persistent learner login, opaque session authentication ve authen
 
 Real learner intake contract ve development evaluation runner hazır; 10-case gerçek-anonim pilot intake doğrulandı ancak development sonuçları henüz human review ile puanlanmadı ve final unseen set oluşturulmadı.
 
+Real learner development evaluation, `external_link_not_verified` generation/validation mismatch'ini ortaya çıkardı. Base prompt dış URL üretmemesi için hizalandı ve yalnız bu violation bounded controlled regeneration ile düzeltilebilir hale getirildi. Validator fail-closed güvenlik bariyeri olarak korunur.
+
+Private `dev-pilot-v0.3` sonucu 6 completed, 4 not-run, 0 failed ve 2 proposal'dır. RL0002 beş bağımsız fresh runtime çağrısında 5/5 başarılı oldu; external-link ve diğer failure sayıları 0/5 kaldı. Development cevapları henüz human review ile puanlanmadı.
+
 ## Sıradaki üretim işleri
 
 1. Orchestrator v1 kapsamında authoritative plan-budget deterministic redistribution policy değerlendirmesi.
 2. StudyPlan dışındaki kontrollü structured proposal ve Learner Memory write-back türleri ile ileride authoritative contract üzerinden conversation-history routing.
-3. Doğrulanmış gerçek-anonim pilotu development runner ile çalıştırmak, sonuçları human review ile puanlamak ve daha sonra bağımsız final unseen set oluşturmak.
+3. Gerçek-anonim development sonuçlarını human review ile puanlamak ve daha sonra bağımsız final unseen set oluşturmak.
 4. Katalog ölçeği ve ölçümler gerektirdiğinde persistent index değerlendirmesi.
 
 Specialty Profile `rag_policy` alanı için typed authoritative schema henüz yoktur; v0.1 generic gate bu açık `JsonValue` alanını kullanmaz.

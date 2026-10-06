@@ -45,7 +45,7 @@ LLM doğal dil ve muhakeme sağlar. Kesin kurallar, learner gerçekleri, ortak e
 - Full RAG Need Gating v0.1: immutable `REQUIRED/NOT_REQUIRED/UNRESOLVED` contract'ı, required-intent precedence'ı ve sınırlı high-precision external-knowledge sinyalleri; runtime'da `REQUIRED → retrieve`, `NOT_REQUIRED → skip`, `UNRESOLVED → conservative retrieve` davranışı.
 - Structured StudyPlan Proposal Generation v0.1: planning + resolved context için provider-independent tek JSON-envelope çağrısı, strict semantic schema ve system-owned learner/context/ID/status materialization'ı. Candidate `StudyPlanWriteProposal` otomatik validate veya persist edilmez.
 - Validator Action Orchestration v0.1: `PASS` cevapları kabul edilir, `BLOCK` fail closed kalır, `REGENERATE` typed regeneration-required boundary ve `AUTO_FIX` typed auto-fix-required boundary üzerinden taşınır.
-- Controlled Regeneration v0.1: yalnız `REGENERATE` action'ı aynı user message, snapshot ve memory+RAG context ile bir kez retry edilir; violation feedback system-owned prompt'a eklenir. İkinci `REGENERATE`, `ResponseRegenerationExhausted` üretir. Generic deterministic fallback henüz yoktur.
+- Controlled Regeneration v0.1: yalnız `REGENERATE` action'ı aynı user message, snapshot ve memory+RAG context ile bir kez retry edilir; violation feedback system-owned prompt'a eklenir. İkinci `REGENERATE`, `ResponseRegenerationExhausted` üretir. Base prompt dış URL/www üretmemesi için validator ile hizalıdır; yalnız `external_link_not_verified` ihlali bounded regeneration alır, diğer legacy blocker'lar fail closed kalır. Generic deterministic fallback henüz yoktur.
 - Deterministic Auto-Fix v0.1: yalnız `OUTPUT_REPETITION_LOOP`, `AUTO_FIX` üretir; üç veya daha fazla ardışık eşdeğer segment tek kopyaya indirilir ve sonuç yeniden validate edilir. AUTO_FIX provider retry değildir. `PLAN_AVAILABLE_TIME_LIMIT` hâlâ `REGENERATE` olur; authoritative plan-duration redistribution policy henüz yoktur.
 - HTTP API boundary: public `/health`, authentication-required `/v1/coach/respond`, authenticated principal'dan authoritative learner ownership, optional context aktarımı, fail-closed foreign-context davranışı, sanitize edilmiş hata cevapları ve persist edilmeyen StudyPlan proposal serialization.
 - Persistent learner authentication: Learner Memory'den ayrı 1:1 auth account, Argon2id password hash, normalize edilmiş unique login identifier, 12 saat TTL'li server-side opaque session, hash-only token persistence, expiry, logout/revocation ve 5 deneme/15 dakika account lockout policy'si.
@@ -73,6 +73,10 @@ HTTP boundary, persistent learner login, opaque session authentication ve authen
 
 Real learner intake contract ve development evaluation runner hazır; 10-case gerçek-anonim pilot intake doğrulandı ancak development sonuçları henüz human review ile puanlanmadı ve final unseen set oluşturulmadı.
 
+Real learner development evaluation, `external_link_not_verified` generation/validation mismatch'ini ortaya çıkardı. Base prompt dış URL üretmemesi için hizalandı; validator fail-closed güvenlik bariyeri olarak korunurken yalnız bu ihlal mevcut controlled regeneration bütçesiyle düzeltilebilir hale getirildi.
+
+Private `dev-pilot-v0.3` sonucu 6 completed, 4 not-run, 0 failed ve 2 proposal'dır. RL0002 fresh-runtime stability probe'u 5/5 başarılı, external-link failure 0/5 ve other failure 0/5 sonuçlandı. Development cevapları hâlâ human review ile puanlanmadı.
+
 ## Fine-tuning araştırma geçmişi
 
 Qwen3-4B üzerinde QLoRA v0.1–v0.6 deneyleri yapıldı. Learning rate, LoRA kapasitesi, attention-only hedef modüller, veri temizleme, sampling, repetition penalty, system prompt, epoch ve adapter scaling incelendi.
@@ -99,7 +103,7 @@ FAZ 9 kapsamında authoritative plan-budget deterministic redistribution policy'
 
 ## Doğrulama baseline'ı
 
-- Full pytest: **971 passed**
+- Full pytest: **977 passed**
 - Knowledge Base tests: **20/20 passed**
 - Core regression: **8/8 PASS**
 - RAG retrieval evaluation: **Recall@3 %100, Top-1 accuracy %100, forbidden violation 0**

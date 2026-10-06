@@ -256,11 +256,11 @@ def test_runtime_regenerate_exhausts_after_one_retry() -> None:
 
 def test_runtime_block_is_not_converted_to_regeneration() -> None:
     orchestrator, _, provider, learner = make_runtime(
-        "Kaynak: https://example.com"
+        ""
     )
 
     with pytest.raises(ResponseValidationError) as captured:
-        orchestrator.respond(learner.learner_id, "Kaynak ver")
+        orchestrator.respond(learner.learner_id, "Boş cevap üret")
 
     assert not isinstance(captured.value, ResponseRegenerationRequired)
     assert captured.value.report.action is ResponseValidationAction.BLOCK
@@ -292,7 +292,7 @@ def test_structured_planning_regenerate_exhausts_without_persistence() -> None:
 
 def test_structured_planning_block_returns_no_result_or_persistence() -> None:
     orchestrator, memory, provider, learner = make_runtime(
-        structured_response("Kaynak: https://example.com")
+        structured_response("x" * 12001)
     )
 
     with pytest.raises(ResponseValidationError) as captured:

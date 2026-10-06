@@ -132,20 +132,35 @@ def test_validate_response_strips_normal_response() -> None:
 
 
 @pytest.mark.parametrize(
-    ("text", "expected_rule_id"),
+    ("text", "expected_rule_id", "expected_action"),
     [
-        ("   ", "empty_response"),
-        ("x" * 12001, "response_too_long"),
-        ("Kaynak: https://example.com", "external_link_not_verified"),
+        ("   ", "empty_response", ResponseValidationAction.BLOCK),
+        ("x" * 12001, "response_too_long", ResponseValidationAction.BLOCK),
+        (
+            "Kaynak: https://example.com",
+            "external_link_not_verified",
+            ResponseValidationAction.REGENERATE,
+        ),
+        (
+            "Kaynak: http://example.com",
+            "external_link_not_verified",
+            ResponseValidationAction.REGENERATE,
+        ),
+        (
+            "Kaynak: www.example.com",
+            "external_link_not_verified",
+            ResponseValidationAction.REGENERATE,
+        ),
     ],
 )
-def test_legacy_violations_produce_block_report(
+def test_legacy_violations_use_targeted_action_policy(
     text: str,
     expected_rule_id: str,
+    expected_action: ResponseValidationAction,
 ) -> None:
     report = evaluate_response(text)
 
-    assert report.action is ResponseValidationAction.BLOCK
+    assert report.action is expected_action
     assert [violation.rule_id for violation in report.violations] == [
         expected_rule_id
     ]
@@ -206,6 +221,7 @@ def test_legacy_violation_order_is_preserved() -> None:
         "response_too_long",
         "external_link_not_verified",
     ]
+    assert report.action is ResponseValidationAction.BLOCK
 
 
 def test_response_length_boundary_is_preserved() -> None:
@@ -609,9 +625,19 @@ def test_conditional_encouragement_passes(text: str) -> None:
 
 
 def test_block_has_precedence_over_regenerate() -> None:
-    report = evaluate_response("Kesin kazanırsın. https://example.com")
+    report = evaluate_response("Kesin kazanırsın. " + "x" * 12001)
 
     assert report.action is ResponseValidationAction.BLOCK
+    assert [violation.rule_id for violation in report.violations] == [
+        "response_too_long",
+        "OUTPUT_UNSUPPORTED_GUARANTEE",
+    ]
+
+
+def test_external_link_and_semantic_regeneration_remain_regenerate() -> None:
+    report = evaluate_response("Kesin kazanırsın. https://example.com")
+
+    assert report.action is ResponseValidationAction.REGENERATE
     assert [violation.rule_id for violation in report.violations] == [
         "external_link_not_verified",
         "OUTPUT_UNSUPPORTED_GUARANTEE",

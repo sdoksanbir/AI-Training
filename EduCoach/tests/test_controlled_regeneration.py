@@ -226,15 +226,19 @@ def test_first_pass_uses_one_provider_call() -> None:
     assert result.text == "Geçerli cevap."
     assert result.model == "first-model"
     assert len(provider.requests) == 1
+    prompt = provider.requests[0].system_prompt.lower()
+    assert "harici url" in prompt
+    assert "web adresi" in prompt
+    assert "www" in prompt
 
 
 def test_first_block_uses_one_provider_call() -> None:
     orchestrator, _, provider, learner = make_runtime(
-        [response("Kaynak: https://example.com")]
+        [response("x" * 12001)]
     )
 
     with pytest.raises(ResponseValidationError) as captured:
-        orchestrator.respond(learner.learner_id, "Kaynak ver")
+        orchestrator.respond(learner.learner_id, "Uzun cevap ver")
 
     assert not isinstance(captured.value, ResponseRegenerationRequired)
     assert captured.value.report.action is ResponseValidationAction.BLOCK
@@ -274,6 +278,47 @@ def test_plain_regeneration_success_returns_second_text_and_model() -> None:
 
     assert result.text == "Kayıtlarına göre 11. sınıftasın."
     assert result.model == "second-model"
+    assert len(provider.requests) == 2
+
+
+def test_external_link_regenerates_once_and_returns_clean_response() -> None:
+    rejected = "Kaynak: https://example.com SECRET RAW REJECTED RESPONSE"
+    clean = "Doğrulanmamış dış bağlantı vermeden açıklayabilirim."
+    orchestrator, _, provider, learner = make_runtime(
+        [response(rejected, "first-model"), response(clean, "second-model")]
+    )
+    message = "Kaynak öner"
+
+    result = orchestrator.respond(learner.learner_id, message)
+
+    assert result.text == clean
+    assert result.model == "second-model"
+    assert "http://" not in result.text
+    assert "https://" not in result.text
+    assert "www." not in result.text
+    assert "external_link_not_verified" not in result.text
+    assert len(provider.requests) == 2
+    first, retry = provider.requests
+    assert retry.user_message == first.user_message == message
+    assert retry.memory_context == first.memory_context
+    assert retry.system_prompt.startswith(first.system_prompt)
+    assert "external_link_not_verified" in retry.system_prompt
+    assert rejected not in retry.system_prompt
+
+
+def test_repeated_external_link_exhausts_after_two_calls() -> None:
+    orchestrator, _, provider, learner = make_runtime(
+        [
+            response("Kaynak: https://example.com"),
+            response("Kaynak: www.example.com"),
+        ]
+    )
+
+    with pytest.raises(ResponseRegenerationExhausted) as captured:
+        orchestrator.respond(learner.learner_id, "Kaynak öner")
+
+    assert captured.value.report.action is ResponseValidationAction.REGENERATE
+    assert captured.value.violations == ["external_link_not_verified"]
     assert len(provider.requests) == 2
 
 
@@ -325,7 +370,7 @@ def test_second_block_remains_normal_block_error() -> None:
     orchestrator, _, provider, learner = make_runtime(
         [
             response("Sen 10. sınıftasın."),
-            response("Kaynak: https://example.com"),
+            response("Kaynak: https://example.com" + "x" * 12001),
         ]
     )
 
@@ -536,7 +581,7 @@ def test_structured_retry_block_returns_no_result_or_persistence() -> None:
         description="Rejected task",
     )
     second = structured_response(
-        "Kaynak: https://example.com",
+        "Kaynak: https://example.com" + "x" * 12001,
         title="Blocked plan",
         description="Blocked task",
     )
@@ -549,6 +594,30 @@ def test_structured_retry_block_returns_no_result_or_persistence() -> None:
 
     assert not isinstance(captured.value, ResponseRegenerationExhausted)
     assert captured.value.report.action is ResponseValidationAction.BLOCK
+    assert len(provider.requests) == 2
+    memory.save_study_plan.assert_not_called()
+
+
+def test_structured_external_link_regenerates_to_clean_proposal() -> None:
+    first = structured_response(
+        "Kaynak: https://example.com",
+        title="Rejected linked plan",
+        description="Rejected linked task",
+    )
+    second = structured_response(
+        "Bağlantısız plan hazır.",
+        title="Accepted clean plan",
+        description="Accepted clean task",
+    )
+    orchestrator, memory, provider, learner = make_runtime(
+        [response(first), response(second)]
+    )
+
+    result = orchestrator.respond(learner.learner_id, "Bana haftalık plan yap")
+
+    assert result.text == "Bağlantısız plan hazır."
+    assert result.study_plan_proposal is not None
+    assert result.study_plan_proposal.plan.title == "Accepted clean plan"
     assert len(provider.requests) == 2
     memory.save_study_plan.assert_not_called()
 
