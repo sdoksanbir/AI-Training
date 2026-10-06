@@ -6,7 +6,9 @@ from datetime import date, time
 from enum import StrEnum
 import re
 
+from educoach.models import AvailabilityType, TaskType
 from educoach.rules import RuleSeverity, RuleViolation
+from educoach.services import LearnerMemorySnapshot
 from educoach.validators.repetition import normalize_response_text
 from educoach.writeback import StudyPlanWriteProposal
 
@@ -188,6 +190,46 @@ _DAILY_WORKLOAD_PATTERNS = (
         r"(?:\s*[-–—]\s*(?P<maximum>\d{1,3}))?\s*"
         r"(?P<unit>saat|dakika)\s+calisarak\s+ilerleyebilirsin\b"
     ),
+    re.compile(
+        r"\b(?:her\s+gun|gunde|gunluk)\s+(?:toplam\s+)?"
+        r"(?P<minimum>\d{1,3})"
+        r"(?:\s*[-–—]\s*(?P<maximum>\d{1,3}))?\s*"
+        r"(?P<unit>saat|dakika)\s+"
+        r"(?:calismalisin|calismalisiniz|calisman\s+gerekir|"
+        r"calismaniz\s+gerekir)\b"
+    ),
+)
+_TOTAL_WORKLOAD_PATTERN = re.compile(
+    r"\btoplam\s+(?P<minimum>\d{1,3})"
+    r"(?:\s*[-–—]\s*(?P<maximum>\d{1,3}))?\s*"
+    r"(?P<unit>saat|dakika)\s+"
+    r"(?:calismalisin|calismalisiniz|calisman\s+gerekir|"
+    r"calismaniz\s+gerekir)\b"
+)
+_CLOCK_RANGE_PATTERN = re.compile(
+    r"(?<!\d)(?:[01]?\d|2[0-3])[:.]?[0-5]\d\s*[-–—]\s*"
+    r"(?:[01]?\d|2[0-3])[:.]?[0-5]\d(?!\d)"
+)
+_STUDY_ACTIVITY_PATTERN = re.compile(
+    r"\b(?:calis|ders|odev|tyt|ayt|matematik|fizik|kimya|biyoloji|"
+    r"turkce|sosyal|ingilizce|konu|soru|test|tekrar|pratik|okuma)\w*\b"
+)
+_STUDY_ACTION_PATTERN = re.compile(
+    r"\b(?:calis|coz|yap|tamamla|tekrar\s+et|oku|incele)\w*\b"
+)
+_NON_ASSIGNING_SCHEDULE_PATTERN = re.compile(
+    r"\b(?:eger|ornegin|mesela|musait|uygunsa|vaktin\s+varsa|"
+    r"vaktiniz\s+varsa|bilmiyorum|bilmeden|netlestir|belirleyemem)\w*\b"
+)
+_CONTENT_BEARING_TASK_TYPES = frozenset(
+    {
+        TaskType.STUDY,
+        TaskType.PRACTICE,
+        TaskType.REVISION,
+        TaskType.READING,
+        TaskType.VOCABULARY,
+        TaskType.HOMEWORK,
+    }
 )
 
 
@@ -279,6 +321,21 @@ def evaluate_request_subject_limits(
     """Evaluate hard per-subject limits independently of availability."""
 
     violations: list[RuleViolation] = []
+    if context.daily_subject_limits and any(
+        task.task_type in _CONTENT_BEARING_TASK_TYPES
+        and (task.area_type is None or task.area_code is None)
+        for task in proposal.tasks
+    ):
+        violations.append(
+            RuleViolation(
+                rule_id="PLAN_REQUEST_SUBJECT_LIMIT_UNVERIFIABLE",
+                severity=RuleSeverity.ERROR,
+                message=(
+                    "A content-bearing task is missing canonical area metadata, "
+                    "so the hard subject limit cannot be verified."
+                ),
+            )
+        )
     for limit in context.daily_subject_limits:
         totals: defaultdict[date, int] = defaultdict(int)
         for task in proposal.tasks:
@@ -311,6 +368,9 @@ def extract_daily_workload_claim(text: str) -> DailyWorkloadClaim | None:
 
     normalized = normalize_response_text(text)
     matches = _find_matches(_DAILY_WORKLOAD_PATTERNS, normalized)
+    if not matches and _has_high_confidence_daily_schedule_context(normalized):
+        total_match = _TOTAL_WORKLOAD_PATTERN.search(normalized)
+        matches = (total_match,) if total_match is not None else ()
     if len(matches) != 1:
         return None
     match = matches[0]
@@ -320,6 +380,47 @@ def extract_daily_workload_claim(text: str) -> DailyWorkloadClaim | None:
     return DailyWorkloadClaim(
         min_minutes_per_day=_to_minutes(minimum, unit),
         max_minutes_per_day=_to_minutes(maximum, unit),
+    )
+
+
+def evaluate_response_schedule_grounding(
+    response_text: str,
+    planning_request: PlanningRequestContext,
+    snapshot: LearnerMemorySnapshot,
+    proposal: StudyPlanWriteProposal | None,
+) -> tuple[RuleViolation, ...]:
+    """Reject narrow, unsupported schedule assignments from request-local facts."""
+
+    if any(
+        record.availability_type == AvailabilityType.AVAILABLE
+        for record in snapshot.availability
+    ):
+        return ()
+
+    has_unresolved_home_arrival = any(
+        anchor.anchor_type == ScheduleAnchorType.HOME_ARRIVAL
+        and anchor.availability_implication == AvailabilityImplication.NONE
+        for anchor in planning_request.schedule_anchors
+    )
+    unsupported_clock_schedule = (
+        has_unresolved_home_arrival
+        and _has_unconditional_study_clock_assignment(response_text)
+    )
+    unsupported_daily_workload = (
+        proposal is None
+        and extract_daily_workload_claim(response_text) is not None
+    )
+    if not (unsupported_clock_schedule or unsupported_daily_workload):
+        return ()
+    return (
+        RuleViolation(
+            rule_id="PLAN_RESPONSE_UNSUPPORTED_AVAILABILITY",
+            severity=RuleSeverity.ERROR,
+            message=(
+                "Response assigns a concrete study schedule without recorded "
+                "availability support."
+            ),
+        ),
     )
 
 
@@ -351,6 +452,30 @@ def evaluate_response_proposal_workload(
             ),
         ),
     )
+
+
+def _has_unconditional_study_clock_assignment(text: str) -> bool:
+    normalized = normalize_response_text(text)
+    segments = re.split(r"(?<=[.!?])\s+|[\r\n]+", normalized)
+    for segment in segments:
+        clock_range = _CLOCK_RANGE_PATTERN.search(segment)
+        if clock_range is None:
+            continue
+        if _NON_ASSIGNING_SCHEDULE_PATTERN.search(segment) is not None:
+            continue
+        if _STUDY_ACTIVITY_PATTERN.search(segment) is None:
+            continue
+        tail = segment[clock_range.end():]
+        has_schedule_separator = tail.lstrip().startswith(":")
+        if has_schedule_separator or _STUDY_ACTION_PATTERN.search(segment):
+            return True
+    return False
+
+
+def _has_high_confidence_daily_schedule_context(normalized: str) -> bool:
+    if re.search(r"\b(?:gunluk|her\s+gun|gunde)\b", normalized):
+        return True
+    return len(_CLOCK_RANGE_PATTERN.findall(normalized)) >= 2
 
 
 def _to_minutes(value: int, unit: str) -> int:

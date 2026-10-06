@@ -183,8 +183,8 @@ def _build_structured_study_plan_prompt(base_prompt: str) -> str:
                     "description": "Çalışma görevi",
                     "planned_minutes": 60,
                     "priority": TaskPriority.MEDIUM.value,
-                    "area_type": None,
-                    "area_code": None,
+                    "area_type": "subject",
+                    "area_code": "mathematics",
                 }
             ],
         },
@@ -198,7 +198,12 @@ def _build_structured_study_plan_prompt(base_prompt: str) -> str:
         + "\n\nBu planning isteği için ONLY valid JSON object döndür. "
         "Markdown/code fence veya JSON dışında metin kullanma. "
         "Bilinmeyen learner bilgisini uydurma. Yeterli bilgi yoksa proposal null "
-        "olsun. Şu system-owned alanları üretme: "
+        "olsun. Subject-specific content task'larda canonical area_type ve "
+        "area_code üret; bunları null bırakma. Null yalnız gerçekten "
+        "cross-subject veya operational task'larda kullanılabilir. Kullanıcının "
+        "hard subject limit'i varsa ilgili subject task'larında request context'teki "
+        "canonical area değerlerini kullanmak zorunludur. Şu system-owned "
+        "alanları üretme: "
         + forbidden_fields
         + ". Allowed plan_type values: "
         + json.dumps(plan_types, ensure_ascii=False)

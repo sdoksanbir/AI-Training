@@ -29,6 +29,7 @@ from .planning_request import (
     PlanningRequestContext,
     evaluate_request_subject_limits,
     evaluate_response_proposal_workload,
+    evaluate_response_schedule_grounding,
     extract_planning_request_context,
     render_planning_request_context,
 )
@@ -245,6 +246,7 @@ class CoachOrchestrator:
             snapshot=snapshot,
             specialty_registry=self.specialty_registry,
         )
+        request_violations: tuple[RuleViolation, ...] = ()
         if study_plan_proposal is not None:
             proposal_report = validate_study_plan_write(
                 snapshot,
@@ -261,10 +263,16 @@ class CoachOrchestrator:
                 response_text,
                 study_plan_proposal,
             )
-            validation_report = _apply_rule_violations_boundary(
-                validation_report,
-                request_violations,
-            )
+        request_violations += evaluate_response_schedule_grounding(
+            response_text,
+            planning_request,
+            snapshot,
+            study_plan_proposal,
+        )
+        validation_report = _apply_rule_violations_boundary(
+            validation_report,
+            request_violations,
+        )
         return _GenerationAttempt(
             response_text=response_text,
             model=response.model,

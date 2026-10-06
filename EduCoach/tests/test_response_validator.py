@@ -678,6 +678,47 @@ def test_conditional_encouragement_passes(text: str) -> None:
 @pytest.mark.parametrize(
     "text",
     [
+        "Kazanmak zorundasın.",
+        "Kazanmanız şart.",
+        "Tıp kazanmak zorunlu olduğun için çok çalışmalısın.",
+        "Kazanmak zorunlu olduğunuz için dikkatli planlama gerekir.",
+        "Kazanman şart olduğu için düzenli çalışmalısın.",
+    ],
+)
+def test_pressure_reinforcement_regenerates(text: str) -> None:
+    report = evaluate_response(text)
+
+    assert report.action is ResponseValidationAction.REGENERATE
+    assert report.violations[0].rule_id == "OUTPUT_PRESSURE_REINFORCEMENT"
+
+
+@pytest.mark.parametrize(
+    "text",
+    [
+        "Kazanmak zorunda değilsin.",
+        "Kazanman şart değil.",
+        "Kazanmak zorunda olduğunu hissetmen baskıyı artırabilir.",
+        "'Kazanmak zorundayım' düşüncesi kaygıyı artırabilir.",
+        "Kazanmanın şart olduğunu düşünmen üzerinde baskı yaratabilir.",
+    ],
+)
+def test_reflective_or_negated_pressure_language_passes(text: str) -> None:
+    assert evaluate_response(text).action is ResponseValidationAction.PASS
+
+
+def test_guarantee_and_pressure_violations_are_both_preserved() -> None:
+    report = evaluate_response("Kesin kazanırsın. Kazanmak zorundasın.")
+
+    assert report.action is ResponseValidationAction.REGENERATE
+    assert [item.rule_id for item in report.violations] == [
+        "OUTPUT_UNSUPPORTED_GUARANTEE",
+        "OUTPUT_PRESSURE_REINFORCEMENT",
+    ]
+
+
+@pytest.mark.parametrize(
+    "text",
+    [
         "Sınavdan önce 3-4 saat suyu azalt.",
         "3 saat suyu azalt.",
         "3-4 saat sıvı alımını azalt.",

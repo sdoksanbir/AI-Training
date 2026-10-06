@@ -204,6 +204,15 @@ _UNSAFE_HEALTH_INSTRUCTION_PATTERNS = (
         r"(?:[a-z0-9.,]+\s+){0,3}(?:artir|azalt|degistir)\b"
     ),
 )
+_PRESSURE_REINFORCEMENT_PATTERNS = (
+    re.compile(r"\bkazanmak\s+zorundasin(?:iz)?\b"),
+    re.compile(r"\bkazanma(?:n|niz)\s+sart\b"),
+    re.compile(
+        r"\b(?:tip\s+)?kazanmak\s+zorunlu\s+"
+        r"oldugun(?:uz)?\s+icin\b"
+    ),
+    re.compile(r"\bkazanma(?:n|niz)\s+sart\s+oldugu\s+icin\b"),
+)
 _ACTION_PRECEDENCE = {
     ResponseValidationAction.PASS: 0,
     ResponseValidationAction.AUTO_FIX: 1,
@@ -382,6 +391,12 @@ def _evaluate_output_violations(text: str) -> tuple[RuleViolation, ...]:
             violations,
             "OUTPUT_UNSUPPORTED_GUARANTEE",
             "Response makes an unsupported outcome guarantee",
+        )
+    if _has_pressure_reinforcement(normalized):
+        _append_violation(
+            violations,
+            "OUTPUT_PRESSURE_REINFORCEMENT",
+            "Response reinforces absolute achievement pressure",
         )
     if _has_unsafe_health_instruction(normalized):
         _append_violation(
@@ -609,6 +624,16 @@ def _has_unsafe_health_instruction(normalized: str) -> bool:
         pattern.search(normalized)
         for pattern in _UNSAFE_HEALTH_INSTRUCTION_PATTERNS
     )
+
+
+def _has_pressure_reinforcement(normalized: str) -> bool:
+    for pattern in _PRESSURE_REINFORCEMENT_PATTERNS:
+        for match in pattern.finditer(normalized):
+            tail = normalized[match.end(): match.end() + 24].lstrip()
+            if tail.startswith(("degil", "mi", "oldugunu dusun", "oldugunu hisset")):
+                continue
+            return True
+    return False
 
 
 def _has_yks_context(snapshot: "LearnerMemorySnapshot") -> bool:
