@@ -115,3 +115,17 @@ No automatic judge or additional review schema is used. Reviewers apply the exis
 - Proposal quality: when `proposal_review` exists, review its identifier-free semantic plan/task projection for grounding, constraint compliance, and usefulness, and record the judgment in `notes`. Absence of a proposal where one is expected is reflected in `expected_review`.
 
 FAZ 14 final unseen cases remain untouched throughout FAZ 12. Development findings must not consume final messages, facts, responses, or review artifacts; doing so invalidates that final set.
+
+## Manual review aggregation
+
+After a private development run, create or refresh content-free `coverage.json` and `human_review_summary.json` beside the run artifacts:
+
+```powershell
+python scripts/summarize_real_learner_human_review.py `
+    evaluations/real_learner/private/<development-input>.jsonl `
+    evaluations/real_learner/private/runs/<development-run>
+```
+
+The command reads only the explicitly supplied development input and run directory. It does not scan for or read final unseen data. Its summaries count only explicit human decisions; they never infer `met`, `absent`, or any other judgment. A completed record remains incomplete until `expected_review`, `forbidden_review`, and non-blank human `notes` are present.
+
+Expected and forbidden decisions are aggregated separately, including `unclear` and unreviewed counts. Deterministic responses are counted independently from safety outcomes; their notes must contain exactly one evaluation term, `SAFE_FALLBACK_ACCEPTABLE` or `SAFE_FALLBACK_LOW_UTILITY`, to be classified. Proposal count and identifier-free `proposal_review` presence are reported separately. Family/program summaries contain counts only and never copy case IDs, source-group IDs, learner messages, facts, responses, proposal text, or reviewer notes.
