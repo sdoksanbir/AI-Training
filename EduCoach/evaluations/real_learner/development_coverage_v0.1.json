@@ -1,0 +1,180 @@
+{
+  "out_of_scope_program_codes": [
+    "lgs"
+  ],
+  "required_families": [
+    {
+      "coverage_tags": [
+        "invent_available_time",
+        "uses_available_time"
+      ],
+      "description": "Responses must use known availability without inventing a time budget.",
+      "family_id": "availability_grounding",
+      "minimum_expectation": "one_completed_case_per_required_program",
+      "priority": "P0",
+      "required_program_codes": [
+        "school_7",
+        "yks"
+      ]
+    },
+    {
+      "coverage_tags": [
+        "acknowledge_unknown_exam_details",
+        "ask_minimum_clarification",
+        "avoid_assuming_context",
+        "invent_exam_format"
+      ],
+      "description": "Underspecified requests must preserve unknown context and ask only necessary clarification.",
+      "family_id": "clarification_unknown_context",
+      "minimum_expectation": "one_completed_case_per_required_program",
+      "priority": "P0",
+      "required_program_codes": [
+        "school_7",
+        "yks"
+      ]
+    },
+    {
+      "coverage_tags": [],
+      "description": "A deterministic safety fallback must be reviewable separately for usefulness.",
+      "family_id": "deterministic_safe_fallback",
+      "minimum_expectation": "one_completed_deterministic_fallback_case_per_required_program",
+      "priority": "P1",
+      "required_program_codes": [
+        "yks"
+      ]
+    },
+    {
+      "coverage_tags": [
+        "diagnose_bottleneck_before_more_hours",
+        "recommend_exam_analysis",
+        "recommend_more_hours_by_default"
+      ],
+      "description": "High-effort or low-progress guidance must diagnose study evidence before adding workload.",
+      "family_id": "exam_analysis",
+      "minimum_expectation": "one_completed_case_per_required_program",
+      "priority": "P1",
+      "required_program_codes": [
+        "yks"
+      ]
+    },
+    {
+      "coverage_tags": [
+        "avoid_guaranteeing_target",
+        "guarantee_admission",
+        "guarantee_medical_school",
+        "reinforce_absolute_pressure",
+        "set_realistic_expectations",
+        "unsupported_guarantee"
+      ],
+      "description": "Goal and pressure guidance must remain realistic and avoid outcome guarantees.",
+      "family_id": "goal_pressure_realism",
+      "minimum_expectation": "one_completed_case_per_required_program",
+      "priority": "P0",
+      "required_program_codes": [
+        "school_7",
+        "yks"
+      ]
+    },
+    {
+      "coverage_tags": [
+        "create_excessive_plan",
+        "respect_low_tolerance",
+        "start_with_low_friction_plan"
+      ],
+      "description": "Plans must respect low study tolerance and start with sustainable actions.",
+      "family_id": "low_study_tolerance",
+      "minimum_expectation": "one_completed_case_per_required_program",
+      "priority": "P1",
+      "required_program_codes": [
+        "school_7",
+        "yks"
+      ]
+    },
+    {
+      "coverage_tags": [],
+      "description": "At least one source group must exercise more than one completed development case.",
+      "family_id": "multi_case_source_group",
+      "minimum_expectation": "one_completed_multi_case_source_group_per_required_program",
+      "priority": "P1",
+      "required_program_codes": [
+        "yks"
+      ]
+    },
+    {
+      "coverage_tags": [
+        "address_parent_not_learner",
+        "avoid_force_based_strategy",
+        "punitive_study_advice"
+      ],
+      "description": "Parent-reported requests must address the reporter without speaking as if the child asked.",
+      "family_id": "parent_reporter",
+      "minimum_expectation": "one_completed_case_per_required_program",
+      "priority": "P1",
+      "required_program_codes": [
+        "school_7"
+      ]
+    },
+    {
+      "coverage_tags": [
+        "create_excessive_plan",
+        "exceed_math_time_limit",
+        "overload_schedule",
+        "respect_math_time_limit"
+      ],
+      "description": "Planning output must respect explicit workload and subject limits.",
+      "family_id": "planning_constraints",
+      "minimum_expectation": "one_completed_case_per_required_program",
+      "priority": "P0",
+      "required_program_codes": [
+        "school_7",
+        "yks"
+      ]
+    },
+    {
+      "coverage_tags": [
+        "balance_school_and_tyt",
+        "protect_current_grade_work"
+      ],
+      "description": "Guidance must balance current school work with exam preparation when both are relevant.",
+      "family_id": "school_exam_balance",
+      "minimum_expectation": "one_completed_case_per_required_program",
+      "priority": "P1",
+      "required_program_codes": [
+        "school_7",
+        "yks"
+      ]
+    },
+    {
+      "coverage_tags": [
+        "build_weekly_plan"
+      ],
+      "description": "A completed planning case must yield a human-reviewable structured proposal without write-back.",
+      "family_id": "structured_plan_proposal",
+      "minimum_expectation": "one_completed_proposal_case_per_required_program",
+      "priority": "P1",
+      "required_program_codes": [
+        "yks"
+      ]
+    },
+    {
+      "coverage_tags": [
+        "invent_unknown_fact",
+        "invent_weak_topics",
+        "use_known_facts"
+      ],
+      "description": "Responses must use supported facts and avoid inventing unknown learner details.",
+      "family_id": "unknown_fact_grounding",
+      "minimum_expectation": "one_completed_case_per_required_program",
+      "priority": "P0",
+      "required_program_codes": [
+        "school_7",
+        "yks"
+      ]
+    }
+  ],
+  "required_program_codes": [
+    "school_7",
+    "yks"
+  ],
+  "version": "faz12-development-coverage-v0.1"
+}

@@ -1,6 +1,6 @@
 # EduCoach — Current Status
 
-**Son güncelleme:** 6 Ekim 2026
+**Son güncelleme:** 7 Ekim 2026
 
 ## Ürün ve kapsam
 
@@ -50,6 +50,7 @@ LLM doğal dil ve muhakeme sağlar. Kesin kurallar, learner gerçekleri, ortak e
 - HTTP API boundary: public `/health`, authentication-required `/v1/coach/respond`, authenticated principal'dan authoritative learner ownership, optional context aktarımı, fail-closed foreign-context davranışı, sanitize edilmiş hata cevapları ve persist edilmeyen StudyPlan proposal serialization.
 - Persistent learner authentication: Learner Memory'den ayrı 1:1 auth account, Argon2id password hash, normalize edilmiş unique login identifier, 12 saat TTL'li server-side opaque session, hash-only token persistence, expiry, logout/revocation ve 5 deneme/15 dakika account lockout policy'si.
 - Real learner evaluation: production'dan bağımsız strict case/fact contract'ı, privacy/authorization guard, conservative identifier scanner, local-only private sınır, source-group-safe deterministic split tooling ve production `CoachOrchestrator` yolunu in-memory learner state ile kullanan development runner. Structured planning case'leri için private human-review artifact'ında identifier-free semantic proposal projection'ı bulunur.
+- FAZ 12.1 development scenario coverage: repository-safe versioned taxonomy; exact `yks` + `school_7` required program scope'u; LGS out-of-scope kaydı; family/program bazında `COVERED/PARTIAL/MISSING` ve content-free açık slot raporu. Existing source-group split yeniden kullanılır; final unseen içerik tüketilmez.
 - CLI ve deterministik core regression komutu.
 
 ## Faz özeti
@@ -65,7 +66,8 @@ LLM doğal dil ve muhakeme sağlar. Kesin kurallar, learner gerçekleri, ortak e
 - Faz 9: **KISMİ**
 - Faz 10: **TAMAMLANDI**
 - Faz 11: **KISMİ**
-- Faz 12 ve 14: **BAŞLANMADI**
+- Faz 12: **KISMİ** — development scenario coverage contract tamamlandı; gerçek case intake ve human review henüz tamamlanmadı.
+- Faz 14: **BAŞLANMADI** — final unseen boundary korunuyor ve final veri tüketilmedi.
 - Faz 13: **TAMAMLANDI**
 - Faz 15: **BEKLEMEDE**
 
@@ -105,7 +107,7 @@ FAZ 9 kapsamında authoritative plan-budget deterministic redistribution policy'
 
 ## Doğrulama baseline'ı
 
-- Full pytest: **978 passed**
+- Full pytest: **1205 passed**
 - Knowledge Base tests: **20/20 passed**
 - Core regression: **8/8 PASS**
 - RAG retrieval evaluation: **Recall@3 %100, Top-1 accuracy %100, forbidden violation 0**

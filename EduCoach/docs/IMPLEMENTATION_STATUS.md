@@ -53,10 +53,11 @@ EduCoach yalnız YKS uygulaması değildir. Genel çekirdek farklı eğitim alan
 - Learner Memory'den ayrı `auth_accounts` ve `auth_sessions` persistence'ı; learner başına tek account, canonical unique login identifier, Argon2id password storage, dummy-hash timing mitigation, 12 saat TTL'li hash-only opaque bearer token, expiry/revocation, login/logout endpoint'leri ve injectable 5 deneme/15 dakika lockout policy'si.
 - Evaluation-only real learner intake contract'ı; flat primitive fact modeli, zorunlu manual privacy/usage assertions, conservative identifier scanner, safe JSONL validation CLI'ı, source-group-safe versioned deterministic dev/final split ve content taşımayan hash manifesti.
 - Development evaluation runner; private-path enforcement, source group başına izole in-memory learner state, exact builtin Specialty Profile materialization, yalnız authoritative fact mapping, unsupported fact metadata, gerçek production `CoachOrchestrator` çağrısı, persist edilmeyen proposal göstergesi, identifier-free semantic proposal review projection'ı, unscored human-review JSONL ve yalnız aggregate summary üretimi.
+- FAZ 12.1 Development Scenario Coverage Contract; learner içeriği taşımayan versioned taxonomy, exact `yks` ve `school_7` required scope'u, LGS out-of-scope sınırı, family/program bazında `COVERED/PARTIAL/MISSING` değerlendirmesi ve content-free missing-slot raporu. Mevcut source-group-safe split contract'ı yeniden kullanılır; final unseen içerik okunmaz.
 
 ## Doğrulama
 
-Son test paketi: 978 test başarılı.
+Son test paketi: 1205 test başarılı.
 
 Knowledge Base testleri: 20/20 PASS.
 
@@ -81,6 +82,7 @@ Ollama üzerinde `qwen3:14b` ile gerçek uçtan uca cevap üretimi doğrulandı.
 - Orchestrator v1: kısmi; StudyPlan validated write-back boundary, Active Context & Specialty Resolution v0.1, Typed Multi-Intent Contract, Conservative Intent Detection v0.1, Context Selection Evidence v0.1, Context Routing Terminology + Message Evidence v0.1, Final Context Selection Policy + Runtime Integration v0.1, Full RAG Need Gating v0.1, Structured StudyPlan Proposal Generation v0.1, Validator Action Orchestration v0.1, Controlled Regeneration v0.1 ve Deterministic Auto-Fix v0.1 tamamlandı.
 - HTTP API + Authentication: tamamlandı.
 - Development Evaluation Set: kısmi.
+- Gerçek Learner Senaryoları: kısmi; development scenario coverage contract tamamlandı, yeni privacy-reviewed case intake ve human review bekliyor.
 
 HTTP boundary, persistent learner login, opaque session authentication ve authenticated principal ownership tamamlandı.
 

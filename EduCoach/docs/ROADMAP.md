@@ -136,7 +136,11 @@ Doğrulama baseline'ı: focused development runner 28/28 PASS, focused evaluatio
 
 ### FAZ 12 — Gerçek Learner Senaryoları
 
-**Durum: BAŞLANMADI**
+**Durum: KISMİ**
+
+FAZ 12.1 development scenario coverage contract tamamlandı. Repository-safe versioned taxonomy, exact `yks` ve `school_7` required program scope'u, LGS out-of-scope sınırı, family/program bazında `COVERED/PARTIAL/MISSING` değerlendirmesi ve content-free missing-slot raporu eklendi. Mevcut source-group-safe development/final split contract'ı yeniden kullanılır.
+
+Gerçek-anonim eksik development slotlarının izinli intake'i ve human review henüz tamamlanmadı. FAZ 14 final unseen verisi dokunulmadan ayrılmış kalır ve FAZ 12 development kararlarında kullanılmaz.
 
 ### FAZ 13 — HTTP API + Authentication
 
