@@ -2,9 +2,12 @@
 
 from .contracts import (
     CaseFileValidationError,
+    PublicForumProvenance,
+    PublicForumSourceGroupError,
     RealLearnerEvaluationCase,
     SanitizedFact,
     load_validated_cases,
+    require_case_local_public_forum_groups,
     scan_case_for_likely_identifiers,
 )
 from .coverage import (
@@ -91,6 +94,8 @@ __all__ = [
     "PrivatePathError",
     "ProgramCoverageResult",
     "ProgramFamilyCoverage",
+    "PublicForumProvenance",
+    "PublicForumSourceGroupError",
     "ProviderUnavailableError",
     "RealLearnerEvaluationCase",
     "RuntimeMetadata",
@@ -109,6 +114,7 @@ __all__ = [
     "load_human_reviews",
     "load_validated_cases",
     "require_private_path",
+    "require_case_local_public_forum_groups",
     "run_development_evaluation",
     "scan_case_for_likely_identifiers",
     "split_cases",

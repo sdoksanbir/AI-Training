@@ -18,7 +18,10 @@ from pydantic import (
     model_validator,
 )
 
-from .contracts import RealLearnerEvaluationCase
+from .contracts import (
+    RealLearnerEvaluationCase,
+    require_case_local_public_forum_groups,
+)
 from .runner import DevelopmentCaseResult, ExecutionStatus
 
 
@@ -208,6 +211,7 @@ def evaluate_development_coverage(
     cases = tuple(development_cases)
     final = tuple(final_cases)
     _require_unique_case_ids(cases)
+    require_case_local_public_forum_groups(cases)
     _require_source_group_isolation(cases, final)
     result_by_case_id = _index_results(cases, tuple(results))
 
@@ -297,7 +301,8 @@ def _evaluate_family_program(
     if expectation == "one_completed_multi_case_source_group_per_required_program":
         grouped: dict[str, list[RealLearnerEvaluationCase]] = defaultdict(list)
         for case in program_cases:
-            grouped[case.source_group_id].append(case)
+            if case.source_kind == "real_anonymized":
+                grouped[case.source_group_id].append(case)
         candidate_groups = tuple(
             group_cases for group_cases in grouped.values() if len(group_cases) >= 2
         )
@@ -393,6 +398,10 @@ def _require_source_group_isolation(
     development_cases: tuple[RealLearnerEvaluationCase, ...],
     final_cases: tuple[RealLearnerEvaluationCase, ...],
 ) -> None:
+    if any(case.source_kind == "public_forum" for case in final_cases):
+        raise FinalUnseenIsolationError(
+            "public_forum cases cannot enter final unseen"
+        )
     development_groups = {case.source_group_id for case in development_cases}
     final_groups = {case.source_group_id for case in final_cases}
     if development_groups & final_groups:

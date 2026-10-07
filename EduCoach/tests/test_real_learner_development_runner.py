@@ -62,6 +62,33 @@ def make_case(
     )
 
 
+def make_public_forum_case(index: int = 1) -> RealLearnerEvaluationCase:
+    return RealLearnerEvaluationCase.model_validate(
+        {
+            "case_id": f"RL{index:04d}",
+            "source_group_id": f"RG{index:04d}",
+            "source_kind": "public_forum",
+            "category": "study_advice",
+            "program_code": "yks",
+            "user_message": "Manually paraphrased public discussion fixture.",
+            "facts": [],
+            "expected_behavior_tags": ["gives_safe_guidance"],
+            "forbidden_behavior_tags": ["guarantees_outcome"],
+            "public_source_reviewed": True,
+            "content_minimized": True,
+            "evaluation_only": True,
+            "public_provenance": {
+                "platform_domain": "community.example.test",
+                "original_public_url": (
+                    f"https://community.example.test/thread/{index}"
+                ),
+                "access_date": "2026-10-07",
+                "policy_terms_reviewed": True,
+            },
+        }
+    )
+
+
 def run_cases(
     tmp_path: Path,
     cases: tuple[RealLearnerEvaluationCase, ...],
@@ -94,6 +121,32 @@ def test_valid_synthetic_case_runs_through_production_orchestrator(
     assert run.results[0].response_text == "Hazırım."
     assert len(provider.requests) == 1
     assert "Sen EduCoach'sun" in provider.requests[0].system_prompt
+
+
+def test_public_forum_provenance_never_enters_model_or_run_artifacts(
+    tmp_path: Path,
+) -> None:
+    provider = FakeLLMProvider(responder=lambda _: "Hazırım.")
+    case = make_public_forum_case()
+    assert case.public_provenance is not None
+    source_url = str(case.public_provenance.original_public_url)
+    source_domain = case.public_provenance.platform_domain
+
+    run = run_cases(tmp_path, (case,), provider=provider)
+
+    assert run.results[0].execution_status is ExecutionStatus.COMPLETED
+    request = provider.requests[0]
+    model_facing = "\n".join(
+        (request.system_prompt, request.user_message, request.memory_context)
+    )
+    artifact_text = "".join(
+        path.read_text(encoding="utf-8")
+        for path in run.output_directory.iterdir()
+    )
+    assert source_url not in model_facing
+    assert source_domain not in model_facing
+    assert source_url not in artifact_text
+    assert source_domain not in artifact_text
 
 
 def test_invalid_intake_is_rejected_by_existing_validator(tmp_path: Path) -> None:

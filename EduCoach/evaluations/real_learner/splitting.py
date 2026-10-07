@@ -7,7 +7,10 @@ import re
 
 from pydantic import BaseModel, ConfigDict, StrictInt, StrictStr
 
-from .contracts import RealLearnerEvaluationCase
+from .contracts import (
+    RealLearnerEvaluationCase,
+    require_case_local_public_forum_groups,
+)
 
 
 SPLIT_POLICY_VERSION = "source-group-sha256-modulo-3-v1"
@@ -35,16 +38,21 @@ def split_cases(
     tuple[RealLearnerEvaluationCase, ...],
     tuple[RealLearnerEvaluationCase, ...],
 ]:
-    """Assign complete source groups using a stable 2:1 hash policy."""
+    """Hash real source groups and keep public forum cases in development."""
 
     _validate_version(version)
+    require_case_local_public_forum_groups(cases)
     development: list[RealLearnerEvaluationCase] = []
     final: list[RealLearnerEvaluationCase] = []
     for case in cases:
         target = (
-            final
-            if _source_group_bucket(case.source_group_id, version) == 0
-            else development
+            development
+            if case.source_kind == "public_forum"
+            else (
+                final
+                if _source_group_bucket(case.source_group_id, version) == 0
+                else development
+            )
         )
         target.append(case)
     return (
@@ -112,7 +120,7 @@ def _canonical_jsonl(
 ) -> str:
     return "".join(
         json.dumps(
-            case.model_dump(mode="json"),
+            case.model_dump(mode="json", exclude_none=True),
             ensure_ascii=False,
             separators=(",", ":"),
             sort_keys=True,

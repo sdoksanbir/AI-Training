@@ -46,6 +46,39 @@ def synthetic_contract_case(
     )
 
 
+def synthetic_public_forum_case(
+    index: int,
+    *,
+    program_code: str = "yks",
+    expected_tags: tuple[str, ...] = ("recommend_exam_analysis",),
+    forbidden_tags: tuple[str, ...] = (),
+) -> RealLearnerEvaluationCase:
+    return RealLearnerEvaluationCase.model_validate(
+        {
+            "case_id": f"RL{index:04d}",
+            "source_group_id": f"RG{index:04d}",
+            "source_kind": "public_forum",
+            "category": "contract_fixture",
+            "program_code": program_code,
+            "user_message": "Manually paraphrased public discussion fixture.",
+            "facts": [],
+            "expected_behavior_tags": list(expected_tags),
+            "forbidden_behavior_tags": list(forbidden_tags),
+            "public_source_reviewed": True,
+            "content_minimized": True,
+            "evaluation_only": True,
+            "public_provenance": {
+                "platform_domain": "community.example.test",
+                "original_public_url": (
+                    f"https://community.example.test/thread/{index}"
+                ),
+                "access_date": "2026-10-07",
+                "policy_terms_reviewed": True,
+            },
+        }
+    )
+
+
 def completed_result(
     case: RealLearnerEvaluationCase,
     *,
@@ -135,6 +168,19 @@ def test_duplicate_family_is_rejected(tmp_path: Path) -> None:
 def test_completed_required_family_is_covered() -> None:
     contract = load_development_coverage_contract()
     case = synthetic_contract_case(1)
+
+    report = evaluate_development_coverage(
+        contract,
+        (case,),
+        (completed_result(case),),
+    )
+
+    assert family_status(report, "exam_analysis") is CoverageStatus.COVERED
+
+
+def test_public_forum_can_cover_normal_development_family() -> None:
+    contract = load_development_coverage_contract()
+    case = synthetic_public_forum_case(1)
 
     report = evaluate_development_coverage(
         contract,
@@ -245,6 +291,23 @@ def test_multi_case_source_group_requires_two_completed_cases() -> None:
     )
 
 
+def test_public_forum_never_covers_multi_case_source_group() -> None:
+    contract = load_development_coverage_contract()
+    first = synthetic_public_forum_case(1)
+    second = synthetic_public_forum_case(2)
+
+    report = evaluate_development_coverage(
+        contract,
+        (first, second),
+        (completed_result(first), completed_result(second)),
+    )
+
+    assert (
+        family_status(report, "multi_case_source_group")
+        is CoverageStatus.MISSING
+    )
+
+
 def test_existing_split_contract_produces_isolated_sets_accepted_by_checker() -> None:
     contract = load_development_coverage_contract()
     cases = tuple(synthetic_contract_case(index) for index in range(1, 25))
@@ -269,6 +332,21 @@ def test_checker_rejects_development_final_source_group_overlap() -> None:
             contract,
             (development,),
             final_cases=(final,),
+        )
+
+
+def test_checker_rejects_public_forum_in_final_unseen() -> None:
+    contract = load_development_coverage_contract()
+    public_case = synthetic_public_forum_case(1)
+
+    with pytest.raises(
+        FinalUnseenIsolationError,
+        match="cannot enter final unseen",
+    ):
+        evaluate_development_coverage(
+            contract,
+            (),
+            final_cases=(public_case,),
         )
 
 
@@ -330,3 +408,20 @@ def test_private_content_never_enters_aggregate_coverage_report() -> None:
     assert raw_response not in serialized
     assert case.case_id not in serialized
     assert case.source_group_id not in serialized
+
+
+def test_public_provenance_never_enters_aggregate_coverage_report() -> None:
+    contract = load_development_coverage_contract()
+    case = synthetic_public_forum_case(1)
+    assert case.public_provenance is not None
+    source_url = str(case.public_provenance.original_public_url)
+
+    report = evaluate_development_coverage(
+        contract,
+        (case,),
+        (completed_result(case),),
+    )
+    serialized = report.model_dump_json()
+
+    assert source_url not in serialized
+    assert case.public_provenance.platform_domain not in serialized

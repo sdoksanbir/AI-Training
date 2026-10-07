@@ -7,6 +7,7 @@ import pytest
 
 from evaluations.real_learner import (
     CaseFileValidationError,
+    PublicForumSourceGroupError,
     RealLearnerEvaluationCase,
     load_validated_cases,
     split_cases,
@@ -52,6 +53,53 @@ def make_case(
     )
 
 
+def public_forum_payload(
+    index: int = 1,
+    *,
+    group_index: int | None = None,
+    message: str = "Manually paraphrased public discussion fixture.",
+) -> dict[str, object]:
+    payload = case_payload(
+        index,
+        group_index=group_index,
+        message=message,
+    )
+    payload["source_kind"] = "public_forum"
+    payload.pop("privacy_reviewed")
+    payload.pop("usage_authorized")
+    payload.update(
+        {
+            "public_source_reviewed": True,
+            "content_minimized": True,
+            "evaluation_only": True,
+            "public_provenance": {
+                "platform_domain": "community.example.test",
+                "original_public_url": (
+                    "https://community.example.test/thread/opaque"
+                ),
+                "access_date": "2026-10-07",
+                "policy_terms_reviewed": True,
+            },
+        }
+    )
+    return payload
+
+
+def make_public_forum_case(
+    index: int = 1,
+    *,
+    group_index: int | None = None,
+    message: str = "Manually paraphrased public discussion fixture.",
+) -> RealLearnerEvaluationCase:
+    return RealLearnerEvaluationCase.model_validate(
+        public_forum_payload(
+            index,
+            group_index=group_index,
+            message=message,
+        )
+    )
+
+
 def write_jsonl(path: Path, rows: list[dict[str, object]]) -> None:
     path.write_text(
         "".join(json.dumps(row, ensure_ascii=False) + "\n" for row in rows),
@@ -91,6 +139,57 @@ def test_usage_authorized_false_is_rejected() -> None:
 
     with pytest.raises(ValidationError):
         RealLearnerEvaluationCase.model_validate(payload)
+
+
+def test_public_forum_requires_separate_evaluation_only_assertions() -> None:
+    case = make_public_forum_case()
+
+    assert case.source_kind == "public_forum"
+    assert case.public_source_reviewed is True
+    assert case.content_minimized is True
+    assert case.evaluation_only is True
+    assert case.usage_authorized is None
+    assert case.public_provenance is not None
+
+
+@pytest.mark.parametrize(
+    "field",
+    [
+        "public_source_reviewed",
+        "content_minimized",
+        "evaluation_only",
+        "public_provenance",
+    ],
+)
+def test_public_forum_rejects_missing_required_assertion(field: str) -> None:
+    payload = public_forum_payload()
+    payload.pop(field)
+
+    with pytest.raises(ValidationError):
+        RealLearnerEvaluationCase.model_validate(payload)
+
+
+def test_public_forum_cannot_claim_real_source_usage_authorization() -> None:
+    payload = public_forum_payload()
+    payload["usage_authorized"] = True
+
+    with pytest.raises(ValidationError):
+        RealLearnerEvaluationCase.model_validate(payload)
+
+
+@pytest.mark.parametrize(
+    "message",
+    [
+        "Paraphrased fixture still mentions @forum_account.",
+        "Source copied from https://community.example.test/thread/opaque.",
+        "Source copied from community.example.test without a scheme.",
+    ],
+)
+def test_public_forum_rejects_detectable_identity_or_source_leak(
+    message: str,
+) -> None:
+    with pytest.raises(ValidationError):
+        make_public_forum_case(message=message)
 
 
 @pytest.mark.parametrize(
@@ -199,6 +298,25 @@ def test_development_and_final_source_groups_are_disjoint() -> None:
     assert development_groups
     assert final_groups
     assert development_groups.isdisjoint(final_groups)
+
+
+def test_public_forum_is_always_development_only() -> None:
+    public_case = make_public_forum_case()
+
+    development, final = split_cases((public_case,), version="v1")
+
+    assert development == (public_case,)
+    assert final == ()
+
+
+def test_public_forum_source_group_must_be_case_local() -> None:
+    cases = (
+        make_public_forum_case(1, group_index=7),
+        make_public_forum_case(2, group_index=7),
+    )
+
+    with pytest.raises(PublicForumSourceGroupError, match="case-local"):
+        split_cases(cases, version="v1")
 
 
 def test_existing_final_output_rejects_overwrite_before_other_writes(

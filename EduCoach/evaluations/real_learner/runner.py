@@ -34,7 +34,10 @@ from educoach.specialties import (
 )
 from educoach.writeback import StudyPlanWriteProposal
 
-from .contracts import RealLearnerEvaluationCase
+from .contracts import (
+    RealLearnerEvaluationCase,
+    require_case_local_public_forum_groups,
+)
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
@@ -208,6 +211,7 @@ def run_development_evaluation(
     normalized_run_id = validate_run_id(run_id)
     ordered_cases = tuple(sorted(cases, key=lambda item: item.case_id))
     _reject_duplicate_case_ids(ordered_cases)
+    require_case_local_public_forum_groups(ordered_cases)
 
     target = output_directory or private_root / "runs" / normalized_run_id
     target = require_private_path(target, private_root=private_root)

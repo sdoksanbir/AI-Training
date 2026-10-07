@@ -14,7 +14,7 @@ The validator is a conservative leak guard, not an anonymizer. It detects obviou
 
 ## Contract
 
-Each JSONL object has exactly these fields:
+Each `real_anonymized` JSONL object has exactly these fields:
 
 - `case_id`: repository-assigned `RL` sequence such as `RL0001`; never derived from a learner/account identifier.
 - `source_group_id`: repository-assigned `RG` sequence such as `RG0001`; groups cases originating from the same learner without storing or hashing that learner's identity.
@@ -47,6 +47,46 @@ The following is a field-shape illustration only. It is intentionally not a vali
 }
 ```
 
+## Public forum development sources
+
+**PUBLIC_FORUM IS EVALUATION-ONLY.** It is not learner-owned authorized
+private data, gold training data, fine-tuning data, or final unseen data.
+Publicly visible does not mean `usage_authorized`.
+
+A `public_forum` case is manually curated, paraphrased, and minimized. Bulk
+scraping, forum APIs, cross-post identity linking, copied long posts, private
+messages, handles, account/profile identifiers, real names, exact institutions,
+addresses, phone numbers, and email addresses are outside this contract. The
+identifier scanner remains a conservative guard; manual source review is still
+mandatory.
+
+Public forum records do not set `privacy_reviewed` or `usage_authorized`.
+Instead they require all of these source-specific assertions:
+
+- `public_source_reviewed=true`;
+- `content_minimized=true`;
+- `evaluation_only=true`;
+- private `public_provenance` containing the platform domain, original public
+  URL, access date, and `policy_terms_reviewed=true`.
+
+The original URL and provenance stay in the private intake record. They are
+never copied into aggregate coverage output, human-review aggregates, or the
+model-facing scenario. A URL or the recorded source domain inside
+`user_message` or string fact content is rejected. Each public forum case must
+use a case-local opaque source group; multiple posts are never linked as one
+learner/source group.
+
+Public forum cases may provide development evidence for ordinary tag-based
+families and structured proposal coverage. They never satisfy
+`multi_case_source_group`, which remains restricted to approved
+`real_anonymized` evidence. The versioned split always places public forum
+cases in development and rejects them from final unseen.
+
+No training/export pipeline exists in this repository. The mandatory
+`evaluation_only=true` assertion, final-split exclusion, and this documented
+boundary fail closed at the available contract surface: public forum records
+must not be exported as training, fine-tuning, or gold data.
+
 ## Validation and split
 
 Validate a reviewed JSONL file before splitting:
@@ -61,7 +101,13 @@ Create a versioned development/final split with explicit new output paths:
 python scripts/split_real_learner_cases.py <input.jsonl> --version v1 --development-output <development.jsonl> --final-output <final.jsonl> --manifest-output <manifest.json>
 ```
 
-The split uses a versioned SHA-256 assignment over `source_group_id`, not learner content or input order. Approximately two thirds of source groups go to development and one third to final unseen. Every case from one source group stays in one set. Outputs are canonically ordered, and existing output files are never overwritten. A new final set requires a new version and new paths.
+For `real_anonymized` cases, the split uses a versioned SHA-256 assignment over
+`source_group_id`, not learner content or input order. Approximately two thirds
+of real source groups go to development and one third to final unseen. Every
+real case from one source group stays in one set. `public_forum` cases always
+remain development-only and can never enter final unseen. Outputs are
+canonically ordered, and existing output files are never overwritten. A new
+final set requires a new version and new paths.
 
 Final unseen set prompt, rule, validator, RAG, fine-tuning veya model seçimi sırasında incelenmez ve kullanılmaz.
 

@@ -309,6 +309,15 @@ def _case_represents_family(family, case, grouped, result_by_id) -> bool:
         result = result_by_id.get(case.case_id)
         return result is not None and result.runtime_metadata.model == "deterministic"
     if expectation == "one_completed_multi_case_source_group_per_required_program":
-        return len(grouped[(case.program_code, case.source_group_id)]) >= 2
+        return (
+            case.source_kind == "real_anonymized"
+            and sum(
+                grouped_case.source_kind == "real_anonymized"
+                for grouped_case in grouped[
+                    (case.program_code, case.source_group_id)
+                ]
+            )
+            >= 2
+        )
     tags = set(case.expected_behavior_tags) | set(case.forbidden_behavior_tags)
     return bool(tags & set(family.coverage_tags))

@@ -1,6 +1,7 @@
 """Strict evaluation-only contracts for privacy-reviewed learner cases."""
 
 from collections.abc import Iterable
+from datetime import date
 import json
 from pathlib import Path
 import re
@@ -10,6 +11,7 @@ from pydantic import (
     BaseModel,
     ConfigDict,
     Field,
+    HttpUrl,
     StrictBool,
     StrictFloat,
     StrictInt,
@@ -65,6 +67,33 @@ _TOKEN_PATTERN = re.compile(
 _SOCIAL_HANDLE_PATTERN = re.compile(
     r"(?<![\w@])@[A-Za-z0-9_][A-Za-z0-9_.]{1,29}\b"
 )
+_PUBLIC_URL_PATTERN = re.compile(
+    r"(?:https?://|www\.)\S+",
+    re.IGNORECASE,
+)
+
+
+class PublicForumProvenance(BaseModel):
+    """Private collection metadata that never enters prompts or aggregates."""
+
+    model_config = ConfigDict(extra="forbid", frozen=True)
+
+    platform_domain: StrictStr = Field(min_length=1, max_length=253)
+    original_public_url: HttpUrl
+    access_date: date
+    policy_terms_reviewed: StrictBool
+
+    @model_validator(mode="after")
+    def require_reviewed_matching_source(self) -> "PublicForumProvenance":
+        if self.policy_terms_reviewed is not True:
+            raise ValueError("policy_terms_reviewed must be true")
+        normalized_domain = (
+            self.platform_domain.strip().lower().removeprefix("www.")
+        )
+        source_host = (self.original_public_url.host or "").lower().removeprefix("www.")
+        if not normalized_domain or source_host != normalized_domain:
+            raise ValueError("public source domain must match original_public_url")
+        return self
 
 
 class SanitizedFact(BaseModel):
@@ -78,21 +107,25 @@ class SanitizedFact(BaseModel):
 
 
 class RealLearnerEvaluationCase(BaseModel):
-    """A manually anonymized and authorized evaluation-only case."""
+    """A source-aware, manually minimized evaluation-only case."""
 
     model_config = ConfigDict(extra="forbid", frozen=True)
 
     case_id: CaseId
     source_group_id: SourceGroupId
-    source_kind: Literal["real_anonymized"]
+    source_kind: Literal["real_anonymized", "public_forum"]
     category: ControlledName
     program_code: ControlledName
     user_message: StrictStr = Field(min_length=1, max_length=5000)
     facts: tuple[SanitizedFact, ...]
     expected_behavior_tags: tuple[ControlledName, ...] = Field(min_length=1)
     forbidden_behavior_tags: tuple[ControlledName, ...]
-    privacy_reviewed: StrictBool
-    usage_authorized: StrictBool
+    privacy_reviewed: StrictBool | None = None
+    usage_authorized: StrictBool | None = None
+    public_source_reviewed: StrictBool | None = None
+    content_minimized: StrictBool | None = None
+    evaluation_only: StrictBool | None = None
+    public_provenance: PublicForumProvenance | None = None
 
     @field_validator("user_message")
     @classmethod
@@ -110,12 +143,45 @@ class RealLearnerEvaluationCase(BaseModel):
 
     @model_validator(mode="after")
     def enforce_review_and_privacy_guard(self) -> "RealLearnerEvaluationCase":
-        if self.privacy_reviewed is not True:
-            raise ValueError("privacy_reviewed must be true")
-        if self.usage_authorized is not True:
-            raise ValueError("usage_authorized must be true")
+        if self.source_kind == "real_anonymized":
+            if self.privacy_reviewed is not True:
+                raise ValueError("privacy_reviewed must be true")
+            if self.usage_authorized is not True:
+                raise ValueError("usage_authorized must be true")
+            if any(
+                value is not None
+                for value in (
+                    self.public_source_reviewed,
+                    self.content_minimized,
+                    self.evaluation_only,
+                    self.public_provenance,
+                )
+            ):
+                raise ValueError(
+                    "public forum assertions do not apply to real_anonymized"
+                )
+        else:
+            if (
+                self.privacy_reviewed is not None
+                or self.usage_authorized is not None
+            ):
+                raise ValueError(
+                    "public_forum cannot use real_anonymized assertions"
+                )
+            if self.public_source_reviewed is not True:
+                raise ValueError("public_source_reviewed must be true")
+            if self.content_minimized is not True:
+                raise ValueError("content_minimized must be true")
+            if self.evaluation_only is not True:
+                raise ValueError("evaluation_only must be true")
+            if self.public_provenance is None:
+                raise ValueError("public_provenance is required")
 
         findings = scan_case_for_likely_identifiers(self)
+        if self.source_kind == "public_forum":
+            findings = tuple(
+                sorted(set(findings) | set(_public_source_content_findings(self)))
+            )
         if findings:
             raise ValueError(
                 "likely identifier detected: " + ", ".join(findings)
@@ -129,6 +195,10 @@ class CaseFileValidationError(ValueError):
     def __init__(self, errors: Iterable[str]) -> None:
         self.errors = tuple(errors)
         super().__init__("; ".join(self.errors))
+
+
+class PublicForumSourceGroupError(ValueError):
+    """Raised when public forum cases would enable cross-post identity linking."""
 
 
 def scan_case_for_likely_identifiers(
@@ -154,6 +224,47 @@ def scan_case_for_likely_identifiers(
         for label, pattern in patterns:
             if pattern.search(text):
                 findings.add(label)
+    return tuple(sorted(findings))
+
+
+def require_case_local_public_forum_groups(
+    cases: Iterable[RealLearnerEvaluationCase],
+) -> None:
+    """Require every public forum source group to represent exactly one case."""
+
+    case_tuple = tuple(cases)
+    group_counts: dict[str, int] = {}
+    public_groups: set[str] = set()
+    for case in case_tuple:
+        group_counts[case.source_group_id] = (
+            group_counts.get(case.source_group_id, 0) + 1
+        )
+        if case.source_kind == "public_forum":
+            public_groups.add(case.source_group_id)
+    if any(group_counts[group_id] != 1 for group_id in public_groups):
+        raise PublicForumSourceGroupError(
+            "public_forum source_group_id must be case-local"
+        )
+
+
+def _public_source_content_findings(
+    case: RealLearnerEvaluationCase,
+) -> tuple[str, ...]:
+    texts = [case.user_message]
+    texts.extend(
+        fact.value for fact in case.facts if isinstance(fact.value, str)
+    )
+    findings: set[str] = set()
+    domain = (
+        case.public_provenance.platform_domain.strip().lower()
+        if case.public_provenance is not None
+        else ""
+    )
+    for text in texts:
+        if _PUBLIC_URL_PATTERN.search(text):
+            findings.add("public_url")
+        if domain and domain in text.lower():
+            findings.add("public_source_domain")
     return tuple(sorted(findings))
 
 
@@ -205,4 +316,8 @@ def load_validated_cases(path: Path) -> tuple[RealLearnerEvaluationCase, ...]:
 
     if errors:
         raise CaseFileValidationError(errors)
+    try:
+        require_case_local_public_forum_groups(cases)
+    except PublicForumSourceGroupError as error:
+        raise CaseFileValidationError((str(error),)) from error
     return tuple(cases)
