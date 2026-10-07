@@ -141,6 +141,7 @@ class PlanningClaimAnchor(StrEnum):
     CLOCK_POINT = "clock_point"
     HOME_ARRIVAL = "home_arrival"
     SCHOOL_END = "school_end"
+    HOMEWORK_END = "homework_end"
 
 
 class PlanningClaimTemporalRelation(StrEnum):
@@ -308,14 +309,23 @@ _CLOCK_RANGE_PATTERN = re.compile(
 )
 _CLOCK_POINT_AFTER_PATTERN = re.compile(
     r"(?<!\d)(?P<hour>[01]?\d|2[0-3]):(?P<minute>[0-5]\d)\s*"
-    r"['’]?\s*(?:den|dan|ten|tan)\s+sonra\b"
+    r"(?:['’]?\s*(?:den|dan|ten|tan)\s+sonra|sonrasi)\b"
 )
 _EVENING_CLOCK_POINT_AFTER_PATTERN = re.compile(
     r"\baksam\s+saat\s+(?P<hour>0?[1-9]|1[01])\s*"
     r"['’]?\s*(?:den|dan|ten|tan)\s+sonra\b"
 )
 _HOME_ARRIVAL_AFTER_PATTERN = re.compile(r"\beve\s+geldikten\s+sonra\b")
-_SCHOOL_END_AFTER_PATTERN = re.compile(r"\bokuldan\s+sonra\b")
+_SCHOOL_END_AFTER_PATTERN = re.compile(
+    r"\bokuldan\s+(?:geldikten\s+)?sonra\b"
+)
+_HOMEWORK_END_AFTER_PATTERN = re.compile(
+    r"\b(?:odev\w*\s+(?:bitiminden|bittikten)|odevden)\s+sonra\b"
+)
+_ANCHORED_MARKDOWN_HEADING_PATTERN = re.compile(
+    r"^\s*(?:#{1,6}\s*)?(?:\*\*|__).*?(?:\*\*|__)\s*:?[\s]*$"
+)
+_ANCHORED_HEADING_BODY_SEGMENT_LIMIT = 2
 _STUDY_ACTIVITY_PATTERN = re.compile(
     r"\b(?:calis|ders|odev|tyt|ayt|yks|hazirlik|matematik|fizik|kimya|"
     r"biyoloji|turkce|sosyal|ingilizce|konu|soru|test|tekrar|pratik|"
@@ -561,7 +571,11 @@ def evaluate_response_schedule_grounding(
                 PlanningClaimKind.ANCHORED_START_ASSIGNMENT,
                 PlanningClaimKind.ANCHORED_DURATION_ASSIGNMENT,
             }
-            and claim.modality is PlanningClaimModality.ASSERTED
+            and claim.modality
+            in {
+                PlanningClaimModality.ASSERTED,
+                PlanningClaimModality.REPORTED,
+            }
             for claim in claims
         )
     )
@@ -728,16 +742,48 @@ def _extract_anchored_claims(
     segments: tuple[str, ...],
 ) -> tuple[PlanningClaim, ...]:
     claims: list[PlanningClaim] = []
+    heading_anchor: tuple[PlanningClaimAnchor, time | None] | None = None
+    heading_text: str | None = None
+    heading_body_segments_remaining = 0
     for segment in segments:
-        anchor = _anchored_after_context(segment)
+        direct_anchor = _anchored_after_context(segment)
+        inherited_heading = direct_anchor is None and heading_anchor is not None
+        inherited_heading_text = heading_text if inherited_heading else None
+        anchor = direct_anchor or heading_anchor
         if anchor is None:
             continue
-        modality = _planning_claim_modality(segment)
+        if direct_anchor is not None:
+            if _is_anchored_heading_segment(segment):
+                heading_anchor = direct_anchor
+                heading_text = segment
+                heading_body_segments_remaining = (
+                    _ANCHORED_HEADING_BODY_SEGMENT_LIMIT
+                )
+            else:
+                heading_anchor = None
+                heading_text = None
+                heading_body_segments_remaining = 0
+        elif inherited_heading:
+            heading_body_segments_remaining -= 1
+            if heading_body_segments_remaining == 0:
+                heading_anchor = None
+                heading_text = None
+
+        modality_context = (
+            f"{inherited_heading_text} {segment}"
+            if inherited_heading_text is not None
+            else segment
+        )
+        modality = _planning_claim_modality(modality_context)
         if modality is None:
             continue
+        durations = tuple(_NUMERIC_DURATION_PATTERN.finditer(segment))
         has_study_assignment = (
             _STUDY_ACTIVITY_PATTERN.search(segment) is not None
-            and _ANCHORED_ASSIGNMENT_ACTION_PATTERN.search(segment) is not None
+            and (
+                _ANCHORED_ASSIGNMENT_ACTION_PATTERN.search(segment) is not None
+                or bool(durations)
+            )
         )
         has_reported_availability = (
             modality is PlanningClaimModality.REPORTED
@@ -746,7 +792,6 @@ def _extract_anchored_claims(
         if not (has_study_assignment or has_reported_availability):
             continue
         temporal_anchor, anchor_time = anchor
-        durations = tuple(_NUMERIC_DURATION_PATTERN.finditer(segment))
         if not durations:
             claims.append(
                 PlanningClaim(
@@ -782,6 +827,13 @@ def _extract_anchored_claims(
     return tuple(claims)
 
 
+def _is_anchored_heading_segment(segment: str) -> bool:
+    return (
+        re.search(r":\s*(?:\*\*|__)?\s*$", segment) is not None
+        or _ANCHORED_MARKDOWN_HEADING_PATTERN.fullmatch(segment) is not None
+    )
+
+
 def _anchored_after_context(
     segment: str,
 ) -> tuple[PlanningClaimAnchor, time | None] | None:
@@ -804,6 +856,8 @@ def _anchored_after_context(
         return PlanningClaimAnchor.HOME_ARRIVAL, None
     if _SCHOOL_END_AFTER_PATTERN.search(segment) is not None:
         return PlanningClaimAnchor.SCHOOL_END, None
+    if _HOMEWORK_END_AFTER_PATTERN.search(segment) is not None:
+        return PlanningClaimAnchor.HOMEWORK_END, None
     return None
 
 

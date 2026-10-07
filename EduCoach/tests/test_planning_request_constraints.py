@@ -905,7 +905,6 @@ def test_asserted_anchored_start_without_availability_is_rejected(
     [
         "Müsaitsen eve geldikten sonra 1 saat çalışabilirsin.",
         "Örneğin eve geldikten sonra 1 saat çalışılabilir.",
-        "17:00'den sonra 2 saat müsait olduğunu söyledin.",
     ],
 )
 def test_non_asserted_anchored_duration_passes_grounding(
@@ -933,7 +932,6 @@ def test_non_asserted_anchored_duration_passes_grounding(
     [
         "Müsaitsen 17:00'den sonra çalışabilirsin.",
         "Örneğin eve geldikten sonra çalışılabilir.",
-        "17:00'den sonra müsait olduğunu söyledin.",
     ],
 )
 def test_non_asserted_anchored_start_passes_grounding(
@@ -981,6 +979,177 @@ def test_proposal_does_not_support_anchored_duration_without_availability() -> N
     assert [item.rule_id for item in violations] == [
         "PLAN_RESPONSE_UNSUPPORTED_AVAILABILITY"
     ]
+
+
+@pytest.mark.parametrize(
+    ("response_text", "expected_anchor"),
+    [
+        (
+            "17:00'den sonra ödevimi bitirip 1-2 saat TYT çalışmalıyım.",
+            PlanningClaimAnchor.CLOCK_POINT,
+        ),
+        (
+            "Eve geldikten sonra ödevlerini bitir, ardından 90 dakika TYT çalış.",
+            PlanningClaimAnchor.HOME_ARRIVAL,
+        ),
+        (
+            "Akşam sonrası (17:00 sonrası):\n"
+            "- Ödevlerini bitir.\n"
+            "- Sonra 1-2 saat TYT çalış.",
+            PlanningClaimAnchor.CLOCK_POINT,
+        ),
+        (
+            "### **Akşam sonrası (17:00 sonrası):**\n"
+            "- Ödevlerini bitir.\n"
+            "- Sonra 1-2 saat TYT.",
+            PlanningClaimAnchor.CLOCK_POINT,
+        ),
+        (
+            "Okuldan geldikten sonra ödevlerini tamamla; "
+            "ardından 60 dakika matematik çalış.",
+            PlanningClaimAnchor.SCHOOL_END,
+        ),
+        (
+            "Ödev bitiminden sonra en az 1 saat ders çalış.",
+            PlanningClaimAnchor.HOMEWORK_END,
+        ),
+        (
+            "**Ödev bitiminden sonra: 1-2 saat TYT**",
+            PlanningClaimAnchor.HOMEWORK_END,
+        ),
+    ],
+)
+def test_asserted_sequential_anchor_duration_is_typed_and_rejected(
+    response_text: str,
+    expected_anchor: PlanningClaimAnchor,
+) -> None:
+    claims = tuple(
+        claim
+        for claim in extract_response_planning_claims(response_text)
+        if claim.kind is PlanningClaimKind.ANCHORED_DURATION_ASSIGNMENT
+    )
+
+    assert claims
+    assert claims[-1].modality is PlanningClaimModality.ASSERTED
+    assert claims[-1].temporal_anchor is expected_anchor
+
+    learner = Learner()
+    context = LearningContext(
+        learner_id=learner.learner_id,
+        context_type=ContextType.SCHOOL,
+        program_code="school_11",
+    )
+    violations = evaluate_response_schedule_grounding(
+        response_text,
+        extract_planning_request_context(
+            "Akşam saat 5 te eve geliyorum. Bana program yap."
+        ),
+        make_snapshot(learner, context),
+        None,
+    )
+
+    assert [item.rule_id for item in violations] == [
+        "PLAN_RESPONSE_UNSUPPORTED_AVAILABILITY"
+    ]
+
+
+@pytest.mark.parametrize(
+    "response_text",
+    [
+        "17:00'den sonra müsaitsen 1-2 saat çalışabilirsin.",
+        (
+            "17:00'den sonra ne kadar vaktin kaldığını söylersen "
+            "planlayabiliriz."
+        ),
+        (
+            "Ödevinin ne zaman biteceğini bilmediğim için çalışma "
+            "süresi belirlemiyorum."
+        ),
+        "Örneğin, uygun olduğun bir zamanda kısa bir çalışma yapılabilir.",
+    ],
+)
+def test_conditional_or_uncertain_sequential_schedule_language_passes(
+    response_text: str,
+) -> None:
+    learner = Learner()
+    context = LearningContext(
+        learner_id=learner.learner_id,
+        context_type=ContextType.SCHOOL,
+        program_code="school_11",
+    )
+
+    assert evaluate_response_schedule_grounding(
+        response_text,
+        extract_planning_request_context(
+            "Akşam saat 5 te eve geliyorum. Bana program yap."
+        ),
+        make_snapshot(learner, context),
+        None,
+    ) == ()
+
+
+def test_reported_availability_requires_authoritative_available_evidence() -> None:
+    learner = Learner()
+    context = LearningContext(
+        learner_id=learner.learner_id,
+        context_type=ContextType.SCHOOL,
+        program_code="school_11",
+    )
+    response_text = "17:00'den sonra 2 saat müsait olduğunu söyledin."
+    planning_request = extract_planning_request_context(
+        "Akşam saat 5 te eve geliyorum. Bana program yap."
+    )
+
+    unsupported = evaluate_response_schedule_grounding(
+        response_text,
+        planning_request,
+        make_snapshot(learner, context),
+        None,
+    )
+    available = Availability(
+        learner_id=learner.learner_id,
+        day_of_week=DayOfWeek.MONDAY,
+        availability_type=AvailabilityType.AVAILABLE,
+        available_minutes=120,
+    )
+    supported = evaluate_response_schedule_grounding(
+        response_text,
+        planning_request,
+        make_snapshot(learner, context, availability=(available,)),
+        None,
+    )
+
+    assert [item.rule_id for item in unsupported] == [
+        "PLAN_RESPONSE_UNSUPPORTED_AVAILABILITY"
+    ]
+    assert supported == ()
+
+
+def test_repeated_sequential_availability_violation_uses_existing_fallback() -> None:
+    rejected_text = (
+        "Akşam sonrası (17:00 sonrası):\n"
+        "- Ödevlerini bitir.\n"
+        "- Sonra 1-2 saat TYT çalış."
+    )
+    responses = iter(
+        [
+            structured_text_without_proposal(rejected_text),
+            structured_text_without_proposal(rejected_text),
+        ]
+    )
+    orchestrator, memory, provider, learner = make_mock_runtime("")
+    provider.responder = lambda _: next(responses)
+
+    result = orchestrator.respond(
+        learner.learner_id,
+        "Akşam saat 5 te eve geliyorum. Bana program yap.",
+    )
+
+    assert result.text == AVAILABILITY_FALLBACK
+    assert result.model == "deterministic"
+    assert result.study_plan_proposal is None
+    assert len(provider.requests) == 2
+    memory.save_study_plan.assert_not_called()
 
 
 def test_anchored_duration_without_home_arrival_anchor_passes_p0_guard() -> None:
